@@ -22,8 +22,7 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
-  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
-
+  <meta name="keywords" content="Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
   <meta name="description" content="道路很长, 开始了就别停下!">
 <meta property="og:type" content="website">
 <meta property="og:title" content="千寻">
@@ -158,7 +157,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">264</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">265</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -297,6 +296,127 @@
           <h2 id="OpenResty（nginx-lua）"><a href="#OpenResty（nginx-lua）" class="headerlink" title="OpenResty（nginx+lua）"></a>OpenResty（nginx+lua）</h2><hr>
 <ul>
 <li><a href="openresty-setup.md">安装</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/openresty-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/openresty-setup/" class="post-title-link" itemprop="url">Openresty安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/openresty-setup/" class="post-meta-item leancloud_visitors" data-flag-title="Openresty安装" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/openresty-setup/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/openresty-setup/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="openresty安装"><a href="#openresty安装" class="headerlink" title="openresty安装"></a>openresty安装</h2><hr>
+<h4 id="官方安装地址"><a href="#官方安装地址" class="headerlink" title="官方安装地址"></a>官方安装地址</h4><p><a href="http://openresty.org/cn/installation.html" target="_blank" rel="noopener">http://openresty.org/cn/installation.html</a></p>
+<p>其中最简单的方式是通过brew命令安装</p>
+<h4 id="Mac-OS下包管理器Homebrew的安装与使用"><a href="#Mac-OS下包管理器Homebrew的安装与使用" class="headerlink" title="Mac OS下包管理器Homebrew的安装与使用"></a>Mac OS下包管理器Homebrew的安装与使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;d229ac7fe77d</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装openresty"><a href="#安装openresty" class="headerlink" title="安装openresty"></a>安装openresty</h4><p>一键命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install openresty&#x2F;brew&#x2F;openresty</span><br></pre></td></tr></table></figure>
+
+<p>默认安装目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r--   1 onlyone  admin    22K  5 15 04:24 COPYRIGHT</span><br><span class="line">-rw-r--r--   1 onlyone  admin   792B  7  4 19:22 INSTALL_RECEIPT.json</span><br><span class="line">-rw-r--r--   1 onlyone  admin   4.6K  5 15 04:24 README.markdown</span><br><span class="line">drwxr-xr-x   9 onlyone  admin   306B  7  4 19:22 bin</span><br><span class="line">-rw-r--r--   1 onlyone  admin   583B  7  4 19:22 homebrew.mxcl.openresty.plist</span><br><span class="line">drwxr-xr-x   6 onlyone  admin   204B  7  4 19:22 luajit</span><br><span class="line">drwxr-xr-x   6 onlyone  admin   204B  7  4 19:22 lualib</span><br><span class="line">drwxr-xr-x  10 onlyone  admin   340B  7  4 19:55 nginx</span><br><span class="line">drwxr-xr-x  44 onlyone  admin   1.5K  7  4 19:22 pod</span><br><span class="line">-rw-r--r--   1 onlyone  admin   219K  7  4 19:22 resty.index</span><br><span class="line">drwxr-xr-x   5 onlyone  admin   170B  7  4 19:22 site</span><br></pre></td></tr></table></figure>
+<p>nginx的配置文件地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;etc&#x2F;openresty</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r--  1 onlyone  admin   1.1K  7  4 19:22 fastcgi.conf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   1.1K  7  4 19:22 fastcgi.conf.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   1.0K  7  4 19:22 fastcgi_params</span><br><span class="line">-rw-r--r--  1 onlyone  admin   1.0K  7  4 19:22 fastcgi_params.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.8K  7  4 19:22 koi-utf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.2K  7  4 19:22 koi-win</span><br><span class="line">-rw-r--r--  1 onlyone  admin   171B  7  4 20:09 lua.conf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   5.0K  7  4 19:22 mime.types</span><br><span class="line">-rw-r--r--  1 onlyone  admin   5.0K  7  4 19:22 mime.types.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   518B  7  4 19:48 nginx.conf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.6K  7  4 19:22 nginx.conf.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.6K  7  4 19:22 nginx.conf_1</span><br><span class="line">-rw-r--r--  1 onlyone  admin   636B  7  4 19:22 scgi_params</span><br><span class="line">-rw-r--r--  1 onlyone  admin   636B  7  4 19:22 scgi_params.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   664B  7  4 19:22 uwsgi_params</span><br><span class="line">-rw-r--r--  1 onlyone  admin   664B  7  4 19:22 uwsgi_params.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   3.5K  7  4 19:22 win-utf</span><br></pre></td></tr></table></figure>
+
+<h4 id="nginx配置lua脚本"><a href="#nginx配置lua脚本" class="headerlink" title="nginx配置lua脚本"></a>nginx配置lua脚本</h4><p>将系统默认的nginx.conf备份nginx.conf_1</p>
+<p>新建nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> #user  nobody;</span><br><span class="line">worker_processes  2;</span><br><span class="line"></span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  text&#x2F;html;</span><br><span class="line"></span><br><span class="line">    #lua模块路径，其中”;;”表示默认搜索路径，默认到&#x2F;usr&#x2F;servers&#x2F;nginx下找</span><br><span class="line">    lua_package_path &quot;&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2&#x2F;lualib&#x2F;?.lua;;&quot;;  #lua 模块  </span><br><span class="line">    lua_package_cpath &quot;&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2&#x2F;lualib&#x2F;?.so;;&quot;;  #c模块   </span><br><span class="line">    </span><br><span class="line">    include &#x2F;usr&#x2F;local&#x2F;etc&#x2F;openresty&#x2F;lua.conf;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>lua.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       8081;</span><br><span class="line">    server_name  _;</span><br><span class="line"></span><br><span class="line">    location &#x2F;lua &#123;</span><br><span class="line">        default_type &#39;text&#x2F;html&#39;;</span><br><span class="line">          content_by_lua  &#39;ngx.say(&quot;hello world&quot;)&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：1024以下的端口需要以root权限来启动，这里设定为8081</p>
+<p><a href="http://blog.sina.com.cn/s/blog_4adc4b090102vxpz.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_4adc4b090102vxpz.html</a></p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2</span><br><span class="line"></span><br><span class="line">--启动</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx</span><br><span class="line"></span><br><span class="line">-- 停止</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx -s stop</span><br><span class="line"></span><br><span class="line">-- 重启</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx -s reload</span><br><span class="line"></span><br><span class="line">-- 检验nginx配置是否正确</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx -t</span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问：<a href="http://localhost:8081/lua" target="_blank" rel="noopener">http://localhost:8081/lua</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br></pre></td></tr></table></figure>
+
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="http://jinnianshilongnian.iteye.com/blog/2186270" target="_blank" rel="noopener">http://jinnianshilongnian.iteye.com/blog/2186270</a></li>
 </ul>
 
       
@@ -610,7 +730,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/solr%E5%92%8Celasticsearch/">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/zookeeper-application-scene/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
@@ -624,7 +744,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/middle-software/solr%E5%92%8Celasticsearch/" class="post-title-link" itemprop="url">Solr和Elasticsearch的区别</a>
+            <a href="/middle-software/zookeeper-application-scene/" class="post-title-link" itemprop="url">zookeeper适用场景</a>
         </h2>
 
         <div class="post-meta">
@@ -647,7 +767,7 @@
             </span>
 
           
-            <span id="/middle-software/solr%E5%92%8Celasticsearch/" class="post-meta-item leancloud_visitors" data-flag-title="Solr和Elasticsearch的区别" title="阅读次数">
+            <span id="/middle-software/zookeeper-application-scene/" class="post-meta-item leancloud_visitors" data-flag-title="zookeeper适用场景" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -662,8 +782,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/middle-software/solr%E5%92%8Celasticsearch/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/solr%E5%92%8Celasticsearch/" itemprop="commentCount"></span>
+    <a title="valine" href="/middle-software/zookeeper-application-scene/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/zookeeper-application-scene/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -678,10 +798,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="一、关于搜索引擎"><a href="#一、关于搜索引擎" class="headerlink" title="一、关于搜索引擎"></a>一、关于搜索引擎</h2><p>搜索引擎（Search Engine）是指根据一定的策略、运用特定的计算机程序从互联网上搜集信息，在对信息进行组织和处理后，为用户提供检索服务，将用户检索相关的信息展示给用户的系统。搜索引擎包括全文索引、目录索引、元搜索引擎、垂直搜索引擎、集合式搜索引擎、门户搜索引擎与免费链接列表等。</p>
+          <h1 id="dubbo（注册中心）"><a href="#dubbo（注册中心）" class="headerlink" title="dubbo（注册中心）"></a>dubbo（注册中心）</h1><p>网上资料比较多，就不多描述，可自行baidu。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/middle-software/solr%E5%92%8Celasticsearch/#more" rel="contents">
+              <a class="btn" href="/middle-software/zookeeper-application-scene/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -803,291 +923,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/zookeeper-application-scene/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
-      <meta itemprop="name" content="千寻">
-      <meta itemprop="description" content="道路很长, 开始了就别停下!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="千寻">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/middle-software/zookeeper-application-scene/" class="post-title-link" itemprop="url">zookeeper适用场景</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/middle-software/zookeeper-application-scene/" class="post-meta-item leancloud_visitors" data-flag-title="zookeeper适用场景" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/middle-software/zookeeper-application-scene/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/zookeeper-application-scene/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="dubbo（注册中心）"><a href="#dubbo（注册中心）" class="headerlink" title="dubbo（注册中心）"></a>dubbo（注册中心）</h1><p>网上资料比较多，就不多描述，可自行baidu。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/middle-software/zookeeper-application-scene/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/zookeeper-command-operation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
-      <meta itemprop="name" content="千寻">
-      <meta itemprop="description" content="道路很长, 开始了就别停下!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="千寻">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/middle-software/zookeeper-command-operation/" class="post-title-link" itemprop="url">Zookeeper命令行操作</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/middle-software/zookeeper-command-operation/" class="post-meta-item leancloud_visitors" data-flag-title="Zookeeper命令行操作" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/middle-software/zookeeper-command-operation/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/zookeeper-command-operation/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="通过客户端连接ZooKeeper的集群"><a href="#通过客户端连接ZooKeeper的集群" class="headerlink" title="通过客户端连接ZooKeeper的集群"></a>通过客户端连接ZooKeeper的集群</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Users/onlyone/software/zookeeper/zookeeper-3.4.8/bin/zkCli.sh -server 192.168.0.14:2181</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/middle-software/zookeeper-command-operation/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/zookeeper-leader-election-and-data-synchronous/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
-      <meta itemprop="name" content="千寻">
-      <meta itemprop="description" content="道路很长, 开始了就别停下!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="千寻">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/middle-software/zookeeper-leader-election-and-data-synchronous/" class="post-title-link" itemprop="url">Zookeeper leader选举、数据同步</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/middle-software/zookeeper-leader-election-and-data-synchronous/" class="post-meta-item leancloud_visitors" data-flag-title="Zookeeper leader选举、数据同步" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/middle-software/zookeeper-leader-election-and-data-synchronous/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/zookeeper-leader-election-and-data-synchronous/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>zk的核心是原子广播，这个机制保证了各个Server之间的同步，实现这个机制的协议叫做Zab协议。Zab协议有两种模式，分别是恢复模式（选主）和广播模式（同步）。当服务启动或者leader崩溃后，Zab进入恢复模式，当leader被选举出来，然后进行同步模式，同步完成以后，恢复模式结束。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/middle-software/zookeeper-leader-election-and-data-synchronous/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/zookeeper-setup/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1179,6 +1014,392 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/solr%E5%92%8Celasticsearch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/solr%E5%92%8Celasticsearch/" class="post-title-link" itemprop="url">Solr和Elasticsearch的区别</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/solr%E5%92%8Celasticsearch/" class="post-meta-item leancloud_visitors" data-flag-title="Solr和Elasticsearch的区别" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/solr%E5%92%8Celasticsearch/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/solr%E5%92%8Celasticsearch/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、关于搜索引擎"><a href="#一、关于搜索引擎" class="headerlink" title="一、关于搜索引擎"></a>一、关于搜索引擎</h2><p>搜索引擎（Search Engine）是指根据一定的策略、运用特定的计算机程序从互联网上搜集信息，在对信息进行组织和处理后，为用户提供检索服务，将用户检索相关的信息展示给用户的系统。搜索引擎包括全文索引、目录索引、元搜索引擎、垂直搜索引擎、集合式搜索引擎、门户搜索引擎与免费链接列表等。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/middle-software/solr%E5%92%8Celasticsearch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/zookeeper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/zookeeper/" class="post-title-link" itemprop="url">zookeeper汇总</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/zookeeper/" class="post-meta-item leancloud_visitors" data-flag-title="zookeeper汇总" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/zookeeper/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/zookeeper/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><ul>
+<li><a href="../zookeeper-setup">安装</a></li>
+<li><a href="../zookeeper-command-operation">命令行操作</a></li>
+<li><a href="../zookeeper-application-scene">适用场景</a></li>
+<li><a href="../zookeeper-leader-election-and-data-synchronous">leader选举、数据同步</a></li>
+</ul>
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>zk为分布式应用提供了高效且可靠的分布式协调服务。用于解决数据同步、数据发布/订阅、集群管理、配置管理、分布式锁、命名服务、负载均衡等问题。最早由雅虎创建，具有以下特性：</p>
+<ul>
+<li>顺序一致性</li>
+</ul>
+<p>包括全局有序和偏序两种：全局有序是指如果再一台服务器上消息a在消息b前发布，则在所有Server上消息a都将在消息b前被发布；偏序是指如果一个消息b在消息a后被同一个发送者发布，a必将排在b前面。</p>
+<ul>
+<li>原子性</li>
+</ul>
+<p>更新只能成功或者失败，没有其他中间信息</p>
+<ul>
+<li>单一视图</li>
+</ul>
+<p>不管连接到zk集群的哪台机器，客户端看到的视图都是一致的</p>
+<ul>
+<li>可靠性</li>
+</ul>
+<p>消息message被到一台服务器接受，那么它到任何服务器都被接受。</p>
+<ul>
+<li>实时性</li>
+</ul>
+<p>zk保证在一个时间间隔范围内获得服务器的更新信息，或者服务器失效信息。但是由于网络延时等一些其他原因，zk不能保证两个客户端同事得到更新或者失效信息。</p>
+<ul>
+<li>强一致性</li>
+</ul>
+<p>分布式高并发情况下创建节点一定是全局唯一性，zk会保证客户端无法重复创建一个已经存在的数据节点。</p>
+<p>zk采用树型结构的名字空间，类似于一个文件系统的目录结构，全量数据存储在内存中。当节点发生变化时（创建、删除、数据变更），可以通知各个客户端。</p>
+<p><strong>zk的数据节点有两种：持久性节点、临时节点</strong>。对于临时节点，一旦创建znode的客户端与服务器失去联系，这个znode就会自动删除，ZooKeeper的客户端与服务器通信采用长连接的方式（这种连接状态称为session），如果znode是临时节点，这个session失效，znode也就被删除了。</p>
+<p>zk以集群形式对外提供服务，集群只要有一半的机器能正常工作，就可以正常运转。默认端口号2181。</p>
+<p>zk支持单机、集群两种模式。</p>
+<p>常用于一些大型的分布式系统的应用，比如：Hadoop、Kafka、Hbase、dubbo</p>
+<p><strong>常用命令：</strong></p>
+<ul>
+<li>创建节点（create）</li>
+<li>读取（get）</li>
+<li>更新节点的数据内容（set）</li>
+<li>删除（delete）</li>
+</ul>
+<p><strong>开源的客户端：</strong></p>
+<ul>
+<li>ZkClient</li>
+<li><a href="http://blog.csdn.net/dc_726/article/details/46475633" target="_blank" rel="noopener">Curator</a></li>
+</ul>
+<p><strong>监控：</strong></p>
+<ul>
+<li><a href="https://blog.csdn.net/liubowin/article/details/77966868?locationNum=6&fps=1" target="_blank" rel="noopener">ZooInspector</a> </li>
+</ul>
+<h2 id="ZkClient-介绍"><a href="#ZkClient-介绍" class="headerlink" title="ZkClient 介绍"></a>ZkClient 介绍</h2><p>ZkClient是github上一个开源的ZK客户端，在zookeeper原生API接口之上进行了包装，是一个更易用的ZK客户端。实现了如session超时重连、Watcher反复注册等功能，使得zookeeper客户端的繁琐细节工作对开发人员透明。</p>
+<p>pom依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.zookeeper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zookeeper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jline<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jline<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.sgroschupf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zkclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="代码示例："><a href="#代码示例：" class="headerlink" title="代码示例："></a>代码示例：</h2><h2 id="1-建立客户端连接"><a href="#1-建立客户端连接" class="headerlink" title="1.建立客户端连接"></a>1.建立客户端连接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 使用ZKClient来创建一个Zookeeper客户端</span><br><span class="line"> * </span><br><span class="line"> * @author onlyone</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class CreateSession &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        &#x2F;&#x2F; 建立连接</span><br><span class="line">        ZkClient zkClient &#x3D; new ZkClient(&quot;192.168.1.1:2188,192.168.1.2:2188;192.168.1.3:2188&quot;, 5000);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ZkClient 构造方法参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zkServers</td>
+<td>用英文状态的逗号分开的host:port字符串组成，比如 192.168.1.1:2188,192.168.1.2:2188;192.168.1.3:2188</td>
+</tr>
+<tr>
+<td>connectionTimeout</td>
+<td>创建连接超时时间，单位毫秒，超时无法与ZooKeeper建立连接，抛出异常</td>
+</tr>
+<tr>
+<td>sessionTimeout</td>
+<td>会话超时时间，单位毫秒，默认 30000</td>
+</tr>
+<tr>
+<td>ZkSerializer</td>
+<td>自定义序列化器</td>
+</tr>
+<tr>
+<td>zkConnection</td>
+<td>IZkConnection接口实现类，包含了增、删、改、查等一系列方法</td>
+</tr>
+</tbody></table>
+<h2 id="2-创建节点"><a href="#2-创建节点" class="headerlink" title="2.创建节点"></a>2.创建节点</h2><img data-src="http://f.ngall-in.com/alan87/static/images/middle-software/3.png/w600">
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>path</td>
+<td>指定数据节点的节点路径</td>
+</tr>
+<tr>
+<td>data</td>
+<td>节点的初始数据内容，可以为null</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>节点类型，可以为一个枚举类型，有4种</td>
+</tr>
+<tr>
+<td>createParents</td>
+<td>是否创建父节点</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 创建provier子节点，如果父节点root不存在，会先创建父节点</span><br><span class="line">zkClient.createPersistent(&quot;&#x2F;root&#x2F;provier&quot;, true);</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-删除节点"><a href="#3-删除节点" class="headerlink" title="3.删除节点"></a>3.删除节点</h2><img data-src="http://f.ngall-in.com/alan87/static/images/middle-software/4.png/w600">
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>path</td>
+<td>数据节点的完整节点路径</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; zk只允许叶子节点，如果下面还有子节点的话，无法直接删除，deleteRecursive方法自动逐层遍历删除节点</span><br><span class="line">zkClient.deleteRecursive(&quot;&#x2F;root&#x2F;provier&quot;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-读取数据"><a href="#4-读取数据" class="headerlink" title="4.读取数据"></a>4.读取数据</h2><ul>
+<li>getChildren</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;获取指定节点的子节点列表，返回值为子节点的相对路径，结果 [provider,consumer]</span><br><span class="line">List&lt;String&gt; subNode &#x3D; zkClient.getChildren(&quot;&#x2F;dubbo&#x2F;interface_1.0.0&quot;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>subscribeChildChanges</p>
+<p>与原生的Watcher不同的是，zkclient的Listener不是一次性的，客户端只需要注册一次就会一直生效。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 订阅子节点列表变更的监听，一旦子节点列表发生变更，zk服务端会向客户端发出事件通知，由Listener来处理</span></span><br><span class="line">zkClient.subscribeChildChanges(<span class="string">"/root"</span>, <span class="keyword">new</span> IZkChildListener() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleChildChange</span><span class="params">(String parentPath, List&lt;String&gt; currentChilds)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"parentPath="</span> + parentPath + <span class="string">",currentChilds="</span> + currentChilds);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>readData</p>
+<p>获取指定节点的数据内容。</p>
+</li>
+</ul>
+<img data-src="http://f.ngall-in.com/alan87/static/images/middle-software/5.png/w600">
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>returnNullIfPathNotExists</td>
+<td>如果节点不存在，返回null，而不是抛出异常</td>
+</tr>
+<tr>
+<td>stat</td>
+<td>指定数据节点的节点状态信息</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>subscribeDataChanges</p>
+<p>“节点内容变更”和“节点删除”事件监听。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">zkClient.subscribeDataChanges(<span class="string">"/root"</span>, <span class="keyword">new</span> IZkDataListener() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleDataDeleted</span><span class="params">(String dataPath)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="comment">// 指定节点被删除，dataPath为全路径</span></span><br><span class="line">                System.out.println(<span class="string">"Node: "</span> + dataPath + <span class="string">" deleted!"</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 指定节点的数据内容或数据版本发生变更，会触发这个事件。</span></span><br><span class="line">            <span class="comment">// dataPath为全路径;data最新的数据节点内容</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleDataChange</span><span class="params">(String dataPath, Object data)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"Node:  "</span> + dataPath + <span class="string">" changed!, new data:"</span> + data);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-更新数据"><a href="#5-更新数据" class="headerlink" title="5.更新数据"></a>5.更新数据</h2><img data-src="http://f.ngall-in.com/alan87/static/images/middle-software/6.png/w600">
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>path</td>
+<td>数据节点的完整路径</td>
+</tr>
+<tr>
+<td>object</td>
+<td>数据内容，可以是null</td>
+</tr>
+<tr>
+<td>expectedVersion</td>
+<td>预期的数据版本，实现类似CAS的原子操作</td>
+</tr>
+</tbody></table>
+<h2 id="6-检测节点是否存在"><a href="#6-检测节点是否存在" class="headerlink" title="6.检测节点是否存在"></a>6.检测节点是否存在</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">boolean isNodeExist &#x3D; zkClient.exists(&quot;&#x2F;root&quot;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://github.com/apache/zookeeper" target="_blank" rel="noopener">https://github.com/apache/zookeeper</a></li>
+<li><a href="https://github.com/llohellohe/zookeeper" target="_blank" rel="noopener">https://github.com/llohellohe/zookeeper</a></li>
+<li><a href="http://mp.weixin.qq.com/s/pTXUAMgGpafhNNWfW2R_Cw" target="_blank" rel="noopener">zookeeper 入门系列 : 概述</a></li>
+<li><a href="http://mp.weixin.qq.com/s/a17RBmGABt8j_mmxgBN94w" target="_blank" rel="noopener">paxos 协议</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1250,7 +1471,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">264</span>
+          <span class="site-state-item-count">265</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
