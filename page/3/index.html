@@ -226,104 +226,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E4%B8%8A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
-      <meta itemprop="name" content="千寻">
-      <meta itemprop="description" content="道路很长, 开始了就别停下!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="千寻">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E4%B8%8A/" class="post-title-link" itemprop="url">云原生技术基础(九)——应用存储和持久化数据卷核心知识(上)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-12-20 22:18:19" itemprop="dateCreated datePublished" datetime="2019-12-20T22:18:19+08:00">2019-12-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cloud-native/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E4%B8%8A/" class="post-meta-item leancloud_visitors" data-flag-title="云原生技术基础(九)——应用存储和持久化数据卷核心知识(上)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E4%B8%8A/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E4%B8%8A/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文将主要分享以下内容：</p>
-<div class="note primary">
-            <ol><li>K8s Volume 使用场景</li><li>PVC/PV/StorageClass 基本操作和概念解析</li><li>PVC+PV 体系的设计与实现原理</li></ol>
-          </div>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E4%B8%8A/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Deployment/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -422,7 +324,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
@@ -436,7 +338,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/" class="post-title-link" itemprop="url">云原生技术基础(七)——应用编排与管理：Job 和 DaemonSet</a>
+            <a href="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">云原生技术基础(九)——应用存储和持久化数据卷核心知识</a>
         </h2>
 
         <div class="post-meta">
@@ -459,7 +361,7 @@
             </span>
 
           
-            <span id="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/" class="post-meta-item leancloud_visitors" data-flag-title="云原生技术基础(七)——应用编排与管理：Job 和 DaemonSet" title="阅读次数">
+            <span id="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/" class="post-meta-item leancloud_visitors" data-flag-title="云原生技术基础(九)——应用存储和持久化数据卷核心知识" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -474,8 +376,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/" itemprop="commentCount"></span>
+    <a title="valine" href="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -490,13 +392,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>本文将主要分享以下四方面的内容：</p>
+          <p>本文将主要分享以下内容：</p>
 <div class="note primary">
-            <ul><li>Job &amp; CronJobs 基础操作与概念解析；</li><li>DaemonSet 基础操作与概念解析。</li></ul>
+            <ol><li>K8s Volume 使用场景</li><li>PVC/PV/StorageClass 基本操作和概念解析</li><li>PVC+PV 体系的设计与实现原理</li></ol>
           </div>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/#more" rel="contents">
+              <a class="btn" href="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -595,6 +497,104 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/" class="post-title-link" itemprop="url">云原生技术基础(七)——应用编排与管理：Job 和 DaemonSet</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-20 22:18:19" itemprop="dateCreated datePublished" datetime="2019-12-20T22:18:19+08:00">2019-12-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/" class="post-meta-item leancloud_visitors" data-flag-title="云原生技术基础(七)——应用编排与管理：Job 和 DaemonSet" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文将主要分享以下四方面的内容：</p>
+<div class="note primary">
+            <ul><li>Job &amp; CronJobs 基础操作与概念解析；</li><li>DaemonSet 基础操作与概念解析。</li></ul>
+          </div>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/cn/k8s%E5%BA%94%E7%94%A8%E7%BC%96%E6%8E%92%E4%B8%8E%E7%AE%A1%E7%90%86Job%E5%92%8CDaemonSet/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
