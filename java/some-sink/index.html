@@ -22,8 +22,7 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
-  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
-
+  <meta name="keywords" content="Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
   <meta name="description" content="1. SimpleDateFormat 不是线程安全的使用过程不要定义为静态全局变量。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java各种坑">
@@ -33,7 +32,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/java/java-some-sink/java-some-sink-1.png/w600">
 <meta property="article:published_time" content="2015-05-05T15:06:03.000Z">
-<meta property="article:modified_time" content="2020-06-03T11:06:15.635Z">
+<meta property="article:modified_time" content="2020-06-13T13:41:37.993Z">
 <meta property="article:author" content="千寻">
 <meta property="article:tag" content="Java各种坑">
 <meta name="twitter:card" content="summary">
@@ -146,7 +145,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">266</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">269</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -297,7 +296,10 @@
 <h1 id="4-HashCode被设计用来提高性能。"><a href="#4-HashCode被设计用来提高性能。" class="headerlink" title="4.HashCode被设计用来提高性能。"></a>4.HashCode被设计用来提高性能。</h1><p>equals()方法与hashCode()方法的区别在于：</p>
 <p>如果两个对象相等(equal)，那么他们一定有相同的哈希值。<br>如果两个对象的哈希值相同，但他们未必相等(equal)。</p>
 <p>注：== 表示两对象内存地址相同</p>
-<h1 id="5"><a href="#5" class="headerlink" title="5."></a>5.</h1>
+<h1 id="5-maven自己添加的依赖下载了，但是它的依赖没有下载"><a href="#5-maven自己添加的依赖下载了，但是它的依赖没有下载" class="headerlink" title="5.maven自己添加的依赖下载了，但是它的依赖没有下载"></a>5.maven自己添加的依赖下载了，但是它的依赖没有下载</h1><p>又正好其他包引用了其他版本，这时不会报错，但是可能跑不起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.lang.ClassNotFoundException: io.micrometer.core.instrument.config.validate.Validated</span><br><span class="line">	at java.base&#x2F;jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581) ~[na:na]</span><br><span class="line">	at java.base&#x2F;jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178) ~[na:na]</span><br><span class="line">	at java.base&#x2F;java.lang.ClassLoader.loadClass(ClassLoader.java:522) ~[na:na]</span><br><span class="line">	... 70 common frames omitted</span><br></pre></td></tr></table></figure>
+<p>micrometer-registry-prometheus 1.5.1 依赖 micrometer-core 1.5.1 没有下载成功自动换到了已有版本1.3.8</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.micrometer<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>micrometer-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -451,7 +453,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-SimpleDateFormat-不是线程安全的"><span class="nav-text">1. SimpleDateFormat 不是线程安全的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-cache模型里面字段数据范围"><span class="nav-text">2.cache模型里面字段数据范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-字符串不变性"><span class="nav-text">3.字符串不变性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-HashCode被设计用来提高性能。"><span class="nav-text">4.HashCode被设计用来提高性能。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5"><span class="nav-text">5.</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-SimpleDateFormat-不是线程安全的"><span class="nav-text">1. SimpleDateFormat 不是线程安全的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-cache模型里面字段数据范围"><span class="nav-text">2.cache模型里面字段数据范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-字符串不变性"><span class="nav-text">3.字符串不变性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-HashCode被设计用来提高性能。"><span class="nav-text">4.HashCode被设计用来提高性能。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-maven自己添加的依赖下载了，但是它的依赖没有下载"><span class="nav-text">5.maven自己添加的依赖下载了，但是它的依赖没有下载</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -467,7 +469,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">266</span>
+          <span class="site-state-item-count">269</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
