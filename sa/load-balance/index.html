@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="1、随机算法从可用的节点中，随机挑选一个节点来访问 一般通过生成一个随机数来实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="负载均衡">
+<meta property="og:url" content="https://www.alan87.top/sa/load-balance/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="1、随机算法从可用的节点中，随机挑选一个节点来访问 一般通过生成一个随机数来实现">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-11-22T14:18:08.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.893Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="负载均衡">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/sa/load-balance/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>负载均衡 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/sa/load-balance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          负载均衡
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-11-22 22:18:08" itemprop="dateCreated datePublished" datetime="2013-11-22T22:18:08+08:00">2013-11-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/system-architecture/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sa/load-balance/" class="post-meta-item leancloud_visitors" data-flag-title="负载均衡" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sa/load-balance/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sa/load-balance/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1、随机算法"><a href="#1、随机算法" class="headerlink" title="1、随机算法"></a>1、随机算法</h1><p>从可用的节点中，随机挑选一个节点来访问</p>
+<p>一般通过生成一个随机数来实现</p>
+<a id="more"></a>
+<p><a href="https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/RandomLoadBalance.java" target="_blank" rel="noopener">https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/RandomLoadBalance.java</a></p>
+<p>适用场景：</p>
+<p>实现比较简单，在请求量远超可用服务节点数量的情况下，各个服务节点被访问的概率基本相同，主要应用在各个服务节点的性能差异不大的情况下。</p>
+<h1 id="2、轮询算法"><a href="#2、轮询算法" class="headerlink" title="2、轮询算法"></a>2、轮询算法</h1><p>按照固定的顺序，把可用的服务节点，挨个访问一次。</p>
+<p>在实现时，轮询算法通常是把所有可用节点放到一个数组里，然后按照数组编号，挨个访问。比如服<br>务有 10 个节点，放到数组里就是一个大小为 10 的数组，这样的话就可以从序号为 0 的节点开始访<br>问，访问后序号自动加 1，下一次就会访问序号为 1 的节点，以此类推。</p>
+<p>轮询算法能够保证所有节点被访问到的概率是相同的。</p>
+<p><a href="https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/RoundRobinLoadBalance.java" target="_blank" rel="noopener">https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/RoundRobinLoadBalance.java</a></p>
+<p>适用场景：</p>
+<p>跟随机算法类似，各个服务节点被访问的概率也基本相同，也主要应用在各个服务节点性能差异不大的情况下。</p>
+<h1 id="3、加权轮询算法"><a href="#3、加权轮询算法" class="headerlink" title="3、加权轮询算法"></a>3、加权轮询算法</h1><p>轮询算法能够保证所有节点被访问的概率相同，而加权轮询算法是在此基础上，给每个节点赋予一个<br>权重，从而使每个节点被访问到的概率不同，权重大的节点被访问的概率就高，权重小的节点被访问<br>的概率就小。</p>
+<p>在实现时，加权轮询算法是生成一个节点序列，该序列里有 n 个节点，n 是所有节点的权重之和。<br>在这个序列中，每个节点出现的次数，就是它的权重值。比如有三个节点：a、b、c，权重分别是<br>3、2、1，那么生成的序列就是{a、a、b、c、b、a}，这样的话按照这个序列访问，前 6 次请求就<br>会分别访问节点 a 三次，节点 b 两次，节点 c 一次。从第 7 个请求开始，又重新按照这个序列的顺<br>序来访问节点。</p>
+<p>在应用加权轮询算法的时候，根据我的经验，要尽可能保证生产的序列的均匀，如果生成的不均匀会<br>造成节点访问失衡，比如刚才的例子，如果生成的序列是{a、a、a、b、b、c}，就会导致前 3 次访<br>问的节点都是 a。</p>
+<p><a href="https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/ConfigurableWeightLoadBalance.java" target="_blank" rel="noopener">https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/ConfigurableWeightLoadBalance.java</a></p>
+<p>适用场景：</p>
+<p>主要被用在服务节点性能差异比较大的情况。比如经常会出现一种情况，因为采购时间<br>的不同，新的服务节点的性能往往要高于旧的节点，这个时候可以给新的节点设置更高的权重，<br>让它承担更多的请求，充分发挥新节点的性能优势。</p>
+<h1 id="4、最少活跃连接算法"><a href="#4、最少活跃连接算法" class="headerlink" title="4、最少活跃连接算法"></a>4、最少活跃连接算法</h1><p>顾名思义就是每一次访问都选择连接数最少的节点。因为不同节点处理请求的速<br>度不同，使得同一个服务消费者同每一个节点的连接数都不相同。连接数大的节点，可以认为是处理<br>请求慢，而连接数小的节点，可以认为是处理请求快。所以在挑选节点时，可以以连接数为依据，选<br>择连接数最少的节点访问。</p>
+<p>在实现时，需要记录跟每一个节点的连接数，这样在选择节点时，才能比较出连接数最小的节点。</p>
+<p><a href="https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/ActiveWeightLoadBalance.java" target="_blank" rel="noopener">https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/ActiveWeightLoadBalance.java</a></p>
+<p>适用场景：</p>
+<p>与加权轮询算法预先定义好每个节点的访问权重不同，采用最少活跃连接算<br>法，客户端同服务端节点的连接数是在时刻变化的，理论上连接数越少代表此时服务端节点越空<br>闲，选择最空闲的节点发起请求，能获取更快的响应速度。尤其在服务端节点性能差异较大，而<br>又不好做到预先定义权重时，采用最少活跃连接算法是比较好的选择。</p>
+<h1 id="5、一致性hash-算法"><a href="#5、一致性hash-算法" class="headerlink" title="5、一致性hash 算法"></a>5、一致性hash 算法</h1><p>一致性 hash 算法，是通过某个 hash 函数，把同一个来源的请求都映射到同一个节点上。一致性<br>hash 算法最大的特点就是同一个来源的请求，只会映射到同一个节点上，可以说是具有记忆功能。<br>只有当这个节点不可用时，请求才会被分配到相邻的可用节点上。</p>
+<p><a href="https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/ConsistentHashLoadBalance.java" target="_blank" rel="noopener">https://github.com/weibocom/motan/blob/master/motan-core/src/main/java/com/weibo/api/motan/cluster/loadbalance/ConsistentHashLoadBalance.java</a></p>
+<p>适用场景：</p>
+<p>因为它能够保证同一个客户端的请求始终访问同一个服务节点，所以适合服务端节点处理不同客户端请求差异较大的场景。比如服务端缓存里保存着客户端的请求结果，如果同一客户端一直访问一个服务节点，那么就可以一直从缓存中获取数据。</p>
+<h1 id="6、自适应最优选择算法"><a href="#6、自适应最优选择算法" class="headerlink" title="6、自适应最优选择算法"></a>6、自适应最优选择算法</h1><p>这种算法的主要思路是在客户端本地维护一份同每一个服务节点的性能统计快照，并且每隔一段时间<br>去更新这个快照。在发起请求时，根据“二八原则”，把服务节点分成两部分，找出 20% 的那部分<br>响应最慢的节点，然后降低权重。这样的话，客户端就能够实时的根据自身访问每个节点性能的快<br>慢，动态调整访问最慢的那些节点的权重，来减少访问量，从而可以优化长尾请求。</p>
+<p>由此可见，自适应最优选择算法是对加权轮询算法的改良，可以看作是一种<strong>动态加权轮询算法</strong>。它的<br>实现关键之处就在于两点：第一点是每隔一段时间获取客户端同每个服务节点之间调用的平均性能统<br>计；第二点是按照这个性能统计对服务节点进行排序，对排在性能倒数 20% 的那部分节点赋予一个<br>较低的权重，其余的节点赋予正常的权重。</p>
+<p>在具体实现时，针对第一点，需要在内存中开辟一块空间记录客户端同每一个服务节点之间调用的平<br>均性能，并每隔一段固定时间去更新。这个更新的时间间隔不能太短，太短的话很容易受瞬时的性能<br>抖动影响，导致统计变化太快，没有参考性；同时也不能太长，太长的话时效性就会大打折扣，效果<br>不佳。根据我的经验，1 分钟的更新时间间隔是个比较合适的值。</p>
+<p>针对第二点，关键点是权重值的设定，即使服务节点之间的性能差异较大，也不适合把权重设置得差<br>异太大，这样会导致性能较好的节点与性能较差的节点之间调用量相差太大，这样也不是一种合理的<br>状态。在实际设定时，可以设置 20% 性能较差的节点权重为 3，其余节点权重为 5。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/system-architecture/" rel="tag"><i class="fa fa-tag"></i> 系统架构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web/lvs/" rel="prev" title="LVS">
+      <i class="fa fa-chevron-left"></i> LVS
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sa/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BQps/" rel="next" title="性能优化之Qps">
+      性能优化之Qps <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、随机算法"><span class="nav-text">1、随机算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、轮询算法"><span class="nav-text">2、轮询算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、加权轮询算法"><span class="nav-text">3、加权轮询算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、最少活跃连接算法"><span class="nav-text">4、最少活跃连接算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、一致性hash-算法"><span class="nav-text">5、一致性hash 算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、自适应最优选择算法"><span class="nav-text">6、自适应最优选择算法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/sa/load-balance/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

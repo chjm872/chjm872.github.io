@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="本章分享主要围绕以下 3 个部分：              什么是 Kubernetes ：介绍 Kubernetes 的主要功能以及能力；Kubernetes 的架构：介绍 Kubernetes 的核心组件，以及介绍它们之间是如何相互互动连接；Kubernetes 的核心概念与核心 API。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云原生技术基础(三)——Kubernetes核心概念">
+<meta property="og:url" content="https://www.alan87.top/cn/k8s%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="本章分享主要围绕以下 3 个部分：              什么是 Kubernetes ：介绍 Kubernetes 的主要功能以及能力；Kubernetes 的架构：介绍 Kubernetes 的核心组件，以及介绍它们之间是如何相互互动连接；Kubernetes 的核心概念与核心 API。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-0.jpg/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-1.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-2.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-3.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-architecture.jpg/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-master-architecture.jpg/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-node-architecture.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-architecture-demo.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-pod.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-volume.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-deployment.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-service.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-namespace.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-api.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-label.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-nginx-1.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-nginx-2.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-nginx-3.png/w600">
+<meta property="article:published_time" content="2019-12-17T15:18:36.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.768Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="CNCF">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="cncf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-0.jpg/w600">
+
+<link rel="canonical" href="https://www.alan87.top/cn/k8s%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>云原生技术基础(三)——Kubernetes核心概念 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/k8s%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          云原生技术基础(三)——Kubernetes核心概念
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-17 23:18:36" itemprop="dateCreated datePublished" datetime="2019-12-17T23:18:36+08:00">2019-12-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/cn/k8s%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" class="post-meta-item leancloud_visitors" data-flag-title="云原生技术基础(三)——Kubernetes核心概念" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/cn/k8s%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/cn/k8s%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本章分享主要围绕以下 3 个部分：</p>
+<div class="note primary">
+            <ul><li>什么是 Kubernetes ：介绍 Kubernetes 的主要功能以及能力；</li><li>Kubernetes 的架构：介绍 Kubernetes 的核心组件，以及介绍它们之间是如何相互互动连接；</li><li>Kubernetes 的核心概念与核心 API。</li></ul>
+          </div>
+
+<a id="more"></a>
+<h1 id="一、什么是-Kubernetes"><a href="#一、什么是-Kubernetes" class="headerlink" title="一、什么是 Kubernetes"></a>一、什么是 Kubernetes</h1><p>Kubernetes，从官方网站上可以看到，它是一个工业级的容器编排平台。Kubernetes 这个单词是希腊语，它的中文翻译是“舵手”或者“飞行员”。在一些常见的资料中也会看到“ks”这个词，也就是“k8s”，它是通过将8个字母“ubernete ”替换为“8”而导致的一个缩写。</p>
+<p>Kubernetes 为什么要用“舵手”来命名呢？大家可以看一下这张图：</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-0.jpg/w600">
+
+<p>这是一艘载着一堆集装箱的轮船，轮船在大海上运着集装箱奔波，把集装箱送到它们该去的地方。我们之前其实介绍过一个概念叫做 container，container 这个英文单词也有另外的一个意思就是“集装箱”。Kubernetes 也就借着这个寓意，希望成为运送集装箱的一个轮船，来帮助我们管理这些集装箱，也就是管理这些容器。</p>
+<p>这个就是为什么会选用 Kubernetes 这个词来代表这个项目的原因。更具体一点地来说：Kubernetes 是一个自动化的容器编排平台，它负责应用的部署、应用的弹性以及应用的管理，这些都是基于容器的。</p>
+<h1 id="二、Kubernetes-有如下几个核心的功能："><a href="#二、Kubernetes-有如下几个核心的功能：" class="headerlink" title="二、Kubernetes 有如下几个核心的功能："></a>二、Kubernetes 有如下几个核心的功能：</h1><ul>
+<li>服务的发现与负载的均衡；</li>
+<li>容器的自动装箱，我们也会把它叫做 scheduling，就是“调度”，把一个容器放到一个集群的某一个机器上，Kubernetes 会帮助我们去做存储的编排，让存储的声明周期与容器的生命周期能有一个连接；</li>
+<li>Kubernetes 会帮助我们去做自动化的容器的恢复。在一个集群中，经常会出现宿主机的问题或者说是 OS 的问题，导致容器本身的不可用，Kubernetes 会自动地对这些不可用的容器进行恢复；</li>
+<li>Kubernetes 会帮助我们去做应用的自动发布与应用的回滚，以及与应用相关的配置密文的管理；</li>
+<li>对于 job 类型任务，Kubernetes 可以去做批量的执行；</li>
+<li>为了让这个集群、这个应用更富有弹性，Kubernetes 也支持水平的伸缩。</li>
+</ul>
+<p>下面，我们希望以三个例子跟大家更切实地介绍一下 Kubernetes 的能力。</p>
+<h2 id="1、调度"><a href="#1、调度" class="headerlink" title="1、调度"></a>1、调度</h2><p>Kubernetes 可以把用户提交的容器放到 Kubernetes 管理的集群的某一台节点上去。Kubernetes 的调度器是执行这项能力的组件，它会观察正在被调度的这个容器的大小、规格。</p>
+<p>比如说它所需要的 CPU以及它所需要的 memory，然后在集群中找一台相对比较空闲的机器来进行一次 placement，也就是一次放置的操作。在这个例子中，它可能会把红颜色的这个容器放置到第二个空闲的机器上，来完成一次调度的工作。</p>
+<img title="Kubernetes-调度" alt="Kubernetes-调度" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-1.png/w600">
+
+<h2 id="2、自动修复"><a href="#2、自动修复" class="headerlink" title="2、自动修复"></a>2、自动修复</h2><p>Kubernetes 有一个节点健康检查的功能，它会监测这个集群中所有的宿主机，当宿主机本身出现故障，或者软件出现故障的时候，这个节点健康检查会自动对它进行发现。</p>
+<p>下面 Kubernetes 会把运行在这些失败节点上的容器进行自动迁移，迁移到一个正在健康运行的宿主机上，来完成集群内容器的一个自动恢复。</p>
+<img title="Kubernetes-调度" alt="Kubernetes-调度" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-2.png/w600">
+
+<h2 id="3、水平伸缩"><a href="#3、水平伸缩" class="headerlink" title="3、水平伸缩"></a>3、水平伸缩</h2><p>Kubernetes 有业务负载检查的能力，它会监测业务上所承担的负载，如果这个业务本身的 CPU 利用率过高，或者响应时间过长，它可以对这个业务进行一次扩容。</p>
+<p>比如说在下面的例子中，黄颜色的过度忙碌，Kubernetes 就可以把黄颜色负载从一份变为三份。接下来，它就可以通过负载均衡把原来打到第一个黄颜色上的负载平均分到三个黄颜色的负载上去，以此来提高响应的时间。</p>
+<img title="Kubernetes-调度" alt="Kubernetes-调度" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/cloud-native-3-3.png/w600">
+
+<p>以上就是 Kubernetes 三个核心能力的简单介绍。</p>
+<h1 id="三、Kubernetes-的架构"><a href="#三、Kubernetes-的架构" class="headerlink" title="三、Kubernetes 的架构"></a>三、Kubernetes 的架构</h1><p>Kubernetes 架构是一个比较典型的二层架构和 server-client 架构。Master 作为中央的管控节点，会去与 Node 进行一个连接。</p>
+<p>所有 UI 的、clients、这些 user 侧的组件，只会和 Master 进行连接，把希望的状态或者想执行的命令下发给 Master，Master 会把这些命令或者状态下发给相应的节点，进行最终的执行。</p>
+<img title="Kubernetes-architecture" alt="Kubernetes-architecture" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-architecture.jpg/w600">
+
+<div class="tabs" id="kubenetes-master-node"><ul class="nav-tabs"><li class="tab active"><a href="#kubenetes-master-node-1"><i class="fa fa-reorder"></i>Kubernetes的架构：Master</a></li><li class="tab"><a href="#kubenetes-master-node-2"><i class="fa fa-reorder"></i>Kubernetes的架构：Node</a></li></ul><div class="tab-content"><div class="tab-pane active" id="kubenetes-master-node-1"><h2 id="Kubernetes-的架构：Master"><a href="#Kubernetes-的架构：Master" class="headerlink" title="Kubernetes 的架构：Master"></a>Kubernetes 的架构：Master</h2><p>Kubernetes 的 Master 包含四个主要的组件：API Server、Controller、Scheduler 以及 etcd。如下图所示：<br><img title="k8s-master-architecture" alt="k8s-master-architecture" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-master-architecture.jpg/w600"></p>
+<ul>
+<li><p>API Server：顾名思义是用来处理 API 操作的，Kubernetes 中所有的组件都会和 API Server 进行连接，组件与组件之间一般不进行独立的连接，都依赖于 API Server 进行消息的传送；</p>
+</li>
+<li><p>Controller：是控制器，它用来完成对集群状态的一些管理。比如刚刚我们提到的两个例子之中，第一个自动对容器进行修复、第二个自动进行水平扩张，都是由 Kubernetes 中的 Controller 来进行完成的；</p>
+</li>
+<li><p>Scheduler：是调度器，“调度器”顾名思义就是完成调度的操作，就是我们刚才介绍的第一个例子中，把一个用户提交的 Container，依据它对 CPU、对 memory 请求大小，找一台合适的节点，进行放置；</p>
+</li>
+<li><p>etcd：是一个分布式的一个存储系统，API Server 中所需要的这些原信息都被放置在 etcd 中，etcd 本身是一个高可用系统，通过 etcd 保证整个 Kubernetes 的 Master 组件的高可用性。</p>
+</li>
+</ul>
+<p>我们刚刚提到的 API Server，它本身在部署结构上是一个可以水平扩展的一个部署组件；Controller 是一个可以进行热备的一个部署组件，它只有一个 active，它的调度器也是相应的，虽然只有一个 active，但是可以进行热备。</p></div><div class="tab-pane" id="kubenetes-master-node-2"><h2 id="Kubernetes-的架构：Node"><a href="#Kubernetes-的架构：Node" class="headerlink" title="Kubernetes 的架构：Node"></a>Kubernetes 的架构：Node</h2><p>Kubernetes 的 Node 是真正运行业务负载的，每个业务负载会以 Pod 的形式运行。等一下我会介绍一下 Pod 的概念。一个 Pod 中运行的一个或者多个容器，真正去运行这些 Pod 的组件的是叫做 kubelet，也就是 Node 上最为关键的组件，它通过 API Server 接收到所需要 Pod 运行的状态，然后提交到我们下面画的这个 Container Runtime 组件中。<br><img title="k8s-node-architecture" alt="k8s-node-architecture" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-node-architecture.png/w600"></p>
+<p>在 OS 上去创建容器所需要运行的环境，最终把容器或者 Pod 运行起来，也需要对存储跟网络进行管理。Kubernetes 并不会直接进行网络存储的操作，他们会靠 Storage Plugin 或者是网络的 Plugin 来进行操作。用户自己或者云厂商都会去写相应的 <strong>Storage Plugin</strong> 或者 <strong>Network Plugin</strong>，去完成存储操作或网络操作。</p>
+<p>在 Kubernetes 自己的环境中，也会有 Kubernetes 的 Network，它是为了提供 Service network 来进行搭网组网的。（等一下我们也会去介绍“service”这个概念。）真正完成 service 组网的组件的是 <strong>Kube-proxy</strong>，它是利用了 iptable 的能力来进行组建 Kubernetes 的 Network，就是 cluster network，以上就是 Node 上面的四个组件。</p>
+<p>Kubernetes 的 Node 并不会直接和 user 进行 interaction，它的 interaction 只会通过 Master。而 User 是通过 Master 向节点下发这些信息的。Kubernetes 每个 Node 上，都会运行我们刚才提到的这几个组件。</p></div></div></div>
+
+<p>下面我们以一个例子再去看一下 Kubernetes 架构中的这些组件，是如何互相进行 interaction 的。<br>k8s-architecture-demo</p>
+<img title="k8s-architecture-demo" alt="k8s-architecture-demo" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-architecture-demo.png/w600">
+
+<p>用户可以通过 UI 或者 CLI 提交一个 Pod 给 Kubernetes 进行部署，这个 Pod 请求首先会通过 CLI 或者 UI 提交给 Kubernetes API Server，下一步 API Server 会把这个信息写入到它的存储系统 etcd，之后 Scheduler 会通过 API Server 的 watch 或者叫做 notification 机制得到这个信息：有一个 Pod 需要被调度。</p>
+<p>这个时候 Scheduler 会根据它的内存状态进行一次调度决策，在完成这次调度之后，它会向 API Server report 说：“OK！这个 Pod 需要被调度到某一个节点上。”</p>
+<p>这个时候 API Server 接收到这次操作之后，会把这次的结果再次写到 etcd 中，然后 API Server 会通知相应的节点进行这次 Pod 真正的执行启动。相应节点的 kubelet 会得到这个通知，kubelet 就会去调 Container runtime 来真正去启动配置这个容器和这个容器的运行环境，去调度 Storage Plugin 来去配置存储，network Plugin 去配置网络。</p>
+<p>这个例子我们可以看到：这些组件之间是如何相互沟通相互通信，协调来完成一次Pod的调度执行操作的。</p>
+<h1 id="四、Kubernetes-的核心概念与它的-API"><a href="#四、Kubernetes-的核心概念与它的-API" class="headerlink" title="四、Kubernetes 的核心概念与它的 API"></a>四、Kubernetes 的核心概念与它的 API</h1><h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><h3 id="第一个概念：Pod"><a href="#第一个概念：Pod" class="headerlink" title="第一个概念：Pod"></a>第一个概念：Pod</h3><p>Pod 是 Kubernetes 的一个最小调度以及资源单元。用户可以通过 Kubernetes 的 Pod API 生产一个 Pod，让 Kubernetes 对这个 Pod 进行调度，也就是把它放在某一个 Kubernetes 管理的节点上运行起来。一个 Pod 简单来说是对一组容器的抽象，它里面会包含一个或多个容器。</p>
+<p>比如像下面的这幅图里面，它包含了两个容器，每个容器可以指定它所需要资源大小。比如说，一个核一个 G，或者说 0.5 个核，0.5 个 G。</p>
+<p>当然在这个 Pod 中也可以包含一些其他所需要的资源：比如说我们所看到的 Volume 卷这个存储资源；比如说我们需要 100 个 GB 的存储或者 20GB 的另外一个存储。</p>
+<img title="k8s-pod" alt="k8s-pod" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-pod.png/w600">
+
+<p>在 Pod 里面，我们也可以去定义容器所需要运行的方式。比如说运行容器的 Command，以及运行容器的环境变量等等。Pod 这个抽象也给这些容器提供了一个共享的运行环境，它们会共享同一个网络环境，这些容器可以用 localhost 来进行直接的连接。而 Pod 与 Pod 之间，是互相有 isolation 隔离的。</p>
+<h3 id="第二个概念：Volume"><a href="#第二个概念：Volume" class="headerlink" title="第二个概念：Volume"></a>第二个概念：Volume</h3><p>Volume 就是卷的概念，它是用来管理 Kubernetes 存储的，是用来声明在 Pod 中的容器可以访问文件目录的，一个卷可以被挂载在 Pod 中一个或者多个容器的指定路径下面。</p>
+<p>而 Volume 本身是一个抽象的概念，一个 Volume 可以去支持多种的后端的存储。比如说 Kubernetes 的 Volume 就支持了很多存储插件，它可以支持本地的存储，可以支持分布式的存储，比如说像 ceph，GlusterFS ；它也可以支持云存储，比如说阿里云上的云盘、AWS 上的云盘、Google 上的云盘等等。</p>
+<img title="k8s-volume" alt="k8s-volume" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-volume.png/w600">
+
+<h3 id="第三个概念：Deployment"><a href="#第三个概念：Deployment" class="headerlink" title="第三个概念：Deployment"></a>第三个概念：Deployment</h3><p>Deployment 是在 Pod 这个抽象上更为上层的一个抽象，它可以定义一组 Pod 的副本数目、以及这个 Pod 的版本。一般大家用 Deployment 这个抽象来做应用的真正的管理，而 Pod 是组成 Deployment 最小的单元。</p>
+<p>Kubernetes 是通过 Controller，也就是我们刚才提到的控制器去维护 Deployment 中 Pod 的数目，它也会去帮助 Deployment 自动恢复失败的 Pod。</p>
+<p>比如说我可以定义一个 Deployment，这个 Deployment 里面需要两个 Pod，当一个 Pod 失败的时候，控制器就会监测到，它重新把 Deployment 中的 Pod 数目从一个恢复到两个，通过再去新生成一个 Pod。通过控制器，我们也会帮助完成发布的策略。比如说进行滚动升级，进行重新生成的升级，或者进行版本的回滚。</p>
+<img title="k8s-deployment" alt="k8s-deployment" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-deployment.png/w600">
+
+<h3 id="第四个概念：Service"><a href="#第四个概念：Service" class="headerlink" title="第四个概念：Service"></a>第四个概念：Service</h3><p>Service 提供了一个或者多个 Pod 实例的稳定访问地址。</p>
+<p>比如在上面的例子中，我们看到：一个 Deployment 可能有两个甚至更多个完全相同的 Pod。对于一个外部的用户来讲，访问哪个 Pod 其实都是一样的，所以它希望做一次负载均衡，在做负载均衡的同时，我只想访问某一个固定的 VIP，也就是 Virtual IP 地址，而不希望得知每一个具体的 Pod 的 IP 地址。</p>
+<p>我们刚才提到，这个 pod 本身可能 terminal go（终止），如果一个 Pod 失败了，可能会换成另外一个新的。</p>
+<p>对一个外部用户来讲，提供了多个具体的 Pod 地址，这个用户要不停地去更新 Pod 地址，当这个 Pod 再失败重启之后，我们希望有一个抽象，把所有 Pod 的访问能力抽象成一个第三方的一个 IP 地址，实现这个的 Kubernetes 的抽象就叫 Service。 </p>
+<p>实现 Service 有多种方式，Kubernetes 支持 Cluster IP，上面我们讲过的 kuber-proxy 的组网，它也支持 nodePort、 LoadBalancer 等其他的一些访问的能力。</p>
+<img title="k8s-service" alt="k8s-service" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-service.png/w600">
+
+<h3 id="第五个概念：Namespace"><a href="#第五个概念：Namespace" class="headerlink" title="第五个概念：Namespace"></a>第五个概念：Namespace</h3><p>Namespace 是用来做一个集群内部的逻辑隔离的，它包括鉴权、资源管理等。Kubernetes 的每个资源，比如刚才讲的 Pod、Deployment、Service 都属于一个 Namespace，同一个 Namespace 中的资源需要命名的唯一性，不同的 Namespace 中的资源可以重名。</p>
+<p>Namespace 一个用例，比如像在阿里巴巴，我们内部会有很多个 business units，在每一个 business units 之间，希望有一个视图上的隔离，并且在鉴权上也不一样，在 cuda 上面也不一样，我们就会用 Namespace 来去给每一个 BU 提供一个他所看到的这么一个看到的隔离的机制。</p>
+<img title="k8s-namespace" alt="k8s-namespace" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-namespace.png/w600">
+
+<h2 id="Kubernetes-的-API"><a href="#Kubernetes-的-API" class="headerlink" title="Kubernetes 的 API"></a>Kubernetes 的 API</h2><p>下面我们介绍一下 Kubernetes 的 API 的基础知识。从 high-level 上看，Kubernetes API 是由 HTTP+JSON 组成的：用户访问的方式是 HTTP，访问的 API 中 content 的内容是 JSON 格式的。</p>
+<p>Kubernetes 的 kubectl 也就是 command tool，Kubernetes UI，或者有时候用 curl，直接与 Kubernetes 进行沟通，都是使用 HTTP + JSON 这种形式。</p>
+<p>下面有个例子：比如说，对于这个 Pod 类型的资源，它的 HTTP 访问的路径，就是 API，然后是 apiVesion: V1, 之后是相应的 Namespaces，以及 Pods 资源，最终是 Podname，也就是 Pod 的名字。</p>
+<img title="k8s-api" alt="k8s-api" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-api.png/w600">
+
+<p>如果我们去提交一个 Pod，或者 get 一个 Pod 的时候，它的 content 内容都是用 JSON 或者是 YAML 表达的。上图中有个 yaml 的例子，在这个 yaml file 中，对 Pod 资源的描述也分为几个部分。</p>
+<p>第一个部分，一般来讲会是 API 的 version。比如在这个例子中是 V1，它也会描述我在操作哪个资源；比如说我的 kind 如果是 pod，在 Metadata 中，就写上这个 Pod 的名字；比如说 nginx，我们也会给它打一些 label，我们等下会讲到 label 的概念。在 Metadata 中，有时候也会去写 annotation，也就是对资源的额外的一些用户层次的描述。</p>
+<p>比较重要的一个部分叫做 Spec，Spec 也就是我们希望 Pod 达到的一个预期的状态。比如说它内部需要有哪些 container 被运行；比如说这里面有一个 nginx 的 container，它的 image 是什么？它暴露的 port 是什么？</p>
+<p>当我们从 Kubernetes API 中去获取这个资源的时候，一般来讲在 Spec 下面会有一个项目叫 status，它表达了这个资源当前的状态；比如说一个 Pod 的状态可能是正在被调度、或者是已经 running、或者是已经被 terminates，就是被执行完毕了。</p>
+<p>刚刚在 API 之中，我们讲了一个比较有意思的 metadata 叫做“label”，这个 label 可以是一组 KeyValuePair。</p>
+<p>比如下图的第一个 pod 中，label 就可能是一个 color 等于 red，即它的颜色是红颜色。当然你也可以加其他 label，比如说 size: big 就是大小，定义为大的，它可以是一组 label。</p>
+<p>这些 label 是可以被 selector，也就是选择器所查询的。这个能力实际上跟我们的 sql 类型的 select 语句是非常相似的，比如下图中的三个 Pod 资源中，我们就可以进行 select。name color 等于 red，就是它的颜色是红色的，我们也可以看到，只有两个被选中了，因为只有他们的 label 是红色的，另外一个 label 中写的 color 等于 yellow，也就是它的颜色是黄色，是不会被选中的。</p>
+ <img title="k8s-label" alt="k8s-label" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-label.png/w600">
+
+<p>通过 label，kubernetes 的 API 层就可以对这些资源进行一个筛选，那这些筛选也是 kubernetes 对资源的集合所表达默认的一种方式。</p>
+<p>例如说，我们刚刚介绍的 Deployment，它可能是代表一组的 Pod，它是一组 Pod 的抽象，一组 Pod 就是通过 label selector 来表达的。当然我们刚才讲到说 service 对应的一组 Pod，就是一个 service 要对应一个或者多个的 Pod，来对它们进行统一的访问，这个描述也是通过 label selector 来进行 select 选取的一组 Pod。</p>
+<p>所以可以看到 label 是一个非常核心的 kubernetes API 的概念，我们在接下来的课程中也会着重地去讲解和介绍 label 这个概念，以及如何更好地去使用它。</p>
+<h1 id="五、以一个-demo-结尾"><a href="#五、以一个-demo-结尾" class="headerlink" title="五、以一个 demo 结尾"></a>五、以一个 demo 结尾</h1><p>最后一部分，我想以一个例子来结束，让大家跟我一起来尝试一个 kubernetes，在尝试 Kubernetes 之前，我希望大家能在本机上安装一下 Kubernetes，安装一个 Kubernetes 沙箱环境。</p>
+<p>安装这个沙箱环境，主要有三个步骤：</p>
+<ol>
+<li>首先需要安装一个虚拟机，来在虚拟机中启动 Kubernetes。我们会推荐大家利用 virtualbox 来作为虚拟机的运行环境；</li>
+</ol>
+<p>安装 VirtualBox： <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener">https://www.virtualbox.org/wiki/Downloads</a></p>
+<ol start="2">
+<li>其次我们需要在虚拟机中启动 Kubernetes，Kubernetes 有一个非常有意思的项目，叫 minikube，也就是启动一个最小的 local 的 Kubernetes 的一个环境。</li>
+</ol>
+<p>minikube 我们推荐使用下面写到的阿里云的版本，它和官方 minikube 的主要区别就是把 minikube 中所需要的 Google 上的依赖换成国内访问比较快的一些镜像，这样就方便了大家的安装工作；</p>
+<p>安装 MiniKube（中国版）: <a href="https://yq.aliyun.com/articles/221687" target="_blank" rel="noopener">https://yq.aliyun.com/articles/221687</a></p>
+<ol start="3">
+<li>最后在安装完 virtualbox 和 minikube 之后，大家可以对 minikube 进行启动，也就是下面这个命令。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动命令：</span></span><br><span class="line">minikube start —vm-driver virtualbox</span><br></pre></td></tr></table></figure>
+<p>如果大家不是 Mac 系统，其他操作系统请访问下面这个链接，查看其它操作系统如何安装 minikube 沙箱环境。</p>
+<p><a href="https://kubernetes.io/docs/tasks/tools/install-minikube/" target="_blank" rel="noopener">https://kubernetes.io/docs/tasks/tools/install-minikube/</a></p>
+<p>当大家安装好之后，我会跟大家一起做一个例子，来做三件事情：</p>
+<ol>
+<li>提交一个 nginx deployment；<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply  -f  https://k8s.io/examples/application/deployment.yaml</span><br></pre></td></tr></table></figure></li>
+<li>升级 nginx deployment；<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f  https://k8s.io/examples/application/deployment-update.yaml</span><br></pre></td></tr></table></figure></li>
+<li>扩容 nginx deployment。<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f  https://k8s.io/examples/application/deployment-update.yaml</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>第一步，我们提交一个 nginx 的 Deployment，然后对这个 Deployment 进行一次版本升级，也就是改变它中间 Pod 的版本。最后我们也会尝试对 nginx 进行一次扩容，进行一次水平的伸缩，下面就让大家一起跟我来尝试这三个操作吧。</p>
+<p>首先，我们先看一下 minikube 的 status，可以看到 kubelet master 和 kubectl 都是配置好的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ minikube status</span><br><span class="line">host: Running</span><br><span class="line">kubelet: Running</span><br><span class="line">apiserver: Running</span><br></pre></td></tr></table></figure>
+<p>下一步我们利用 kubectl 来看一下这个集群中节选的状态，可以看到这个master 的节点已经是running状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get nodes</span><br><span class="line">NAME          STATUS   ROLES    AGE   VERSION</span><br><span class="line">minikube      Ready    master   1d9h  v1.14.0</span><br></pre></td></tr></table></figure>
+<p>我们就以这个为节点，下面我们尝试去看一下现在集群中 Deployment 这个资源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl get deployments</span><br><span class="line">NAME                READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">No resources found.</span><br></pre></td></tr></table></figure>
+
+<p>可以看到集群中没有任何的 Deployment，我们可以利用 watch 这个语义去看集群中 Deployment 这个资源的变化情况。</p>
+<p>下面我们去做刚才想要的三个操作：第一个操作是去创建一个 Deployment。可以看到下面第一个图，这是一个 API 的 content，它的 kind 是 Deployment，name 是 nginx-deployment, 有图中它的 replicas 数目是2，它的镜像版本是 1.14.0。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span> <span class="comment"># for versions before 1.9.0 use apps/v1beta2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span> </span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:1.14.0</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+<p>我们下面还是回到 kubectl 这个 commnd 来执行这次 Deployment 的真正的操作。我们可以看到一个简单的操作，就会去让 Deployment 不停地生成副本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f deployment.yaml</span></span><br><span class="line">deployment.apps/nginx-deployment created</span><br></pre></td></tr></table></figure>
+<p>Deployment 副本数目是 2 个，下面也可以 describe 一下现在的 Deployment 的状态。我们知道之前是没有这个 Deployment 的，现在我们去 describe 这个 nginx-deployment。</p>
+<p>下图中可以看到：有一个 nginx-deployment 已经被生成了，它的 replicas 数目也是我们想要的、selector 也是我们想要的、它的 image 的版本也是 1.14.0。还可以看到，里面的 deployment-controller 这种版本控制器也是在管理它的生成。</p>
+<img title="k8s-nginx-1" alt="k8s-nginx-1" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-nginx-1.png/w600">
+
+<p>下面我们去升级这个 Deployment 版本，首先下载另外一个 yaml 文件 deployment-update.yaml，可以看到这里面的 image 本身的版本号从 1.14.0 升级到 1.14.2。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:1.14.2</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+<p>接下来我们重新 apply 新的 deployment-update 这个 yaml 文件。</p>
+<p>可以看到，在屏幕上显示出了这个 Deployment 升级的一些操作，最终它的 up-to-date 值从 0 变成了 2，也就是说所有的容器都是最新版本的，所有的 Pod 都是最新版本的。我们也可以 discribe 具体去看一下是不是所有 Pod 的版本都被更新了，可以看到这个 image 的版本由 1.14.0 真正更新到了 1.14.2。</p>
+<p>最后，我们也可以看到  controller 又执行了几次新的操作，这个控制器维护了整个 Deployment 和 Pod 状态。</p>
+<img title="k8s-nginx-2" alt="k8s-nginx-2" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-nginx-2.png/w600">
+
+<p>最后我们演示一下给 Deployment 做水平扩张，下载另一个 yaml 文件 deployment-scale.yaml，这里面的 replicas 数目已经从 2 改成了 4。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">selector:</span></span><br><span class="line">  <span class="attr">matchLabels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">replicas:</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>回到最开始的窗口，用 kubectl 去 apply 这个新的 deployment-scale.yaml 文件，在另外一个窗口上可以看到，当我们执行了 deployment-scale 操作之后，它的容器 Pod 数目从 2 变成了 4。我们可以再一次 describ 一下当前集群中的 deployment 的情况，可以看到它的 replicas 的数目从 2 变到了 4，同时也可以看到 controller 又做了几次新的操作，这个 scale up 成功了。</p>
+<img title="k8s-nginx-3" alt="k8s-nginx-3" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-3/k8s-nginx-3.png/w600">
+
+<p>最后，让我们利用 delete 操作把我们刚才生成的 Deployment 给删除掉。kubectl delete deployment，也是刚才我们本身的 deployment name，当我们把它删除掉之后，我们今天所有的操作就完成了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl delete -f deployment.yaml </span><br><span class="line">deployment.apps <span class="string">"nginx-deployment"</span> deleted</span><br></pre></td></tr></table></figure>
+
+<p>我们再去重新 get 这个 Deployment，也会显示这个资源不再存在，这个集群又回到了最开始干净的状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get deployments</span><br><span class="line">NAME                READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">No resources found.</span><br></pre></td></tr></table></figure>
+
+<p>以上这就是这堂课中所有的内容了，我们关注了 kubernetes 的核心概念以及 kubernetes 的架构设计，希望大家能在这节课中有所收获！</p>
+<h1 id="本节总结"><a href="#本节总结" class="headerlink" title="本节总结"></a>本节总结</h1><div class="note danger">
+            <ul><li>Kubernetes 是一个自动化的容器编排平台，它负责应用的部署、应用的弹性以及应用的管理，这些都是基于容器的；</li><li>Kubernetes 架构是一个比较典型的二层架构和 server-client 架构；</li></ul>
+          </div>
+
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/cn/" rel="tag"><i class="fa fa-tag"></i> 云原生</a>
+              <a href="/tags/kubernetes/" rel="tag"><i class="fa fa-tag"></i> Kubernetes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/cn/k8s%E7%90%86%E8%A7%A3Pod%E5%92%8C%E5%AE%B9%E5%99%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="prev" title="云原生技术基础(四)——理解Pod和容器设计模式">
+      <i class="fa fa-chevron-left"></i> 云原生技术基础(四)——理解Pod和容器设计模式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/cn/cn%E5%AE%B9%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="next" title="云原生技术基础(二)——容器基本概念">
+      云原生技术基础(二)——容器基本概念 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、什么是-Kubernetes"><span class="nav-text">一、什么是 Kubernetes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、Kubernetes-有如下几个核心的功能："><span class="nav-text">二、Kubernetes 有如下几个核心的功能：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、调度"><span class="nav-text">1、调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、自动修复"><span class="nav-text">2、自动修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、水平伸缩"><span class="nav-text">3、水平伸缩</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Kubernetes-的架构"><span class="nav-text">三、Kubernetes 的架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-的架构：Master"><span class="nav-text">Kubernetes 的架构：Master</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-的架构：Node"><span class="nav-text">Kubernetes 的架构：Node</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、Kubernetes-的核心概念与它的-API"><span class="nav-text">四、Kubernetes 的核心概念与它的 API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心概念"><span class="nav-text">核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一个概念：Pod"><span class="nav-text">第一个概念：Pod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二个概念：Volume"><span class="nav-text">第二个概念：Volume</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三个概念：Deployment"><span class="nav-text">第三个概念：Deployment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四个概念：Service"><span class="nav-text">第四个概念：Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五个概念：Namespace"><span class="nav-text">第五个概念：Namespace</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-的-API"><span class="nav-text">Kubernetes 的 API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、以一个-demo-结尾"><span class="nav-text">五、以一个 demo 结尾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本节总结"><span class="nav-text">本节总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/cn/k8s%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

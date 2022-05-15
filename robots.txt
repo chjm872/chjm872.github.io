@@ -1,0 +1,17 @@
+User-agent: * 
+Allow: /
+Allow: /cm/
+Allow: /archives/
+Allow: /tags/
+Allow: /categories/
+Allow: /schedule/
+
+Disallow: /vendors/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: https://alancom.gitee.io/sitemap.xml
+Sitemap: https://alancom.gitee.io/baidusitemap.xml

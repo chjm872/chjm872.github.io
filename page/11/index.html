@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="道路很长, 开始了就别停下!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="千寻">
+<meta property="og:url" content="https://www.alan87.top/page/11/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="道路很长, 开始了就别停下!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="Alan">
+<meta property="article:tag" content="千寻">
+<meta property="article:tag" content="科技领域知识">
+<meta property="article:tag" content="5G">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="物联网">
+<meta property="article:tag" content="工业互联网">
+<meta property="article:tag" content="IT">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="flink">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="hadoop">
+<meta property="article:tag" content="clickhouse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/page/11/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/kafka-manager-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/kafka-manager-setup/" class="post-title-link" itemprop="url">kafka-manager 安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/kafka-manager-setup/" class="post-meta-item leancloud_visitors" data-flag-title="kafka-manager 安装" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/kafka-manager-setup/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/kafka-manager-setup/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li>源码</li>
+</ul>
+<p><a href="https://github.com/yahoo/kafka-manager" target="_blank" rel="noopener">https://github.com/yahoo/kafka-manager</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/middle-software/kafka-manager-setup/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/kafka-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/kafka-setup/" class="post-title-link" itemprop="url">Kafka安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/kafka-setup/" class="post-meta-item leancloud_visitors" data-flag-title="Kafka安装" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/kafka-setup/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/kafka-setup/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1、首先安装 zookeeper</p>
+<p>2、下载kafka</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;mirrors.cnnic.cn&#x2F;apache&#x2F;kafka&#x2F;2.1.0&#x2F;kafka_2.11-2.1.0.tgz</span><br><span class="line">&#96;&#96;&#96;	</span><br><span class="line"></span><br><span class="line">解压：</span><br><span class="line"></span><br><span class="line">tar zxf kafka_2.11-2.1.0.tgz</span><br><span class="line"></span><br><span class="line">3、修改配置</span><br></pre></td></tr></table></figure>
+<p>cd kafka_2.11-2.1.0/config/<br>vim server.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">kafka最为重要三个配置依次为：broker.id、log.dir、zookeeper.connect</span><br><span class="line"></span><br><span class="line">参数详细说明：</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;blog.csdn.net&#x2F;lizhitao&#x2F;article&#x2F;details&#x2F;25667831 </span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">4、启动</span><br></pre></td></tr></table></figure>
+<p>cd /Users/onlyone/software/kafka/kafka_2.11-2.1.0<br>bin/kafka-server-start.sh config/server.properties &amp;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">停止kafka</span><br></pre></td></tr></table></figure>
+<p>bin/kafka-server-stop.sh  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">5、检测</span><br></pre></td></tr></table></figure>
+<p>➜  jps<br>41505 QuorumPeerMain<br>66244 Jps<br>64472 Kafka<br>252 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* QuorumPeerMain为对应的zookeeper实例</span><br><span class="line">* Kafka的进程ID为64472</span><br><span class="line"></span><br><span class="line">6、测试</span><br><span class="line"></span><br><span class="line">* 创建topic</span><br></pre></td></tr></table></figure>
+<p>bin/kafka-topics.sh –create –zookeeper localhost:2181 –replication-factor 1 –partitions 1 –topic test1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 查看topic创建情况</span><br></pre></td></tr></table></figure>
+<p>bin/kafka-topics.sh –list –zookeeper localhost:2181</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>bin/kafka-topics.sh –describe –zookeeper localhost:2181</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行结果：</span><br></pre></td></tr></table></figure>
+<p>Topic:test1    PartitionCount:1    ReplicationFactor:1    Configs:<br>    Topic: test1    Partition: 0    Leader: 1    Replicas: 1    Isr: 1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">参数解析：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;shengulong&#x2F;p&#x2F;9013282.html</span><br><span class="line"></span><br><span class="line">* 启动生产端 producer，并发送消息</span><br></pre></td></tr></table></figure>
+<p>bin/kafka-console-producer.sh –broker-list 192.168.0.14:9092 –topic test1</p>
+<p>注意：首次，topic不存在时，会自动创建</p>
+<p>上面命令是在控制台输入要发送的消息，“回车”单条消息结束。</p>
+<p>echo ‘{“name”:”Steve”, “title”:”Captain America”}’ | bin/kafka-console-producer.sh –broker-list 192.168.0.14:9092 –topic test1</p>
+<p>将发送的消息放在执行命令中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 启动消费端 consumer，可以看到刚才发送的消息列表</span><br></pre></td></tr></table></figure>
+<p>bin/kafka-console-consumer.sh –bootstrap-server 192.168.0.14:9092 –topic test1 –from-beginning  </p>
+<pre><code>
+</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/emqx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/emqx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">Emqx部署问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/emqx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" class="post-meta-item leancloud_visitors" data-flag-title="Emqx部署问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/emqx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/emqx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1、centos-安装mqtt"><a href="#1、centos-安装mqtt" class="headerlink" title="1、centos 安装mqtt"></a>1、centos 安装mqtt</h1><p>安装所需要的依赖包</p>
+<p>$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2</p>
+<p>使用以下命令设置稳定存储库，以 CentOS7 为例</p>
+<p>$ sudo yum-config-manager –add-repo <a href="https://repos.emqx.io/emqx-ce/redhat/centos/7/emqx-ce.repo" target="_blank" rel="noopener">https://repos.emqx.io/emqx-ce/redhat/centos/7/emqx-ce.repo</a></p>
+<p>安装最新版本的 EMQ X</p>
+<p>$ sudo yum install emqx</p>
+<h1 id="2、dashboard登录后提示URL-not-Found"><a href="#2、dashboard登录后提示URL-not-Found" class="headerlink" title="2、dashboard登录后提示URL not Found"></a>2、dashboard登录后提示URL not Found</h1><p>原因是http默认端口8080被占用，</p>
+<p>查看端口占用进程</p>
+<p>netstat -tnlp | grep :8080</p>
+<p>一种方式：找到占用改端口的程序，使用kill -9 进程号 杀掉该进程</p>
+<p>另外一种方式：修改emqx http为其他端口：</p>
+<p>找到插件plugin中的emqx_management.conf。</p>
+<p>修改</p>
+<p>management.listener.http = 8090 这一行</p>
+<p>保存，然后重启</p>
+<h1 id="3、emqx-ctl-linsteners-提示命令不存在"><a href="#3、emqx-ctl-linsteners-提示命令不存在" class="headerlink" title="3、emqx_ctl linsteners 提示命令不存在"></a>3、emqx_ctl linsteners 提示命令不存在</h1><p>列出的emqx_ctl使用方法列表明显表较少</p>
+<p>正常的大概有77个命令。</p>
+<p>此时很可能是8080端口占用，跟第二个问题解决方法一样，最好给emqx_management换一个端口</p>
+<h1 id="4、使用emqx-auth-mysql插件进行用户名和访问权限控制："><a href="#4、使用emqx-auth-mysql插件进行用户名和访问权限控制：" class="headerlink" title="4、使用emqx_auth_mysql插件进行用户名和访问权限控制："></a>4、使用emqx_auth_mysql插件进行用户名和访问权限控制：</h1><p>（1）首先安装数据库，建议使用docker安装mariadb。</p>
+<p>（2）设置数据库的用户名和密码。</p>
+<p>（3）启动数据库。</p>
+<p>（4）创建mqtt数据库</p>
+<p>（5）创建用户表和ACL表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mqtt_user`</span> ( <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT, <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>, <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>, <span class="string">`salt`</span> <span class="built_in">varchar</span>(<span class="number">35</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>, <span class="string">`is_superuser`</span> <span class="built_in">tinyint</span>(<span class="number">1</span>) <span class="keyword">DEFAULT</span> <span class="number">0</span>, <span class="string">`created`</span> datetime <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>, PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>), <span class="keyword">UNIQUE</span> <span class="keyword">KEY</span> <span class="string">`mqtt_username`</span> (<span class="string">`username`</span>) ) <span class="keyword">ENGINE</span>=MyISAM <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mqtt_acl`</span> ( <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT, <span class="string">`allow`</span> <span class="built_in">int</span>(<span class="number">1</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'0: deny, 1: allow'</span>, <span class="string">`ipaddr`</span> <span class="built_in">varchar</span>(<span class="number">60</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'IpAddress'</span>, <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'Username'</span>, <span class="string">`clientid`</span> <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'ClientId'</span>, <span class="string">`access`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'1: subscribe, 2: publish, 3: pubsub'</span>, <span class="string">`topic`</span> <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">''</span> <span class="keyword">COMMENT</span> <span class="string">'Topic Filter'</span>, PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>) ) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+
+<p>配置etc/plugins/emqx_auth_mysql.conf</p>
+<p>将数据库的用户名、密码填入</p>
+<p>其他配置信息参考官方说明文档</p>
+<p><a href="https://docs.emqx.io/edge/v3/cn/plugins.html#emqx-auth-http-http" target="_blank" rel="noopener">https://docs.emqx.io/edge/v3/cn/plugins.html#emqx-auth-http-http</a></p>
+<p>其中在配置密码规则时要注意的一点：</p>
+<p>auth.mysql.password_hash = sha256</p>
+<p>官方配置默认是sha256加密，那么在数据库中的password字段不能用明文</p>
+<p>上面的方式是不行的</p>
+<p>要将密码通过sha256加密后将加密串写入数据库才行</p>
+<p>另外要注意的是数据库字段salt是密码加盐后再进行加密。说白了就是密码加上一段一段字符串（上图中是crodigy），然后经过加密算法计算的密文。这样更安全</p>
+<p>如果要采用密码加盐的方式则配置文件字段修改如下</p>
+<p>auth.mysql.password_hash = salt,sha256</p>
+<p>意思是 字符串+密码后经过sha256计算后的密文填入数据库</p>
+<p>示例：</p>
+<p>python代码实现sha256+盐算法代码如下：其中string是密码，crodigy是盐字符串</p>
+<p>最终将输出的res字段放入数据库的password中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="comment"># ######## sha256 ########</span></span><br><span class="line"></span><br><span class="line">string = <span class="string">"test"</span></span><br><span class="line"></span><br><span class="line">sha256 = hashlib.sha256(<span class="string">b'crodigy'</span>)</span><br><span class="line"></span><br><span class="line">sha256.update(string.encode(<span class="string">'utf-8'</span>))</span><br><span class="line"></span><br><span class="line">res = sha256.hexdigest()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"sha256加密结果:"</span>,res)</span><br></pre></td></tr></table></figure>
+
+<p>ACL批量校验：</p>
+<p>在实际项目中一般要限制用户订阅的主题和发布的主题。比如采用 /username/set 来订阅主题</p>
+<p>/username/get 来发布主题。 如果连接的客户端比较多，那么简历的ACL规则也比较多</p>
+<p>比如连接十万个客户端，那么就要有至少20万个（发布+订阅）主题，数据库中就要写20万个ACL规则，这样规则匹配也非常耗时。</p>
+<p>可以使用通配符替换的形式来解决问题.</p>
+<p>先上解决方案：</p>
+<p>在数据库配置文件emqx_auth_mysql.conf中修改如下字段：</p>
+<p>auth.mysql.acl_query = select allow, ipaddr, username, clientid, access, REPLACE(topic,’$devTopic’,’%u’) from mqtt_acl where ipaddr = ‘%a’ or username = ‘%u’ or username = ‘$all’ or clientid = ‘%c’ order by id desc</p>
+<p>数据库语句主要修改了1、REPLACE(topic,’$devTopic’,’%u’)和2、order by id desc</p>
+<p>第一条的作用是将主题中的通配符$devTopic替换成当前需要匹配的用户名。</p>
+<p>第二条是将查询出来的规则以id降序排列，进行验证。因为ACL规则是按照规则顺序进行一一校验，所以顺序不同校验结果可能不同。</p>
+<p>数据库填写如下内容</p>
+<p>这样就可以实现用户test1只能订阅/test1/get主题，只能发布/test1/set主题。</p>
+<p>制定这样规则的好处在于每个用户只能订阅和发布自己的主题，不能订阅发布别人的主题。</p>
+<p>另外数据库中的用户名和ACL规则添加后，emqx是动态加载，不需要重启emqx就能实现校验。这个可能是比较新的版本修改过。之前看到git上有人提问类似的问题：说添加了ACL规则后要重启emqx才能生效。目前我测试的3.2.7版本不需要重启就能生效。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/kafka-sourcecode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/kafka-sourcecode/" class="post-title-link" itemprop="url">apollo</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/kafka-sourcecode/" class="post-meta-item leancloud_visitors" data-flag-title="apollo" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/kafka-sourcecode/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/kafka-sourcecode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><hr>
+<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><ul>
+<li><p>消息</p>
+<p>  最基本的数据单元</p>
+</li>
+<li><p>Topic、分区、Log</p>
+</li>
+<li><p>保留策略</p>
+<ul>
+<li>根据消息保留的时间，超过指定时间，就可以被删除</li>
+<li>根据Topic存储的数据大小</li>
+</ul>
+</li>
+<li><p>Broker</p>
+</li>
+<li><p>副本</p>
+<p>   每个分区至少有一个副本，对消息进行了冗余备份，灾备</p>
+</li>
+</ul>
+<ul>
+<li><p>ISR集合</p>
+<p>  副本集合，表示的是目前“可用”且消息量与Leader相差不多的副本集合，这是整个副本集合的一个子集。</p>
+</li>
+<li><p>Cluster、Controller</p>
+</li>
+<li><p>生产者</p>
+</li>
+<li><p>消费者</p>
+<p>  从Topic中拉取消息，并对消息进行消费。某个消费者消费到Partition的哪个位置（offset）的相关信息，由Consumer自己维护的。</p>
+</li>
+<li><p>Consumer Group    </p>
+<p>  多个Consumer可以组成一个Group，保证其订阅的Topic的每个分区可以被分配给此Consumer Group中的一个消费者处理。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/kafka/" class="post-title-link" itemprop="url">apollo</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/kafka/" class="post-meta-item leancloud_visitors" data-flag-title="apollo" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/kafka/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/kafka/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="kafka相关"><a href="#kafka相关" class="headerlink" title="kafka相关"></a>kafka相关</h2><hr>
+<ul>
+<li><a href="kafka-setup.md">安装</a></li>
+<li><a href="kafka-sourcecode.md">Apache Kafaka源码剖析</a></li>
+<li><a href="https://gitee.com/robertleepeak/kclient" target="_blank" rel="noopener">Kafka Java客户端—KClient</a></li>
+</ul>
+<p>管理工具：</p>
+<ul>
+<li><a href="kafka-manager-setup.md">kafka-manager</a></li>
+</ul>
+<hr>
+<p>Kafka是由LinkedIn开发的一个开源分布式基于发布/订阅的消息系统，Scala编写。<br>Producer向broker push消息；Consumer从broker pull消息（pull模式则可以根据Consumer的消费能力以适当的速率消费消息）</p>
+<h3 id="目标："><a href="#目标：" class="headerlink" title="目标："></a>目标：</h3><ul>
+<li>以时间复杂度为O(1)的方式提供消息持久化能力，即使对TB级以上数据也能保证常数时间复杂度的访问性能。</li>
+<li>高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条以上消息的传输。</li>
+<li>支持Kafka Server间的消息分区，及分布式消费，同时保证每个Partition内的消息顺序传输（注意：非整体有序，如果有顺序要求，可以只配置一个partition）。</li>
+<li>同时支持离线数据处理和实时数据处理。</li>
+</ul>
+<h3 id="核心组件："><a href="#核心组件：" class="headerlink" title="核心组件："></a>核心组件：</h3><ul>
+<li><p>Broker</p>
+<p>Kafka集群包含一个或多个服务器，这种服务器被称为broker</p>
+</li>
+<li><p>Topic</p>
+<p>每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic，逻辑上可称之为队列（物理上不同Topic的消息分开存储，逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）</p>
+</li>
+<li><p>Partition</p>
+<p>Partition是物理上的概念，每个Topic包含一个或多个Partition，每个Partition对应一个逻辑log，由多个segment组成。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/middle-software/1.png/w600">
+
+<img data-src="http://f.ngall-in.com/alan87/static/images/middle-software/2.png/w600">
+</li>
+<li><p>Producer</p>
+<p>负责发布消息到Kafka broker</p>
+</li>
+<li><p>Consumer</p>
+<p>消息消费者，向Kafka broker读取消息的客户端。</p>
+</li>
+<li><p>Consumer Group</p>
+<p>每个Consumer属于一个特定的Consumer Group（可为每个Consumer指定group name，若不指定group name则属于默认的group），会维护一个索引，用于标识一个消费集群的消费位置。为了对减小一个consumer group中不同consumer之间的分布式协调开销，指定partition为最小的并行消费单位，即一个group内的consumer只能消费不同的partition。</p>
+</li>
+</ul>
+<hr>
+<img data-src="http://f.ngall-in.com/alan87/static/images/middle-software/20160702_54.png/w600">
+
+<p>发到某个topic的消息会被均匀的分布到多个Partition上（随机或根据用户指定的回调函数进行分布），broker收到发布消息往对应Partition的最后一个segment上添加该消息，segment达到一定的大小后将不会再往该segment写数据，broker会创建新的segment。</p>
+<p>每条消息都被append到该Partition中，属于顺序写磁盘，因此效率非常高（经验证，顺序写磁盘效率比随机写内存还要高，这是Kafka高吞吐率的一个很重要的保证）。</p>
+<p>Kafka集群会保留所有的消息，无论其被消费与否。两种策略删除旧数据：</p>
+<ul>
+<li>一基于时间的SLA(服务水平保证)，消息保存一定时间（通常为7天）后会被删除</li>
+<li>二是基于Partition文件大小，可以通过配置$KAFKA_HOME/config/server.properties</li>
+</ul>
+<h3 id="消息的有序性"><a href="#消息的有序性" class="headerlink" title="消息的有序性"></a>消息的有序性</h3><ul>
+<li><p><a href="https://github.com/chenryn/logstash-best-practice-cn/blob/master/contrib_plugins/kafka.md" target="_blank" rel="noopener">https://github.com/chenryn/logstash-best-practice-cn/blob/master/contrib_plugins/kafka.md</a></p>
+</li>
+<li><p><a href="https://github.com/chenryn/ELKstack-guide-cn/blob/master/logstash/scale/kafka.md" target="_blank" rel="noopener">https://github.com/chenryn/ELKstack-guide-cn/blob/master/logstash/scale/kafka.md</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/chunlongyu/article/details/53977819" target="_blank" rel="noopener">http://blog.csdn.net/chunlongyu/article/details/53977819</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/intsmaze/p/6386616.html" target="_blank" rel="noopener">http://www.cnblogs.com/intsmaze/p/6386616.html</a></p>
+</li>
+<li><p><a href="http://zqhxuyuan.github.io/2016/02/20/Kafka-Consumer-New/" target="_blank" rel="noopener">http://zqhxuyuan.github.io/2016/02/20/Kafka-Consumer-New/</a></p>
+</li>
+<li><p><a href="http://zqhxuyuan.github.io/2016/10/27/Kafka-Definitive-Guide-cn-04/" target="_blank" rel="noopener">http://zqhxuyuan.github.io/2016/10/27/Kafka-Definitive-Guide-cn-04/</a></p>
+<p>kafka 的消息模型是对 topic 分区以达到分布式效果。每个 topic 下的不同的 partitions (区)只能有一个 Owner 去消费。所以只有多个分区后才能启动多个消费者，对应不同的区去消费。其中协调消费部分是由 server 端协调而成。使用者不必考虑太多。只是消息的消费是无序的。</p>
+</li>
+</ul>
+<p>总结：如果想保证消息的顺序，那就用一个 partition。 kafka 的每个 partition 只能同时被同一个 group 中的一个 consumer 消费。</p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><ul>
+<li><a href="">源码分析笔记</a></li>
+</ul>
+<h3 id="其它资料"><a href="#其它资料" class="headerlink" title="其它资料"></a>其它资料</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/3i51S1jDXbqvi6fv1cuQSg" target="_blank" rel="noopener">Kafka高性能架构之道——Kafka设计解析</a></li>
+<li><a href="http://www.infoq.com/cn/articles/kafka-analysis-part-1" target="_blank" rel="noopener">Kafka背景及架构介绍</a></li>
+<li><a href="http://blog.csdn.net/stark_summer/article/details/50203133" target="_blank" rel="noopener">kafka性能参数和压力测试揭秘</a></li>
+<li><a href="http://zqhxuyuan.github.io/2017/12/31/Kafka-Book-Resources/" target="_blank" rel="noopener">Kafka技术内幕拾遗</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/mq-compare/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/mq-compare/" class="post-title-link" itemprop="url">apollo</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/mq-compare/" class="post-meta-item leancloud_visitors" data-flag-title="apollo" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/mq-compare/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/mq-compare/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MQ框架性能比较"><a href="#MQ框架性能比较" class="headerlink" title="MQ框架性能比较"></a>MQ框架性能比较</h2><hr>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/ad7jibTb5nTzh3nDQYKFeg" target="_blank" rel="noopener">消息中间件选型分析</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/mycat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/mycat/" class="post-title-link" itemprop="url">apollo</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/mycat/" class="post-meta-item leancloud_visitors" data-flag-title="apollo" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/mycat/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/mycat/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="mycat"><a href="#mycat" class="headerlink" title="mycat"></a>mycat</h2><hr>
+<p><code>Mycat是java编写的！！！</code></p>
+<h3 id="一、问题"><a href="#一、问题" class="headerlink" title="一、问题"></a>一、问题</h3><ul>
+<li>目前有哪些好的开源分布式数据框架？</li>
+<li>引入成本如何？</li>
+<li>是否支持分布式事务？</li>
+<li>是否支持动态修改配置项？</li>
+<li>集群性能如何?</li>
+<li>社区是否活跃？内部源码？</li>
+<li>mycat如何搭建读写分离？</li>
+<li>mycat如何做到主从切换？</li>
+<li>支持哪些分片算法？</li>
+<li>查询多张分表，支持结果集合并，如果涉及翻页或排序，需要对合并后的结果做二次加工处理。</li>
+</ul>
+<h3 id="二、数据相关"><a href="#二、数据相关" class="headerlink" title="二、数据相关"></a>二、数据相关</h3><p>分布式数据库特性：</p>
+<ul>
+<li>透明性。用户不需要了解内部结构，表现就象一个传统的单处理机系统。</li>
+<li>扩展性。通过横向扩展使集群的整体性能提升。</li>
+<li>可靠性。不允许单点，如果一台机器坏了，则其他机器能接替它进行工作。</li>
+</ul>
+<p>数据分片：</p>
+<ul>
+<li>水平切分。按分表键，将表的行数据拆分到多个节点库中。逻辑上单表，物理上多表。</li>
+<li>垂直切分。一个数据库由很多表组成，每个表对应不同的业务。垂直切分，将表进行分类分布到不同的节点上。类似电商按商品线、交易线、会员线、店铺线等拆分到不同的DB。</li>
+</ul>
+<p>技术点：</p>
+<ul>
+<li>支持多数据源</li>
+<li>主库、备库切换</li>
+<li>分库</li>
+<li>分表</li>
+<li>支持千亿级别大表</li>
+<li>事务、分布式事务</li>
+<li>读写分离</li>
+<li>数据合并</li>
+<li>在线扩容</li>
+<li>数据迁移</li>
+<li>系统监控</li>
+</ul>
+<h3 id="三、Mycat核心组件及配置"><a href="#三、Mycat核心组件及配置" class="headerlink" title="三、Mycat核心组件及配置"></a>三、Mycat核心组件及配置</h3><h4 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h4><ul>
+<li>逻辑库（Schema）</li>
+</ul>
+<p>数据库中间件被当成作一个或多个数据库集群构成的逻辑库。</p>
+<ul>
+<li>逻辑表（table）</li>
+</ul>
+<p>逻辑表可以分布在一个或多个分片库中，也可以不分片。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;table name&#x3D;&quot;t_user&quot; dataNode&#x3D;&quot;dn1,dn2&quot; rule&#x3D;&quot;sharding-by-mod2&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>t_user分片表，数据按照规则被切分到dn1、dn2两个节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;table name&#x3D;&quot;t_node&quot; primaryKey&#x3D;&quot;id&quot; autoIncrement&#x3D;&quot;true&quot; dataNode&#x3D;&quot;dn1&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>t_node表，非分片表，只存在于节点dn1。</p>
+<p><code>primaryKey：逻辑表对应真实表的主键。对于分片规则使用非主键进行分表，如果使用主键查询会，会扫描所有分表，配置了该属性，mycat会缓存主键与dn的信息，避免所有表扫描，提升性能。但如果缓存没有命中，还是会把SQL发给所有的dn执行来获取数据。</code></p>
+<ul>
+<li>分片节点（dataNode）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataNode name&#x3D;&quot;dn1&quot; dataHost&#x3D;&quot;localhost1&quot; database&#x3D;&quot;mycat_node1&quot;&#x2F;&gt;</span><br><span class="line">&lt;dataNode name&#x3D;&quot;dn2&quot; dataHost&#x3D;&quot;localhost1&quot; database&#x3D;&quot;mycat_node2&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>一个大表被分到不同的分片数据库上，每个表分片所在的数据库就是分片节点</p>
+<ul>
+<li>节点主机（dataHost）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataHost name&#x3D;&quot;localhost1&quot; writeType&#x3D;&quot;0&quot; switchType&#x3D;&quot;1&quot; slaveThreshold&#x3D;&quot;100&quot; balance&#x3D;&quot;1&quot; dbType&#x3D;&quot;mysql&quot; maxCon&#x3D;&quot;10&quot; minCon&#x3D;&quot;1&quot; dbDriver&#x3D;&quot;native&quot;&gt;</span><br><span class="line">    &lt;heartbeat&gt;show status like &#39;wsrep%&#39;&lt;&#x2F;heartbeat&gt;</span><br><span class="line">    &lt;writeHost host&#x3D;&quot;hostM1&quot; url&#x3D;&quot;127.0.0.1:3306&quot; user&#x3D;&quot;root&quot; password&#x3D;&quot;root&quot; &gt;</span><br><span class="line">    &lt;&#x2F;writeHost&gt;  </span><br><span class="line">&lt;&#x2F;dataHost&gt;</span><br></pre></td></tr></table></figure>
+<p>同一台机器上可以有多个分片数据库。为了避免单节点主机并发数量的限制，尽量将读写压力高的分片节点均匀地放在不同的节点主机上。</p>
+<p><code>上面只列了几个核心参数，更多参数详细说明可参考《基于mycat中间件P22》</code></p>
+<h4 id="配置文件："><a href="#配置文件：" class="headerlink" title="配置文件："></a>配置文件：</h4><ul>
+<li>server.xml</li>
+</ul>
+<p>主要是配置系统信息，有两个重要标签 user、system</p>
+<ul>
+<li>schema.xml</li>
+</ul>
+<p>主要是逻辑库、逻辑表、分片规则 、分片节点、数据源</p>
+<ul>
+<li>sequence</li>
+</ul>
+<p>在分库分表的情况下，数据库的自增主键无法保证在集群中是全局唯一的主键，因此mycat提供了全局的sequence，并支持本地配置、数据库配置等多种实现方式。</p>
+<ul>
+<li>rule.xml </li>
+</ul>
+<p>分片规则的配置文件，分片规则的具体一些参数信息单独存放为文件，也在这个目录下，配置文件修改需要重启MyCAT。</p>
+<ul>
+<li>log4j.xml</li>
+</ul>
+<p>日志存放在logs/log中，每天一个文件，日志的配置是在conf/log4j.xml中，根据自己的需要可以调整输出级别为debug，debug级别下，会输出更多的信息，方便排查问题。</p>
+<p>autopartition-long.txt,partition-hash-int.txt,sequence_conf.properties， sequence_db_conf.properties 分片相关的id分片规则配置文件</p>
+<ul>
+<li>lib</li>
+</ul>
+<p>MyCAT自身的jar包或依赖的jar包的存放目录。</p>
+<ul>
+<li>logs    </li>
+</ul>
+<p>MyCAT日志的存放目录。日志存放在logs/log中，每天一个文件</p>
+<h4 id="分片规则"><a href="#分片规则" class="headerlink" title="分片规则"></a>分片规则</h4><ul>
+<li>取模分片（常用的方式）</li>
+</ul>
+<p>对分表键id按总的分表数求模计算，比如模为0，放在第1张表，模为1，放在第2张表。</p>
+<ul>
+<li>枚举分片</li>
+</ul>
+<p>配置文件中配置可能的枚举id，指定数据分布到不同的物理节点上。本规则适用于按省份或县区来拆分数据。</p>
+<ul>
+<li>范围分片</li>
+</ul>
+<p>按分片字段的某个范围放入对应分片。比如0<del>1kw，放在第1张表，1kw</del>2kw，放在第2张表</p>
+<ul>
+<li>范围求模算法</li>
+</ul>
+<p>范围分片+取模分片的组合。先根据id找到对应的分片组，分片组内使用求模可以保证组内的数据分布比较均匀。事先规定好分片的数量，数据扩容时按分片组扩容，原有的分片组的数据不需要迁移。由于分片组的数据分布比较均匀，所以分片组内可以避免热点数据问题。<br>0~1kw=5 //表示该组有5个分片节点</p>
+<ul>
+<li><p>固定分片hash算法</p>
+</li>
+<li><p>取模范围算法</p>
+</li>
+<li><p>字符串hash求模范围算法</p>
+</li>
+</ul>
+<p>与取模算法类似，该算法支持数字、符号、字母取模。截取长度为prefixLength的子串，再对子串中每个字符的ascii码求和得出sum，然后对sum进行求模运算。</p>
+<ul>
+<li>一致性hash算法</li>
+</ul>
+<p>有效解决分布式数据的扩容问题。<code>每个真实的数据库节点会被映射为N倍虚拟节点，默认是160倍</code></p>
+<ul>
+<li>按日期（天）分片</li>
+</ul>
+<p>从开始时间算起，每隔sPartionDay天，对应一个数据分区。</p>
+<ul>
+<li>按月单小时算法</li>
+<li>自然月分片算法</li>
+<li>日期范围hash算法</li>
+</ul>
+<p>先根据日期的范围分组，再根据时间hash分到每组下对应的分片。</p>
+<h3 id="四、mycat优势"><a href="#四、mycat优势" class="headerlink" title="四、mycat优势"></a>四、mycat优势</h3><ul>
+<li>对Cobar代码进行了重构，使用NIO重构了网络模块，并优化了Buffer内核，增强了聚合、join等基本特性</li>
+<li>支持绝大部分数据库，如oracle、mysql、sqlserver、db2、MongoDB 等，成为通用数据库中间件</li>
+<li>支持透明的读写分离机制，减轻写库压力，提高数据库的并发查询能力</li>
+<li>大表水平分片方式支持100亿级的数据存储</li>
+<li>内建数据库集群故障切换机制，实现了自动切换</li>
+<li>提供reload命令，例如更新了schema.xml文件后，不用重启即可进行配置文件更新。</li>
+</ul>
+<h3 id="五、源码分析"><a href="#五、源码分析" class="headerlink" title="五、源码分析"></a>五、源码分析</h3><p>mycat前身Amoeba、Cobar。</p>
+<p><a href="https://github.com/MyCATApache/Mycat-Server" target="_blank" rel="noopener">github 源码</a></p>
+<p>Mycat核心是拦截用户发过来SQL语句，做一些分析，例如SQL解析、分片分析、路由分析、读写分离分析、缓存分析等，然后将SQL语句发往后端的真实数据库，并将返回的结果做适当处理，最终返回给用户。</p>
+<p><strong>架构剖析</strong></p>
+<ul>
+<li>NIO架构</li>
+</ul>
+<p>NIOAcceptor负责处理Accept事件，服务端接收客户端的连接事件，NIOAcceptor调用NIOReactor.postRegister进行注册</p>
+<table>
+<thead>
+<tr>
+<th>事件名</th>
+<th>对应值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务端接收客户端连接事件</td>
+<td>Selection.OP_ACCEPT</td>
+</tr>
+<tr>
+<td>客户端连接服务端事件</td>
+<td>Selection.OP_CONNECT</td>
+</tr>
+<tr>
+<td>读事件</td>
+<td>Selection.OP_READ</td>
+</tr>
+<tr>
+<td>写事件</td>
+<td>Selection.OP_WRITE</td>
+</tr>
+</tbody></table>
+<ul>
+<li>多线程架构</li>
+</ul>
+<p>维护一个线程池 NameableExecutor，继承自ThreadPoolExecutor。mycat内部有两大线程池：timerExectuor和businessExecutor。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">timerExectuor：</span><br><span class="line">定时更新任务、处理器定时检查任务，数据节点定时心跳检测，主要是后勤工作。</span><br><span class="line"></span><br><span class="line">businessExecutor:</span><br><span class="line">处理业务请求，比如执行SQL语句，SQL拦截，数据合并，查询结果</span><br></pre></td></tr></table></figure>
+<ul>
+<li>内存管理及缓存架构</li>
+</ul>
+<p>缓冲区采用java.io.ByteBuffer，缓冲区分为直接缓冲区（操作系统内存）和非直接缓冲区（JVM内存）。</p>
+<ul>
+<li><p>连接池</p>
+</li>
+<li><p>分布式事务</p>
+</li>
+<li><p>sql路由实现</p>
+</li>
+<li><p>跨库join实现</p>
+</li>
+<li><p>数据汇聚、数据排序</p>
+</li>
+</ul>
+<h3 id="六、Mycat安装"><a href="#六、Mycat安装" class="headerlink" title="六、Mycat安装"></a>六、Mycat安装</h3><p>如何安装？</p>
+<p><a href="https://github.com/MyCATApache/Mycat-Server" target="_blank" rel="noopener">https://github.com/MyCATApache/Mycat-Server</a></p>
+<p><code>下载文件直接解压。执行./mycat start 启动</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;mycat start 启动</span><br><span class="line">.&#x2F;mycat stop 停止</span><br><span class="line">.&#x2F;mycat console 前台运行</span><br><span class="line">.&#x2F;mycat restart 重启服务</span><br><span class="line">.&#x2F;mycat pause 暂停</span><br><span class="line">.&#x2F;mycat status 查看启动状态</span><br></pre></td></tr></table></figure>
+
+<h3 id="七、Mycat实战"><a href="#七、Mycat实战" class="headerlink" title="七、Mycat实战"></a>七、Mycat实战</h3><ul>
+<li><a href="https://github.com/MyCATApache/Mycat-doc" target="_blank" rel="noopener">入门指南、开发指南、生产部署、设计文档</a></li>
+</ul>
+<h4 id="1-搭建读写分离"><a href="#1-搭建读写分离" class="headerlink" title="1.搭建读写分离"></a>1.搭建读写分离</h4><p>主数据提供写操作，从数据库提供读操作，有效减轻单台数据库的压力，主数据库进行写操作后，数据及时同步到所读的数据库，尽可能保证两边数据一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">主（M1）&lt;----&gt; 备(M2)</span><br><span class="line">|</span><br><span class="line">|</span><br><span class="line">从(S1)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>balance为0。不开启读写分离，所有的读全发送到M1</li>
+<li>balance为1。所有的读发送到S1和M2</li>
+<li>balance为2。所有的读发送到M1、M2和S1</li>
+<li>balance为3。所有的读发送到S1</li>
+</ul>
+<h4 id="2-搭建主备切换"><a href="#2-搭建主备切换" class="headerlink" title="2.搭建主备切换"></a>2.搭建主备切换</h4><h4 id="3-mycat-percona-haproxy-keepalived"><a href="#3-mycat-percona-haproxy-keepalived" class="headerlink" title="3.mycat+percona+haproxy+keepalived"></a>3.mycat+percona+haproxy+keepalived</h4><h4 id="4-mha-keepalived"><a href="#4-mha-keepalived" class="headerlink" title="4.mha+keepalived"></a>4.mha+keepalived</h4>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/openresty-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/openresty-setup/" class="post-title-link" itemprop="url">Openresty安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/openresty-setup/" class="post-meta-item leancloud_visitors" data-flag-title="Openresty安装" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/openresty-setup/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/openresty-setup/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="openresty安装"><a href="#openresty安装" class="headerlink" title="openresty安装"></a>openresty安装</h2><hr>
+<h4 id="官方安装地址"><a href="#官方安装地址" class="headerlink" title="官方安装地址"></a>官方安装地址</h4><p><a href="http://openresty.org/cn/installation.html" target="_blank" rel="noopener">http://openresty.org/cn/installation.html</a></p>
+<p>其中最简单的方式是通过brew命令安装</p>
+<h4 id="Mac-OS下包管理器Homebrew的安装与使用"><a href="#Mac-OS下包管理器Homebrew的安装与使用" class="headerlink" title="Mac OS下包管理器Homebrew的安装与使用"></a>Mac OS下包管理器Homebrew的安装与使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;d229ac7fe77d</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装openresty"><a href="#安装openresty" class="headerlink" title="安装openresty"></a>安装openresty</h4><p>一键命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install openresty&#x2F;brew&#x2F;openresty</span><br></pre></td></tr></table></figure>
+
+<p>默认安装目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r--   1 onlyone  admin    22K  5 15 04:24 COPYRIGHT</span><br><span class="line">-rw-r--r--   1 onlyone  admin   792B  7  4 19:22 INSTALL_RECEIPT.json</span><br><span class="line">-rw-r--r--   1 onlyone  admin   4.6K  5 15 04:24 README.markdown</span><br><span class="line">drwxr-xr-x   9 onlyone  admin   306B  7  4 19:22 bin</span><br><span class="line">-rw-r--r--   1 onlyone  admin   583B  7  4 19:22 homebrew.mxcl.openresty.plist</span><br><span class="line">drwxr-xr-x   6 onlyone  admin   204B  7  4 19:22 luajit</span><br><span class="line">drwxr-xr-x   6 onlyone  admin   204B  7  4 19:22 lualib</span><br><span class="line">drwxr-xr-x  10 onlyone  admin   340B  7  4 19:55 nginx</span><br><span class="line">drwxr-xr-x  44 onlyone  admin   1.5K  7  4 19:22 pod</span><br><span class="line">-rw-r--r--   1 onlyone  admin   219K  7  4 19:22 resty.index</span><br><span class="line">drwxr-xr-x   5 onlyone  admin   170B  7  4 19:22 site</span><br></pre></td></tr></table></figure>
+<p>nginx的配置文件地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;etc&#x2F;openresty</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r--  1 onlyone  admin   1.1K  7  4 19:22 fastcgi.conf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   1.1K  7  4 19:22 fastcgi.conf.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   1.0K  7  4 19:22 fastcgi_params</span><br><span class="line">-rw-r--r--  1 onlyone  admin   1.0K  7  4 19:22 fastcgi_params.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.8K  7  4 19:22 koi-utf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.2K  7  4 19:22 koi-win</span><br><span class="line">-rw-r--r--  1 onlyone  admin   171B  7  4 20:09 lua.conf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   5.0K  7  4 19:22 mime.types</span><br><span class="line">-rw-r--r--  1 onlyone  admin   5.0K  7  4 19:22 mime.types.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   518B  7  4 19:48 nginx.conf</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.6K  7  4 19:22 nginx.conf.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   2.6K  7  4 19:22 nginx.conf_1</span><br><span class="line">-rw-r--r--  1 onlyone  admin   636B  7  4 19:22 scgi_params</span><br><span class="line">-rw-r--r--  1 onlyone  admin   636B  7  4 19:22 scgi_params.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   664B  7  4 19:22 uwsgi_params</span><br><span class="line">-rw-r--r--  1 onlyone  admin   664B  7  4 19:22 uwsgi_params.default</span><br><span class="line">-rw-r--r--  1 onlyone  admin   3.5K  7  4 19:22 win-utf</span><br></pre></td></tr></table></figure>
+
+<h4 id="nginx配置lua脚本"><a href="#nginx配置lua脚本" class="headerlink" title="nginx配置lua脚本"></a>nginx配置lua脚本</h4><p>将系统默认的nginx.conf备份nginx.conf_1</p>
+<p>新建nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> #user  nobody;</span><br><span class="line">worker_processes  2;</span><br><span class="line"></span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  text&#x2F;html;</span><br><span class="line"></span><br><span class="line">    #lua模块路径，其中”;;”表示默认搜索路径，默认到&#x2F;usr&#x2F;servers&#x2F;nginx下找</span><br><span class="line">    lua_package_path &quot;&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2&#x2F;lualib&#x2F;?.lua;;&quot;;  #lua 模块  </span><br><span class="line">    lua_package_cpath &quot;&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2&#x2F;lualib&#x2F;?.so;;&quot;;  #c模块   </span><br><span class="line">    </span><br><span class="line">    include &#x2F;usr&#x2F;local&#x2F;etc&#x2F;openresty&#x2F;lua.conf;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>lua.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       8081;</span><br><span class="line">    server_name  _;</span><br><span class="line"></span><br><span class="line">    location &#x2F;lua &#123;</span><br><span class="line">        default_type &#39;text&#x2F;html&#39;;</span><br><span class="line">          content_by_lua  &#39;ngx.say(&quot;hello world&quot;)&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：1024以下的端口需要以root权限来启动，这里设定为8081</p>
+<p><a href="http://blog.sina.com.cn/s/blog_4adc4b090102vxpz.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_4adc4b090102vxpz.html</a></p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;openresty&#x2F;1.13.6.2</span><br><span class="line"></span><br><span class="line">--启动</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx</span><br><span class="line"></span><br><span class="line">-- 停止</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx -s stop</span><br><span class="line"></span><br><span class="line">-- 重启</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx -s reload</span><br><span class="line"></span><br><span class="line">-- 检验nginx配置是否正确</span><br><span class="line">sudo nginx&#x2F;sbin&#x2F;nginx -t</span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问：<a href="http://localhost:8081/lua" target="_blank" rel="noopener">http://localhost:8081/lua</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br></pre></td></tr></table></figure>
+
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="http://jinnianshilongnian.iteye.com/blog/2186270" target="_blank" rel="noopener">http://jinnianshilongnian.iteye.com/blog/2186270</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/openresty/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/openresty/" class="post-title-link" itemprop="url">OpenResty（nginx+lua）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/openresty/" class="post-meta-item leancloud_visitors" data-flag-title="OpenResty（nginx+lua）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/openresty/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/openresty/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="OpenResty（nginx-lua）"><a href="#OpenResty（nginx-lua）" class="headerlink" title="OpenResty（nginx+lua）"></a>OpenResty（nginx+lua）</h2><hr>
+<ul>
+<li><a href="openresty-setup.md">安装</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/middle-software/presto/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/middle-software/presto/" class="post-title-link" itemprop="url">presto相关</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:49:46" itemprop="dateCreated datePublished" datetime="2017-05-08T13:49:46+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/middle/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/middle-software/presto/" class="post-meta-item leancloud_visitors" data-flag-title="presto相关" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/middle-software/presto/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/middle-software/presto/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Presto是一个开源的分布式SQL查询引擎，适用于交互式分析查询，数据量支持GB到PB字节。</p>
+<p>Presto支持在线数据查询，包括Hive, Cassandra, 关系数据库以及专有数据存储。 一条Presto查询可以将多个数据源的数据进行合并，可以跨越整个组织进行分析。</p>
+<p>Presto以分析师的需求作为目标，他们期望响应时间小于1秒到几分钟。 Presto终结了数据分析的两难选择，要么使用速度快的昂贵的商业方案，要么使用消耗大量硬件的慢速的“免费”方案。</p>
+<ul>
+<li><a href="https://github.com/prestodb/presto" target="_blank" rel="noopener">源码</a></li>
+<li><a href="http://prestodb-china.com/" target="_blank" rel="noopener">文档</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/page/11/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

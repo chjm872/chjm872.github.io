@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="一、四句敏捷宣言 个体与交互 胜过 过程与工具  可以工作的软件  胜过 面面俱到的文档  客户协作  胜过 合同谈判  响应变化 胜过 遵循计划   二、12条敏捷原则 四句敏捷宣言中讲了敏捷开发的价值观, 从这些价值观中可以引出下面的12条原则， 它们是敏捷实践区别于重型过程的特征所在。 在Agile Software Development － Principles,Patterns,and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="敏捷开发核心思想">
+<meta property="og:url" content="https://www.alan87.top/pm/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="一、四句敏捷宣言 个体与交互 胜过 过程与工具  可以工作的软件  胜过 面面俱到的文档  客户协作  胜过 合同谈判  响应变化 胜过 遵循计划   二、12条敏捷原则 四句敏捷宣言中讲了敏捷开发的价值观, 从这些价值观中可以引出下面的12条原则， 它们是敏捷实践区别于重型过程的特征所在。 在Agile Software Development － Principles,Patterns,and">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-14T09:10:21.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.881Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="敏捷开发核心思想">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/pm/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>敏捷开发核心思想 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/pm/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          敏捷开发核心思想
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-14 17:10:21" itemprop="dateCreated datePublished" datetime="2018-07-14T17:10:21+08:00">2018-07-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index"><span itemprop="name">项目管理</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/pm/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/" class="post-meta-item leancloud_visitors" data-flag-title="敏捷开发核心思想" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/pm/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/pm/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、四句敏捷宣言"><a href="#一、四句敏捷宣言" class="headerlink" title="一、四句敏捷宣言"></a><strong>一、四句敏捷宣言</strong></h2><ol>
+<li><p>个体与交互 胜过 过程与工具</p>
+</li>
+<li><p>可以工作的软件  胜过 面面俱到的文档</p>
+</li>
+<li><p>客户协作  胜过 合同谈判</p>
+</li>
+<li><p>响应变化 胜过 遵循计划</p>
+</li>
+</ol>
+<h2 id="二、12条敏捷原则"><a href="#二、12条敏捷原则" class="headerlink" title="二、12条敏捷原则"></a><strong>二、12条敏捷原则</strong></h2><p> 四句敏捷宣言中讲了敏捷开发的价值观, 从这些价值观中可以引出下面的12条原则， 它们是敏捷实践区别于重型过程的特征所在。<br> 在Agile Software Development － Principles,Patterns,and Practices（中文书名： 敏捷软件开发－原则、模式与实践）中对这12条原则分别进行了阐述。</p>
+<h2 id="1-我们最优先要做的是通过尽早的、持续的交付有价值的软件来使客户满意。"><a href="#1-我们最优先要做的是通过尽早的、持续的交付有价值的软件来使客户满意。" class="headerlink" title="1. 我们最优先要做的是通过尽早的、持续的交付有价值的软件来使客户满意。"></a><strong>1. 我们最优先要做的是通过尽早的、持续的交付有价值的软件来使客户满意。</strong></h2><p>规划迭代故事时必须按照优先级安排，为客户先提供最有价值的功能。通过频繁迭代能与客户形成早期的良好合作，及时反馈提高产品质量。敏捷小组关注完成和交 付具有用户价值的功能，而不是孤立的任务。以前我们都用需求规格说明书或者用例来编写详细的需求，敏捷使用用户故事来罗列需求。用户故事是一种表示需求的 轻量级技术，它没有</p>
+<p>固定的形式和强制性的语法。但是有一些固定的形式可以用来参考还是比较有益的。敏捷估算中使用了这个模板：&ldquo;作为【用户的类型】，我希 望可以【能力】以便【业务价值】&ldquo;。使用基于用户故事的需求分析方法时，仍可能需要原型和编写文档，只是工作重点更多的转移到了口头交流。</p>
+<h2 id="2-即使到了开发的后期，也欢迎改变需求。敏捷过程利用变化来为客户创造竞争优势。"><a href="#2-即使到了开发的后期，也欢迎改变需求。敏捷过程利用变化来为客户创造竞争优势。" class="headerlink" title="2. 即使到了开发的后期，也欢迎改变需求。敏捷过程利用变化来为客户创造竞争优势。"></a><strong>2. 即使到了开发的后期，也欢迎改变需求。敏捷过程利用变化来为客户创造竞争优势。</strong></h2><p>敏捷过程参与者不怕变化，他们认为改变需求是好事情，因为这些改变意味着我们更了解市场需求。 </p>
+<h2 id="3-经常性的交付可以工作的软件，交付的间隔可以从几周到几个月，交付的时间间隔越短越好"><a href="#3-经常性的交付可以工作的软件，交付的间隔可以从几周到几个月，交付的时间间隔越短越好" class="headerlink" title="*3. 经常性的交付可以工作的软件，交付的间隔可以从几周到几个月，交付的时间间隔越短越好. *"></a>*<em>3. 经常性的交付可以工作的软件，交付的间隔可以从几周到几个月，交付的时间间隔越短越好. *</em></h2><p>迭代是受实践框限制的，意味着即使放弃一些功能也必须按时结束迭代。只要我们可以保证交付的软件可以很好的工作，那么交付时间越短，我们和客户协作就越 紧密，对产品质量就更有益。虽然我们多次迭代，但并不是每次迭代的结果都需要交付给用户，敏捷开发的目标是让他们可以交付。这意味着开发小组在每次迭代中 都会增加一些功能，增加的每个功能都是经过编码、测试，达到了可发布的质量标准的。　　</p>
+<p>另外敏捷开发项目中对开发阶段没有什么重要的分割，没有先期的需求阶段，然后是分析阶段，架构设计阶段，编码测试阶段等，在项目真正开始后，每次迭代中都会同时进行所有的上述阶段工作。</p>
+<h2 id="4-在整个项目开发期间，业务人员和开发人员必须天天都在一起工作。"><a href="#4-在整个项目开发期间，业务人员和开发人员必须天天都在一起工作。" class="headerlink" title="4. 在整个项目开发期间，业务人员和开发人员必须天天都在一起工作。"></a><strong>4. 在整个项目开发期间，业务人员和开发人员必须天天都在一起工作。</strong></h2><p>软件项目不会依照之前设定的计划原路执行，中间对业务的理解、软件的解决方案肯定会存在偏差，所以客户、需求人员、开发人员以及涉众之间必须进行有意义的、频繁的交互，这样就可以在早期及时的发现并解决问题。</p>
+<h2 id="5-围绕被激励起来的人个来构建项目。给他们提供所需要的环境和支持，并且信任他们能够完成工作。"><a href="#5-围绕被激励起来的人个来构建项目。给他们提供所需要的环境和支持，并且信任他们能够完成工作。" class="headerlink" title="5. 围绕被激励起来的人个来构建项目。给他们提供所需要的环境和支持，并且信任他们能够完成工作。"></a><strong>5. 围绕被激励起来的人个来构建项目。给他们提供所需要的环境和支持，并且信任他们能够完成工作。</strong></h2><p>业务和技术是引起不确定的二个主要方面，人是第三个方面。而业务和技术又必须由人来执行，所以能够激励人来解决这些问题是解决不确定性的关键。只要个人的目标和团队的目标一致，我们就需要鼓舞起每个人的积极性，以个人为中心构建项目，提供所需的环境、支持与信任。 </p>
+<h2 id="6-在团队内部，最具有效果并且富有效率的传递信息的方法，就是面对面的交谈。"><a href="#6-在团队内部，最具有效果并且富有效率的传递信息的方法，就是面对面的交谈。" class="headerlink" title="6. 在团队内部，最具有效果并且富有效率的传递信息的方法，就是面对面的交谈。"></a><strong>6. 在团队内部，最具有效果并且富有效率的传递信息的方法，就是面对面的交谈。</strong></h2><p>在十几或者二十几个人组成的大团队中，文档是一种比较合适的传递知识和交流的途径。而敏捷团队一般不会很多人（大团队实施敏捷时也会分成多个小的敏捷团队），所以大量的文档交流其实并不是很经济的做法。此时面对面的交谈反而更快速有效。</p>
+<h2 id="7、可工作的软件是首要进度度量标准。"><a href="#7、可工作的软件是首要进度度量标准。" class="headerlink" title="7、可工作的软件是首要进度度量标准。"></a><strong>7、可工作的软件是首要进度度量标准。</strong></h2><p>一般的工作都比较容易衡量任务进展，比如让你去搬运1吨的石头，我只要去称一下你已经搬运的石头重量就知道你完成多少了。而对于软件来说，在软件没有编 码、测试完成之前，我们都不能因为代码编写了多少行，测试用例跑了多少个就去度量这个功能是否完成了。</p>
+<p>衡量这个功能是否完成的首要标准就是这个功能可以工 作了，对用户来说已经可以应用了. </p>
+<h2 id="8-敏捷过程提可持续的开发速度。责任人、开发者和用户应该能够保持一个长期的、恒定的开发速度。"><a href="#8-敏捷过程提可持续的开发速度。责任人、开发者和用户应该能够保持一个长期的、恒定的开发速度。" class="headerlink" title="8. 敏捷过程提可持续的开发速度。责任人、开发者和用户应该能够保持一个长期的、恒定的开发速度。"></a><strong>8. 敏捷过程提可持续的开发速度。责任人、开发者和用户应该能够保持一个长期的、恒定的开发速度。</strong></h2><p>很多人都认为软件开发中加班是很正常的，不加班反而不正常，我对此有点不理解，这个可能是国情所致吧。敏捷过程希望能够可持续的进行开发，开发速度不会 随着迭代的任务不同而不同，不欣赏所谓的拼一拼也能完成的态度，开发工作不应该是突击行为。</p>
+<p>我们不能指望说突击这个项目后就可以轻松了，因为完成一个项目 后会接踵而来下一个项目，而只要还是拼拼的态度，下一个项目依旧会让你的组员再次突击。这时不知道有人会不会说，那我们就一直加班，也是&ldquo;持续的开发速 度&rdquo;啊，这时可要注意了，持续加班智慧导致人疲劳、厌倦，保持长期恒定的速度也只是一种理想而已。</p>
+<h2 id="9-不断地关注优秀的技能和好的设计会增强敏捷能力。"><a href="#9-不断地关注优秀的技能和好的设计会增强敏捷能力。" class="headerlink" title="9. 不断地关注优秀的技能和好的设计会增强敏捷能力。"></a><strong>9. 不断地关注优秀的技能和好的设计会增强敏捷能力。</strong></h2><p>敏捷过程有很多好的技术实践可以加强产品敏捷能力，很多原则、模式和实践也可以增强敏捷开发能力。 《敏捷软件开发－原则、模式与实践》一书中介绍了很多设计，感兴趣的可以去仔细看看。</p>
+<h2 id="10-简单—-使未完成的工作最大化的艺术—-是根本的。"><a href="#10-简单—-使未完成的工作最大化的艺术—-是根本的。" class="headerlink" title="10. 简单—-使未完成的工作最大化的艺术—-是根本的。"></a><strong>10. 简单—-使未完成的工作最大化的艺术—-是根本的。</strong></h2><p>我们不可能预期后面需求会如何变化，所以不可能一开始就构建一个完美的架构来适应以后的所有变化。敏捷团队不会去构建明天的软件，而把注意力放在如何通 过最简单的方法完成现在需要解决的问题。这时有人会说，我已经预计到了肯定存在哪些需求扩展点，我们在一开始是否需要考虑呢？这时团队需要根据自己的理解 去决定是否考虑，如果深信在明天发生了这个问题也可以轻易处理的话，那么就最好先不考虑。</p>
+<h2 id="11-最好的构架、需求和设计出自与自组织的团队。"><a href="#11-最好的构架、需求和设计出自与自组织的团队。" class="headerlink" title="11. 最好的构架、需求和设计出自与自组织的团队。"></a><strong>11. 最好的构架、需求和设计出自与自组织的团队。</strong></h2><p> 敏捷中有很多种实践，大家都知道，迭代式开发是主要的实践方法，而自组织团队也是主要的实践之一。在自组织团队中，管理者不再发号施令，而是让团队自身寻找最佳的工作方式来完成工作。要形成一个自组织团队其实比较难。CSDN采访Mishkin Berteig中说到 自组织团队的第一个要素就是必须有一个团队，而不仅仅是一群人。一群人是一帮在一起工作的人，他们彼此之间并没有太多的沟通，他们也并不视彼此为一体。</p>
+<p> 项目一开始，我们就会组建&ldquo;团队&rdquo;，但很多时候由构架师、需求人员、开发人员和测试人员组成的是一群人而已。他还认为，团队的形成必须经历几个时期。在 经历了初期的磨合后，成员才会开始对团队共同的工作理念与文化形成一个基本的认识和理解。团队内会逐渐形成规矩，而且这些规矩是不言而喻的。比如，每个人 都知道上午九点来上班，都会主动询问别人是否需要帮助，也都会去主动和别人探讨问题。</p>
+<p> 如果团队成员之间能够达成这样的默契，那么这个团队将成为一个真正高 效的工作团队。在这样团队中，成员之间相互理解，工作效率非常高。在自组织团队中，团队成员不需要遵从别人的详细指令。他们需要更高层次的指导，这种指 导更像是一个目标，一个致力于开发出更好的软件的目标。总之，自组织团队是一个自动自发、有着共同目标和工作文化的团队，这样的团队总是在向它的组织做出 承诺。但是，实现这些承诺对于自组织团队来说非常重要。否则，一旦出现问题，团队成员之间就会出现信任危机。</p>
+<p>虽然敏捷开发小组是以小组为整体 来工作的，但是还是有必要指明一些承担一定任务的角色。第一个角色是产品所有者（Product Owner）。产品所有者的主要职责包括：确认小组所有成员都在追求一个共同的项目前景，确定功能的优先级以便总是在处理最具有价值的功能，以及作出决定 使得对项目的投入可以产生良好的回报。可以对应为以前开发中的&ldquo;产品经理&rdquo;。另一角色是开发团队（developer），这里的开发人员包括了架构师、设计师、程序员、需求人员、测试人员、文档编写者等，有时产品所有者也可以被看作是</p>
+<p>开发人员。还有一个重要角色就是项目经理（project manager）。敏捷开发的项目经理会更多的关注领导而不是管理。在某些项目中，项目经理可能同时也是开发人员，少数时候也会担任产品所有者。　
+　</p>
+<h2 id="12-每隔一定时间，团队会在如何才能更有效地工作方面进行反省，然后相应地对自己的行为进行调整。"><a href="#12-每隔一定时间，团队会在如何才能更有效地工作方面进行反省，然后相应地对自己的行为进行调整。" class="headerlink" title="12. 每隔一定时间，团队会在如何才能更有效地工作方面进行反省，然后相应地对自己的行为进行调整。"></a><strong>12. 每隔一定时间，团队会在如何才能更有效地工作方面进行反省，然后相应地对自己的行为进行调整。</strong></h2><p>　　由于很多不确定性因素会导致计划失效，比如项目成员增减、技术应用效果、用户需求的改变、竞争者对我们的影响等都会让我们作出不同的反应。　敏捷不是基于预定义的工作方式，而是基于经验性的方式，对以上这些变化，小组通过不断的反省调整来保持团队的敏捷性。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/pm/" rel="tag"><i class="fa fa-tag"></i> 项目管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web/NGINX%E9%85%8D%E7%BD%AE-nginx-location-proxy_pass/" rel="prev" title="NGINX配置——nginx location proxy_pass 后面的url 加/与不加/的区别">
+      <i class="fa fa-chevron-left"></i> NGINX配置——nginx location proxy_pass 后面的url 加/与不加/的区别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/spring/spring-aop%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2%E5%8E%9F%E7%90%86/" rel="next" title="Spring aop面向切面原理，用处和实力讲解">
+      Spring aop面向切面原理，用处和实力讲解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、四句敏捷宣言"><span class="nav-text">一、四句敏捷宣言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、12条敏捷原则"><span class="nav-text">二、12条敏捷原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-我们最优先要做的是通过尽早的、持续的交付有价值的软件来使客户满意。"><span class="nav-text">1. 我们最优先要做的是通过尽早的、持续的交付有价值的软件来使客户满意。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-即使到了开发的后期，也欢迎改变需求。敏捷过程利用变化来为客户创造竞争优势。"><span class="nav-text">2. 即使到了开发的后期，也欢迎改变需求。敏捷过程利用变化来为客户创造竞争优势。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-经常性的交付可以工作的软件，交付的间隔可以从几周到几个月，交付的时间间隔越短越好"><span class="nav-text">*3. 经常性的交付可以工作的软件，交付的间隔可以从几周到几个月，交付的时间间隔越短越好. *</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-在整个项目开发期间，业务人员和开发人员必须天天都在一起工作。"><span class="nav-text">4. 在整个项目开发期间，业务人员和开发人员必须天天都在一起工作。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-围绕被激励起来的人个来构建项目。给他们提供所需要的环境和支持，并且信任他们能够完成工作。"><span class="nav-text">5. 围绕被激励起来的人个来构建项目。给他们提供所需要的环境和支持，并且信任他们能够完成工作。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-在团队内部，最具有效果并且富有效率的传递信息的方法，就是面对面的交谈。"><span class="nav-text">6. 在团队内部，最具有效果并且富有效率的传递信息的方法，就是面对面的交谈。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、可工作的软件是首要进度度量标准。"><span class="nav-text">7、可工作的软件是首要进度度量标准。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-敏捷过程提可持续的开发速度。责任人、开发者和用户应该能够保持一个长期的、恒定的开发速度。"><span class="nav-text">8. 敏捷过程提可持续的开发速度。责任人、开发者和用户应该能够保持一个长期的、恒定的开发速度。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-不断地关注优秀的技能和好的设计会增强敏捷能力。"><span class="nav-text">9. 不断地关注优秀的技能和好的设计会增强敏捷能力。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-简单—-使未完成的工作最大化的艺术—-是根本的。"><span class="nav-text">10. 简单—-使未完成的工作最大化的艺术—-是根本的。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-最好的构架、需求和设计出自与自组织的团队。"><span class="nav-text">11. 最好的构架、需求和设计出自与自组织的团队。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-每隔一定时间，团队会在如何才能更有效地工作方面进行反省，然后相应地对自己的行为进行调整。"><span class="nav-text">12. 每隔一定时间，团队会在如何才能更有效地工作方面进行反省，然后相应地对自己的行为进行调整。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/pm/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="Mysql主从原理基本介绍MySQL 内建的复制功能是构建大型，高性能应用程序的基础。将 MySQL 的数亿数据分布到到多个系统上去，这种分步机制，是通过将 MySQL 的某一台主机的数据复制到其它主机( Slave )上，并重新执行一遍来实现的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL主从详解与实践">
+<meta property="og:url" content="https://www.alan87.top/db/mysql-master-slave/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="Mysql主从原理基本介绍MySQL 内建的复制功能是构建大型，高性能应用程序的基础。将 MySQL 的数亿数据分布到到多个系统上去，这种分步机制，是通过将 MySQL 的某一台主机的数据复制到其它主机( Slave )上，并重新执行一遍来实现的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3779862913,258598645&fm=15&gp=0.jpg">
+<meta property="article:published_time" content="2014-05-03T00:19:16.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.774Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3779862913,258598645&fm=15&gp=0.jpg">
+
+<link rel="canonical" href="https://www.alan87.top/db/mysql-master-slave/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MySQL主从详解与实践 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/mysql-master-slave/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL主从详解与实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-05-03 08:19:16" itemprop="dateCreated datePublished" datetime="2014-05-03T08:19:16+08:00">2014-05-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/mysql-master-slave/" class="post-meta-item leancloud_visitors" data-flag-title="MySQL主从详解与实践" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/mysql-master-slave/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/mysql-master-slave/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Mysql主从原理"><a href="#Mysql主从原理" class="headerlink" title="Mysql主从原理"></a>Mysql主从原理</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><p>MySQL 内建的复制功能是构建大型，高性能应用程序的基础。将 MySQL 的数亿数据分布到到多个系统上去，这种分步机制，是通过将 MySQL 的某一台主机的数据复制到其它主机( Slave )上，并重新执行一遍来实现的。<a id="more"></a><br>复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。主服务器将更新写入二进制日志，并维护文件的一个索引以跟踪日志循环。这些日志可以记录发送到从服务器的更新。当一个从服务器连接主服务器时，它通知主服务器从服务器在日志中读取的最后一次成功更新的位置，从服务器接收从那时起发生的任何更新，然后封锁等等主服务器通知新的更新。</p>
+<div class="note warning">
+            <p>请注意当你进行复制时，所有对复制中的表的更新必须在主服务器上进行。以避免用户对主服务器上表进行的更新与对从服务器上的表进行的更新 之间的冲突。</p>
+          </div>
+
+<h2 id="MySQL支持的复制类型"><a href="#MySQL支持的复制类型" class="headerlink" title="MySQL支持的复制类型"></a>MySQL支持的复制类型</h2><ul>
+<li>基于语句的复制。 在主服务器上执行的 SQL 语句，在从服务器上执行同样的语句。配置：<br>注释内容<br><code>binlog_format = STATEMENT</code></li>
+<li>基于行的复制。把改变的内容复制过去，而不是把命令在从服务器上执行一遍，从 MySQL 5.0开始支持，配置：<br><code>binlog_format = ROW</code></li>
+<li>混合类型的复制。默认采用基于语句的复制，一旦发现基于语句的无法精确的复制时，就会采用基于行的复制,配置：<br><code>binlog_format = MIXED</code></li>
+</ul>
+<h2 id="Mysql同步解决的问题"><a href="#Mysql同步解决的问题" class="headerlink" title="Mysql同步解决的问题"></a>Mysql同步解决的问题</h2><ul>
+<li>数据分布</li>
+<li>负载平衡</li>
+<li>备份</li>
+<li>高可用性和容错行</li>
+</ul>
+<h2 id="同步是如何工作的"><a href="#同步是如何工作的" class="headerlink" title="同步是如何工作的"></a>同步是如何工作的</h2><p>MySQL之间数据同步的基础是二进制日志文件（binary log file）。<br>一台MySQL数据库一旦启用二进制日志后，其作为master，它的数据库中所有操作都会以 事件 的方式记录在二进制日志中，<br>其他数据库作为slave通过一个I/O线程与主服务器保持通信，并监控master的二进制日志文件的变化，如果发现master二进制日志文件发生变化，则会把变化同步到自己的中继日志中，<br>然后slave的一个SQL线程会把相关的“事件”执行到自己的数据库中，以此实现从数据库和主数据库的一致性，也就实现了主从同步。</p>
+<p>可以简化为三个步骤：</p>
+<ol>
+<li>Master 将改变记录到二进制日志中。</li>
+<li>Slave 将 Master 的二进制日志拷贝到它的中继日志( Relay_log )</li>
+<li>Slave 重做中继日志中的事件，将改变反映它自己的数据<br><img data-src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3779862913,258598645&fm=15&gp=0.jpg" alt=""></li>
+</ol>
+<p>说明:</p>
+<div class="note primary">
+            <ol><li>Master 记录二进制的日志。在每个事务更新数据之前，Master 在二进制日志记录这些改变。 MySQL 将事务日志的写入二进制日志，及时事务中的语句都市交叉执行的。在事件写入二进制日志完成后，Master 通知存储引擎提交事务。</li><li>Slave 将 Master 的 Binary log 拷贝到它自己的中继日志。首先 Slave 开始一个工作线程–I/O线程。I/O 线程在 Master 上打开一个连接，然后开始从二进制日志中读取事件，如果已经连上 Master，它会并等待master产生新的事件。I/O线程就这些事件写入中继日志。</li><li>SQL Slave Thread ( SQL从线程)处理该过程的最后一步。SQL纯种从中继日志读取事件，并重放其中的事件而更新 Slave 的数据。使其它与 Master 中的数据保持一致。只要该线程与 I/O 线程保持一致，中继日志通常会位于 OS 的缓存中，所以中继日志的开销很小。</li><li>此处，在 Master 中也有一个工作线程，和其他 MySQL 的连接一样，Slave 在 Master 中打开一个连接也会使得 Master 开始一个线程。复制过程有一个很重要的限制—复制在 Slave 上是串行化的，也就是说 Master 上的并行更新操作不能在 Slave 上并行操作。</li></ol>
+          </div>
+
+<h2 id="同步实现细节分析"><a href="#同步实现细节分析" class="headerlink" title="同步实现细节分析"></a>同步实现细节分析</h2><p>MySQL主从同步功能使用三个线程实现，一个在主服务器上，两个在从服务器上</p>
+<h3 id="1-Binlog转储线程。"><a href="#1-Binlog转储线程。" class="headerlink" title="(1)Binlog转储线程。"></a>(1)Binlog转储线程。</h3><p>当从服务器与主服务器连接时，主服务器会创建一个线程将二进制日志内容发送到从服务器。<br>该线程可以使用 语句 SHOW PROCESSLIST(下面有示例介绍) 在服务器 sql 控制台输出中标识为Binlog Dump线程。</p>
+<p>二进制日志转储线程获取服务器上二进制日志上的锁，用于读取要发送到从服务器的每个事件。一旦事件被读取，即使在将事件发送到从服务器之前，锁会被释放。</p>
+<h3 id="2-从服务器I-O线程。"><a href="#2-从服务器I-O线程。" class="headerlink" title="(2)从服务器I/O线程。"></a>(2)从服务器I/O线程。</h3><p>当在从服务器sql 控制台发出 START SLAVE语句时，从服务器将创建一个I/O线程，该线程连接到主服务器，并要求它发送记录在主服务器上的二进制更新日志。</p>
+<p>从机I/O线程读取主服务器Binlog Dump线程发送的更新 （参考上面 Binlog转储线程 介绍），并将它们复制到自己的本地文件二进制日志中。</p>
+<p>该线程的状态显示详情 Slave_IO_running 在输出端 使用 命令SHOW SLAVE STATUS</p>
+<p>使用\G语句终结符,而不是分号,是为了，易读的垂直布局</p>
+<p>这个命令在上面 查看从服务器状态 用到过</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW SLAVE STATUS\G</span><br></pre></td></tr></table></figure>
+<h3 id="3-从服务器SQL线程。"><a href="#3-从服务器SQL线程。" class="headerlink" title="(3)从服务器SQL线程。"></a>(3)从服务器SQL线程。</h3><p>从服务器创建一条SQL线程来读取由主服务器I/O线程写入的二级制日志，并执行其中包含的事件。</p>
+<p>在前面的描述中，每个主/从连接有三个线程。主服务器为每个当前连接的从服务器创建一个二进制日志转储线程，每个从服务器都有自己的I/O和SQL线程。<br>从服务器使用两个线程将读取更新与主服务器更新事件，并将其执行为独立任务。因此，如果语句执行缓慢，则读取语句的任务不会减慢。</p>
+<p>例如，如果从服务器开始几分钟没有运行，或者即使SQL线程远远落后，它的I/O线程也可以从主服务器建立连接时，快速获取所有二进制日志内容。</p>
+<p>如果从服务器在SQL线程执行所有获取的语句之前停止，则I/O线程至少获取已经读取到的内容，以便将语句的安全副本存储在自己的二级制日志文件中，准备下次执行主从服务器建立连接，继续同步。</p>
+<p>使用命令 SHOW FULL PROCESSLIST\G 可以查看有关复制的信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;  SHOW FULL PROCESSLIST\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">     Id: 22</span><br><span class="line">   User: repl</span><br><span class="line">   Host: node:39114</span><br><span class="line">     db: NULL</span><br><span class="line">Command: Binlog Dump</span><br><span class="line">   Time: 4435</span><br><span class="line">  State: Master has sent all binlog to slave; waiting for more updates</span><br><span class="line">   Info: NULL</span><br></pre></td></tr></table></figure>
+<p>Id: 22是Binlog Dump服务连接的从站的复制线程<br>Host: node:39114 是从服务，主机名 及端口<br>State: 信息表示所有更新都已同步发送到从服务器，并且主服务器正在等待更多更新发生。<br>如果Binlog Dump在主服务器上看不到 线程，意味着主从复制没有配置成功; 也就是说，没有从服务器连接主服务器。</p>
+<p>命令 SHOW PROCESSLIST\G</p>
+<p>在 Slave 从服务器 ，查看两个线程的更新状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW PROCESSLIST\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">     Id: 6</span><br><span class="line">   User: system user</span><br><span class="line">   Host: </span><br><span class="line">     db: NULL</span><br><span class="line">Command: Connect</span><br><span class="line">   Time: 6810</span><br><span class="line">  State: Waiting for master to send event</span><br><span class="line">   Info: NULL</span><br><span class="line">*************************** 2. row ***************************</span><br><span class="line">     Id: 7</span><br><span class="line">   User: system user</span><br><span class="line">   Host: </span><br><span class="line">     db: NULL</span><br><span class="line">Command: Connect</span><br><span class="line">   Time: 3069</span><br><span class="line">  State: Slave has read all relay log; waiting for more updates</span><br><span class="line">   Info: NULL</span><br></pre></td></tr></table></figure>
+<p>Id: 6是与主服务器通信的I/O线程<br>Id: 7是正在处理存储在中继日志中的更新的SQL线程</p>
+<p>在 运行 SHOW PROCESSLIST 命令时，两个线程都空闲，等待进一步更新</p>
+<p>如果在主服务器上在设置的超时，时间内 Binlog Dump线程没有活动，则主服务器会和从服务器断开连接。超时取决于的 服务器系统变量 值 net_write_timeout(在中止写入之前等待块写入连接的秒数，默认10秒)和 net_retry_count;(如果通信端口上的读取或写入中断，请在重试次数，默认10次) 设置 服务器系统变量</p>
+<p>该SHOW SLAVE STATUS语句提供了有关从服务器上复制处理的附加信息。</p>
+<h2 id="同步常用类型"><a href="#同步常用类型" class="headerlink" title="同步常用类型"></a>同步常用类型</h2><h3 id="同步的常用体系结构基本原则"><a href="#同步的常用体系结构基本原则" class="headerlink" title="同步的常用体系结构基本原则"></a>同步的常用体系结构基本原则</h3><ol>
+<li>每个 Slave 只能有一个 Master；</li>
+<li>每个 Slave 只能有一个唯一的服务器ID；</li>
+<li>每个 Master 可以有很多 Slave;</li>
+</ol>
+<p>如果你设置了 log_slave_updates，Slave 可以是其他 Slave 的 Master，从而扩散 Master 的更新<br>MySQL 不支持多主服务器复制—即一个 Slave 可以有多个 Master，但是，通过一些简单的组合，我们却可以建立灵活而强大的复制体系结构。</p>
+<div class="tabs" id="master-slave-types"><ul class="nav-tabs"><li class="tab active"><a href="#master-slave-types-1"><i class="fa fa-reorder"></i>一主多从复制架构</a></li><li class="tab"><a href="#master-slave-types-2"><i class="fa fa-reorder"></i>多级复制架构</a></li><li class="tab"><a href="#master-slave-types-3"><i class="fa fa-reorder"></i>双主复制/Dual Master架构</a></li></ul><div class="tab-content"><div class="tab-pane active" id="master-slave-types-1"><h3 id="一主多从复制架构"><a href="#一主多从复制架构" class="headerlink" title="一主多从复制架构"></a>一主多从复制架构</h3><p>场景：<br>在主库读取请求压力非常大的场景下，可以通过配置一主多从复制架构实现读写分离，把大量对实时性要求不是特别高的读请求通过负载均衡到多个从库上，降低主库的读取压力。在主库出现异常宕机的情况下，可以把一个从库切换为主库继续提供服务；</p>
+<p>建议：</p>
+<ol>
+<li>当 Slave 增加到一定数量时，Slave 对 Master 的负载以及网络带宽都会成为一个严重的问题。</li>
+<li>不同的 Slave 扮演不同的作用(例如使用不同的索引，或者不同的存储引擎)</li>
+<li>用一个 Slave 作为备用 Master，只进行复制</li>
+<li>用一个远程的 Slave，用于灾难恢复。</li>
+</ol></div><div class="tab-pane" id="master-slave-types-2"><h3 id="多级复制架构"><a href="#多级复制架构" class="headerlink" title="多级复制架构"></a>多级复制架构</h3><p>场景：<br>一主多从的架构能够解决大部分读请求压力特别大的场景需求，但主库的I/O压力和网络压力会随着从库的增加而增长，而使用多级复制架构就可以解决一主多从场景下，主库额外的I/O和网络压力。 但要注意的是，多级复制场景下主库的数据是经历两次才到达读取的从库，期间的延时比一主多从复制场景下只经历一次复制的要大。</p>
+<p>建议：</p>
+<ol>
+<li>可能存在延时较长的风险</li>
+<li>这种方案可以与第三方软件结合使用，例如Slave+LVS+Keepalived 实现高可用。</li>
+</ol></div><div class="tab-pane" id="master-slave-types-3"><h3 id="双主复制-Dual-Master架构"><a href="#双主复制-Dual-Master架构" class="headerlink" title="双主复制/Dual Master架构"></a>双主复制/Dual Master架构</h3><p>场景：<br>双主/Dual Master架构适用于写压力比较大的场景，或者DBA做维护需要主从切换的场景，通过双主/Dual master架构避免了重复搭建从库的麻烦。</p>
+<p>建议：</p>
+<ol>
+<li>最大问题就是更新冲突。</li>
+<li>可以采用MySQL Cluster，以及将Cluster和Replication结合起来，可以建立强大的高性能的数据库平台。</li>
+</ol></div></div></div>
+
+<h1 id="mysql主从配置实践"><a href="#mysql主从配置实践" class="headerlink" title="mysql主从配置实践"></a>mysql主从配置实践</h1><h2 id="实现MySQL主从复制需要进行的配置："><a href="#实现MySQL主从复制需要进行的配置：" class="headerlink" title="实现MySQL主从复制需要进行的配置："></a>实现MySQL主从复制需要进行的配置：</h2><p>主服务器：</p>
+<ul>
+<li>开启二进制日志</li>
+<li>配置唯一的server-id</li>
+<li>获得master二进制日志文件名及位置</li>
+<li>创建一个用于slave和master通信的用户账号</li>
+</ul>
+<p>从服务器：</p>
+<ul>
+<li>配置唯一的server-id</li>
+<li>使用master分配的用户账号读取master二进制日志</li>
+<li>启用slave服务</li>
+</ul>
+<p>具体实现过程如下：</p>
+<h2 id="基础环境配置"><a href="#基础环境配置" class="headerlink" title="基础环境配置"></a>基础环境配置</h2><p>数据库版本： mysql 5.5.71 ( Slave 版本可以大于或者等于 Master版本)<br>操作系统： CentOS 6.7 x86_64<br>IP地址：192.168.18.10 ( Master ) 192.168.18.20 ( Slave )</p>
+<h2 id="Master-Server配置"><a href="#Master-Server配置" class="headerlink" title="Master-Server配置"></a>Master-Server配置</h2><h3 id="1-修改Master-mysql配置"><a href="#1-修改Master-mysql配置" class="headerlink" title="(1)修改Master mysql配置"></a>(1)修改Master mysql配置</h3><p>找到主数据库的配置文件my.cnf(或者my.ini)，如在/etc/mysql/my.cnf,在[mysqld]部分插入如下两行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="built_in">log</span>-bin=mysql-bin <span class="comment">#开启二进制日志</span></span><br><span class="line">server-id=1 <span class="comment">#设置server-id</span></span><br></pre></td></tr></table></figure>
+<p>重启MySQL服务<br><code>$ service mysqld restart</code></p>
+<h3 id="2-创建用于同步的用户账号-复制帐号"><a href="#2-创建用于同步的用户账号-复制帐号" class="headerlink" title="(2)创建用于同步的用户账号(复制帐号)"></a>(2)创建用于同步的用户账号(复制帐号)</h3><p>在主服务器上为从服务器分配一个账号，就像一把钥匙，从服务器拿着这个钥匙，才能到主服务器上来共享主服务器的日志文件。</p>
+<p>在 Master 的数据库中建立一个复制账户，每个 Slave 使用该账户连接 Master 进行复制，需要 replication slave 和 replication client 权限，Master 的连接信息会存储在文本文件 master.info 文件中。(master.info文件在 Slave 的数据目录中)</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;grant replication slave on *.* to 'replication'@'192.168.18.20' identified by '123456';#创建用户和分配权限</span><br><span class="line">mysql&gt;flush privileges;#刷新权限</span><br></pre></td></tr></table></figure>
+<div class="note warning">
+            <p>说明：创建了一个用户名为 replication 的用户，密码为 123456 ,只允许在 192.168.18.20 这个 Slave 上登录。</p>
+          </div>
+
+<h3 id="3-查询master的状态"><a href="#3-查询master的状态" class="headerlink" title="(3)查询master的状态"></a>(3)查询master的状态</h3><p>查看 File(日志文件名) 和 Postition(日志地址)，下面配置 Slave 的时候需要用。执行完之后记录下这两值，然后在配置完从服务器之前不要对主服务器进行任何操作，因为每次操作数据库时这两值会发生改变</p>
+<p><code>mysql&gt;show master status;</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">File</th>
+<th align="left">Position</th>
+<th align="left">Binlog_Do_DB</th>
+<th align="left">Binlog_Ignore_DB</th>
+<th align="left">Executed_Gtid_Set</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">db01-bin.000002</td>
+<td align="left">1169678</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p>注：执行完这个步骤后不要再操作主数据库了，防止主数据库状态值变化</p>
+<h2 id="Slave-Server-配置"><a href="#Slave-Server-配置" class="headerlink" title="Slave-Server 配置"></a>Slave-Server 配置</h2><h3 id="1-修改mysql配置"><a href="#1-修改mysql配置" class="headerlink" title="(1)修改mysql配置"></a>(1)修改mysql配置</h3><p>关闭slave（如果你以前配置过主从的话，一定要先关闭）<br>命令：stop slave;</p>
+<p>找到从数据库的配置文件my.cnf(或者my.ini)，如/etc/mysql/my.cnf,在[mysqld]部分插入如下两行：<br>（Master-Server和Slave-Server 的server-id必须不一样）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">log-bin=mysql-bin <span class="comment">#开启二进制日志</span></span><br><span class="line">server-id=2 <span class="comment">#设置server-id</span></span><br></pre></td></tr></table></figure>
+<p>重启MySQL服务<br><code>$ service mysqld restart</code></p>
+<h3 id="2-执行同步命令"><a href="#2-执行同步命令" class="headerlink" title="(2)执行同步命令"></a>(2)执行同步命令</h3><p>执行同步命令，设置主数据库ip，同步帐号密码，同步位置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CHANGE MASTER TO</span><br><span class="line">    -&gt;     MASTER_HOST='192.168.18.10',</span><br><span class="line">    -&gt;     MASTER_USER='replication',</span><br><span class="line">    -&gt;     MASTER_PASSWORD='123456',</span><br><span class="line">    -&gt;     MASTER_LOG_FILE='mysql-bin.000002',</span><br><span class="line">    -&gt;     MASTER_LOG_POS=1169678;</span><br></pre></td></tr></table></figure>
+<p>选项：</p>
+<ul>
+<li>master_host：Master 服务器IP</li>
+<li>master_user：Master 服务器授权用户，也就是 Master 前面创建的那个用户</li>
+<li>master_password：Master 服务器授权用户对应的密码</li>
+<li>master_log_file：Master binlog 文件名</li>
+<li>master_log_pos：Master binlog 文件中的 Postion 值</li>
+</ul>
+<p>更多的选项可以看:<a href="http://dev.mysql.com/doc/refman/5.7/en/change-master-to.html" target="_blank" rel="noopener">http://dev.mysql.com/doc/refman/5.7/en/change-master-to.html</a></p>
+<div class="note warning">
+            <p>说明：使用刚刚在 Master 创建的用户连接，log_file 和 log_pos 就是使用刚刚在 Master 上执行 show master status; 执行出来的结果</p>
+          </div>
+
+<h3 id="3-启动slave同步进程："><a href="#3-启动slave同步进程：" class="headerlink" title="(3)启动slave同步进程："></a>(3)启动slave同步进程：</h3><p><code>mysql&gt;start slave;</code></p>
+<h3 id="4-查看slave状态："><a href="#4-查看slave状态：" class="headerlink" title="(4)查看slave状态："></a>(4)查看slave状态：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status\G;</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">                Slave_IO_State: Waiting for master to send event</span><br><span class="line">                  Master_Host: 192.168.18.10</span><br><span class="line">                  Master_User: replication</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: mysql-bin.000013</span><br><span class="line">          Read_Master_Log_Pos: 11662</span><br><span class="line">                Relay_Log_File: mysqld-relay-bin.000022</span><br><span class="line">                Relay_Log_Pos: 11765</span><br><span class="line">        Relay_Master_Log_File: mysql-bin.000013</span><br><span class="line">              Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">              Replicate_Do_DB: </span><br><span class="line">          Replicate_Ignore_DB: </span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+
+<p>当Slave_IO_Running和Slave_SQL_Running都为YES的时候就表示主从同步设置成功了。接下来就可以进行一些验证了，比如在主master数据库的test数据库的一张表中插入一条数据，在slave的test库的相同数据表中查看是否有新增的数据即可验证主从复制功能是否有效，还可以关闭slave（mysql&gt;stop slave;）,然后再修改master，看slave是否也相应修改（停止slave后，master的修改不会同步到slave），就可以完成主从复制功能的验证了。</p>
+<p>还可以用到的其他相关参数：</p>
+<p>master开启二进制日志后默认记录所有库所有表的操作，可以通过配置来指定只记录指定的数据库甚至指定的表的操作，具体请看下节</p>
+<h2 id="其他可能用到的相关参数"><a href="#其他可能用到的相关参数" class="headerlink" title="其他可能用到的相关参数"></a>其他可能用到的相关参数</h2><p>master端：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不同步哪些数据库  </span></span><br><span class="line">binlog-ignore-db = mysql  </span><br><span class="line">binlog-ignore-db = test  </span><br><span class="line">binlog-ignore-db = information_schema  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 只同步哪些数据库，除此之外，其他不同步  </span></span><br><span class="line">binlog-<span class="keyword">do</span>-db = game  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志保留时间  </span></span><br><span class="line">expire_logs_days = <span class="number">10</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 控制binlog的写入频率。每执行多少次事务写入一次  </span></span><br><span class="line"><span class="comment"># 这个参数性能消耗很大，但可减小MySQL崩溃造成的损失  </span></span><br><span class="line">sync_binlog = <span class="number">5</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志格式，建议mixed  </span></span><br><span class="line"><span class="comment"># statement 保存SQL语句  </span></span><br><span class="line"><span class="comment"># row 保存影响记录数据  </span></span><br><span class="line"><span class="comment"># mixed 前面两种的结合  </span></span><br><span class="line">binlog_format = mixed</span><br></pre></td></tr></table></figure>
+<p>slave端：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 停止主从同步  </span></span><br><span class="line">mysql&gt; stop slave;  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接断开时，重新连接超时时间  </span></span><br><span class="line">mysql&gt; change master to master_connect_retry=50;  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启主从同步  </span></span><br><span class="line">mysql&gt; start slave;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>在 Master 数据库中执行sql语句操作，观察 Slave 是否同步，如果同步则说明配置成功。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>主库和从库的数据库名必须相同；</li>
+<li>主库和从库的复制可以精确到表，但是在需要更改主库或从库的数据结构时需要立刻重启slave；</li>
+<li>不能在mysql配置文件里直接写入master的配置信息，需要用change master命令来完成；</li>
+<li>指定replicate_do_db必须在my.cnf里配置，不能用change master命令来完成；</li>
+<li>如果不及时清理，日积月累二进制日志文件可能会把磁盘空间占满，可以在配置文件里加上expire_logs_days=7，只保留最近7天的日志，建议当slave不再使用时，通过reset slave来取消relaylog；</li>
+<li>写一个监控脚本，用来监控 Slave 中的两个”yes”，如果只有一个”yes”或者零个，就表明主从有问题。</li>
+</ol>
+<h1 id="MySQL-主从错误处理"><a href="#MySQL-主从错误处理" class="headerlink" title="MySQL 主从错误处理"></a>MySQL 主从错误处理</h1><p>解决和处理主从错误这个是最重要的，比配置更更要。提高处理问题的能力，要熟悉原理，多处理积累，多学习其他网友的处理方式。出现错误都会在 Last_SQL_Error 中显示错误，一般根据错误提示进行处理，如果不太清楚，可以谷歌查询一下，不过操作完之后，同步正常后，一定要核对一下数据是否一致。</p>
+<p>以下是收集的几个处理主从问题的链接：</p>
+<ul>
+<li><a href="http://hzcsky.blog.51cto.com/1560073/479476/" target="_blank" rel="noopener">http://hzcsky.blog.51cto.com/1560073/479476/</a></li>
+<li><a href="http://storysky.blog.51cto.com/628458/259280" target="_blank" rel="noopener">http://storysky.blog.51cto.com/628458/259280</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/faqs-replication.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/faqs-replication.html</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/db/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+              <a href="/tags/mysql/" rel="tag"><i class="fa fa-tag"></i> Mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/java/nio/" rel="prev" title="Java NIO">
+      <i class="fa fa-chevron-left"></i> Java NIO
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/java/dao-monition/" rel="next" title="DAO层接口性能监控">
+      DAO层接口性能监控 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Mysql主从原理"><span class="nav-text">Mysql主从原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本介绍"><span class="nav-text">基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL支持的复制类型"><span class="nav-text">MySQL支持的复制类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql同步解决的问题"><span class="nav-text">Mysql同步解决的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步是如何工作的"><span class="nav-text">同步是如何工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步实现细节分析"><span class="nav-text">同步实现细节分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Binlog转储线程。"><span class="nav-text">(1)Binlog转储线程。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-从服务器I-O线程。"><span class="nav-text">(2)从服务器I&#x2F;O线程。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-从服务器SQL线程。"><span class="nav-text">(3)从服务器SQL线程。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步常用类型"><span class="nav-text">同步常用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步的常用体系结构基本原则"><span class="nav-text">同步的常用体系结构基本原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一主多从复制架构"><span class="nav-text">一主多从复制架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多级复制架构"><span class="nav-text">多级复制架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双主复制-Dual-Master架构"><span class="nav-text">双主复制&#x2F;Dual Master架构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql主从配置实践"><span class="nav-text">mysql主从配置实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现MySQL主从复制需要进行的配置："><span class="nav-text">实现MySQL主从复制需要进行的配置：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础环境配置"><span class="nav-text">基础环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Master-Server配置"><span class="nav-text">Master-Server配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-修改Master-mysql配置"><span class="nav-text">(1)修改Master mysql配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建用于同步的用户账号-复制帐号"><span class="nav-text">(2)创建用于同步的用户账号(复制帐号)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查询master的状态"><span class="nav-text">(3)查询master的状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slave-Server-配置"><span class="nav-text">Slave-Server 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-修改mysql配置"><span class="nav-text">(1)修改mysql配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-执行同步命令"><span class="nav-text">(2)执行同步命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-启动slave同步进程："><span class="nav-text">(3)启动slave同步进程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-查看slave状态："><span class="nav-text">(4)查看slave状态：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他可能用到的相关参数"><span class="nav-text">其他可能用到的相关参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL-主从错误处理"><span class="nav-text">MySQL 主从错误处理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/db/mysql-master-slave/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

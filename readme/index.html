@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="前言有人认为编程是一门技术活，要有一定的天赋，非天资聪慧者不能及也。 其实不然，笔者计算机专业出身，对于技术这碗饭有一些心得体会，大多数人成为某领域顶级专家可能会有些难度，但应对日常工作，成长为资深研发工程师、技术专家、甚至成为小团队的Team Leader，并不难。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术心得">
+<meta property="og:url" content="https://www.alan87.top/readme/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="前言有人认为编程是一门技术活，要有一定的天赋，非天资聪慧者不能及也。 其实不然，笔者计算机专业出身，对于技术这碗饭有一些心得体会，大多数人成为某领域顶级专家可能会有些难度，但应对日常工作，成长为资深研发工程师、技术专家、甚至成为小团队的Team Leader，并不难。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/toutiao.jpeg/200">
+<meta property="article:published_time" content="2020-05-12T01:22:15.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.883Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="技术心得">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://f.ngall-in.com/alan87/static/images/toutiao.jpeg/200">
+
+<link rel="canonical" href="https://www.alan87.top/readme/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>技术心得 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/readme/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          技术心得
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-12 09:22:15" itemprop="dateCreated datePublished" datetime="2020-05-12T09:22:15+08:00">2020-05-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/other/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/readme/" class="post-meta-item leancloud_visitors" data-flag-title="技术心得" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/readme/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/readme/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有人认为编程是一门技术活，要有一定的天赋，非天资聪慧者不能及也。</p>
+<p>其实不然，笔者计算机专业出身，对于技术这碗饭有一些心得体会，大多数人成为某领域顶级专家可能会有些难度，但应对日常工作，<strong>成长为资深研发工程师、技术专家、甚至成为小团队的Team Leader，并不难。</strong></p>
+<a id="more"></a>
+<p><strong>多读书、多看报，多研究开源框架源码，比如：github.com，这里汇集了全球工程师的智慧！</strong></p>
+<p>言归正传，本文会列举工作中常用的一些技术，以及如何锻炼提升自己的架构能力。</p>
+<p>由于每块技术市场上基本都有对应的网络资料或书籍，所以本文只是少篇幅列举工作中用到的核心知识点，抛砖引玉，属于进阶型，不适用初学者。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><ul>
+<li><a href="/java/summary">java</a></li>
+<li><a href="/spring/sprint-summary">spring</a></li>
+<li><a href="/springboot/summary">spring boot</a></li>
+<li><a href="/springcloud/springcloud-netflix">spring cloud</a></li>
+<li><a href="/java/mybatis">ibatis</a></li>
+<li><a href="/java/common-design-patterns">设计模式</a></li>
+<li><a href="/java/log">Log日志</a></li>
+</ul>
+<p>HashMap的原理<br><a href="https://www.jianshu.com/p/d2c14a10266e" target="_blank" rel="noopener">https://www.jianshu.com/p/d2c14a10266e</a></p>
+<p>kafka之partition消费者并行度测试心得<br><a href="https://blog.csdn.net/willwill101/article/details/50393416" target="_blank" rel="noopener">https://blog.csdn.net/willwill101/article/details/50393416</a></p>
+<p>k8s与各网络插件集成<br><a href="https://www.jianshu.com/p/9e02e755bf54" target="_blank" rel="noopener">https://www.jianshu.com/p/9e02e755bf54</a></p>
+<p>软件架构设计-五视图方法论<br><a href="https://blog.csdn.net/nnsword/article/details/78109126" target="_blank" rel="noopener">https://blog.csdn.net/nnsword/article/details/78109126</a></p>
+<p>Flink面试题<br><a href="https://blog.csdn.net/huzechen/article/details/102827576" target="_blank" rel="noopener">https://blog.csdn.net/huzechen/article/details/102827576</a></p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>目前使用最多还是mysql，虽然单机性能比不上oracle，但免费开源，单机成本低且借助于分布式集群，可以有强大的输出能力。</p>
+<ul>
+<li><a href="/java/database-connection-pool">连接池</a></li>
+<li><a href="/db/transaction">事务</a></li>
+<li><a href="/db/sub-db-sub-table">分库分表</a></li>
+<li><a href="/java/id-generate">全局表 ID生成器</a></li>
+<li><a href="http://blog.csdn.net/itomge/article/details/6909240" target="_blank" rel="noopener">读写分离</a></li>
+<li><a href="/db/sql-optimize1">SQL调优1</a></li>
+<li><a href="/db/sql-optimize2">SQL调优1</a></li>
+</ul>
+<h2 id="web容器-协议-网络"><a href="#web容器-协议-网络" class="headerlink" title="web容器/协议/网络"></a>web容器/协议/网络</h2><ul>
+<li><a href="/web/load-balance">负载均衡</a></li>
+<li>服务器<ul>
+<li><a href="/web/nginx">Nginx</a></li>
+<li><a href="/web/tomcat">Tomcat</a></li>
+</ul>
+</li>
+<li>协议<ul>
+<li><a href="/web/http">HTTP 协议</a></li>
+<li><a href="/web/tcp">TCP 协议</a></li>
+</ul>
+</li>
+<li><a href="/web/cdn">CDN</a></li>
+</ul>
+<h2 id="常用三方工具包"><a href="#常用三方工具包" class="headerlink" title="常用三方工具包"></a>常用三方工具包</h2><ul>
+<li><a href="/third-tools/Goole-Guava">Google Guava</a></li>
+<li><a href="/third-tools/fastJson">fastJson</a></li>
+<li><a href="http://blog.csdn.net/itomge/article/details/17913607" target="_blank" rel="noopener">log4J</a></li>
+<li><a href="/third-tools/commons-codec">commons-codec</a></li>
+<li><a href="/third-tools/commons-lang3">commons-lang3</a></li>
+<li><a href="/third-tools/commons-io">commons-io</a></li>
+<li><a href="/third-tools/Quartz">Quartz</a></li>
+<li><a href="/third-tools/HttpClient">HttpClient</a></li>
+<li><a href="/third-tools/okhttp">okhttp</a></li>
+<li><a href="/third-tools/Javassist">Javassist</a></li>
+<li><a href="/third-tools/lombok">lombok</a></li>
+</ul>
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><ul>
+<li><p>RPC框架</p>
+<ul>
+<li><a href="/middle-software/dubbo">dubbo</a></li>
+<li><a href="https://www.oschina.net/p/dubbox" target="_blank" rel="noopener">dubbox</a></li>
+<li><a href="https://github.com/weibocom/motan" target="_blank" rel="noopener">motan</a></li>
+<li><a href="https://github.com/apache/thrift" target="_blank" rel="noopener">Thrift</a></li>
+<li><a href="/middle-software/rpc-compare">RPC框架性能比较</a></li>
+</ul>
+</li>
+<li><p>MQ消息</p>
+<ul>
+<li><a href="https://github.com/apache/activemq" target="_blank" rel="noopener">ActiveMQ</a></li>
+<li><a href="/middle-software/RabbitMQ">RabbitMQ</a></li>
+<li><a href="/middle-software/kafka">Kafka</a></li>
+<li><a href="/middle-software/RocketMQ">RocketMQ</a>    </li>
+<li><a href="/middle-software/mq-compare">MQ框架性能比较</a></li>
+</ul>
+</li>
+<li><p>分布式缓存</p>
+<ul>
+<li><a href="/third-tools/redis">redis</a></li>
+<li><a href="http://blog.csdn.net/itomge/article/details/8035197" target="_blank" rel="noopener">memcache</a></li>
+</ul>
+</li>
+<li><p>本地缓存</p>
+<ul>
+<li><a href="/middle-software/guava">Guava</a></li>
+<li><a href="/middle-software/ehcache">Ehcache</a></li>
+</ul>
+</li>
+<li><p>搜索</p>
+<ul>
+<li><a href="/middle-software/elasticsearch">Elasticsearch</a></li>
+</ul>
+</li>
+<li><p>分布式数据框架</p>
+<ul>
+<li><a href="/middle-software/cobar">cobar</a></li>
+<li><a href="/middle-software/mycat">Mycat</a></li>
+<li><a href="/middle-software/tsharding">tsharding</a></li>
+<li><a href="https://github.com/alibaba/tb_tddl" target="_blank" rel="noopener">tddl</a></li>
+<li><a href="/middle-software/sharding-jdbc">sharding-jdbc</a></li>
+<li><a href="https://gitee.com/robertleepeak/dbsplit" target="_blank" rel="noopener">dbsplit</a></li>
+</ul>
+</li>
+<li><p>分布式协调服务</p>
+<ul>
+<li><a href="/middle-software/zookeeper">zookeeper</a></li>
+</ul>
+</li>
+<li><p>配置管理</p>
+<ul>
+<li><a href="/java-other/super-diamond源码分析">super-diamond</a></li>
+<li><a href="https://www.oschina.net/p/disconf" target="_blank" rel="noopener">disconf</a></li>
+<li><a href="/middle-software/apollo">apollo</a></li>
+</ul>
+</li>
+<li><p>分布式文件系统</p>
+<ul>
+<li><a href="/middle-software/FastDFS">FastDFS</a></li>
+</ul>
+</li>
+<li><p>分布式任务调度框架</p>
+<ul>
+<li><a href="https://github.com/elasticjob/elastic-job" target="_blank" rel="noopener">Elastic-Job</a></li>
+<li><a href="http://www.infoq.com/cn/articles/dangdang-distributed-work-framework-elastic-job" target="_blank" rel="noopener">详解当当网的分布式作业框架elastic-job</a></li>
+<li><a href="http://blog.csdn.net/taosir_zhang/article/details/50728362" target="_blank" rel="noopener">TBSchedule</a></li>
+<li><a href="https://github.com/xuxueli/xxl-job" target="_blank" rel="noopener">xxl-job</a></li>
+</ul>
+</li>
+<li><p>大数据</p>
+<ul>
+<li><a href="/middle-software/Hbase">Hbase</a></li>
+<li><a href="/middle-software/Spark">Spark</a></li>
+<li><a href="/middle-software/Hadoop">Hadoop</a></li>
+<li><a href="/middle-software/Hive">Hive</a></li>
+<li><a href="/middle-software/big-data">other框架</a>    </li>
+</ul>
+</li>
+<li><p>其它</p>
+<ul>
+<li><a href="https://github.com/alibaba/canal" target="_blank" rel="noopener">数据库binlog的增量订阅&amp;消费组件</a></li>
+<li><a href="https://github.com/alibaba/otter" target="_blank" rel="noopener">数据库同步系统</a></li>
+<li><a href="/middle-software/TCC-Transaction">TCC-Transaction</a></li>
+<li><a href="/middle-software/Netty">Netty</a></li>
+<li><a href="/middle-software/openresty">OpenResty</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><ul>
+<li><a href="/system-architecture/architecture-experience">架构经验</a></li>
+<li><a href="/system-architecture/architecture-good-case">经典案例</a></li>
+<li><a href="/system-architecture/technology-selection">通用技术方案选型</a></li>
+<li><a href="/system-architecture/编码前3000问">编码前3000问</a></li>
+<li><a href="/system-architecture/software-performance">软硬件性能</a></li>
+<li><a href="/system-architecture/knowledge-outline">技术大纲</a></li>
+</ul>
+<h2 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h2><ul>
+<li><a href="/project-management/论需求调研的重要性">论需求调研的重要性</a></li>
+<li><a href="/project-management/project-management">项目管理</a></li>
+<li><a href="/project-management/code">代码管理</a></li>
+<li><a href="/project-management/test">测试相关</a></li>
+</ul>
+<h2 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h2><ul>
+<li><a href="/java/online-question">快速排查线上问题</a></li>
+<li><a href="/linux/linux-commands">linux常用命令</a></li>
+<li><a href="/docker/docker-summary">Docker</a></li>
+</ul>
+<h2 id="个人成长"><a href="#个人成长" class="headerlink" title="个人成长"></a>个人成长</h2><ul>
+<li><a href="/java-other/study">学习网站</a></li>
+<li><a href="/java-other/book">Tom哥的读书单</a></li>
+<li><a href="/java-other/person">个人成长与职业规划</a></li>
+<li><a href="/java-other/programer">程序员素养</a></li>
+</ul>
+<h2 id="优秀开源项目"><a href="#优秀开源项目" class="headerlink" title="优秀开源项目"></a>优秀开源项目</h2><h3 id="1-SpringBlade"><a href="#1-SpringBlade" class="headerlink" title="1. SpringBlade"></a>1. SpringBlade</h3><p>SpringBlade 是一个由商业级项目升级优化而来的SpringCloud分布式微服务架构、SpringBoot单体式微服务架构并存的综合型项目，采用Java8 API重构了业务代码，完全遵循阿里巴巴编码规范。采用Spring Boot 2 、Spring Cloud Hoxton 、Mybatis 等核心技术，同时提供基于React和Vue的两个前端框架用于快速搭建企业级的SaaS多租户微服务平台。 官网：<a href="https://bladex.vip" target="_blank" rel="noopener">https://bladex.vip</a></p>
+<p>项目地址: <a href="https://gitee.com/kisee/SpringBlade" target="_blank" rel="noopener">https://gitee.com/kisee/SpringBlade</a></p>
+<h3 id="1-wisdom-education"><a href="#1-wisdom-education" class="headerlink" title="1. wisdom-education"></a>1. wisdom-education</h3><p>基于 SpringBoot + Mybatis + Shiro + mysql + redis构建的智慧云智能教育平台。</p>
+<p>项目地址：<a href="https://gitee.com/zhuimengshaonian/wisdom-education" target="_blank" rel="noopener">https://gitee.com/zhuimengshaonian/wisdom-education</a></p>
+<p>项目演示地址<br>管理后台 <a href="http://180.76.146.67:8002" target="_blank" rel="noopener">http://180.76.146.67:8002</a> （admin 123456）<br>学生端 <a href="http://180.76.146.67" target="_blank" rel="noopener">http://180.76.146.67</a> （student 123456）</p>
+<p>智慧云智能教育系统管理平台<br>项目源码地址： <a href="https://gitee.com/zhuimengshaonian/wisdom-education-admin-front" target="_blank" rel="noopener">https://gitee.com/zhuimengshaonian/wisdom-education-admin-front</a></p>
+<ul>
+<li>功能模块：系统首页、教育教学模块、考试管理模块、统计分析模块、系统设置模块</li>
+<li>试题管理：支持excel模板导入试题、支持使用富文本编辑试题及插入数学公式，同时还支持上传试题教学视频</li>
+<li>试卷管理：支持将试卷导出成word文档、html页面进行打印、支持富文本图片导出到word</li>
+<li>试卷批改功能：支持教师后台批改试卷，主观题系统自动评分、非主观题由教师评分、错题可设置添加到学员错题本</li>
+<li>RBCA权限管理：主要包括用户、角色、权限<br>智慧云智能教育平台学生端<br>项目源码地址： <a href="https://gitee.com/zhuimengshaonian/wisdom-education-front" target="_blank" rel="noopener">https://gitee.com/zhuimengshaonian/wisdom-education-front</a></li>
+<li>功能模块：学员在线做课程试题、在线考试、错题本功能记录、考试记录、个人中心</li>
+</ul>
+<h3 id="2-dts-shop"><a href="#2-dts-shop" class="headerlink" title="2. dts-shop"></a>2. dts-shop</h3><p>聚惠星商城 DTS-SHOP，基于 微信小程序 + springboot + vue 技术构建 ，支持单店铺，多店铺入驻的商城平台。项目包含 微信小程序，管理后台。基于java后台语言，已功能闭环，且达到商用标准的一套项目体系。</p>
+<p>项目地址：<a href="https://gitee.com/qiguliuxing/dts-shop" target="_blank" rel="noopener">https://gitee.com/qiguliuxing/dts-shop</a></p>
+<h3 id="3-x-RdbmsSyncTool"><a href="#3-x-RdbmsSyncTool" class="headerlink" title="3.x-RdbmsSyncTool"></a>3.x-RdbmsSyncTool</h3><p>RdbmsSyncTool是使用javaFx开发的关系型数据库同步工具xJavaFxTool的插件集合，可实现打包后让框架自动加载，可在线下载和更新工具，后续小工具将在这个项目中添加，实现动态jar包加载。</p>
+<p>项目地址：<a href="https://gitee.com/xwintop/x-RdbmsSyncTool" target="_blank" rel="noopener">https://gitee.com/xwintop/x-RdbmsSyncTool</a></p>
+<h3 id="4-QuickD"><a href="#4-QuickD" class="headerlink" title="4. QuickD"></a>4. QuickD</h3><p>QuickD是一个前后端分离快速开发平台，是基于 Spring Boot 和 Vue 开发，整合Flowable工作流、Shiro、Redis等，来帮助中小型企业及个人实现敏捷化的应用交付和运营管理，并提供代码生成器、通用前端等业务组件，来帮助开发者聚焦于业务，加速中小型企业数字化转型。<a href="http://website.jhyj56.com/" target="_blank" rel="noopener">http://website.jhyj56.com/</a></p>
+<p>项目地址：<a href="https://gitee.com/quickd/quickd" target="_blank" rel="noopener">https://gitee.com/quickd/quickd</a></p>
+<h3 id="5-JeecgBoot"><a href="#5-JeecgBoot" class="headerlink" title="5. JeecgBoot"></a>5. JeecgBoot</h3><p>基于代码生成器的低代码开发平台，开源界“小普元”超越传统商业开发平台！前后端分离架构：SpringBoot 2.x，Ant Design&amp;Vue，Mybatis-plus，Shiro，JWT。强大的代码生成器让前后端代码一键生成，无需写任何代码! 引领新开发模式(OnlineCoding-&gt; 代码生成-&gt; 手工MERGE)，帮助Java项目解决70%重复工作，让开发更关注业务逻辑，既能快速提高开发效率，帮助公司节省成本，同时又不失灵活性。 <a href="http://www.jeecg.com" target="_blank" rel="noopener">http://www.jeecg.com</a></p>
+<p>项目地址：<a href="https://github.com/zhangdaiscott/jeecg-boot" target="_blank" rel="noopener">https://github.com/zhangdaiscott/jeecg-boot</a></p>
+<h3 id="6-ExeBuilder"><a href="#6-ExeBuilder" class="headerlink" title="6. ExeBuilder"></a>6. ExeBuilder</h3><p>ExeBuilder 是一款利用 JDK 模块化的特性把jar打包成独立exe的工具，它支持GUI和控制台应用程序的创建。</p>
+<p>项目地址：<a href="https://gitee.com/qsyan/ExeBuilder" target="_blank" rel="noopener">https://gitee.com/qsyan/ExeBuilder</a></p>
+<h3 id="7-keycloak"><a href="#7-keycloak" class="headerlink" title="7. keycloak"></a>7. keycloak</h3><p>Open Source Identity and Access Management For Modern Applications and Services <a href="https://www.keycloak.org" target="_blank" rel="noopener">https://www.keycloak.org</a></p>
+<p>项目地址：<a href="https://github.com/keycloak/keycloak" target="_blank" rel="noopener">https://github.com/keycloak/keycloak</a></p>
+<h3 id="8-MaxKey"><a href="#8-MaxKey" class="headerlink" title="8. MaxKey"></a>8. MaxKey</h3><p>MaxKey(马克思的钥匙)，寓意是最大钥匙， 是用户单点登录认证系统（Sigle Sign On System）,支持OAuth 2.0/OpenID Connect、SAML 2.0、JWT、CAS等标准化的开放协议，提供简单、标准、安全和开放的用户身份认证和单点登录，包含用户认证、单点登录、资源管理、权限管理等。</p>
+<p>项目地址：<a href="https://gitee.com/shimingxy/MaxKey" target="_blank" rel="noopener">https://gitee.com/shimingxy/MaxKey</a></p>
+<h3 id="9-microservices-platform"><a href="#9-microservices-platform" class="headerlink" title="9. microservices-platform"></a>9. microservices-platform</h3><p>SpringCloud, 基于SpringBoot2.x、SpringCloud和SpringCloudAlibaba并采用前后端分离的企业级微服务多租户系统架构。并引入组件化的思想实现高内聚低耦合并且高度可配置化，适合学习和企业中使用。真正实现了基于RBAC、jwt和oauth2的无状态统一权限认证的解决方案，面向互联网设计同时适合B端和C端用户，支持CI/CD多环境部署，并提供应用管理方便第三方系统接入；同时还集合各种微服务治理功能和监控功能。模块包括:企业级的认证系统、开发平台、应用监控、慢sql监控、统一日志、单点登录、Redis分布式高速缓存、配置中心、分布式任务调度、接口文档、代码生成等等。</p>
+<p>项目地址： <a href="https://gitee.com/zlt2000/microservices-platform.git" target="_blank" rel="noopener">https://gitee.com/zlt2000/microservices-platform.git</a></p>
+<h3 id="10-middle-ware-parent"><a href="#10-middle-ware-parent" class="headerlink" title="10. middle-ware-parent"></a>10. middle-ware-parent</h3><p>SpringBoot集成各类常用开发中间件，分库分表，缓存，消息队列，定时器，权限管理等组件</p>
+<p>项目地址：<a href="https://gitee.com/cicadasmile/middle-ware-parent" target="_blank" rel="noopener">https://gitee.com/cicadasmile/middle-ware-parent</a></p>
+<h3 id="11-chjm872-mall"><a href="#11-chjm872-mall" class="headerlink" title="11. chjm872/mall"></a>11. chjm872/mall</h3><p>mall项目是一套电商系统，包括前台商城系统及后台管理系统，基于SpringBoot+MyBatis实现，采用Docker容器化部署。 前台商城系统包含首页门户、商品推荐、商品搜索、商品展示、购物车、订单流程、会员中心、客户服务、帮助中心等模块。 后台管理系统包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。</p>
+<p>项目地址：<a href="https://github.com/chjm872/mall" target="_blank" rel="noopener">https://github.com/chjm872/mall</a></p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><ul>
+<li><a href="/java-other/tool">常用软件工具</a></li>
+<li><a href="/java-other/一致性hash">一致性hash算法</a></li>
+<li>面试<ul>
+<li><a href="/java-other/java-interview">java面试题</a></li>
+<li><a href="/java-other/bigdata-interview">大数据面试题</a></li>
+</ul>
+</li>
+<li><a href="/java-other/回车与换行的区别">回车与换行的区别</a></li>
+<li><a href="http://blog.csdn.net/qq1332479771/article/details/56087333" target="_blank" rel="noopener">github上fork项目后，如何同步更新后面提交</a></li>
+<li><a href="/java-other/other">其它</a></li>
+</ul>
+<h2 id="今日头条"><a href="#今日头条" class="headerlink" title="今日头条"></a>今日头条</h2><p><strong>新开了个今日头条号：微观技术，分享各个行业优秀的架构设计方案、技术心得、心路历程等，欢迎各位技术达人关注、经验交流</strong></p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/toutiao.jpeg/200">
+
+
+<h2 id="商务合作，请发邮件到-547708024-QQ邮箱"><a href="#商务合作，请发邮件到-547708024-QQ邮箱" class="headerlink" title="商务合作，请发邮件到 547708024 QQ邮箱"></a>商务合作，请发邮件到 547708024 QQ邮箱</h2>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/other/" rel="tag"><i class="fa fa-tag"></i> 其他</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web/%E8%AE%A4%E8%AF%81%E5%8D%8F%E8%AE%AE-SAML%E4%BB%8B%E7%BB%8D/" rel="prev" title="认证协议-SAML介绍">
+      <i class="fa fa-chevron-left"></i> 认证协议-SAML介绍
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/" rel="next" title="mysql5.7性能提升一百倍调优">
+      mysql5.7性能提升一百倍调优 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础知识"><span class="nav-text">基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库"><span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web容器-协议-网络"><span class="nav-text">web容器&#x2F;协议&#x2F;网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用三方工具包"><span class="nav-text">常用三方工具包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件"><span class="nav-text">中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统架构"><span class="nav-text">系统架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目管理"><span class="nav-text">项目管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运维"><span class="nav-text">运维</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#个人成长"><span class="nav-text">个人成长</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优秀开源项目"><span class="nav-text">优秀开源项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SpringBlade"><span class="nav-text">1. SpringBlade</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-wisdom-education"><span class="nav-text">1. wisdom-education</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-dts-shop"><span class="nav-text">2. dts-shop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-x-RdbmsSyncTool"><span class="nav-text">3.x-RdbmsSyncTool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-QuickD"><span class="nav-text">4. QuickD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-JeecgBoot"><span class="nav-text">5. JeecgBoot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-ExeBuilder"><span class="nav-text">6. ExeBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-keycloak"><span class="nav-text">7. keycloak</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-MaxKey"><span class="nav-text">8. MaxKey</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-microservices-platform"><span class="nav-text">9. microservices-platform</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-middle-ware-parent"><span class="nav-text">10. middle-ware-parent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-chjm872-mall"><span class="nav-text">11. chjm872&#x2F;mall</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-text">其它</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#今日头条"><span class="nav-text">今日头条</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#商务合作，请发邮件到-547708024-QQ邮箱"><span class="nav-text">商务合作，请发邮件到 547708024 QQ邮箱</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/readme/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="本文将主要分享以下内容：              ConfigMaps 和 Secret 资源的创建和使用；Pod 身份认证的实现和原理；容器资源、安全、前置校验等配置和使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云原生技术基础(八)——应用配置管理">
+<meta property="og:url" content="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="本文将主要分享以下内容：              ConfigMaps 和 Secret 资源的创建和使用；Pod 身份认证的实现和原理；容器资源、安全、前置校验等配置和使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/1.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/2.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/3.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/4.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/5.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/6.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/7.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/8.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/9.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/10.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/11.png/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/12.png/w600">
+<meta property="article:published_time" content="2019-12-20T14:18:19.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.767Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="应用配置管理">
+<meta property="article:tag" content="Deployment">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="CNCF">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="cncf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/1.png/w600">
+
+<link rel="canonical" href="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>云原生技术基础(八)——应用配置管理 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          云原生技术基础(八)——应用配置管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-20 22:18:19" itemprop="dateCreated datePublished" datetime="2019-12-20T22:18:19+08:00">2019-12-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/cn/k8s%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/" class="post-meta-item leancloud_visitors" data-flag-title="云原生技术基础(八)——应用配置管理" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/cn/k8s%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/cn/k8s%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文将主要分享以下内容：</p>
+<div class="note primary">
+            <ol><li>ConfigMaps 和 Secret 资源的创建和使用；</li><li>Pod 身份认证的实现和原理；</li><li>容器资源、安全、前置校验等配置和使用。</li></ol>
+          </div>
+
+<a id="more"></a>
+<h1 id="一、需求来源"><a href="#一、需求来源" class="headerlink" title="一、需求来源"></a>一、需求来源</h1><h2 id="背景问题"><a href="#背景问题" class="headerlink" title="背景问题"></a>背景问题</h2><p>首先一起来看一下需求来源。大家应该都有过这样的经验，就是用一个容器镜像来启动一个 container。要启动这个容器，其实有很多需要配套的问题待解决：</p>
+<ul>
+<li>第一，比如说一些可变的配置。因为我们不可能把一些可变的配置写到镜像里面，当这个配置需要变化的时候，可能需要我们重新编译一次镜像，这个肯定是不能接受的；</li>
+<li>第二就是一些敏感信息的存储和使用。比如说应用需要使用一些密码，或者用一些 token；</li>
+<li>第三就是我们容器要访问集群自身。比如我要访问 kube-apiserver，那么本身就有一个身份认证的问题；</li>
+<li>第四就是容器在节点上运行之后，它的资源需求；</li>
+<li>第五个就是容器在节点上，它们是共享内核的，那么它的一个安全管控怎么办？</li>
+<li>最后一点我们说一下容器启动之前的一个前置条件检验。比如说，一个容器启动之前，我可能要确认一下 DNS 服务是不是好用？又或者确认一下网络是不是联通的？那么这些其实就是一些前置的校验。</li>
+</ul>
+<h2 id="Pod-的配置管理"><a href="#Pod-的配置管理" class="headerlink" title="Pod 的配置管理"></a>Pod 的配置管理</h2><p>在 Kubernetes 里面，它是怎么做这些配置管理的呢？如下图所示：</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/1.png/w600">
+
+<ul>
+<li>可变配置就用 ConfigMap；</li>
+<li>敏感信息是用 Secret；</li>
+<li>身份认证是用 ServiceAccount 这几个独立的资源来实现的；</li>
+<li>资源配置是用 Resources；</li>
+<li>安全管控是用 SecurityContext；</li>
+<li>前置校验是用 InitContainers 这几个在 spec 里面加的字段，来实现的这些配置管理。</li>
+</ul>
+<h1 id="二、ConfigMap"><a href="#二、ConfigMap" class="headerlink" title="二、ConfigMap"></a>二、ConfigMap</h1><h2 id="ConfigMap-介绍"><a href="#ConfigMap-介绍" class="headerlink" title="ConfigMap 介绍"></a>ConfigMap 介绍</h2><p>下面我们来介绍第一个部分，就是 ConfigMap。我们先来介绍 ConfigMap 它是用来做什么的、以及它带来的一个好处。它其实主要是管理一些可变配置信息，比如说我们应用的一些配置文件，或者说它里面的一些环境变量，或者一些命令行参数。</p>
+<p>它的好处在于它可以让一些可变配置和容器镜像进行解耦，这样也保证了容器的可移植性。看一下下图中右边的编排文件截图。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/2.png/w600">
+
+<p>这是 ConfigMap 本身的一个定义，它包括两个部分：一个是 ConfigMap 元信息，我们关注 name 和 namespace 这两个信息。接下来这个 data 里面，可以看到它管理了两个配置文件。它的结构其实是这样的：从名字看ConfigMap中包含Map单词，Map 其实就是 key:value，key 是一个文件名，value 是这个文件的内容。</p>
+<h2 id="ConfigMap-创建"><a href="#ConfigMap-创建" class="headerlink" title="ConfigMap 创建"></a>ConfigMap 创建</h2><p>看过介绍之后，再具体看一下它是怎么创建的。我们推荐用 kubectl 这个命令来创建，它带的参数主要有两个：一个是指定 name，第二个是 DATA。其中 DATA 可以通过指定文件或者指定目录，以及直接指定键值对，下面可以看一下这个例子。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/3.png/w600">
+
+<p>指定文件的话，文件名就是 Map 中的 key，文件内容就是 Map 中的 value。然后指定键值对就是指定数据键值对，即：key:value 形式，直接映射到 Map 的key:value。</p>
+<h2 id="ConfigMap-使用"><a href="#ConfigMap-使用" class="headerlink" title="ConfigMap 使用"></a>ConfigMap 使用</h2><p>创建完了之后，应该怎么使用呢？</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/4.png/w600">
+
+<p>如上图所示，主要是在 pod 里来使用 ConfigMap：</p>
+<ul>
+<li>第一种是环境变量。环境变量的话通过 valueFrom，然后 ConfigMapKeyRef 这个字段，下面的 name 是指定 ConfigMap 名，key 是 ConfigMap.data 里面的 key。这样的话，在 busybox 容器启动后容器中执行 env 将看到一个 SPECIAL_LEVEL_KEY 环境变量；</li>
+<li>第二个是命令行参数。命令行参数其实是第一行的环境变量直接拿到 cmd 这个字段里面来用；</li>
+<li>最后一个是通过 volume 挂载的方式直接挂到容器的某一个目录下面去。上面的例子是把 special-config 这个 ConfigMap 里面的内容挂到容器里面的 /etc/config 目录下，这个也是使用的一种方式。</li>
+</ul>
+<h2 id="ConfigMap-注意要点"><a href="#ConfigMap-注意要点" class="headerlink" title="ConfigMap 注意要点"></a>ConfigMap 注意要点</h2><p>现在对 ConfigMap 的使用做一个总结，以及它的一些注意点，注意点一共列了以下五条：</p>
+<ol>
+<li>ConfigMap 文件的大小。虽然说 ConfigMap 文件没有大小限制，但是在 ETCD 里面，数据的写入是有大小限制的，现在是限制在 1MB 以内；</li>
+<li>第二个注意点是 pod 引入 ConfigMap 的时候，必须是相同的 Namespace 中的 ConfigMap，前面其实可以看到，ConfigMap.metadata 里面是有 namespace 字段的；</li>
+<li>第三个是 pod 引用的 ConfigMap。假如这个 ConfigMap 不存在，那么这个 pod 是无法创建成功的，其实这也表示在创建 pod 前，必须先把要引用的 ConfigMap 创建好；</li>
+<li>第四点就是使用 envFrom 的方式。把 ConfigMap 里面所有的信息导入成环境变量时，如果 ConfigMap 里有些 key 是无效的，比如 key 的名字里面带有数字，那么这个环境变量其实是不会注入容器的，它会被忽略。但是这个 pod 本身是可以创建的。这个和第三点是不一样的方式，是 ConfigMap 文件存在基础上，整体导入成环境变量的一种形式；</li>
+<li>最后一点是：什么样的 pod 才能使用 ConfigMap？这里只有通过 K8s api 创建的 pod 才能使用 ConfigMap，比如说通过用命令行 kubectl 来创建的 pod，肯定是可以使用 ConfigMap 的，但其他方式创建的 pod，比如说 kubelet 通过 manifest 创建的 static pod，它是不能使用 ConfigMap 的。</li>
+</ol>
+<h1 id="三、Secret"><a href="#三、Secret" class="headerlink" title="三、Secret"></a>三、Secret</h1><h2 id="Secret-介绍"><a href="#Secret-介绍" class="headerlink" title="Secret 介绍"></a>Secret 介绍</h2><p>现在我们讲一下 Secret，Secret 是一个主要用来存储密码 token 等一些敏感信息的资源对象。其中，敏感信息是采用 base-64 编码保存起来的，我们来看下图中 Secret 数据的定义。</p>
+<p>元数据的话，里面主要是 name、namespace 两个字段；接下来是 type，它是非常重要的一个字段，是指 Secret 的一个类型。Secret 类型种类比较多，下面列了常用的四种类型：</p>
+<ul>
+<li>第一种是 Opaque，它是普通的 Secret 文件；</li>
+<li>第二种是 service-account-token，是用于 service-account 身份认证用的 Secret；</li>
+<li>第三种是 dockerconfigjson，这是拉取私有仓库镜像的用的一种 Secret；</li>
+<li>第四种是 bootstrap.token，是用于节点接入集群校验用的 Secret。</li>
+</ul>
+<p>再接下来是 data，是存储的 Secret 的数据，它也是 key-value 的形式存储的。</p>
+<h2 id="Secret-创建"><a href="#Secret-创建" class="headerlink" title="Secret 创建"></a>Secret 创建</h2><p>接下来我们看一下 Secret 的创建。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/5.png/w600">
+
+<p>如上图所示，有两种创建方式：</p>
+<ul>
+<li>系统创建：比如 K8s 为每一个 namespace 的默认用户（default ServiceAccount）创建 Secret；</li>
+<li>用户手动创建：手动创建命令，推荐 kubectl 这个命令行工具，它相对 ConfigMap 会多一个 type 参数。其中 data 也是一样，它也是可以指定文件和键值对的。type 的话，要是你不指定的话，默认是 Opaque 类型。</li>
+</ul>
+<p>上图中两个例子。第一个是通过指定文件，创建了一个拉取私有仓库镜像的 Secret，指定的文件是 /root/.docker/config.json。type 的话指定的是 dockerconfigjson，另外一个我们指定键值对，我们 type 没有指定，默认是 Opaque。键值对是 key:value 的形式，其中对 value 内容进行 base64 加密。创建 Secret 就是这么一个情况。</p>
+<h2 id="Secret-使用"><a href="#Secret-使用" class="headerlink" title="Secret 使用"></a>Secret 使用</h2><p>创建完 Secret 之后，再来看一下如何使用它。它主要是被 pod 来使用，一般是通过 volume 形式挂载到容器里指定的目录，然后容器里的业务进程再到目录下读取 Secret 来进行使用。另外在需要访问私有镜像仓库时，也是通过引用 Secret 来实现。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/6.png/w600">
+
+<p>我们先来看一下挂载到用户指定目录的方式：</p>
+<ul>
+<li>第一种方式：如上图左侧所示，用户直接指定，把 mysecret 挂载到容器 /etc/foo 目录下面；</li>
+<li>第二种方式：如上图右侧所示，系统自动生成，把 serviceaccount-secret 自动挂载到容器 /var/run/secrets/kubernetes.io/serviceaccount 目录下，它会生成两个文件，一个是 ca.crt，一个是 token。这是两个保存了认证信息的证书文件。</li>
+</ul>
+<h2 id="使用私有镜像库"><a href="#使用私有镜像库" class="headerlink" title="使用私有镜像库"></a>使用私有镜像库</h2><p>下面看一下用 Secret 来使用私有镜像仓库。首先，私有镜像仓库的信息是存储在 Secret 里面的(具体参照上述的Secret创建章节)，然后拉取私有仓库镜像，那么通过下图中两种方法的配置就可以：</p>
+<ul>
+<li>第一种方式：如下图左侧所示，直接在 pod 里面，通过 imagePullSecrets 字段来配置；</li>
+<li>第二种方式是自动注入。用户提前在 pod 会使用的 serviceaccount 里配置 imagePullSecrets，Pod创建时系统自动注入这个 imagePullSecrets。<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/7.png/w600">
+
+</li>
+</ul>
+<h2 id="Secret-使用注意要点"><a href="#Secret-使用注意要点" class="headerlink" title="Secret 使用注意要点"></a>Secret 使用注意要点</h2><p>最后来看一下 Secret 使用的一些注意点，下面列了三点：</p>
+<ul>
+<li><p>第一个是 Secret 的文件大小限制。这个跟 ConfigMap 一样，也是 1MB；</p>
+</li>
+<li><p>第二个是 Secret 采用了 base-64 编码，但是它跟明文也没有太大区别。所以说，如果有一些机密信息要用 Secret 来存储的话，还是要很慎重考虑。也就是说谁会来访问你这个集群，谁会来用你这个 Secret，还是要慎重考虑，因为它如果能够访问这个集群，就能拿到这个 Secret。</p>
+<p>如果是对 Secret 敏感信息要求很高，对加密这块有很强的需求，推荐可以使用 Kubernetes 和开源的 vault做一个解决方案，来解决敏感信息的加密和权限管理。</p>
+</li>
+<li><p>第三个就是 Secret 读取的最佳实践，建议不要用 list/watch，如果用 list/watch 操作的话，会把 namespace 下的所有 Secret 全部拉取下来，这样其实暴露了更多的信息。推荐使用 GET 的方法，这样只获取你自己需要的那个 Secret。</p>
+</li>
+</ul>
+<h1 id="四、ServiceAccount"><a href="#四、ServiceAccount" class="headerlink" title="四、ServiceAccount"></a>四、ServiceAccount</h1><h2 id="ServiceAccount-介绍"><a href="#ServiceAccount-介绍" class="headerlink" title="ServiceAccount 介绍"></a>ServiceAccount 介绍</h2><p>接下来，我们讲一下 ServiceAccount。ServiceAccount 首先是用于解决 pod 在集群里面的身份认证问题，身份认证信息是存在于 Secret 里面。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/8.png/w600">
+
+<p>先看一下上面的左侧截图，可以看到最下面的红框里，有一个 Secret 字段，它指定 ServiceAccount 用哪一个 Secret，这个是 K8s 自动为 ServiceAccount 加上的。然后再来看一下上图中的右侧截图，它对应的 Secret 的 data 里有两块数据，一个是 ca.crt，一个是 token。ca.crt 用于对服务端的校验，token 用于 Pod 的身份认证，它们都是用 base64 编码过的。然后可以看到 metadata 即元信息里，其实是有关联 ServiceAccount 信息的（这个 secret 被哪个 ServiceAccount 使用）。最后我们注意一下 type，这个就是 service-account-token 这种类型。</p>
+<p>举例：Pod 里的应用访问它所属的 K8s 集群</p>
+<p>介绍完 ServiceAccount 以及它对应的 secret 后，我们来看一下，pod 是怎么利用 ServiceAccount 或者说它是怎么利用 secret 来访问所属 K8s 集群的。</p>
+<p>其实 pod 创建的时候，首先它会把这个 secret 挂载到容器固定的目录下，这是 K8s 功能上实现的。它要把这个 ca.crt 和 token 这两个文件挂载到固定目录下面。</p>
+<p>pod 要访问集群的时候，它是怎么来利用这个文件的呢？我们看一下下面的代码截图：</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/9.png/w600">
+
+<p>我们在 Go 里面实现 Pod 访问 K8s 集群时，一般直接会调一个 InClusterConfig 方法，来生成这个访问服务 Client 的一些信息。然后可以看一下，最后这个 Config 里面有两部分信息：</p>
+<ul>
+<li>一个是 tlsClientConfig，这个主要是用于 ca.crt 校验服务端；</li>
+<li>第二个是 Bearer Token，这个就是 pod 的身份认证。在服务端，会利用 token 对 pod 进行一个身份认证。</li>
+</ul>
+<p>再次回到上图左侧。认证完之后 pod 的身份信息会有两部分：一个是 Group，一个是 User。身份认证是就是认证这两部分信息。接着可以使用 RBAC 功能，对 pod 进行一个授权管理。</p>
+<p>假如 RBAC 没有配置的话，默认的 pod 具有资源 GET 权限，就是可以从所属的 K8s 集群里 get 数据。如果是需要更多的权限，那么就需要 自行配置 RBAC 。RBAC 的相关知识，我们在后面的课程里面会详细介绍，大家可以关注一下。</p>
+<h1 id="五、Resource"><a href="#五、Resource" class="headerlink" title="五、Resource"></a>五、Resource</h1><h2 id="容器资源配合管理"><a href="#容器资源配合管理" class="headerlink" title="容器资源配合管理"></a>容器资源配合管理</h2><p>下面介绍一下 Resource，即：容器的一个资源配置管理。</p>
+<p>目前内部支持类型有三种：CPU、内存，以及临时存储。当用户觉得这三种不够，有自己的一些资源，比如说 GPU，或者其他资源，也可以自己来定义，但配置时，指定的数量必须为整数。目前资源配置主要分成 request 和 limit 两种类型，一个是需要的数量，一个是资源的界限。CPU、内存以及临时存储都是在 container 下的 Resource 字段里进行一个声明。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/10.png/w600">
+
+<p>举个例子，wordpress 容器的资源需求，一个是 request ，一个是 limits，它分别对需要的资源和资源临界进行一个声明。</p>
+<h2 id="Pod-服务质量-QoS-配置"><a href="#Pod-服务质量-QoS-配置" class="headerlink" title="Pod 服务质量 (QoS) 配置"></a>Pod 服务质量 (QoS) 配置</h2><p>根据 CPU 对容器内存资源的需求，我们对 pod 的服务质量进行一个分类，分别是 Guaranteed、Burstable 和 BestEffort。</p>
+<ul>
+<li>Guaranteed ：pod 里面每个容器都必须有内存和 CPU 的 request 以及 limit 的一个声明，且 request 和 limit 必须是一样的，这就是 Guaranteed；</li>
+<li>Burstable：Burstable 至少有一个容器存在内存和 CPU 的一个 request；</li>
+<li>BestEffort：只要不是 Guaranteed 和 Burstable，那就是 BestEffort。</li>
+</ul>
+<p>那么这个服务质量是什么样的呢？资源配置好后，当这个节点上 pod 容器运行，比如说节点上 memory 配额资源不足，kubelet会把一些低优先级的，或者说服务质量要求不高的（如：BestEffort、Burstable）pod 驱逐掉。它们是按照先去除 BestEffort，再去除 Burstable 的一个顺序来驱逐 pod 的。</p>
+<h1 id="六、SecurityContext"><a href="#六、SecurityContext" class="headerlink" title="六、SecurityContext"></a>六、SecurityContext</h1><h2 id="SecurityContext-介绍"><a href="#SecurityContext-介绍" class="headerlink" title="SecurityContext 介绍"></a>SecurityContext 介绍</h2><p>SecurityContext 主要是用于限制容器的一个行为，它能保证系统和其他容器的安全。这一块的能力不是 Kubernetes 或者容器 runtime 本身的能力，而是 Kubernetes 和 runtime 通过用户的配置，最后下传到内核里，再通过内核的机制让 SecurityContext 来生效。所以这里讲的内容，会比较简单或者说比较抽象一点。</p>
+<p>SecurityContext 主要分为三个级别：</p>
+<ul>
+<li>第一个是容器级别，仅对容器生效；</li>
+<li>第二个是 pod 级别，对 pod 里所有容器生效；</li>
+<li>第三个是集群级别，就是 PSP，对集群内所有 pod 生效。</li>
+</ul>
+<p>权限和访问控制设置项，现在一共列有七项（这个数量后续可能会变化）：</p>
+<ol>
+<li>第一个就是通过用户 ID 和组 ID 来控制文件访问权限；</li>
+<li>第二个是 SELinux，它是通过策略配置来控制用户或者进程对文件的访问控制；</li>
+<li>第三个是特权容器；</li>
+<li>第四个是 Capabilities，它也是给特定进程来配置一个 privileged 能力；</li>
+<li>第五个是 AppArmor，它也是通过一些配置文件来控制可执行文件的一个访问控制权限，比如说一些端口的读写；</li>
+<li>第六个是一个对系统调用的控制；</li>
+<li>第七个是对子进程能否获取比父亲更多的权限的一个限制。</li>
+</ol>
+<p>最后其实都是落到内核来控制它的一些权限。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/11.png/w600">
+<p>上图是对 pod 级别和容器级别配置 SecurityContext 的一个例子，如果大家对这些内容有更多的需求，可以根据这些信息去搜索更深入的资料来学习。</p>
+<h1 id="七、InitContainer"><a href="#七、InitContainer" class="headerlink" title="七、InitContainer"></a>七、InitContainer</h1><h2 id="InitContainer-介绍"><a href="#InitContainer-介绍" class="headerlink" title="InitContainer 介绍"></a>InitContainer 介绍</h2><p>接下来看一下 InitContainer，首先介绍 InitContainer 和普通 container 的区别，有以下三点内容：</p>
+<ol>
+<li>InitContainer 首先会比普通 container 先启动，并且直到所有的 InitContainer 执行成功后，普通 container 才会被启动；</li>
+<li>InitContainer 之间是按定义的次序去启动执行的，执行成功一个之后再执行第二个，而普通的 container 是并发启动的；</li>
+<li>InitContainer 执行成功后就结束退出，而普通容器可能会一直在执行。它可能是一个 longtime 的，或者说失败了会重启，这个也是 InitContainer 和普通 container 不同的地方。</li>
+</ol>
+<p>根据上面三点内容，我们看一下 InitContainer 的一个用途。它其实主要为普通 container 服务，比如说它可以为普通 container 启动之前做一个初始化，或者为它准备一些配置文件， 配置文件可能是一些变化的东西。再比如做一些前置条件的校验，如网络是否联通。</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-k8s-config/12.png/w600">
+
+<p>上面的截图是 flannel 组件的 InitContainer 的一个配置，它的 InitContainer 主要是为 kube-flannel 这个普通容器启动之前准备一些网络配置文件。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><div class="note primary">
+            <ol><li>ConfigMap 和 Secret: 首先介绍了 ConfigMap 和 Secret 的创建方法和使用场景，然后对 ConfigMap 和 Secret 的常见使用注意点进行了分类和整理。最后介绍了私有仓库镜像的使用和配置；</li><li>Pod 身份认证: 首先介绍了 ServiceAccount 和 Secret 的关联关系，然后从源码角度对 Pod 身份认证流程和实现细节进行剖析，同时引出了 Pod 的权限管理(即 RBAC 的配置管理)；</li><li>容器资源和安全： 首先介绍了容器常见资源类型 (CPU/Memory) 的配置，然后对 Pod 服务质量分类进行详细的介绍。同时对 SecurityContext 有效层级和权限配置项进行简要说明；</li><li>InitContainer: 首先介绍了 InitContainer 和普通 container 的区别以及InitContainer 的用途。然后基于实际用例对 InitContainer 的用途进行了说明。</li></ol>
+          </div>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/cn/" rel="tag"><i class="fa fa-tag"></i> 云原生</a>
+              <a href="/tags/kubernetes/" rel="tag"><i class="fa fa-tag"></i> Kubernetes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/cn/k8s%E5%BA%94%E7%94%A8%E5%AD%98%E5%82%A8%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/" rel="prev" title="云原生技术基础(九)——应用存储和持久化数据卷核心知识">
+      <i class="fa fa-chevron-left"></i> 云原生技术基础(九)——应用存储和持久化数据卷核心知识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/cn/k8s%E7%90%86%E8%A7%A3Pod%E5%92%8C%E5%AE%B9%E5%99%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="next" title="云原生技术基础(四)——理解Pod和容器设计模式">
+      云原生技术基础(四)——理解Pod和容器设计模式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、需求来源"><span class="nav-text">一、需求来源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景问题"><span class="nav-text">背景问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod-的配置管理"><span class="nav-text">Pod 的配置管理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、ConfigMap"><span class="nav-text">二、ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigMap-介绍"><span class="nav-text">ConfigMap 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigMap-创建"><span class="nav-text">ConfigMap 创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigMap-使用"><span class="nav-text">ConfigMap 使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigMap-注意要点"><span class="nav-text">ConfigMap 注意要点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Secret"><span class="nav-text">三、Secret</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Secret-介绍"><span class="nav-text">Secret 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Secret-创建"><span class="nav-text">Secret 创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Secret-使用"><span class="nav-text">Secret 使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用私有镜像库"><span class="nav-text">使用私有镜像库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Secret-使用注意要点"><span class="nav-text">Secret 使用注意要点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、ServiceAccount"><span class="nav-text">四、ServiceAccount</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ServiceAccount-介绍"><span class="nav-text">ServiceAccount 介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、Resource"><span class="nav-text">五、Resource</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#容器资源配合管理"><span class="nav-text">容器资源配合管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod-服务质量-QoS-配置"><span class="nav-text">Pod 服务质量 (QoS) 配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、SecurityContext"><span class="nav-text">六、SecurityContext</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SecurityContext-介绍"><span class="nav-text">SecurityContext 介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、InitContainer"><span class="nav-text">七、InitContainer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InitContainer-介绍"><span class="nav-text">InitContainer 介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/cn/k8s%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

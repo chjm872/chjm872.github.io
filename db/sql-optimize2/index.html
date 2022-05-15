@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="数据库调优当MySQL单表记录数过大时，增删改查性能都会急剧下降，可以参考以下步骤来优化：              单表优化（字段、索引、SQL优化、存储引擎、系统参数、硬件）缓存读写分离表分区分库分表（垂直拆分，水平拆分）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL技巧,SQL调优,存储引擎——终于全懂了(下)(收藏)">
+<meta property="og:url" content="https://www.alan87.top/db/sql-optimize2/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="数据库调优当MySQL单表记录数过大时，增删改查性能都会急剧下降，可以参考以下步骤来优化：              单表优化（字段、索引、SQL优化、存储引擎、系统参数、硬件）缓存读写分离表分区分库分表（垂直拆分，水平拆分）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-1.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-2.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-3.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-4.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-5.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-6.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-7.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-8.webp/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-9.webp/w600">
+<meta property="article:published_time" content="2015-05-02T08:29:54.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.777Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="sql调优">
+<meta property="article:tag" content="sql优化全解">
+<meta property="article:tag" content="存储引擎">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-1.webp/w600">
+
+<link rel="canonical" href="https://www.alan87.top/db/sql-optimize2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SQL技巧,SQL调优,存储引擎——终于全懂了(下)(收藏) | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/sql-optimize2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SQL技巧,SQL调优,存储引擎——终于全懂了(下)(收藏)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-05-02 16:29:54" itemprop="dateCreated datePublished" datetime="2015-05-02T16:29:54+08:00">2015-05-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/sql-optimize2/" class="post-meta-item leancloud_visitors" data-flag-title="SQL技巧,SQL调优,存储引擎——终于全懂了(下)(收藏)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/sql-optimize2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/sql-optimize2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="数据库调优"><a href="#数据库调优" class="headerlink" title="数据库调优"></a>数据库调优</h1><p>当MySQL单表记录数过大时，增删改查性能都会急剧下降，可以参考以下步骤来优化：</p>
+<div class="note primary">
+            <ul><li>单表优化（字段、索引、SQL优化、存储引擎、系统参数、硬件）</li><li>缓存</li><li>读写分离</li><li>表分区</li><li>分库分表（垂直拆分，水平拆分）</li></ul>
+          </div>
+<a id="more"></a>
+<h2 id="单表优化"><a href="#单表优化" class="headerlink" title="单表优化"></a>单表优化</h2><p><a href="/sql-optimize1">查看 单表优化 详解</a>.</p>
+<h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>是目前常用的优化，从库读主库写，一般不要采用双主或多主，引入很多复杂性，尽量采用文中的其他方案来提高性能。同时目前很多拆分的解决方案同时也兼顾考虑了读写分离。</p>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>缓存可以发生在这些层次：</p>
+<ul>
+<li><p>MySQL内部：在系统调优参数介绍了相关设置</p>
+</li>
+<li><p>数据访问层：比如MyBatis针对SQL语句做缓存，而Hibernate可以精确到单个记录，这里缓存的对象主要是持久化对象Persistence Object</p>
+</li>
+<li><p>应用服务层：这里可以通过编程手段对缓存做到更精准的控制和更多的实现策略，这里缓存的对象是数据传输对象Data Transfer Object</p>
+</li>
+<li><p>Web层：针对web页面做缓存</p>
+</li>
+<li><p>浏览器客户端：用户端的缓存</p>
+</li>
+</ul>
+<p>可以根据实际情况在一个层次或多个层次结合加入缓存。这里重点介绍下服务层的缓存实现，目前主要有两种方式：</p>
+<div class="tabs" id="服务缓存实现方式"><ul class="nav-tabs"><li class="tab active"><a href="#服务缓存实现方式-1"><i class="fa fa-reorder"></i>直写式</a></li><li class="tab"><a href="#服务缓存实现方式-2"><i class="fa fa-reorder"></i>回写式</a></li></ul><div class="tab-content"><div class="tab-pane active" id="服务缓存实现方式-1"><p>直写式（Write Through）：在数据写入数据库后，同时更新缓存，维持数据库与缓存的一致性。这也是当前大多数应用缓存框架如Spring Cache的工作方式。这种实现非常简单，同步好，但效率一般。</p></div><div class="tab-pane" id="服务缓存实现方式-2"><p>回写式（Write Back）：当有数据要写入数据库时，只会更新缓存，然后异步批量的将缓存数据同步到数据库上。这种实现比较复杂，需要较多的应用逻辑，同时可能会产生数据库与缓存的不同步，但效率非常高。</p></div></div></div>
+
+<h2 id="表分区"><a href="#表分区" class="headerlink" title="表分区"></a>表分区</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>MySQL在5.1版引入的分区是一种简单的水平拆分，用户需要在建表的时候加上分区参数，对应用是透明的无需修改代码</p>
+<p>对用户来说，分区表是一个独立的逻辑表，但是底层由多个物理子表组成，实现分区的代码实际上是通过对一组底层表的对象封装，但对SQL层来说是一个完全封装底层的黑盒子。MySQL实现分区的方式也意味着索引也是按照分区的子表定义，没有全局索引</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-1.webp/w600">
+
+<p>用户的SQL语句是需要针对分区表做优化，SQL条件中要带上分区条件的列，从而使查询定位到少量的分区上，否则就会扫描全部分区，可以通过EXPLAIN PARTITIONS来查看某条SQL语句会落在那些分区上，从而进行SQL优化，如下5条记录落在两个分区上：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain partitions select count(1) from user_partition where id in (1,2,3,4,5);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">SIMPLE</td>
+<td align="left">user_partition</td>
+<td align="left">p1,p4</td>
+<td align="left">range</td>
+<td align="left">PRIMARY</td>
+<td align="left">PRIMARY</td>
+<td align="left">8</td>
+<td align="left">NULL</td>
+<td align="left">5</td>
+<td align="left">Using where; Using index</td>
+</tr>
+</tbody></table>
+<h3 id="分区的好处是："><a href="#分区的好处是：" class="headerlink" title="分区的好处是："></a>分区的好处是：</h3><div class="note primary">
+            <ul><li>可以让单表存储更多的数据</li><li>分区表的数据更容易维护，可以通过清楚整个分区批量删除大量数据，也可以增加新的分区来支持新插入的数据。另外，还可以对一个独立分区进行优化、检查、修复等操作</li><li>部分查询能够从查询条件确定只落在少数分区上，速度会很快</li><li>分区表的数据还可以分布在不同的物理设备上，从而搞笑利用多个硬件设备</li><li>可以使用分区表赖避免某些特殊瓶颈，例如InnoDB单个索引的互斥访问、ext3文件系统的inode锁竞争</li><li>可以备份和恢复单个分区</li></ul>
+          </div>
+
+<h3 id="分区的限制和缺点："><a href="#分区的限制和缺点：" class="headerlink" title="分区的限制和缺点："></a>分区的限制和缺点：</h3><div class="note warning">
+            <ul><li>一个表最多只能有1024个分区</li><li>如果分区字段中有主键或者唯一索引的列，那么所有主键列和唯一索引列都必须包含进来</li><li>分区表无法使用外键约束</li><li>NULL值会使分区过滤无效</li><li>所有分区必须使用相同的存储引擎</li></ul>
+          </div>
+
+<h3 id="分区的类型："><a href="#分区的类型：" class="headerlink" title="分区的类型："></a>分区的类型：</h3><div class="tabs" id="partion"><ul class="nav-tabs"><li class="tab active"><a href="#partion-1">RANGE分区</a></li><li class="tab"><a href="#partion-2">LIST分区</a></li><li class="tab"><a href="#partion-3">HASH分区</a></li><li class="tab"><a href="#partion-4">KEY分区</a></li></ul><div class="tab-content"><div class="tab-pane active" id="partion-1"><ul>
+<li>RANGE分区：基于属于一个给定连续区间的列值，把多行分配给分区</li>
+</ul></div><div class="tab-pane" id="partion-2"><ul>
+<li>LIST分区：类似于按RANGE分区，区别在于LIST分区是基于列值匹配一个离散值集合中的某个值来进行选择</li>
+</ul></div><div class="tab-pane" id="partion-3"><ul>
+<li>HASH分区：基于用户定义的表达式的返回值来进行选择的分区，该表达式使用将要插入到表中的这些行的列值进行计算。这个函数可以包含MySQL中有效的、产生非负整数值的任何表达式</li>
+</ul></div><div class="tab-pane" id="partion-4"><ul>
+<li>KEY分区：类似于按HASH分区，区别在于KEY分区只支持计算一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值</li>
+</ul></div></div></div>
+
+<h3 id="分区适合的场景"><a href="#分区适合的场景" class="headerlink" title="分区适合的场景:"></a>分区适合的场景:</h3><p>最适合的场景数据的时间序列性比较强，则可以按时间来分区，如下所示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> members (</span><br><span class="line"></span><br><span class="line">    firstname <span class="built_in">VARCHAR</span>(<span class="number">25</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"></span><br><span class="line">    lastname <span class="built_in">VARCHAR</span>(<span class="number">25</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"></span><br><span class="line">    username <span class="built_in">VARCHAR</span>(<span class="number">16</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"></span><br><span class="line">    email <span class="built_in">VARCHAR</span>(<span class="number">35</span>),</span><br><span class="line"></span><br><span class="line">    joined <span class="built_in">DATE</span> <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span>( <span class="keyword">YEAR</span>(joined) ) (</span><br><span class="line"></span><br><span class="line">    <span class="keyword">PARTITION</span> p0 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="number">1960</span>),</span><br><span class="line"></span><br><span class="line">    <span class="keyword">PARTITION</span> p1 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="number">1970</span>),</span><br><span class="line"></span><br><span class="line">    <span class="keyword">PARTITION</span> p2 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="number">1980</span>),</span><br><span class="line"></span><br><span class="line">    <span class="keyword">PARTITION</span> p3 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="number">1990</span>),</span><br><span class="line"></span><br><span class="line">    <span class="keyword">PARTITION</span> p4 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> MAXVALUE</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>查询时加上时间范围条件效率会非常高，同时对于不需要的历史数据能很容的批量删除。</p>
+<p>如果数据有明显的热点，而且除了这部分数据，其他数据很少被访问到，那么可以将热点数据单独放在一个分区，让这个分区的数据能够有机会都缓存在内存中，查询时只访问一个很小的分区表，能够有效使用索引和缓存。</p>
+<blockquote>
+<p>另外MySQL有一种早期的简单的分区实现 – 合并表（merge table），限制较多且缺乏优化，不建议使用，应该用新的分区机制来替代。</p>
+</blockquote>
+<h2 id="分库分表"><a href="#分库分表" class="headerlink" title="分库分表"></a>分库分表</h2><div class="tabs" id="sub-db-sub-table"><ul class="nav-tabs"><li class="tab active"><a href="#sub-db-sub-table-1"><i class="fa fa-reorder"></i>垂直拆分</a></li><li class="tab"><a href="#sub-db-sub-table-2"><i class="fa fa-reorder"></i>水平拆分</a></li></ul><div class="tab-content"><div class="tab-pane active" id="sub-db-sub-table-1"><h3 id="垂直拆分"><a href="#垂直拆分" class="headerlink" title="垂直拆分"></a>垂直拆分</h3><p>垂直分库是根据数据库里面的数据表的相关性进行拆分，比如：一个数据库里面既存在用户数据，又存在订单数据，那么垂直拆分可以把用户数据放到用户库、把订单数据放到订单库。垂直分表是对数据表进行垂直拆分的一种方式，常见的是把一个多字段的大表按常用字段和非常用字段进行拆分，每个表里面的数据记录数一般情况下是相同的，只是字段不一样，使用主键关联</p>
+<p>比如原始的用户表是：<br><img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-2.webp/w600"></p>
+<p>垂直拆分后是：<br><img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-3.webp/w600"></p>
+<p>垂直拆分的优点是：</p>
+<ul>
+<li>可以使得行数据变小，一个数据块(Block)就能存放更多的数据，在查询时就会减少I/O次数(每次查询时读取的Block 就少)</li>
+<li>可以达到最大化利用Cache的目的，具体在垂直拆分的时候可以将不常变的字段放一起，将经常改变的放一起</li>
+<li>数据维护简单</li>
+</ul>
+<p>缺点是：</p>
+<ul>
+<li>主键出现冗余，需要管理冗余列</li>
+<li>会引起表连接JOIN操作（增加CPU开销）可以通过在业务服务器上进行join来减少数据库压力</li>
+<li>依然存在单表数据量过大的问题（需要水平拆分）</li>
+<li>事务处理复杂</li>
+</ul></div><div class="tab-pane" id="sub-db-sub-table-2"><h3 id="水平拆分"><a href="#水平拆分" class="headerlink" title="水平拆分"></a>水平拆分</h3><p>概述<br>水平拆分是通过某种策略将数据分片来存储，分库内分表和分库两部分，每片数据会分散到不同的MySQL表或库，达到分布式的效果，能够支持非常大的数据量。前面的表分区本质上也是一种特殊的库内分表。</p>
+<p>库内分表，仅仅是单纯的解决了单一表数据过大的问题，由于没有把表的数据分布到不同的机器上，因此对于减轻MySQL服务器的压力来说，并没有太大的作用，大家还是竞争同一个物理机上的IO、CPU、网络，这个就要通过分库来解决</p>
+<p>前面垂直拆分的用户表如果进行水平拆分，结果是：<br><img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-4.webp/w600"></p>
+<p>实际情况中往往会是垂直拆分和水平拆分的结合，即将Users_A_M和Users_N_Z再拆成Users和UserExtras，这样一共四张表</p>
+<p>水平拆分的优点是:</p>
+<ul>
+<li>不存在单库大数据和高并发的性能瓶颈</li>
+<li>应用端改造较少</li>
+<li>提高了系统的稳定性和负载能力</li>
+</ul>
+<p>缺点是：</p>
+<ul>
+<li>分片事务一致性难以解决</li>
+<li>跨节点Join性能差，逻辑复杂</li>
+<li>数据多次扩展难度跟维护量极大</li>
+</ul></div></div></div>
+
+<h3 id="分片原则"><a href="#分片原则" class="headerlink" title="分片原则"></a>分片原则</h3><ul>
+<li>能不分就不分，参考单表优化</li>
+<li>分片数量尽量少，分片尽量均匀分布在多个数据结点上，因为一个查询SQL跨分片越多，则总体性能越差，虽然要好于所有数据在一个分片的结果，只在必要的时候进行扩容，增加分片数量</li>
+<li>分片规则需要慎重选择做好提前规划，分片规则的选择，需要考虑数据的增长模式，数据的访问模式，分片关联性问题，以及分片扩容问题，最近的分片策略为范围分片，枚举分片，一致性Hash分片，这几种分片都有利于扩容</li>
+<li>尽量不要在一个事务中的SQL跨越多个分片，分布式事务一直是个不好处理的问题</li>
+<li>查询条件尽量优化，尽量避免Select * 的方式，大量数据结果集下，会消耗大量带宽和CPU资源，查询尽量避免返回大量结果集，并且尽量为频繁使用的查询语句建立索引。</li>
+<li>通过数据冗余和表分区赖降低跨库Join的可能</li>
+</ul>
+<div class="note primary">
+            <p>这里特别强调一下分片规则的选择问题，如果某个表的数据有明显的时间特征，比如订单、交易记录等，则他们通常比较合适用时间范围分片，因为具有时效性的数据，我们往往关注其近期的数据，查询条件中往往带有时间字段进行过滤。<br>比较好的方案是:</p><ul><li>当前活跃的数据，采用跨度比较短的时间段进行分片，</li><li>历史性的数据，则采用比较长的跨度存储。</li></ul>
+          </div>
+<p>总体上来说，分片的选择是取决于最频繁的查询SQL的条件，因为不带任何Where语句的查询SQL，会遍历所有的分片，性能相对最差，因此这种SQL越多，对系统的影响越大，所以我们要尽量避免这种SQL的产生。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>由于水平拆分牵涉的逻辑比较复杂，当前也有了不少比较成熟的解决方案。这些方案分为两大类：客户端架构和代理架构。</p>
+<h4 id="客户端架构"><a href="#客户端架构" class="headerlink" title="客户端架构"></a>客户端架构</h4><p>通过修改数据访问层，如JDBC、Data Source、MyBatis，通过配置来管理多个数据源，直连数据库，并在模块内完成数据的分片整合，一般以Jar包的方式呈现</p>
+<p>这是一个客户端架构的例子：</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-5.webp/w600">
+
+<p>可以看到分片的实现是和应用服务器在一起的，通过修改Spring JDBC层来实现</p>
+<p>客户端架构优缺点:</p>
+<div class="tabs" id="client_is_good"><ul class="nav-tabs"><li class="tab active"><a href="#client_is_good-1"><i class="fa fa-reorder"></i>优点</a></li><li class="tab"><a href="#client_is_good-2"><i class="fa fa-reorder"></i>缺点</a></li></ul><div class="tab-content"><div class="tab-pane active" id="client_is_good-1"><p>客户端架构的优点是：</p>
+<ul>
+<li>应用直连数据库，降低外围系统依赖所带来的宕机风险</li>
+<li>集成成本低，无需额外运维的组件</li>
+</ul></div><div class="tab-pane" id="client_is_good-2"><p>客户端架构缺点是：</p>
+<ul>
+<li>限于只能在数据库访问层上做文章，扩展性一般，对于比较复杂的系统可能会力不从心</li>
+<li>将分片逻辑的压力放在应用服务器上，造成额外风险</li>
+</ul></div></div></div>
+
+<h4 id="代理架构"><a href="#代理架构" class="headerlink" title="代理架构"></a>代理架构</h4><p>通过独立的中间件来统一管理所有数据源和数据分片整合，后端数据库集群对前端应用程序透明，需要独立部署和运维代理组件。</p>
+<p>这是一个代理架构的例子：</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-6.webp/w600">
+
+<p>代理组件为了分流和防止单点，一般以集群形式存在，同时可能需要Zookeeper之类的服务组件来管理</p>
+<p>代理架构的优缺点：</p>
+<div class="tabs" id="proxy_is_good"><ul class="nav-tabs"><li class="tab active"><a href="#proxy_is_good-1"><i class="fa fa-reorder"></i>优点</a></li><li class="tab"><a href="#proxy_is_good-2"><i class="fa fa-reorder"></i>缺点</a></li></ul><div class="tab-content"><div class="tab-pane active" id="proxy_is_good-1"><p>优点是：</p>
+<ul>
+<li>能够处理非常复杂的需求，不受数据库访问层原来实现的限制，扩展性强</li>
+<li>对于应用服务器透明且没有增加任何额外负载</li>
+</ul></div><div class="tab-pane" id="proxy_is_good-2"><p>缺点是：</p>
+<ul>
+<li>需部署和运维独立的代理中间件，成本高</li>
+<li>应用需经过代理来连接数据库，网络上多了一跳，性能有损失且有额外风险</li>
+</ul></div></div></div>
+
+<h4 id="各方案比较"><a href="#各方案比较" class="headerlink" title="各方案比较"></a>各方案比较</h4><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-7.webp/w600"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-8.webp/w600"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img data-src="http://f.ngall-in.com/alan87/static/images/db/sql-optimize/sql-optimize-9.webp/w600"></div></div></div></div>
+
+<p>如此多的方案，如何进行选择？可以按以下思路来考虑：</p>
+<div class="note primary">
+            <ul><li>确定是使用代理架构还是客户端架构。中小型规模或是比较简单的场景倾向于选择客户端架构，复杂场景或大规模系统倾向选择代理架构</li><li>具体功能是否满足，比如需要跨节点ORDER BY，那么支持该功能的优先考虑</li><li>不考虑一年内没有更新的产品，说明开发停滞，甚至无人维护和技术支持</li><li>最好按大公司-&gt;社区-&gt;小公司-&gt;个人这样的出品方顺序来选择</li><li>选择口碑较好的，比如github星数、使用者数量质量和使用者反馈</li><li>开源的优先，往往项目有特殊需求可能需要改动源代码</li></ul>
+          </div>
+
+<p>按照上述思路，推荐以下选择：</p>
+<ul>
+<li><p>客户端架构：ShardingJDBC</p>
+</li>
+<li><p>代理架构：MyCat或者Atlas</p>
+</li>
+</ul>
+<h3 id="兼容MySQL且可水平扩展的数据库"><a href="#兼容MySQL且可水平扩展的数据库" class="headerlink" title="兼容MySQL且可水平扩展的数据库"></a>兼容MySQL且可水平扩展的数据库</h3><p>目前也有一些开源数据库兼容MySQL协议，如：</p>
+<ul>
+<li>TiDB</li>
+<li>Cubrid</li>
+</ul>
+<p>但其工业品质和MySQL尚有差距，且需要较大的运维投入，如果想将原始的MySQL迁移到可水平扩展的新数据库中，可以考虑一些云数据库：</p>
+<ul>
+<li>阿里云OceanBase</li>
+<li>腾讯云DCDB</li>
+</ul>
+<h1 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h1><p>在MySQL上做Sharding是一种戴着镣铐的跳舞，事实上很多大表本身对MySQL这种RDBMS的需求并不大，并不要求ACID，可以考虑将这些表迁移到NoSQL，彻底解决水平扩展问题，例如：</p>
+<ul>
+<li>日志类、监控类、统计类数据</li>
+<li>非结构化或弱结构化数据</li>
+<li>对事务要求不强，且无太多关联操作的数据</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/db/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+              <a href="/tags/mysql/" rel="tag"><i class="fa fa-tag"></i> Mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/java/id-generate/" rel="prev" title="Id生成器">
+      <i class="fa fa-chevron-left"></i> Id生成器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/db/sql-optimize1/" rel="next" title="SQL技巧,SQL调优,存储引擎——终于全懂了(上)(收藏)">
+      SQL技巧,SQL调优,存储引擎——终于全懂了(上)(收藏) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库调优"><span class="nav-text">数据库调优</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单表优化"><span class="nav-text">单表优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-text">读写分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表分区"><span class="nav-text">表分区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区的好处是："><span class="nav-text">分区的好处是：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区的限制和缺点："><span class="nav-text">分区的限制和缺点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区的类型："><span class="nav-text">分区的类型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区适合的场景"><span class="nav-text">分区适合的场景:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分库分表"><span class="nav-text">分库分表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#垂直拆分"><span class="nav-text">垂直拆分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#水平拆分"><span class="nav-text">水平拆分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分片原则"><span class="nav-text">分片原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端架构"><span class="nav-text">客户端架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代理架构"><span class="nav-text">代理架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#各方案比较"><span class="nav-text">各方案比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容MySQL且可水平扩展的数据库"><span class="nav-text">兼容MySQL且可水平扩展的数据库</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NoSQL"><span class="nav-text">NoSQL</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/db/sql-optimize2/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

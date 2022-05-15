@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="为什么要使用cache关系型数据库的数据量比较小，以mysql为例，单表的量尽量控制在千万级别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cache经验总结">
+<meta property="og:url" content="https://www.alan87.top/sa/cache-summary/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="为什么要使用cache关系型数据库的数据量比较小，以mysql为例，单表的量尽量控制在千万级别。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-11-13T14:18:08.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.886Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="cache经验总结">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/sa/cache-summary/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Cache经验总结 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/sa/cache-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cache经验总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-11-13 22:18:08" itemprop="dateCreated datePublished" datetime="2016-11-13T22:18:08+08:00">2016-11-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/system-architecture/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sa/cache-summary/" class="post-meta-item leancloud_visitors" data-flag-title="Cache经验总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sa/cache-summary/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sa/cache-summary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="为什么要使用cache"><a href="#为什么要使用cache" class="headerlink" title="为什么要使用cache"></a>为什么要使用cache</h1><p>关系型数据库的数据量比较小，以mysql为例，单表的量尽量控制在千万级别。</p>
+<a id="more"></a>
+<p>关系型数据库在TPS上的瓶颈往往会比其他瓶颈更容易暴露出来，尤其对于大型web系统，由于每天大量的并发访问，对数据库的读写性能要求非常高;而传统的关系型数据库的处理能力确实捉襟见肘;以我们常用的MySQL数据库为例，常规情况下的TPS大概只有1500左右(各种极端场景下另当别论)。</p>
+<p>下面是MySQL官方所给出的一份测试数据：</p>
+<p>系统配置：</p>
+<p>Sun V40z / 4x 2390MHZ / Solaris 10 / 8GB RAM</p>
+<p>1m rows，Read Only，4 CPU</p>
+<table>
+<thead>
+<tr>
+<th>Connections</th>
+<th>Trans/sec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>382</td>
+</tr>
+<tr>
+<td>2</td>
+<td>677</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1130</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1479</td>
+</tr>
+<tr>
+<td>32</td>
+<td>1418</td>
+</tr>
+<tr>
+<td>256</td>
+<td>947</td>
+</tr>
+<tr>
+<td>1024</td>
+<td>224</td>
+</tr>
+</tbody></table>
+<p><a href="img/UC2005-Advanced-Innodb-Optimization.pdf">详细压测报告：</a></p>
+<p><a href="https://www.percona.com/blog/files/presentations/UC2005-Advanced-Innodb-Optimization.pdf" target="_blank" rel="noopener">https://www.percona.com/blog/files/presentations/UC2005-Advanced-Innodb-Optimization.pdf</a></p>
+<p>对于一个PV上亿的网站，每一次请求涉及多次数据库交互，每天的读写请求量远远超过关系型数据库的处理能力，所以必须通过高效的缓存抵挡大部分的数据请求。</p>
+<h1 id="缓存类型"><a href="#缓存类型" class="headerlink" title="缓存类型"></a>缓存类型</h1><ul>
+<li><p>本地缓存</p>
+<p> 本地缓存会减少网络层的交互，无论是本地内存还是磁盘，速度比较快。但对分布式系统来讲有一个缺点，当数据库更新时，没有一个简单有效的方法去更新本地缓存。</p>
+<p> <strong>本地缓存适用两种场景：</strong></p>
+<ul>
+<li><p>一、对缓存内容时效性要求不高，能接受一定的延迟，可以设置较短过期时间，被动失效更新保持数据的新鲜度。</p>
+</li>
+<li><p>二、缓存的内容不会改变。比如订单号与uid的映射关系，一旦创建就不会发生改变。</p>
+</li>
+<li><p><em>注意问题：*</em></p>
+</li>
+<li><p>内存Cache数据条目上限控制，避免内存占用过多导致应用瘫痪。</p>
+</li>
+<li><p>内存中的数据移出策略</p>
+</li>
+<li><p>虽然实现简单，但潜在的坑比较多，最好选择一些成熟的开源框架</p>
+</li>
+</ul>
+</li>
+<li><p>分布式缓存</p>
+<p> 本地缓存的使用很容易让你的应用服务器带上“状态”，而且容易受内存大小的限制。</p>
+<p> 分布式缓存借助分布式的概念，集群化部署，独立运维，容量无上限，虽然会有网络传输的损耗，但这1~2ms的延迟相比其更多优势完成可以忽略。    </p>
+<p> 优秀的分布式缓存系统有大家所熟知的Memcached、Redis。对比关系型数据库和缓存存储，其在读和写性能上的差距可谓天壤之别，redis单节点已经可以做到8W+ QPS。设计方案时尽量把读写压力从数据库转移到缓存上，有效保护脆弱的关系型数据库。</p>
+</li>
+</ul>
+<ul>
+<li><p>客户端缓存</p>
+<p> 大部分的web应用、微服务应用都会尽量做到无状态，方便于线性扩容。有状态的后端存储：DB、NoSQL、分布式文件系统、CDN等。</p>
+<p> 另一个很重要的就是客户端缓存了，对客户端存储的合理使用，原本每天几千万甚至上亿的接口调用，一下就可能降到了几百万甚至更少，而且即便是用户更换浏览器，或者缓存丢失需要重新访问服务器，由于随机性比较强，请求分散，给服务器的压力也很小。另外再加上合理的缓存过期时间，就可以在数据准确和性能上做一个很好的折衷。</p>
+</li>
+</ul>
+<h1 id="常用技术框架"><a href="#常用技术框架" class="headerlink" title="常用技术框架"></a>常用技术框架</h1><ul>
+<li>Guave</li>
+<li>Memcached</li>
+<li>Redis</li>
+</ul>
+<p>更多缓存框架：<a href="http://www.oschina.net/project/tag/109/cacheserver" target="_blank" rel="noopener">http://www.oschina.net/project/tag/109/cacheserver</a></p>
+<h1 id="更新策略"><a href="#更新策略" class="headerlink" title="更新策略"></a>更新策略</h1><ul>
+<li><p>被动失效</p>
+<p>  缓存数据主要是服务读请求的，通常会设置一个过期时间，或者当数据库状态改变时，通过一个简单的delete操作，使数据失效掉；当下次再去读取时，如果发现数据过期了或者不存在了，那么就重新去数据库读取，然后更新到缓存中，这即是所谓的被动失效策略。</p>
+<p>  被动策略有一个很大的风险，从缓存失效到数据再次被预热到cache这段时间，所有的读请求会直接打到DB上，对于一个高访问量的系统，很容易被击垮。</p>
+</li>
+</ul>
+<ul>
+<li><p>主动更新</p>
+<p>  主动更新，很容易理解，就是数据库存储发生变化时，会直接同步更新到Cache，主要是为了解决cache空窗期引发的问题。比如电商的卖家修改商品详情，具有读多写少特点。</p>
+<p>  但如果是读多写多，同样会带来另一个问题，就是并发更新。多台应用服务器同时访问一份数据是很正常的，这样就会存在一台服务器读取并修改了缓存数据，但是还没来得及写入的情况下，另一台服务器也读取并修改旧的数据，这时候，后写入的将会覆盖前面的，从而导致数据丢失。解决的方式主要有三种：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、锁控制。这种方式一般在客户端实现(在服务端加锁是另外一种情况)，其基本原理就是使用读写锁，即任何线程要调用写方法时，先要获取一个排他锁，阻塞住所有的其他访问，等自己完全修改完后才能释放。如果遇到其他线程也在修改或读取数据，那么则需要等待。锁控制虽然是一种方案，但是很少有真的这样去做的，其缺点显而易见，其并发性只存在于读操作之间，只要有写操作存在，就只能串行。</span><br><span class="line"></span><br><span class="line">2、单版本机制（乐观锁）。为每份数据保存一个版本号，当缓存数据写入时，需要回传这个版本号，然后服务端将传入的版本号和数据当前的版本号进行比对，如果等于当前版本号，则成功写入，否则失败。这样解决方式比较简单;但是增加了高并发下客户端的写失败概率;</span><br><span class="line"></span><br><span class="line">3、多版本机制。即存储系统为每个数据保存多份，每份都有自己的版本号，互不冲突，然后通过一定的策略来定期合并，再或者就是交由客户端自己去选择读取哪个版本的数据。</span><br></pre></td></tr></table></figure>
+
+<h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><p>分布式缓存的本质就是将所有的业务数据对象序列化为字节数组，然后保存到自己的内存中。所使用的序列化方案也自然会成为影响系统性能的关键点之一</p>
+<ul>
+<li>序列化速度</li>
+<li>对象压缩比例</li>
+<li>支持的序列化数据类型范围</li>
+<li>反序列化的速度</li>
+<li>框架接入易用性</li>
+</ul>
+<p>常见的序列化框架：</p>
+<ul>
+<li>Java源生序列化</li>
+<li>Hessian</li>
+<li>Protobuf</li>
+<li>Kryo</li>
+</ul>
+<h1 id="开发注意事项"><a href="#开发注意事项" class="headerlink" title="开发注意事项"></a>开发注意事项</h1><ul>
+<li>评估当前业务使用的空间大小。避免空间不足，导致热数据被置换出去，影响缓存命中率</li>
+<li>不要把缓存当DB使用，因为它会丢失</li>
+<li>最好设置过期时间，可以自己回收</li>
+<li>key定义遵循一定规则，相同业务采用同一前缀</li>
+<li>缓存对象粒度。高内聚低耦合，考虑尽可能复用，不要一个小字段修改导整个大对象全部失效</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">方案一：</span><br><span class="line">uid---&gt; 发过的贴子内容列表</span><br><span class="line"></span><br><span class="line">方案二：</span><br><span class="line">uid---&gt;发过的贴子tid列表</span><br><span class="line">tid---&gt;贴子内容</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>另外缓存对象大小要控制，不要过大，占用过多带宽。之前遇到过一个业务团队，单key下挂了5M的大对象，每次用时，从缓存中取出，反序列化，然后取其中一小部分。后来随着业务并发量上升，把网卡打爆，进而影响其它正常业务访问。</li>
+<li>根据业务需求，选择合适的缓存框架，比如memcache只支持kv对存储，redis则支持较丰富的数据结构</li>
+<li>是否要引入多级缓存，本地内存–》非持久化缓存（如memcache）—》持久化缓存—》DB，要注意数据一致性问题</li>
+<li>提前考虑扩容问题</li>
+</ul>
+<h1 id="问题汇总"><a href="#问题汇总" class="headerlink" title="问题汇总"></a>问题汇总</h1><h1 id="1、缓存穿透"><a href="#1、缓存穿透" class="headerlink" title="1、缓存穿透"></a>1、缓存穿透</h1><p>我们在项目中使用缓存通常都是先检查缓存中是否存在，如果存在直接返回缓存内容，如果不存在就直接查询数据库然后再缓存查询结果返回。这个时候如果我们查询的某一个数据在缓存中一直不存在，就会造成每一次请求都查询DB，这样缓存就失去了意义，在流量大时，可能DB就挂掉了。那这种问题有什么好办法解决呢？</p>
+<p>有一个比较巧妙的做法是，可以将这个不存在的key预先设定一个值。比如，”NULL” ，在返回这个NULL值的时候，我们的应用就可以认为这是不存在的key。</p>
+<p>缓存穿透如果被恶意攻击，造成的影响面很容易放大。比如文章详情页，查询一个不存在的tid，每次都会访问DB，如果有人恶意破坏，很可能直接对DB造成影响。</p>
+<h1 id="2、缓存集体失效"><a href="#2、缓存集体失效" class="headerlink" title="2、缓存集体失效"></a>2、缓存集体失效</h1><p>对于一些活动期间的数据通常会提前预热到缓存中，并设置一个过期时间，如果系统的并发量很高，恰巧缓存又失效了，此时会将压力转嫁给后面的DB，很容易击垮系统。</p>
+<p>那如何解决这些问题呢？</p>
+<p>其中的一个简单方案就是将缓存失效时间分散开，比如我们可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效的事件。还有一种方式，就是计算好缓存的过期时间。</p>
+<h1 id="3、DB和缓存不一致"><a href="#3、DB和缓存不一致" class="headerlink" title="3、DB和缓存不一致"></a>3、DB和缓存不一致</h1><p>当修改了数据库后，没有及时修改缓存，或者缓存服务器挂了。如果是因为网络问题引起的没有及时更新，可以通过重试机制来解决。而缓存服务器挂了，请求首先自然也就无法到达，从而直接访问到数据库。那么我们在修改数据库后，无法修改缓存，这时候可以将这条数据放到数据库中，同时启动一个异步任务定时去检测缓存服务器是否连接成功，一旦连接成功则从数据库中按顺序取出修改数据，依次进行缓存最新值的修改。</p>
+<h1 id="4、命中率较低，影响性能"><a href="#4、命中率较低，影响性能" class="headerlink" title="4、命中率较低，影响性能"></a>4、命中率较低，影响性能</h1><ul>
+<li>过期时间太短， 这种场景可以根据实际情况适当增大过期时间</li>
+<li>存在不合理缓存删除逻辑， 导致有效的缓存频繁被删除</li>
+<li>不合理的key规则设计， 每次缓存访问的key都在变化， 导致无法命中缓存和频繁的新缓存创建</li>
+<li>key确实不存在，但是应用还是在频繁的访问， 这种应该从业务逻辑上杜绝</li>
+</ul>
+<h1 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h1><ul>
+<li>缓存空间的使用率</li>
+<li>topN 命令的执行次数</li>
+<li>缓存的命中率</li>
+<li>缓存的接口平均RT，最大RT，最小RT</li>
+<li>缓存的QPS</li>
+<li>网络出口流量</li>
+<li>客户端连接数</li>
+<li>key个数统计</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/system-architecture/" rel="tag"><i class="fa fa-tag"></i> 系统架构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sa/architecture-good-case/" rel="prev" title="经典案例">
+      <i class="fa fa-chevron-left"></i> 经典案例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sa/cache%E7%9B%B8%E5%85%B3/" rel="next" title="Cache相关总结">
+      Cache相关总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要使用cache"><span class="nav-text">为什么要使用cache</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存类型"><span class="nav-text">缓存类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用技术框架"><span class="nav-text">常用技术框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新策略"><span class="nav-text">更新策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#序列化"><span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发注意事项"><span class="nav-text">开发注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题汇总"><span class="nav-text">问题汇总</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1、缓存穿透"><span class="nav-text">1、缓存穿透</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、缓存集体失效"><span class="nav-text">2、缓存集体失效</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、DB和缓存不一致"><span class="nav-text">3、DB和缓存不一致</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、命中率较低，影响性能"><span class="nav-text">4、命中率较低，影响性能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能指标"><span class="nav-text">性能指标</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/sa/cache-summary/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="前言阿里巴巴java开发手册终极版 下文是对里面常用的一些案例及规范的抽取。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码规范">
+<meta property="og:url" content="https://www.alan87.top/pm/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="前言阿里巴巴java开发手册终极版 下文是对里面常用的一些案例及规范的抽取。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/pm/1.png/w600">
+<meta property="article:published_time" content="2017-11-09T14:18:08.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.879Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="代码规范">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://f.ngall-in.com/alan87/static/images/pm/1.png/w600">
+
+<link rel="canonical" href="https://www.alan87.top/pm/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>代码规范 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/pm/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          代码规范
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-09 22:18:08" itemprop="dateCreated datePublished" datetime="2017-11-09T22:18:08+08:00">2017-11-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index"><span itemprop="name">项目管理</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/pm/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" class="post-meta-item leancloud_visitors" data-flag-title="代码规范" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/pm/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/pm/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a href="https://m.aliyun.com/yunqi//articles/215726?from=groupmessage&isappinstalled=0&utm_content=m_23665" target="_blank" rel="noopener">阿里巴巴java开发手册终极版</a></p>
+<p>下文是对里面常用的一些案例及规范的抽取。</p>
+<a id="more"></a>
+<h1 id="无规矩不成方圆，无规范不能协作"><a href="#无规矩不成方圆，无规范不能协作" class="headerlink" title="无规矩不成方圆，无规范不能协作"></a>无规矩不成方圆，无规范不能协作</h1><p>对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而是限制过度个性化，以一种普遍认可的方式一起做事，降低故障率，提升协作效率。</p>
+<p>开发手册详细列举如何开发更加高效，更加容错，更加有协作性，力求知其然，更知其不然，结合正反例，提高代码质量。比如，异常日志处理时的各种不规范行为；集合转换的各种坑；创建线程池出现的等待队列OOM等。</p>
+<p>简单，适用的代码规约背后所传递的是技术上的追求卓越、协同合作的精神，是每个技术团队不可缺失的重要利器。<br>代码是软件工程里面的产品设计、系统架构设计等工作的最后承载体，代码的质量决定了一切工作的成败。</p>
+<hr>
+<h1 id="一、编程规约"><a href="#一、编程规约" class="headerlink" title="一、编程规约"></a>一、编程规约</h1><p>1、所有编程相关命名均不能以下划线或美元符号开始,也不能以下划线或美元符号结束。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">反例: _name &#x2F; __name &#x2F; $Object &#x2F; name_ &#x2F; name$ &#x2F; Object$</span><br></pre></td></tr></table></figure>
+
+<p>2、所有编程相关的命名严禁使用拼音与英文混合的方式,更不允许直接使用中文的方式。 </p>
+<p>3、类名使用 UpperCamelCase 风格,必须遵从<strong>驼峰形式</strong>,但以下情形例外:(领域模型的相关命名)DO / DTO / VO / DAO 等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正例:MarcoPolo &#x2F; UserDO &#x2F; XmlService &#x2F; TcpUdpDeal &#x2F; TaPromotion</span><br><span class="line">反例:macroPolo &#x2F; UserDo &#x2F; XMLService &#x2F; TCPUDPDeal &#x2F; TAPromotion</span><br></pre></td></tr></table></figure>
+
+<p>4、方法名、参数名、成员变量、局部变量都统一使用 lowerCamelCase 风格,必须遵从 驼峰形式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例: localValue &#x2F; getHttpMessage() &#x2F; inputUserId</span><br></pre></td></tr></table></figure>
+
+<p>5、常量命名全部大写,单词间用下划线隔开,力求语义表达完整清楚,不要嫌名字长。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正例: MAX_STOCK_COUNT</span><br><span class="line">反例: MAX_COUNT</span><br></pre></td></tr></table></figure>
+<p>6、抽象类命名使用 Abstract 或 Base 开头；异常类命名使用 Exception 结尾；测试类命名以它要测试的类的名称开始，以 Test 结尾</p>
+<p>7、中括号是数组类型的一部分,数组定义如下:String[] args; </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">反例:请勿使用 String args[]的方式来定义</span><br></pre></td></tr></table></figure>
+
+<p>8、POJO 类中的任何布尔类型的变量,都不要加 is,否则部分框架解析会引起序列化错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">反例：定义为基本数据类型 boolean isSuccess;的属性,它的方法也是 isSuccess(),RPC 框架在反向解析的时候,“以为”对应的属性名称是 success，导致属性获取不到，进而抛出异常。</span><br></pre></td></tr></table></figure>
+
+<p>9、包名统一使用小写，点分隔符之间有且仅有一个自然语义的英语单词。包名统一使用<br>单数形式,但是类名如果有复数含义,类名可以使用复数形式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例: 应用工具类包名为com.alibaba.mpp.util、类名为MessageUtils(此规则参考spring 的框架结构)</span><br></pre></td></tr></table></figure>
+
+<p>10、如果使用到了设计模式，建议在类名中体现出具体模式。 </p>
+<p>说明：将设计模式体现在名字中， 有利于阅读者快速理解架构设计思想。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">正例:</span><br><span class="line">public class OrderFactory;</span><br><span class="line">public class LoginProxy;</span><br><span class="line">public class ResourceObserver;</span><br></pre></td></tr></table></figure>
+<p>11、对于 Service 和 DAO 类，基于 SOA 的理念，暴露出来的服务一定是接口，内部<br>的实现类用 Impl 的后缀与接口区别。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例:CacheServiceImpl 实现 CacheService 接口。</span><br></pre></td></tr></table></figure>
+
+<p>12、枚举类名建议带上 Enum 后缀,枚举成员名称需要全大写,单词间用下划线隔开。 </p>
+<p>说明:枚举其实就是特殊的常量类,且构造方法被默认强制是私有。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例:枚举名字:DealStatusEnum;成员名称:SUCCESS &#x2F; UNKOWN_REASON。</span><br></pre></td></tr></table></figure>
+
+<p>13、各层命名规约</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Service&#x2F;DAO 层方法命名规约:</span><br><span class="line">1) 获取单个对象的方法用 get 做前缀。</span><br><span class="line">2) 获取多个对象的方法用 list 做前缀。</span><br><span class="line">3) 获取统计值的方法用 count 做前缀。</span><br><span class="line">4) 插入的方法用 insert 做前缀。 </span><br><span class="line">5) 删除的方法用 delete 做前缀。 </span><br><span class="line">6) 修改的方法用 update 做前缀。</span><br><span class="line"></span><br><span class="line">领域模型命名规约:</span><br><span class="line">1) 数据对象:xxxDO,xxx 即为数据表名。</span><br><span class="line">2) 数据传输对象:xxxDTO,xxx 为业务领域相关的名称。 </span><br><span class="line">3) 展示对象:xxxVO,xxx 一般为网页名称。</span><br><span class="line">4) POJO 是 DO&#x2F;DTO&#x2F;BO&#x2F;VO 的统称,禁止命名成 xxxPOJO。</span><br></pre></td></tr></table></figure>
+
+<p>14、long 或者 Long 初始赋值时,必须使用大写的 L，不能是小写的 l，小写容易跟数字 1 混淆，造成误解。</p>
+<p>说明:Long a = 2l; 写的是数字的 21,还是 Long 型的 2?</p>
+<p>15、不要使用一个常量类维护所有常量，应该按常量功能进行归类，分开维护。</p>
+<p>如：缓存相关的常量放在类:CacheConsts 下；系统配置相关的常量放在类:ConfigConsts 下。</p>
+<p>16、对外暴露的接口签名，原则上不允许修改方法签名，避免对接口调用方产生影响。</p>
+<p>接口过时必须加@Deprecated 注解，并清晰地说明采用的新接口或者新服务是什么</p>
+<p>17、当一个类有多个构造器方法，或者多个同名方法（重载），这些方法应该按顺序放置在一起，便于阅读。</p>
+<p>18、推荐尽量少用 else。if-else 的方式可以改写成:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(condition)&#123; </span><br><span class="line">	...</span><br><span class="line">	return obj; </span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 接着写 else 的业务逻辑代码;</span><br></pre></td></tr></table></figure>
+
+<p>说明：如果使用要 if-else if-else 方式表达逻辑，最好不要超过 3 层</p>
+<p>19、所有的类都必须添加作者信息。方法前要加注释。</p>
+<p>代码修改的同时，注释也要进行相应的修改，尤其是参数、返回值、异常、核心逻辑 等的修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说明:代码与注释更新不同步,就像路网与导航软件更新不同步一样,如果导航软件严重滞后, 就失去了导航的意义。</span><br></pre></td></tr></table></figure>
+
+<p>20、接口返回值不允许使用枚举类型或者包含枚举类型的 POJO 对象（建议用字符串代替）。容易引发反序列化失败。</p>
+<p>21、依赖于一个二方库群时，必须定义一个统一版本变量，避免版本号不一致。</p>
+<p>说明:依赖 springframework-core、-context、-beans，它们都是同一个版本，可以定义一个变量来保存版本:${spring.version}，定义依赖的时候，引用该版本。</p>
+<h1 id="二、编码误区"><a href="#二、编码误区" class="headerlink" title="二、编码误区"></a>二、编码误区</h1><p>1、Object的equals方法容易抛空指针异常，应使用常量或确定有值的对象来调用equals。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">正例: &quot;test&quot;.equals(object);</span><br><span class="line">反例: object.equals(&quot;test&quot;);</span><br><span class="line">说明:推荐使用 java.util.Objects#equals (JDK7 引入的工具类)</span><br></pre></td></tr></table></figure>
+
+<p>2、所有的相同类型的包装类对象之间值的比较,全部使用 equals 方法比较。</p>
+<p>3、序列化类新增属性时,请不要修改 serialVersionUID 字段,避免反序列失败;如果完全不兼容升级,避免反序列化混乱,那么请修改 serialVersionUID 值。</p>
+<p>4、使用索引访问用 String 的 split 方法得到的数组时,需做最后一个分隔符后有无内 容的检查,否则会有抛 IndexOutOfBoundsException 的风险。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str &#x3D; &quot;a,b,c,,&quot;; </span><br><span class="line">String[] ary &#x3D; str.split(&quot;,&quot;);</span><br><span class="line">&#x2F;&#x2F;预期大于 3,结果是 3</span><br><span class="line">System.out.println(ary.length);</span><br></pre></td></tr></table></figure>
+
+<p>5、字符串的联接方式，使用 StringBuilder 的 append 方法进行扩展。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">反例:</span><br><span class="line">String str &#x3D; &quot;start&quot;;</span><br><span class="line">for(int i&#x3D;0; i&lt;100; i++)&#123;</span><br><span class="line">    str &#x3D; str + &quot;hello&quot;;</span><br><span class="line">&#125;</span><br><span class="line">说明:反编译出的字节码文件显示每次循环都会 new 出一个 StringBuilder 对象,然后进行 append 操作,最后通过 toString 方法返回 String 对象,造成内存资源浪费。</span><br></pre></td></tr></table></figure>
+
+<p>6、final 可提高程序响应效率，声明成 final 的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1) 不需要重新赋值的变量,包括类属性、局部变量。 </span><br><span class="line">2) 对象参数前加 final,表示不允许修改引用的指向。 </span><br><span class="line">3) 类方法确定不允许被重写。</span><br><span class="line">4) 类不能被继承</span><br></pre></td></tr></table></figure>
+
+<p>7、Map/Set 的 key 为自定义对象时，必须重写 hashCode 和 equals。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例:String 重写了 hashCode 和 equals 方法,所以我们可以非常愉快地使用 String 对象作 为 key 来使用。</span><br></pre></td></tr></table></figure>
+
+<p>8、使用集合转数组的方法，必须使用集合的 toArray(T[] array)，传入的是类型完全一样的数组，大小就是 list.size()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">反例:</span><br><span class="line">直接使用 toArray 无参方法存在问题,此方法返回值只能是 Object[]类,若强转其它类型数组将出现 ClassCastException 错误。</span><br><span class="line"></span><br><span class="line">正例:</span><br><span class="line">List&lt;String&gt; list &#x3D; new ArrayList&lt;String&gt;(2);</span><br><span class="line">list.add(&quot;guan&quot;);</span><br><span class="line">list.add(&quot;bao&quot;);</span><br><span class="line">String[] array &#x3D; new String[list.size()];</span><br><span class="line">array &#x3D; list.toArray(array);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">注：ArrayList 源码：</span><br><span class="line"></span><br><span class="line"> public &lt;T&gt; T[] toArray(T[] a) &#123;</span><br><span class="line">        if (a.length &lt; size)</span><br><span class="line">            &#x2F;&#x2F; Make a new array of a&#39;s runtime type, but my contents:</span><br><span class="line">            return (T[]) Arrays.copyOf(elementData, size, a.getClass());</span><br><span class="line">        System.arraycopy(elementData, 0, a, 0, size);</span><br><span class="line">        if (a.length &gt; size)</span><br><span class="line">            a[size] &#x3D; null;</span><br><span class="line">        return a;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>9、使用工具类Arrays.asList()把数组转换成集合时，不能使用其修改集合相关的方法, 它的 add/remove/clear 方法会抛出 UnsupportedOperationException 异常。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">说明：asList 的返回对象是一个 Arrays 内部类,并没有实现集合的修改方法。Arrays.asList 体现的是适配器模式,只是转换接口,后台的数据仍是数组。</span><br><span class="line"></span><br><span class="line">String[] str &#x3D; new String[] &#123; &quot;a&quot;, &quot;b&quot; &#125;;</span><br><span class="line">List list &#x3D; Arrays.asList(str);</span><br><span class="line"></span><br><span class="line">第一种情况:list.add(&quot;c&quot;); 运行时异常。 </span><br><span class="line">第二种情况:str[0]&#x3D; &quot;gujin&quot;; 那么 list.get(0)也会随之修改。</span><br></pre></td></tr></table></figure>
+
+<p>10、不要在 foreach 循环里进行元素的 remove/add 操作。remove 元素请使用 Iterator 方式,如果并发操作,需要对 Iterator 对象加锁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">反例:</span><br><span class="line">List&lt;String&gt; a &#x3D; new ArrayList&lt;String&gt;();</span><br><span class="line">a.add(&quot;1&quot;);</span><br><span class="line">a.add(&quot;2&quot;);</span><br><span class="line">for (String temp : a) &#123;</span><br><span class="line">    if(&quot;1&quot;.equals(temp))&#123;</span><br><span class="line">       a.remove(temp);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Iterator&lt;String&gt; it &#x3D; a.iterator(); </span><br><span class="line">while(it.hasNext())&#123;</span><br><span class="line">	String temp &#x3D; it.next(); </span><br><span class="line">	if(删除元素的条件)&#123;</span><br><span class="line">        it.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>11、集合初始化时，尽量指定集合初始值大小。</p>
+<p>说明：ArrayList 尽量使用 ArrayList(int initialCapacity) 初始化</p>
+<p>12、使用 entrySet 遍历 Map 类集合 KV,而不是 keySet 方式进行遍历。</p>
+<p>说明：keySet 其实是遍历了 2 次,一次是转为 Iterator 对象,另一次是从 hashMap 中取出 key 所对应的 value。而 entrySet 只是遍历了一次就把 key 和 value 都放到了 entry 中，效率更高。如果是 JDK8,使用 Map.foreach 方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">正例:</span><br><span class="line">values()返回的是 V 值集合,是一个 list 集合对象;</span><br><span class="line">keySet()返回的是 K 值集合,是 一个 Set 集合对象;</span><br><span class="line">entrySet()返回的是 K-V 值组合集合。</span><br></pre></td></tr></table></figure>
+
+<p>13、Map 类集合 K/V 能不能存储 null 值的情况</p>
+<table>
+<thead>
+<tr>
+<th>集合类</th>
+<th>Key</th>
+<th>Value</th>
+<th>Super</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>￼￼￼￼Hashtable</td>
+<td>不允许为 null</td>
+<td>不允许为 null</td>
+<td>Dictionary</td>
+<td>线程安全</td>
+</tr>
+<tr>
+<td>ConcurrentHashMap</td>
+<td>不允许为 null</td>
+<td>不允许为 null</td>
+<td>AbstractMap</td>
+<td>线程局部安全</td>
+</tr>
+<tr>
+<td>TreeMap</td>
+<td>不允许为 null</td>
+<td>允许为 null</td>
+<td>AbstractMap</td>
+<td>线程不安全</td>
+</tr>
+<tr>
+<td>HashMap</td>
+<td>允许为 null</td>
+<td>允许为 null</td>
+<td>AbstractMap</td>
+<td>线程不安全</td>
+</tr>
+</tbody></table>
+<p>14、利用 Set 元素唯一的特性,可以快速对另一个集合进行去重操作,避免使用 List 的 contains 方法进行遍历去重操作。</p>
+<p>15、获取单例对象要线程安全(双重空判断)。在单例对象里面做操作也要保证线程安全。</p>
+<p>16、<strong>线程资源必须通过线程池提供</strong>，不允许在应用中自行显式创建线程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说明：使用线程池的好处是减少在创建和销毁线程上所花的时间以及系统资源的开销，解决资源不足的问题。如果不使用线程池，有可能造成系统创建大量同类线程而导致消耗完内存或者 “过度切换”的问题。</span><br></pre></td></tr></table></figure>
+
+<p>17、多线程并行处理定时任务时，Timer 运行多个 TimeTask 时，只要其中之一没有捕获抛出的异常，其它任务便会自动终止运行，使用 ScheduledExecutorService 则没有这个问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@param</span><br><span class="line">command the task to execute</span><br><span class="line">delay the time from now to delay execution</span><br><span class="line">unit the time unit of the delay parameter</span><br><span class="line"></span><br><span class="line">@method</span><br><span class="line">ScheduledFuture&lt;?&gt; java.util.concurrent.ScheduledExecutorService.schedule(Runnable command, long delay, TimeUnit unit)</span><br></pre></td></tr></table></figure>
+
+<p>18、线程池不允许使用 Executors 去创建,而是通过 ThreadPoolExecutor 的方式,这样的处理方式让写的同学更加明确线程池的运行规则,规避资源耗尽的风险。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">说明:Executors 各个方法的弊端:</span><br><span class="line"></span><br><span class="line">newFixedThreadPool 、newSingleThreadExecutor 和 newScheduledThreadPool:</span><br><span class="line">主要问题是堆积的请求处理队列可能会耗费非常大的内存,甚至 OOM。</span><br></pre></td></tr></table></figure>
+
+<p>19、创建线程或线程池时请指定有意义的线程名称，方便出错时回溯。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">正例:</span><br><span class="line">public class TimerTaskThread extends Thread &#123;</span><br><span class="line">	public TimerTaskThread()&#123;</span><br><span class="line">		super.setName(&quot;TimerTaskThread&quot;); </span><br><span class="line">	... </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>20、避免 Random 实例被多线程使用,虽然共享该实例是线程安全的,但会因竞争同一 seed 导致的性能下降。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">说明:Random 实例包括 java.util.Random 的实例或者 Math.random()实例。</span><br><span class="line">正例:在 JDK7 之后,可以直接使用 API ThreadLocalRandom,在 JDK7 之前,可以做到每个线程一个实例。</span><br></pre></td></tr></table></figure>
+
+<p>21、volatile 解决多线程内存不可见问题。对于一写多读,是可以解决变量同步问题, 但是如果多写,同样无法解决线程安全问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">如果想取回 count++数据,使用如下类实现: </span><br><span class="line">AtomicInteger count &#x3D; new AtomicInteger(); </span><br><span class="line">count.addAndGet(1); </span><br><span class="line"></span><br><span class="line">count++操作如果是JDK8,推荐使用 LongAdder 对象,比 AtomicLong 性能更好(减少乐观锁的重试次数)。</span><br></pre></td></tr></table></figure>
+
+<p>22、在一个 switch 块内,每个 case 要么通过 break/return 来终止,要么注释说明程序 将继续执行到哪一个 case 为止;在一个 switch 块内,都必须包含一个 default 语句并且放在 最后,即使它什么代码也没有。</p>
+<p>23、在使用正则表达式时,利用好其预编译功能,可以有效加快正则匹配速度。 </p>
+<p>说明:不要在方法体内定义:Pattern pattern = Pattern.compile(规则);</p>
+<p>24、获取当前毫秒数:System.currentTimeMillis(); 而不是 new Date().getTime(); </p>
+<p>如果想获取更加精确的纳秒级时间值，用 System.nanoTime。</p>
+<p>25、日志输出最好使用占位符的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger.debug(&quot;Processing trade with id: &#123;&#125; and symbol : &#123;&#125; &quot;, id, symbol);</span><br></pre></td></tr></table></figure>
+
+<p>26、避免重复打印日志,浪费磁盘空间,务必在 log4j.xml 中设置 additivity=false。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例:&lt;logger name&#x3D;&quot;com.taobao.ecrm.member.config&quot; additivity&#x3D;&quot;false&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>27、输出的 POJO 类必须重写 toString 方法，否则只输出此对象的 hashCode 值(地址值)，没啥<br>参考意义。</p>
+<h1 id="三、MYSQL-规约"><a href="#三、MYSQL-规约" class="headerlink" title="三、MYSQL 规约"></a>三、MYSQL 规约</h1><p>1、任何字段如果为非负数，必须是 unsigned。</p>
+<p>2、表名、字段名必须使用小写字母或数字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例:getter_admin,task_config,level3_name</span><br></pre></td></tr></table></figure>
+
+<p>3、禁用保留字,如 desc、range、match、delayed 等,参考官方保留字。</p>
+<p>4、唯一索引名为 uk_字段名；普通索引名则为 idx_字段名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说明:uk_ 即 unique key;idx_ 即 index 的简称。</span><br></pre></td></tr></table></figure>
+<p>5、如果存储的字符串长度几乎相等，使用 CHAR 定长字符串类型。</p>
+<p>varchar 是可变长字符串，不预先分配存储空间,长度不要超过 5000，如果存储长度大于此值，定义字段类型为 TEXT，独立出来一张表，用主键来对应，避免影响其它字段索引效率。</p>
+<p>6、表必备三字段：id, gmt_create, gmt_modified</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 说明:其中 id 必为主键,类型为 unsigned bigint、单表时自增、步长为 1;分表时改为从 TDDL Sequence 取值,确保分表之间的全局唯一。</span></span><br><span class="line">gmt_create, gmt_modified 的类型均为 date_time 类型。</span><br><span class="line"></span><br><span class="line">`id` int(10) unsigned NOT NULL AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'自增主键'</span>,</span><br><span class="line"><span class="string">`created_time`</span> <span class="built_in">timestamp</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>(<span class="number">3</span>) <span class="keyword">COMMENT</span> <span class="string">'创建时间'</span>,</span><br><span class="line"><span class="string">`updated_time`</span> <span class="built_in">timestamp</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>(<span class="number">3</span>) <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>(<span class="number">3</span>) <span class="keyword">COMMENT</span> <span class="string">'更新时间'</span>,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br></pre></td></tr></table></figure>
+
+<p>7、如果修改字段含义或对字段表示的状态追加时,需要及时更新字段注释。</p>
+<p>8、单表行数超过 500 万行或者单表容量超过 2GB，才推荐进行分库分表。 </p>
+<p>说明:如果预计三年后的数据量根本达不到这个级别,请不要在创建表时就分库分表。 </p>
+<p>反例:某业务三年总数据量才 2 万行,却分成 1024 张表。<br>问:你为什么这么设计?答:分 1024 张表,不是标配吗?</p>
+<p>9、合适的字符存储长度，不但节约数据库表空间、节约索引存储，更重要的是提升检索速度。</p>
+<p>正例:</p>
+<p>人的年龄用 unsigned tinyint(表示范围 0-255,人的寿命不会超过 255 岁);<br>海龟就 必须是 smallint,<br>太阳的年龄,就必须是 int;<br>所有恒星的年龄都加起来，那么就必须使用 bigint。</p>
+<p>10、业务上具有唯一特性的字段，即使是组合字段，也必须建成唯一索引</p>
+<p>说明:不要以为唯一索引影响了 insert 速度,这个速度损耗可以忽略,但提高查找速度是明<br>显的;另外，即使在应用层做了非常完善的校验和控制,只要没有唯一索引,根据墨菲定律, 必然有脏数据产生。</p>
+<p>11、严禁多个表间join操作</p>
+<p>12、页面搜索严禁左模糊或者全模糊，如果需要请走搜索引擎来解决。</p>
+<p>说明：索引文件具有 B-Tree 的最左前缀匹配特性,如果左边的值未确定,那么无法使用此索<br>引。</p>
+<p>13、如果有 order by 的场景，请注意利用索引的有序性。order by 最后的字段是组合索引的一部分，并且放在索引组合顺序的最后，避免出现 file_sort 的情况，影响查询性能。 </p>
+<p>正例:<br>where a=? and b=? order by c; 索引:a_b_c</p>
+<p>反例:<br>索引中有范围查找,那么索引有序性无法利用,如:WHERE a&gt;10 ORDER BY b; 索引 a_b 无法排序。</p>
+<p>14、建组合索引的时候，区分度最高的在最左边</p>
+<p>正例:<br>如果 where a=? and b=? ,a 列的几乎接近于唯一值,那么只需要单建 idx_a 索引即可。</p>
+<p>说明:存在非等号和等号混合判断条件时,在建索引时,请把等号条件的列前置。如:where a&gt;?<br>and b=? 那么即使 a 的区分度更高,也必须把 b 放在索引的最前列。</p>
+<p>15、创建索引时避免有如下极端误解：</p>
+<p>1)误认为一个查询就需要建一个索引。<br>2)误认为索引会消耗空间、严重拖慢更新和新增速度。<br>3)误认为唯一索引一律需要在应用层通过“先查后插”方式解决。</p>
+<p>16、不得使用外键与级联，一切外键概念必须在应用层解决。 </p>
+<p>说明:(概念解释)学生表中的 student_id 是主键,那么成绩表中的 student_id 则为外键。 如果更新学生表中的 student_id,同时触发成绩表中的 student_id 更新,则为级联更新。外键与级联更新适用于单机低并发,不适合分布式、高并发集群;级联更新是强阻塞,存在数据库更新风暴的风险;外键影响数据库的插入速度。</p>
+<p>17、IDB 数据订正时，删除和修改记录时，要先 select，避免出现误删除，确认无误才能提交执行。</p>
+<p>18、in 操作能避免则避免，若实在避免不了，需要仔细评估 in 后边的集合元素数量，控制在 1000 个之内</p>
+<p>19、所有的字符存储与表示，均以 utf-8 编码，那么字符计数方法注意:</p>
+<p>说明:<br>SELECT LENGTH(“阿里巴巴”); 返回为 12<br>SELECT CHARACTER_LENGTH(“阿里巴巴”); 返回为 4<br>如果要使用表情，那么使用 utfmb4 来进行存储，注意它与 utf-8 编码。</p>
+<p>20、在表查询中，一律不要使用 * 作为查询的字段列表，需要哪些字段必须明确写明。</p>
+<p>说明:<br>1)增加查询分析器解析成本。<br>2)增减字段容易与 resultMap 配置不一致。</p>
+<p>21、不要用 resultClass 当返回参数,即使所有类属性名与数据库字段一一对应,也需要定义;反过来,每一个表也必然有一个与之对应。</p>
+<p>说明：配置映射关系，使字段与 DO 类解耦，方便维护</p>
+<p>22、xml 配置中参数注意使用:#{},#param# 不要使用${} 此种方式容易出现 SQL 注入</p>
+<p>23、更新数据表记录时，必须同时更新记录对应的 gmt_modified 字段值为当前时间。</p>
+<p>24、不要写一个大而全的数据更新接口,传入为 POJO 类，不管是不是自己的目标更新字段，都进行 update table set c1=value1,c2=value2,c3=value3; 这是不对的。</p>
+<p>执行 SQL 时，尽量不要更新无改动的字段，一是易出错；二是效率低；三是 binlog 增加存储。</p>
+<h1 id="四、工程规约"><a href="#四、工程规约" class="headerlink" title="四、工程规约"></a>四、工程规约</h1><p>1、默认上层依赖于下层，箭头关系表示可直接依赖，如:开放接口层可以依赖于 Web 层,也可以直接依赖于 Service 层,依此类推:</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/pm/1.png/w600">
+
+<ul>
+<li>开放接口层：可直接封装 Service 接口暴露成 RPC 接口；通过 Web 封装成 http 接口；网关控制层等。</li>
+<li>终端显示层：各个端的模板渲染并执行显示层。当前主要是 velocity 渲染,JS 渲染,JSP 渲 染,移动端展示层等。</li>
+<li>Web 层：主要是对访问控制进行转发,各类基本参数校验,或者不复用的业务简单处理等。</li>
+<li>Service层：相对具体的业务逻辑服务层。</li>
+<li>Manager层：通用业务处理层,它有如下特征:<ul>
+<li>1) 对第三方平台封装的层,预处理返回结果及转化异常信息;</li>
+<li>2) 对 Service 层通用能力的下沉,如缓存方案、中间件通用处理; </li>
+<li>3) 与 DAO 层交互,对 DAO 的业务通用能力的封装。</li>
+</ul>
+</li>
+<li>DAO 层：数据访问层,与底层 Mysql、Oracle、Hbase 进行数据交互。</li>
+<li>外部接口或第三方平台：包括其它部门 RPC 开放接口，基础平台，其它公司的 HTTP 接口。</li>
+</ul>
+<p>2、分层领域模型规约：</p>
+<ul>
+<li>DO(Data Object)：与数据库表结构一一对应,通过 DAO 层向上传输数据源对象。</li>
+<li>DTO(Data Transfer Object)：数据传输对象,Service 和 Manager 向外传输的对象。</li>
+<li>BO(Business Object)：业务对象。可以由 Service 层输出的封装业务逻辑的对象。</li>
+<li>QUERY：数据查询对象,各层接收上层的查询请求。注:超过 2 个参数的查询封装,禁止使 用 Map 类来传输。</li>
+<li>VO(View Object)：显示层对象，通常是 Web 向模板渲染引擎层传输的对象。</li>
+</ul>
+<h1 id="五、服务器"><a href="#五、服务器" class="headerlink" title="五、服务器"></a>五、服务器</h1><p>1、高并发服务器建议调小 TCP 协议的 time_wait 超时时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">说明：操作系统默认 240 秒后，才会关闭处于 time_wait 状态的连接,在高并发访问下,服务</span><br><span class="line">器端会因为处于 time_wait 的连接数太多,可能无法建立新的连接,所以需要在服务器上调小此等待值。</span><br><span class="line"></span><br><span class="line">正例:</span><br><span class="line">在linux 服务器上请通过变更&#x2F;etc&#x2F;sysctl.conf 文件去修改该缺省值(秒):</span><br><span class="line">net.ipv4.tcp_fin_timeout &#x3D; 30</span><br></pre></td></tr></table></figure>
+
+<p>2、调大服务器所支持的最大文件句柄数(File Descriptor,简写为 fd)。 </p>
+<p>说明：主流操作系统的设计是将 TCP/UDP 连接采用与文件一样的方式去管理，即一个连接对应于一个 fd。主流的 linux 服务器默认所支持最大fd 数量为 1024，当并发连接数很大时很容易因为 fd 不足而出现“open too many files”错误，导致新的连接无法建立。 </p>
+<p>建议将linux服务器所支持的最大句柄数调高数倍(与服务器的内存数量相关)。</p>
+<h1 id="六、性能规范"><a href="#六、性能规范" class="headerlink" title="六、性能规范"></a>六、性能规范</h1><ul>
+<li><p>常见OOM预防</p>
+</li>
+<li><p>禁止应用中显示创建线程，避免不可控出现unable to create new native thread；</p>
+</li>
+<li><p>控制select/update/delete/insert的数据级和可变集合的size，避免随着业务增加内存数据量不可控；</p>
+</li>
+<li><p>页面查询不推荐全表查询，查询通过查询条件限制查询条数；</p>
+</li>
+<li><p>页面下载条数和下载次数做限制，避免请求过多导致OOM；</p>
+</li>
+<li><p>SQL优化目标必须满足range、ref或者consts，不可以是all类型，避免慢SQL导致连接数耗尽影响业务功能；</p>
+</li>
+<li><p>代码书写中考虑MySQL中共享锁和排它锁场景，预防产生死锁；</p>
+</li>
+<li><p>代码中不建议使用@Transactional，因为一般业务场景中用不到，它影响数据库性能并且多个操作可能在并发下导致数据库死锁；</p>
+</li>
+<li><p>数据库单表达到一定数据量级需要做分库分表或者冷热数据隔离，避免业务增加带来的性能问题；</p>
+</li>
+<li><p>避免系统中出现单点故障，包括中间件和应用程序等所有的节点；</p>
+</li>
+<li><p>能异步处理的别同步处理，异步可以释放线程资源，避免阻塞，提高响应效率；</p>
+</li>
+<li><p>随着业务量的增加，考虑功能拆分和数据库表拆分，除此支付系统建议按照通道拆分，不同的通道指定独立的work线程，分而治之，避免相互之间影响；提高并发的一个思路就是拆分，拆分后通过异步提高并发效率。</p>
+</li>
+</ul>
+<h1 id="七、安全规范"><a href="#七、安全规范" class="headerlink" title="七、安全规范"></a>七、安全规范</h1><ul>
+<li><p>页面请求参数严格限制或者校验处理，防止SQL注入；</p>
+</li>
+<li><p>页面URL请求做细粒度的权限拦截，防止访问权限过大；</p>
+</li>
+<li><p>部署在公网的应用做好防止XSS攻击的防范措施；</p>
+</li>
+<li><p>和第三方系统交互需要互加白名单确保安全；</p>
+</li>
+<li><p>系统全站提供HTTPS服务；</p>
+</li>
+<li><p>和第三方系统交互报文需要加密传输；</p>
+</li>
+<li><p>用户敏感数据做数据脱敏（如：用户手机号nick）；</p>
+</li>
+<li><p>预防页面被频繁请求，占用系统资源；</p>
+</li>
+<li><p>预防API被频繁请求，占用系统资源；</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/pm/" rel="tag"><i class="fa fa-tag"></i> 项目管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/pm/test/" rel="prev" title="测试相关">
+      <i class="fa fa-chevron-left"></i> 测试相关
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/pm/code/" rel="next" title="代码管理">
+      代码管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无规矩不成方圆，无规范不能协作"><span class="nav-text">无规矩不成方圆，无规范不能协作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、编程规约"><span class="nav-text">一、编程规约</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、编码误区"><span class="nav-text">二、编码误区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、MYSQL-规约"><span class="nav-text">三、MYSQL 规约</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、工程规约"><span class="nav-text">四、工程规约</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、服务器"><span class="nav-text">五、服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、性能规范"><span class="nav-text">六、性能规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、安全规范"><span class="nav-text">七、安全规范</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/pm/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

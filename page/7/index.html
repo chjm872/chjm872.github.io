@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="道路很长, 开始了就别停下!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="千寻">
+<meta property="og:url" content="https://www.alan87.top/page/7/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="道路很长, 开始了就别停下!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="Alan">
+<meta property="article:tag" content="千寻">
+<meta property="article:tag" content="科技领域知识">
+<meta property="article:tag" content="5G">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="物联网">
+<meta property="article:tag" content="工业互联网">
+<meta property="article:tag" content="IT">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="flink">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="hadoop">
+<meta property="article:tag" content="clickhouse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/page/7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/pm/git-commands/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/pm/git-commands/" class="post-title-link" itemprop="url">Git常用命令</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-09 22:18:08" itemprop="dateCreated datePublished" datetime="2017-11-09T22:18:08+08:00">2017-11-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index"><span itemprop="name">项目管理</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/pm/git-commands/" class="post-meta-item leancloud_visitors" data-flag-title="Git常用命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/pm/git-commands/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/pm/git-commands/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ul>
+<li><p>git branch -a      </p>
+<p>查看所有的分支，包括本地和远程</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/pm/git-commands/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/pm/%E8%AE%BA%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/pm/%E8%AE%BA%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/" class="post-title-link" itemprop="url">论需求调研的重要性</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-09 22:18:08" itemprop="dateCreated datePublished" datetime="2017-11-09T22:18:08+08:00">2017-11-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index"><span itemprop="name">项目管理</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/pm/%E8%AE%BA%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/" class="post-meta-item leancloud_visitors" data-flag-title="论需求调研的重要性" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/pm/%E8%AE%BA%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/pm/%E8%AE%BA%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有国外开发者在 Quora 提了这个问题：“为什么软件开发周期通常是预期的两三倍？” 并补充问：“这是开发人员的错误？ 是管理失误？ 是因为做事方法不对， 或者说缺乏好的方法？还是说这就是软件开发流程的特点？” Michael Wolfe 在2012年1月28日给的回复，非常经典，截至我们发布时已有8016个赞。以下是译文。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/pm/%E8%AE%BA%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/pm/%E9%A1%B9%E7%9B%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/pm/%E9%A1%B9%E7%9B%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">项目生命周期</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-09 22:18:08" itemprop="dateCreated datePublished" datetime="2017-11-09T22:18:08+08:00">2017-11-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index"><span itemprop="name">项目管理</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/pm/%E9%A1%B9%E7%9B%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-meta-item leancloud_visitors" data-flag-title="项目生命周期" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/pm/%E9%A1%B9%E7%9B%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/pm/%E9%A1%B9%E7%9B%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>项目生命周期大致可以分为：初创阶段（协调）-&gt;普通成长阶段（质量）-&gt;实时监控阶段（预警）-&gt;高速发展阶段（高速扩张）-&gt;成熟运行阶段（稳定）</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/pm/%E9%A1%B9%E7%9B%AE%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/transaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/db/transaction/" class="post-title-link" itemprop="url">数据库事务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-26 19:39:06" itemprop="dateCreated datePublished" datetime="2017-10-26T19:39:06+08:00">2017-10-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/transaction/" class="post-meta-item leancloud_visitors" data-flag-title="数据库事务" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/transaction/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/transaction/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h3><p>原子性、一致性、隔离性、持久性，这四个属性通常称为ACID特性。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/db/transaction/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/docker/docker-overlay%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/docker/docker-overlay%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">Docker Overlay详解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-06-10 13:17:13" itemprop="dateCreated datePublished" datetime="2017-06-10T13:17:13+08:00">2017-06-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/docker/docker-overlay%E8%AF%A6%E8%A7%A3/" class="post-meta-item leancloud_visitors" data-flag-title="Docker Overlay详解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/docker/docker-overlay%E8%AF%A6%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/docker/docker-overlay%E8%AF%A6%E8%A7%A3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Overlay-Network"><a href="#Overlay-Network" class="headerlink" title="Overlay Network"></a><strong>Overlay Network</strong></h2><ul>
+<li><strong>Overlay Network：属于Docker网络驱动，基于VXLAN封装实现Docker原生Overlay网络。</strong></li>
+<li><strong>Overlay Network：覆盖网络，在基础网络上叠加的一种虚拟网络技术模式，该网络中的主机通过虚拟链路连接起来。</strong></li>
+<li><strong>Overlay Network：Overlay网络有三种协议实现方式分别为，VXLAN、NVGRE、STT。</strong></li>
+</ul>
+<h2 id="VXLAN：VXLAN（Virtual-Extensible-Local-Area-Network，虚拟可扩展局域网），通过将物理服务器或虚拟机发出的数据包封装到UDP中，并使用物理网络的IP-MAC作为外层报文头进行封装，然后在IP网络上传输，到达目的地后由隧道端点解封装并将数据发送给目标物理服务器或虚拟机，扩展了大规模虚拟机网络通信。由于VLAN-Header头部限制长度是12bit，导致只能分配4095个VLAN，也就是4095个网段，在大规模虚拟网络。VXLAN标准定义Header限制长度24bit，可以支持1600万个VLAN，满足大规模虚拟机网络需求。"><a href="#VXLAN：VXLAN（Virtual-Extensible-Local-Area-Network，虚拟可扩展局域网），通过将物理服务器或虚拟机发出的数据包封装到UDP中，并使用物理网络的IP-MAC作为外层报文头进行封装，然后在IP网络上传输，到达目的地后由隧道端点解封装并将数据发送给目标物理服务器或虚拟机，扩展了大规模虚拟机网络通信。由于VLAN-Header头部限制长度是12bit，导致只能分配4095个VLAN，也就是4095个网段，在大规模虚拟网络。VXLAN标准定义Header限制长度24bit，可以支持1600万个VLAN，满足大规模虚拟机网络需求。" class="headerlink" title="VXLAN：VXLAN（Virtual Extensible Local Area Network，虚拟可扩展局域网），通过将物理服务器或虚拟机发出的数据包封装到UDP中，并使用物理网络的IP/MAC作为外层报文头进行封装，然后在IP网络上传输，到达目的地后由隧道端点解封装并将数据发送给目标物理服务器或虚拟机，扩展了大规模虚拟机网络通信。由于VLAN Header头部限制长度是12bit，导致只能分配4095个VLAN，也就是4095个网段，在大规模虚拟网络。VXLAN标准定义Header限制长度24bit，可以支持1600万个VLAN，满足大规模虚拟机网络需求。"></a><strong>VXLAN：</strong>VXLAN（Virtual Extensible Local Area Network，虚拟可扩展局域网），通过将物理服务器或虚拟机发出的数据包封装到UDP中，并使用物理网络的IP/MAC作为外层报文头进行封装，然后在IP网络上传输，到达目的地后由隧道端点解封装并将数据发送给目标物理服务器或虚拟机，扩展了大规模虚拟机网络通信。由于VLAN Header头部限制长度是12bit，导致只能分配4095个VLAN，也就是4095个网段，在大规模虚拟网络。VXLAN标准定义Header限制长度24bit，可以支持1600万个VLAN，满足大规模虚拟机网络需求。</h2><h3 id="VXLAN有以下核心技术组成："><a href="#VXLAN有以下核心技术组成：" class="headerlink" title="VXLAN有以下核心技术组成："></a><strong>VXLAN有以下核心技术组成：</strong></h3><ul>
+<li><p><strong>NVE</strong>（Network Vritual Endpoint，网络虚拟端点）：实现网络虚拟化功能。报文经过NVE封装转换后，NVE间就可基于三层基础网络建立二层虚拟化网络。</p>
+</li>
+<li><p><strong>VTEP</strong>（VXLAN Tunnel Endpoints，VXLAN隧道端点）：封装在NVE中，用于VXLAN报文的封装和解封装。</p>
+</li>
+<li><p><strong>VNI</strong>（VXLAN Network Identifier，VXLAN网络标识ID）：类似于VLAN ID，用于区分VXLAN段，不同的VXLAN段不能直接二层网络通信。</p>
+<img data-src="https://img2018.cnblogs.com/blog/1183448/201811/1183448-20181102193351308-897002545.png" alt="" />
+
+</li>
+</ul>
+<p><strong>讲解：</strong></p>
+<ul>
+<li><strong>1、左右两边分别为容器节点1与容器节点2。</strong></li>
+<li><strong>2、当容器节点1发出一个报文时会通过VTEP将这个数据包进行封装，封装完成之后再由ech0转发到对应的主机中。</strong></li>
+<li><strong>3、通过UDP协议在VXLAN Tunnel隧道中传输。</strong></li>
+<li><strong>4、对应的主机也通过eth0收到数据包，通过VTEP将收到的数据包进行解封装，从里面取出对应的mac地址等信息发送到对应的容器中。</strong></li>
+</ul>
+<h2 id="NVGRE-（Network-Virtual-using-Generic-Routing-Encapsulation，使用GRE虚拟网络）：与VXLAN不同的是，NVGRE没有采用标准传输协议（TCP-UDP），而是借助通用路由封装协议（GRE）。采用24bit标识二层网络分段，与VXLAN一样可以支持1600万个虚拟网络。"><a href="#NVGRE-（Network-Virtual-using-Generic-Routing-Encapsulation，使用GRE虚拟网络）：与VXLAN不同的是，NVGRE没有采用标准传输协议（TCP-UDP），而是借助通用路由封装协议（GRE）。采用24bit标识二层网络分段，与VXLAN一样可以支持1600万个虚拟网络。" class="headerlink" title="NVGRE**（Network Virtual using Generic Routing Encapsulation，使用GRE虚拟网络）：与VXLAN不同的是，NVGRE没有采用标准传输协议（TCP/UDP），而是借助通用路由封装协议（GRE）。采用24bit标识二层网络分段，与VXLAN一样可以支持1600万个虚拟网络。**"></a><strong>NVGRE**</strong>（Network Virtual using Generic Routing Encapsulation，使用GRE虚拟网络）：与VXLAN不同的是，NVGRE没有采用标准传输协议（TCP/UDP），而是借助通用路由封装协议（GRE）。采用24bit标识二层网络分段，与VXLAN一样可以支持1600万个虚拟网络。**</h2><h2 id="STT-（Stateless-Transport-Tunneling，无状态传输隧道）：模拟TCP数据格式进行封装，改造了TCP传输机制，不维护TCP状态信息。"><a href="#STT-（Stateless-Transport-Tunneling，无状态传输隧道）：模拟TCP数据格式进行封装，改造了TCP传输机制，不维护TCP状态信息。" class="headerlink" title="STT**（Stateless Transport Tunneling，无状态传输隧道）：模拟TCP数据格式进行封装，改造了TCP传输机制，不维护TCP状态信息。**"></a><strong>STT**</strong>（Stateless Transport Tunneling，无状态传输隧道）：模拟TCP数据格式进行封装，改造了TCP传输机制，不维护TCP状态信息。**</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/%E4%BB%8EConcurrentHashMap%E7%9A%84%E6%BC%94%E8%BF%9B%E7%9C%8BJava%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/%E4%BB%8EConcurrentHashMap%E7%9A%84%E6%BC%94%E8%BF%9B%E7%9C%8BJava%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/" class="post-title-link" itemprop="url">从ConcurrentHashMap的演进看Java多线程核心技术</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-06-06 01:16:59" itemprop="dateCreated datePublished" datetime="2017-06-06T01:16:59+08:00">2017-06-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/%E4%BB%8EConcurrentHashMap%E7%9A%84%E6%BC%94%E8%BF%9B%E7%9C%8BJava%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/" class="post-meta-item leancloud_visitors" data-flag-title="从ConcurrentHashMap的演进看Java多线程核心技术" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/%E4%BB%8EConcurrentHashMap%E7%9A%84%E6%BC%94%E8%BF%9B%E7%9C%8BJava%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/%E4%BB%8EConcurrentHashMap%E7%9A%84%E6%BC%94%E8%BF%9B%E7%9C%8BJava%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="线程不安全的HashMap"><a href="#线程不安全的HashMap" class="headerlink" title="线程不安全的HashMap"></a>线程不安全的HashMap</h1><p>众所周知，HashMap是非线程安全的。而HashMap的线程不安全主要体现在resize时的死循环及使用迭代器时的fail-fast上。</p>
+<p>注：本章的代码均基于JDK 1.7.0_67</p>
+<h2 id="HashMap工作原理"><a href="#HashMap工作原理" class="headerlink" title="HashMap工作原理"></a>HashMap工作原理</h2><h3 id="HashMap数据结构"><a href="#HashMap数据结构" class="headerlink" title="HashMap数据结构"></a>HashMap数据结构</h3><p>常用的底层数据结构主要有数组和链表。数组存储区间连续，占用内存较多，寻址容易，插入和删除困难。链表存储区间离散，占用内存较少，寻址困难，插入和删除容易。</p>
+<p>HashMap要实现的是哈希表的效果，尽量实现O(1)级别的增删改查。它的具体实现则是同时使用了数组和链表，可以认为最外层是一个数组，数组的每个元素是一个链表的表头。</p>
+<h3 id="HashMap寻址方式"><a href="#HashMap寻址方式" class="headerlink" title="HashMap寻址方式"></a>HashMap寻址方式</h3><p>对于新插入的数据或者待读取的数据，HashMap将Key的哈希值对数组长度取模，结果作为该Entry在数组中的index。在计算机中，取模的代价远高于位操作的代价，因此HashMap要求数组的长度必须为2的N次方。此时将Key的哈希值对2^N-1进行与运算，其效果即与取模等效。HashMap并不要求用户在指定HashMap容量时必须传入一个2的N次方的整数，而是会通过Integer.highestOneBit算出比指定整数大的最小的2^N值，其实现方法如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">highestOneBit</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">  i |= (i &gt;&gt;  <span class="number">1</span>);</span><br><span class="line">  i |= (i &gt;&gt;  <span class="number">2</span>);</span><br><span class="line">  i |= (i &gt;&gt;  <span class="number">4</span>);</span><br><span class="line">  i |= (i &gt;&gt;  <span class="number">8</span>);</span><br><span class="line">  i |= (i &gt;&gt; <span class="number">16</span>);</span><br><span class="line">  <span class="keyword">return</span> i - (i &gt;&gt;&gt; <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于Key的哈希值的分布直接决定了所有数据在哈希表上的分布或者说决定了哈希冲突的可能性，因此为防止糟糕的Key的hashCode实现（例如低位都相同，只有高位不相同，与2^N-1取与后的结果都相同），JDK 1.7的HashMap通过如下方法使得最终的哈希值的二进制形式中的1尽量均匀分布从而尽可能减少哈希冲突。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> h = hashSeed;</span><br><span class="line">h ^= k.hashCode();</span><br><span class="line">h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</span><br><span class="line"><span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="resize死循环"><a href="#resize死循环" class="headerlink" title="resize死循环"></a>resize死循环</h2><h3 id="transfer方法"><a href="#transfer方法" class="headerlink" title="transfer方法"></a>transfer方法</h3><p>当HashMap的size超过Capacity*loadFactor时，需要对HashMap进行扩容。具体方法是，创建一个新的，长度为原来Capacity两倍的数组，保证新的Capacity仍为2的N次方，从而保证上述寻址方式仍适用。同时需要通过如下transfer方法将原来的所有数据全部重新插入（rehash）到新的数组中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable, <span class="keyword">boolean</span> rehash)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">  <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">      Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">      <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">        e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">      e.next = newTable[i];</span><br><span class="line">      newTable[i] = e;</span><br><span class="line">      e = next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法并不保证线程安全，而且在多线程并发调用时，可能出现死循环。其执行过程如下。从步骤2可见，转移时链表顺序反转。</p>
+<ol>
+<li>遍历原数组中的元素</li>
+<li>对链表上的每一个节点遍历：用next取得要转移那个元素的下一个，将e转移到新数组的头部，使用头插法插入节点</li>
+<li>循环2，直到链表节点全部转移</li>
+<li>循环1，直到所有元素全部转移</li>
+</ol>
+<h3 id="单线程rehash"><a href="#单线程rehash" class="headerlink" title="单线程rehash"></a>单线程rehash</h3><p>单线程情况下，rehash无问题。下图演示了单线程条件下的rehash过程<br><img data-src="http://www.jasongj.com/img/java/concurrenthashmap/single_thread_rehash.png"></p>
+<h3 id="多线程并发下的rehash"><a href="#多线程并发下的rehash" class="headerlink" title="多线程并发下的rehash"></a>多线程并发下的rehash</h3><p>这里假设有两个线程同时执行了put操作并引发了rehash，执行了transfer方法，并假设线程一进入transfer方法并执行完next = e.next后，因为线程调度所分配时间片用完而“暂停”，此时线程二完成了transfer方法的执行。此时状态如下。</p>
+<img data-src="http://www.jasongj.com/img/java/concurrenthashmap/multi_thread_rehash_1.png">
+
+<p>接着线程1被唤醒，继续执行第一轮循环的剩余部分</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">e.next = newTable[<span class="number">1</span>] = <span class="keyword">null</span></span><br><span class="line">newTable[<span class="number">1</span>] = e = key(<span class="number">5</span>)</span><br><span class="line">e = next = key(<span class="number">9</span>)</span><br></pre></td></tr></table></figure>
+
+<p>结果如下图所示<br><img data-src="http://www.jasongj.com/img/java/concurrenthashmap/multi_thread_rehash_2.png"></p>
+<p>接着执行下一轮循环，结果状态图如下所示<br><img data-src="http://www.jasongj.com/img/java/concurrenthashmap/multi_thread_rehash_3.png"></p>
+<p>继续下一轮循环，结果状态图如下所示<br><img data-src="http://www.jasongj.com/img/java/concurrenthashmap/multi_thread_rehash_4.png"></p>
+<p>此时循环链表形成，并且key(11)无法加入到线程1的新数组。在下一次访问该链表时会出现死循环。</p>
+<h2 id="Fail-fast"><a href="#Fail-fast" class="headerlink" title="Fail-fast"></a>Fail-fast</h2><h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>在使用迭代器的过程中如果HashMap被修改，那么<code>ConcurrentModificationException</code>将被抛出，也即Fail-fast策略。</p>
+<p>当HashMap的iterator()方法被调用时，会构造并返回一个新的EntryIterator对象，并将EntryIterator的expectedModCount设置为HashMap的modCount（该变量记录了HashMap被修改的次数）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HashIterator() &#123;</span><br><span class="line">  expectedModCount = modCount;</span><br><span class="line">  <span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123; <span class="comment">// advance to first entry</span></span><br><span class="line">  Entry[] t = table;</span><br><span class="line">  <span class="keyword">while</span> (index &lt; t.length &amp;&amp; (next = t[index++]) == <span class="keyword">null</span>)</span><br><span class="line">    ;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在通过该Iterator的next方法访问下一个Entry时，它会先检查自己的expectedModCount与HashMap的modCount是否相等，如果不相等，说明HashMap被修改，直接抛出<code>ConcurrentModificationException</code>。该Iterator的remove方法也会做类似的检查。该异常的抛出意在提醒用户及早意识到线程安全问题。</p>
+<h3 id="线程安全解决方案"><a href="#线程安全解决方案" class="headerlink" title="线程安全解决方案"></a>线程安全解决方案</h3><p>单线程条件下，为避免出现<code>ConcurrentModificationException</code>，需要保证只通过HashMap本身或者只通过Iterator去修改数据，不能在Iterator使用结束之前使用HashMap本身的方法修改数据。因为通过Iterator删除数据时，HashMap的modCount和Iterator的expectedModCount都会自增，不影响二者的相等性。如果是增加数据，只能通过HashMap本身的方法完成，此时如果要继续遍历数据，需要重新调用iterator()方法从而重新构造出一个新的Iterator，使得新Iterator的expectedModCount与更新后的HashMap的modCount相等。</p>
+<p>多线程条件下，可使用<code>Collections.synchronizedMap</code>方法构造出一个同步Map，或者直接使用线程安全的ConcurrentHashMap。</p>
+<h1 id="Java-7基于分段锁的ConcurrentHashMap"><a href="#Java-7基于分段锁的ConcurrentHashMap" class="headerlink" title="Java 7基于分段锁的ConcurrentHashMap"></a>Java 7基于分段锁的ConcurrentHashMap</h1><p>注：本章的代码均基于JDK 1.7.0_67</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>Java 7中的ConcurrentHashMap的底层数据结构仍然是数组和链表。与HashMap不同的是，ConcurrentHashMap最外层不是一个大的数组，而是一个Segment的数组。每个Segment包含一个与HashMap数据结构差不多的链表数组。整体数据结构如下图所示。<br><img data-src="http://www.jasongj.com/img/java/concurrenthashmap/concurrenthashmap_java7.png"></p>
+<h2 id="寻址方式"><a href="#寻址方式" class="headerlink" title="寻址方式"></a>寻址方式</h2><p>在读写某个Key时，先取该Key的哈希值。并将哈希值的高N位对Segment个数取模从而得到该Key应该属于哪个Segment，接着如同操作HashMap一样操作这个Segment。为了保证不同的值均匀分布到不同的Segment，需要通过如下方法计算哈希值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object k)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> h = hashSeed;</span><br><span class="line">  <span class="keyword">if</span> ((<span class="number">0</span> != h) &amp;&amp; (k <span class="keyword">instanceof</span> String)) &#123;</span><br><span class="line">    <span class="keyword">return</span> sun.misc.Hashing.stringHash32((String) k);</span><br><span class="line">  &#125;</span><br><span class="line">  h ^= k.hashCode();</span><br><span class="line">  h += (h &lt;&lt;  <span class="number">15</span>) ^ <span class="number">0xffffcd7d</span>;</span><br><span class="line">  h ^= (h &gt;&gt;&gt; <span class="number">10</span>);</span><br><span class="line">  h += (h &lt;&lt;   <span class="number">3</span>);</span><br><span class="line">  h ^= (h &gt;&gt;&gt;  <span class="number">6</span>);</span><br><span class="line">  h += (h &lt;&lt;   <span class="number">2</span>) + (h &lt;&lt; <span class="number">14</span>);</span><br><span class="line">  <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样为了提高取模运算效率，通过如下计算，ssize即为大于concurrencyLevel的最小的2的N次方，同时segmentMask为2^N-1。这一点跟上文中计算数组长度的方法一致。对于某一个Key的哈希值，只需要向右移segmentShift位以取高sshift位，再与segmentMask取与操作即可得到它在Segment数组上的索引。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sshift = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> ssize = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (ssize &lt; concurrencyLevel) &#123;</span><br><span class="line">  ++sshift;</span><br><span class="line">  ssize &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">this</span>.segmentShift = <span class="number">32</span> - sshift;</span><br><span class="line"><span class="keyword">this</span>.segmentMask = ssize - <span class="number">1</span>;</span><br><span class="line">Segment&lt;K,V&gt;[] ss = (Segment&lt;K,V&gt;[])<span class="keyword">new</span> Segment[ssize];</span><br></pre></td></tr></table></figure>
+
+<h2 id="同步方式"><a href="#同步方式" class="headerlink" title="同步方式"></a>同步方式</h2><p>Segment继承自ReentrantLock，所以我们可以很方便的对每一个Segment上锁。</p>
+<p>对于读操作，获取Key所在的Segment时，需要保证可见性(请参考<a href="http://www.jasongj.com/java/thread_safe/#Java如何保证可见性" target="_blank" rel="noopener">如何保证多线程条件下的可见性</a>)。具体实现上可以使用volatile关键字，也可使用锁。但使用锁开销太大，而使用volatile时每次写操作都会让所有CPU内缓存无效，也有一定开销。ConcurrentHashMap使用如下方法保证可见性，取得最新的Segment。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Segment&lt;K,V&gt; s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)</span><br></pre></td></tr></table></figure>
+
+<p>获取Segment中的HashEntry时也使用了类似方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HashEntry&lt;K,V&gt; e = (HashEntry&lt;K,V&gt;) UNSAFE.getObjectVolatile</span><br><span class="line">  (tab, ((<span class="keyword">long</span>)(((tab.length - <span class="number">1</span>) &amp; h)) &lt;&lt; TSHIFT) + TBASE)</span><br></pre></td></tr></table></figure>
+
+<p>对于写操作，并不要求同时获取所有Segment的锁，因为那样相当于锁住了整个Map。它会先获取该Key-Value对所在的Segment的锁，获取成功后就可以像操作一个普通的HashMap一样操作该Segment，并保证该Segment的安全性。<br>同时由于其它Segment的锁并未被获取，因此理论上可支持concurrencyLevel（等于Segment的个数）个线程安全的并发读写。</p>
+<p>获取锁时，并不直接使用lock来获取，因为该方法获取锁失败时会挂起（参考<a href="http://www.jasongj.com/java/multi_thread/#重入锁" target="_blank" rel="noopener">可重入锁</a>）。事实上，它使用了自旋锁，如果tryLock获取锁失败，说明锁被其它线程占用，此时通过循环再次以tryLock的方式申请锁。如果在循环过程中该Key所对应的链表头被修改，则重置retry次数。如果retry次数超过一定值，则使用lock方法申请锁。</p>
+<p>这里使用自旋锁是因为自旋锁的效率比较高，但是它消耗CPU资源比较多，因此在自旋次数超过阈值时切换为互斥锁。</p>
+<h2 id="size操作"><a href="#size操作" class="headerlink" title="size操作"></a>size操作</h2><p>put、remove和get操作只需要关心一个Segment，而size操作需要遍历所有的Segment才能算出整个Map的大小。一个简单的方案是，先锁住所有Sgment，计算完后再解锁。但这样做，在做size操作时，不仅无法对Map进行写操作，同时也无法进行读操作，不利于对Map的并行操作。</p>
+<p>为更好支持并发操作，ConcurrentHashMap会在不上锁的前提逐个Segment计算3次size，如果某相邻两次计算获取的所有Segment的更新次数（每个Segment都与HashMap一样通过modCount跟踪自己的修改次数，Segment每修改一次其modCount加一）相等，说明这两次计算过程中无更新操作，则这两次计算出的总size相等，可直接作为最终结果返回。如果这三次计算过程中Map有更新，则对所有Segment加锁重新计算Size。该计算方法代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> Segment&lt;K,V&gt;[] segments = <span class="keyword">this</span>.segments;</span><br><span class="line">  <span class="keyword">int</span> size;</span><br><span class="line">  <span class="keyword">boolean</span> overflow; <span class="comment">// true if size overflows 32 bits</span></span><br><span class="line">  <span class="keyword">long</span> sum;         <span class="comment">// sum of modCounts</span></span><br><span class="line">  <span class="keyword">long</span> last = <span class="number">0L</span>;   <span class="comment">// previous sum</span></span><br><span class="line">  <span class="keyword">int</span> retries = -<span class="number">1</span>; <span class="comment">// first iteration isn't retry</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">      <span class="keyword">if</span> (retries++ == RETRIES_BEFORE_LOCK) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; segments.length; ++j)</span><br><span class="line">          ensureSegment(j).lock(); <span class="comment">// force creation</span></span><br><span class="line">      &#125;</span><br><span class="line">      sum = <span class="number">0L</span>;</span><br><span class="line">      size = <span class="number">0</span>;</span><br><span class="line">      overflow = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; segments.length; ++j) &#123;</span><br><span class="line">        Segment&lt;K,V&gt; seg = segmentAt(segments, j);</span><br><span class="line">        <span class="keyword">if</span> (seg != <span class="keyword">null</span>) &#123;</span><br><span class="line">          sum += seg.modCount;</span><br><span class="line">          <span class="keyword">int</span> c = seg.count;</span><br><span class="line">          <span class="keyword">if</span> (c &lt; <span class="number">0</span> || (size += c) &lt; <span class="number">0</span>)</span><br><span class="line">            overflow = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (sum == last)</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      last = sum;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (retries &gt; RETRIES_BEFORE_LOCK) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; segments.length; ++j)</span><br><span class="line">        segmentAt(segments, j).unlock();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> overflow ? Integer.MAX_VALUE : size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="不同之处"><a href="#不同之处" class="headerlink" title="不同之处"></a><a href="#不同之处"></a>不同之处</h2><p>ConcurrentHashMap与HashMap相比，有以下不同点</p>
+<ul>
+<li>ConcurrentHashMap线程安全，而HashMap非线程安全</li>
+<li>HashMap允许Key和Value为null，而ConcurrentHashMap不允许</li>
+<li>HashMap不允许通过Iterator遍历的同时通过HashMap修改，而ConcurrentHashMap允许该行为，并且该更新对后续的遍历可见</li>
+</ul>
+<h1 id="Java-8基于CAS的ConcurrentHashMap"><a href="#Java-8基于CAS的ConcurrentHashMap" class="headerlink" title="Java 8基于CAS的ConcurrentHashMap"></a>Java 8基于CAS的ConcurrentHashMap</h1><p>注：本章的代码均基于JDK 1.8.0_111</p>
+<h2 id="数据结构-1"><a href="#数据结构-1" class="headerlink" title="数据结构"></a>数据结构</h2><p>Java 7为实现并行访问，引入了Segment这一结构，实现了分段锁，理论上最大并发度与Segment个数相等。Java 8为进一步提高并发性，摒弃了分段锁的方案，而是直接使用一个大的数组。同时为了提高哈希碰撞下的寻址性能，Java 8在链表长度超过一定阈值（8）时将链表（寻址时间复杂度为O(N)）转换为红黑树（寻址时间复杂度为O(long(N))）。其数据结构如下图所示</p>
+<h2 id="寻址方式-1"><a href="#寻址方式-1" class="headerlink" title="寻址方式"></a><a href="#寻址方式-1"></a>寻址方式</h2><p>Java 8的ConcurrentHashMap同样是通过Key的哈希值与数组长度取模确定该Key在数组中的索引。同样为了避免不太好的Key的hashCode设计，它通过如下方法计算得到Key的最终哈希值。不同的是，Java 8的ConcurrentHashMap作者认为引入红黑树后，即使哈希冲突比较严重，寻址效率也足够高，所以作者并未在哈希值的计算上做过多设计，只是将Key的hashCode值与其高16位作异或并保证最高位为0（从而保证最终结果为正整数）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">spread</span><span class="params">(<span class="keyword">int</span> h)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (h ^ (h &gt;&gt;&gt; <span class="number">16</span>)) &amp; HASH_BITS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="同步方式-1"><a href="#同步方式-1" class="headerlink" title="同步方式"></a>同步方式</h2><p>对于put操作，如果Key对应的数组元素为null，则通过<a href="http://www.jasongj.com/java/thread_safe/#CAS（compare-and-swap）" target="_blank" rel="noopener">CAS操作</a>将其设置为当前值。如果Key对应的数组元素（也即链表表头或者树的根元素）不为null，则对该元素使用synchronized关键字申请锁，然后进行操作。如果该put操作使得当前链表长度超过一定阈值，则将该链表转换为红黑树，从而提高寻址效率。</p>
+<p>对于读操作，由于数组被volatile关键字修饰，因此不用担心数组的可见性问题。同时每个元素是一个Node实例（Java 7中每个元素是一个HashEntry），它的Key值和hash值都由final修饰，不可变更，无须关心它们被修改后的可见性问题。而其Value及对下一个元素的引用由volatile修饰，可见性也有保障。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">  <span class="keyword">final</span> K key;</span><br><span class="line">  <span class="keyword">volatile</span> V val;</span><br><span class="line">  <span class="keyword">volatile</span> Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于Key对应的数组元素的可见性，由Unsafe的getObjectVolatile方法保证。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> &lt;K,V&gt; <span class="function">Node&lt;K,V&gt; <span class="title">tabAt</span><span class="params">(Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((<span class="keyword">long</span>)i &lt;&lt; ASHIFT) + ABASE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="size操作-1"><a href="#size操作-1" class="headerlink" title="size操作"></a>size操作</h2><p>put方法和remove方法都会通过addCount方法维护Map的size。size方法通过sumCount获取由addCount方法维护的Map的size。</p>
+<p><a href="http://www.jasongj.com/java/concurrenthashmap/" target="_blank" rel="noopener">原文链接</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/vue/%E8%A7%A3%E5%86%B3GitHub%E7%9A%84raw.githubusercontent.com/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/vue/%E8%A7%A3%E5%86%B3GitHub%E7%9A%84raw.githubusercontent.com/" class="post-title-link" itemprop="url">解决GitHub的raw.githubusercontent.com无法连接问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-20 09:55:16" itemprop="dateCreated datePublished" datetime="2017-05-20T09:55:16+08:00">2017-05-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/vue/%E8%A7%A3%E5%86%B3GitHub%E7%9A%84raw.githubusercontent.com/" class="post-meta-item leancloud_visitors" data-flag-title="解决GitHub的raw.githubusercontent.com无法连接问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/vue/%E8%A7%A3%E5%86%B3GitHub%E7%9A%84raw.githubusercontent.com/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/vue/%E8%A7%A3%E5%86%B3GitHub%E7%9A%84raw.githubusercontent.com/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://site.ip138.com/raw.Githubusercontent.com/" target="_blank" rel="noopener">https://site.ip138.com/raw.Githubusercontent.com/</a></p>
+<p>输入raw.githubusercontent.com</p>
+<p>查询IP地址</p>
+<p>修改hosts Ubuntu，CentOS及macOS直接在终端输入</p>
+<p><code>sudo vi /etc/hosts</code></p>
+<p>添加以下内容保存即可 （IP地址查询后相应修改，可以ping不同IP的延时 选择最佳IP地址）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GitHub Start</span></span><br><span class="line">52.74.223.119 github.com</span><br><span class="line">192.30.253.119 gist.github.com</span><br><span class="line">54.169.195.247 api.github.com</span><br><span class="line">185.199.111.153 assets-cdn.github.com</span><br><span class="line">151.101.76.133 raw.githubusercontent.com</span><br><span class="line">151.101.108.133 user-images.githubusercontent.com</span><br><span class="line">151.101.76.133 gist.githubusercontent.com</span><br><span class="line">151.101.76.133 cloud.githubusercontent.com</span><br><span class="line">151.101.76.133 camo.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars0.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars1.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars2.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars3.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars4.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars5.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars6.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars7.githubusercontent.com</span><br><span class="line">151.101.76.133 avatars8.githubusercontent.com</span><br><span class="line"><span class="comment"># GitHub End</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/vue/Vue%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/vue/Vue%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/" class="post-title-link" itemprop="url">Vue.js介绍以及优缺点</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-20 09:55:16" itemprop="dateCreated datePublished" datetime="2017-05-20T09:55:16+08:00">2017-05-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/vue/Vue%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/" class="post-meta-item leancloud_visitors" data-flag-title="Vue.js介绍以及优缺点" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/vue/Vue%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/vue/Vue%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一-MVX框架模式了解"><a href="#一-MVX框架模式了解" class="headerlink" title="一.MVX框架模式了解"></a>一.MVX框架模式了解</h1><p>MVX框架模式：MVC+MVP+MVVM</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/vue/Vue%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/docker/Dockerfile%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89Docker%E9%95%9C%E5%83%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/docker/Dockerfile%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89Docker%E9%95%9C%E5%83%8F/" class="post-title-link" itemprop="url">Dockerfile创建自定义Docker镜像Dockerfile创建自定义Docker镜像</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 15:15:01" itemprop="dateCreated datePublished" datetime="2017-05-08T15:15:01+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/docker/Dockerfile%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89Docker%E9%95%9C%E5%83%8F/" class="post-meta-item leancloud_visitors" data-flag-title="Dockerfile创建自定义Docker镜像Dockerfile创建自定义Docker镜像" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/docker/Dockerfile%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89Docker%E9%95%9C%E5%83%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/docker/Dockerfile%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89Docker%E9%95%9C%E5%83%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h1><p>创建Docker镜像的方式有三种</p>
+<ul>
+<li>docker commit命令：由容器生成镜像；</li>
+<li>Dockerfile文件+docker build命令；</li>
+<li>从本地文件系统导入：OpenVZ的模板。</li>
+</ul>
+<p>最近学习了Dockerfile文件的相关配置，这里做一下简单的总结，并对之前一直感到有些迷惑的CMD和ENTRYPOINT指令做个差异对比。</p>
+<h1 id="2-Dockerfile文件总结"><a href="#2-Dockerfile文件总结" class="headerlink" title="2.Dockerfile文件总结"></a>2.Dockerfile文件总结</h1><p>Dockerfile 由一行行命令语句组成，并且支持以 # 开头的注释行。</p>
+<p>一般地，Dockerfile 分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。<br>| 四部分 | 指令 |<br>| :—–| :—- |<br>| 基础镜像信息 | FROM |<br>| 维护者信息 | MAINTAINER |<br>| 镜像操作指令 | RUN、COPY、ADD、EXPOSE等 |<br>| 容器启动时执行指令 | CMD、ENTRYPOINT | </p>
+<p>Dockerfile文件的第一条指令必须是FROM，其后可以是各种镜像的操作指令，最后是CMD或ENTRYPOINT指定容器启动时执行的命令。</p>
+<h2 id="2-1-各个指令的介绍，"><a href="#2-1-各个指令的介绍，" class="headerlink" title="2.1 各个指令的介绍，"></a>2.1 各个指令的介绍，</h2><ul>
+<li>指令</li>
+</ul>
+<p>指令的一般格式为 INSTRUCTION arguments，指令包括 FROM、MAINTAINER、RUN 等。</p>
+<ul>
+<li>FROM</li>
+</ul>
+<p>格式为 FROM <image>或FROM <image>:<tag>。</p>
+<p>第一条指令必须为 FROM 指令。并且，如果在同一个Dockerfile中创建多个镜像时，可以使用多个 FROM 指令（每个镜像一次）。</p>
+<ul>
+<li>MAINTAINER</li>
+</ul>
+<p>格式为 MAINTAINER <name>，指定维护者信息。</p>
+<ul>
+<li>RUN</li>
+</ul>
+<p>格式为 RUN <command> 或 RUN [“executable”, “param1”, “param2”]。</p>
+<p>前者将在 shell 终端中运行命令，即 /bin/sh -c；后者则使用 exec 执行。指定使用其它终端可以通过第二种方式实现，例如 RUN [“/bin/bash”, “-c”, “echo hello”]。</p>
+<p>每条 RUN 指令将在当前镜像基础上执行指定命令，并提交为新的镜像。当命令较长时可以使用 \ 来换行。</p>
+<ul>
+<li>CMD<br>  支持三种格式<ul>
+<li>CMD [“executable”,”param1”,”param2”] 使用 exec 执行，推荐方式；</li>
+<li>CMD command param1 param2 在 /bin/sh 中执行，提供给需要交互的应用；</li>
+<li>CMD [“param1”,”param2”] 提供给 ENTRYPOINT 的默认参数；</li>
+</ul>
+</li>
+</ul>
+<p>指定启动容器时执行的命令，每个 Dockerfile 只能有一条 CMD 命令。如果指定了多条命令，只有最后一条会被执行。</p>
+<p>如果用户启动容器时候指定了运行的命令，则会覆盖掉 CMD 指定的命令。</p>
+<ul>
+<li>EXPOSE</li>
+</ul>
+<p>格式为 EXPOSE <port> [<port>…]。</p>
+<p>告诉 Docker 服务端容器暴露的端口号，供互联系统使用。在启动容器时需要通过 -P，Docker 主机会自动分配一个端口转发到指定的端口。</p>
+<ul>
+<li>ENV</li>
+</ul>
+<p>格式为 ENV <key> <value>。 指定一个环境变量，会被后续 RUN 指令使用，并在容器运行时保持。</p>
+<p>例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ENV PG_MAJOR 9.3</span><br><span class="line"></span><br><span class="line">ENV PG_VERSION 9.3.4</span><br><span class="line"></span><br><span class="line">RUN curl -SL http://example.com/postgres-<span class="variable">$PG_VERSION</span>.tar.xz | tar -xJC /usr/src/postgress &amp;&amp; …</span><br><span class="line"></span><br><span class="line">ENV PATH /usr/<span class="built_in">local</span>/postgres-<span class="variable">$PG_MAJOR</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ADD</li>
+</ul>
+<p>格式为 ADD <src> <dest>。</p>
+<p>该命令将复制指定的 <src> 到容器中的 <dest>。 其中 <src> 可以是Dockerfile所在目录的一个相对路径；也可以是一个 URL；还可以是一个 tar 文件（自动解压为目录）。</p>
+<ul>
+<li>COPY</li>
+</ul>
+<p>格式为 COPY <src> <dest>。</p>
+<p>复制本地主机的 <src>（为 Dockerfile 所在目录的相对路径）到容器中的 <dest>。</p>
+<p>当使用本地目录为源目录时，推荐使用 COPY。</p>
+<ul>
+<li><p>ENTRYPOINT<br>  两种格式：</p>
+<ul>
+<li><p>ENTRYPOINT [“executable”, “param1”, “param2”]</p>
+</li>
+<li><p>ENTRYPOINT command param1 param2（shell中执行）。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>配置容器启动后执行的命令，并且不可被 docker run 提供的参数覆盖。</p>
+<p>每个 Dockerfile 中只能有一个 ENTRYPOINT，当指定多个时，只有最后一个起效。</p>
+<ul>
+<li>VOLUME</li>
+</ul>
+<p>格式为 VOLUME [“/data”]。</p>
+<p>创建一个可以从本地主机或其他容器挂载的挂载点，一般用来存放数据库和需要保持的数据等。</p>
+<ul>
+<li>USER</li>
+</ul>
+<p>格式为 USER daemon。</p>
+<p>指定运行容器时的用户名或 UID，后续的 RUN 也会使用指定用户。</p>
+<p>当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户，例如：RUN groupadd -r postgres &amp;&amp; useradd -r -g postgres postgres。要临时获取管理员权限可以使用 gosu，而不推荐 sudo。</p>
+<ul>
+<li>WORKDIR</li>
+</ul>
+<p>格式为 WORKDIR /path/to/workdir。</p>
+<p>为后续的 RUN、CMD、ENTRYPOINT 指令配置工作目录。</p>
+<p>可以使用多个 WORKDIR 指令，后续命令如果参数是相对路径，则会基于之前命令指定的路径。例如</p>
+<p>WORKDIR /a</p>
+<p>WORKDIR b</p>
+<p>WORKDIR c</p>
+<p>RUN pwd</p>
+<p>则最终路径为 /a/b/c。</p>
+<ul>
+<li>ONBUILD</li>
+</ul>
+<p>格式为 ONBUILD [INSTRUCTION]。</p>
+<p>配置当所创建的镜像作为其它新创建镜像的基础镜像时，所执行的操作指令。</p>
+<p>例如，Dockerfile 使用如下的内容创建了镜像 image-A。</p>
+<p>[…]</p>
+<p>ONBUILD ADD . /app/src</p>
+<p>ONBUILD RUN /usr/local/bin/python-build –dir /app/src</p>
+<p>[…]</p>
+<p>如果基于 image-A 创建新的镜像时，新的Dockerfile中使用 FROM image-A指定基础镜像时，会自动执行 ONBUILD 指令内容，等价于在后面添加了两条指令。</p>
+<p>FROM image-A #Automatically run the followingADD . /app/srcRUN /usr/local/bin/python-build –dir /app/src</p>
+<p>使用 ONBUILD 指令的镜像，推荐在标签中注明，例如 ruby:1.9-onbuild。</p>
+<h1 id="3-创建镜像"><a href="#3-创建镜像" class="headerlink" title="3.创建镜像"></a>3.创建镜像</h1><p>编写完Dockerfile文件后，通过运行docker build命令来创建自定义的镜像。Docker build命令格式如下：</p>
+<p>docker build [options] <path></p>
+<p>该命令将读取指定路径下（包括子目录）的 Dockerfile，并将该路径下所有内容发送给 Docker 服务端，由服务端来创建镜像。因此一般建议放置 Dockerfile 的目录为空目录。也可以通过 .dockerignore 文件（每一行添加一条匹配模式）来让 Docker 忽略路径下的目录和文件。</p>
+<p>例如下面使用Dockerfile样例来创建了镜像test:0.0.1，其中-t选项用来指定镜像的tag。Dockerfile文件内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line">MAINTAINER lienhua34@xxx.com</span><br><span class="line"> </span><br><span class="line">RUN mkdir /opt/leh</span><br><span class="line">RUN touch /opt/leh/<span class="built_in">test</span></span><br><span class="line"> </span><br><span class="line">CMD <span class="built_in">echo</span> <span class="string">"Hello lienhua34"</span></span><br></pre></td></tr></table></figure>
+
+
+<p>下面运行docker build命令生成镜像test:0.0.1，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker build -t <span class="built_in">test</span>:0.0.1 .</span><br><span class="line">Sending build context to Docker daemon 3.072 kB</span><br><span class="line">Step 1 : FROM ubuntu:14.04</span><br><span class="line"> ---&gt; a5a467fddcb8</span><br><span class="line">Step 2 : MAINTAINER lienhua34@163.com</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> ce9e7b02f075</span><br><span class="line"> ---&gt; 332259a92e74</span><br><span class="line">Removing intermediate container ce9e7b02f075</span><br><span class="line">Step 3 : RUN mkdir /opt/leh</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> e93f0a98040f</span><br><span class="line"> ---&gt; 097e177cf37f</span><br><span class="line">Removing intermediate container e93f0a98040f</span><br><span class="line">Step 4 : RUN touch /opt/leh/<span class="built_in">test</span></span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> f1531d3dea1a</span><br><span class="line"> ---&gt; 0f68852f8356</span><br><span class="line">Removing intermediate container f1531d3dea1a</span><br><span class="line">Step 5 : CMD <span class="built_in">echo</span> <span class="string">"Hello lienhua34"</span></span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> cf3c5ce2af46</span><br><span class="line"> ---&gt; 811ce27ce692</span><br><span class="line">Removing intermediate container cf3c5ce2af46</span><br><span class="line">Successfully built 811ce27ce692</span><br></pre></td></tr></table></figure>
+
+<p>然后启动该镜像的容器来查看结果，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker images</span><br><span class="line">REPOSITORY                   TAG                 IMAGE ID            CREATED             VIRTUAL SIZE</span><br><span class="line"><span class="built_in">test</span>                         0.0.1               811ce27ce692        32 seconds ago      187.9 MB</span><br><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti <span class="built_in">test</span>:0.0.1</span><br><span class="line">Hello lienhua34</span><br></pre></td></tr></table></figure>
+
+<p>Dockerfile文件的每条指令生成镜像的一层（注：一个镜像不能超过127层）。Dockerfile中的指令被一条条地执行。每一步都创建一个新的容器，在容器中执行指令并提交修改。当所有指令执行完毕后，返回最终的镜像id。</p>
+<h1 id="4-Dockerfile文件中的CMD和ENTRYPOINT指令差异对比"><a href="#4-Dockerfile文件中的CMD和ENTRYPOINT指令差异对比" class="headerlink" title="4.Dockerfile文件中的CMD和ENTRYPOINT指令差异对比"></a>4.Dockerfile文件中的CMD和ENTRYPOINT指令差异对比</h1><p>CMD指令和ENTRYPOINT指令的作用都是为镜像指定容器启动后的命令，那么它们两者之间有什么各自的优点呢？</p>
+<p>为了更好地对比CMD指令和ENTRYPOINT指令的差异，我们这里再列一下这两个指令的说明，</p>
+<ul>
+<li><p>CMD</p>
+<p>  支持三种格式</p>
+<ul>
+<li><p>CMD [“executable”,”param1”,”param2”] 使用 exec 执行，推荐方式；</p>
+</li>
+<li><p>CMD command param1 param2 在 /bin/sh 中执行，提供给需要交互的应用；</p>
+</li>
+<li><p>CMD [“param1”,”param2”] 提供给 ENTRYPOINT 的默认参数；</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>指定启动容器时执行的命令，每个 Dockerfile 只能有一条 CMD 命令。如果指定了多条命令，只有最后一条会被执行。</p>
+<p>如果用户启动容器时候指定了运行的命令，则会覆盖掉 CMD 指定的命令。</p>
+<ul>
+<li><p>ENTRYPOINT</p>
+<p>  两种格式：</p>
+<ul>
+<li><p>ENTRYPOINT [“executable”, “param1”, “param2”]</p>
+</li>
+<li><p>ENTRYPOINT command param1 param2（shell中执行）。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>配置容器启动后执行的命令，并且不可被 docker run 提供的参数覆盖。</p>
+<p>每个 Dockerfile 中只能有一个 ENTRYPOINT，当指定多个时，只有最后一个起效。</p>
+<p>从上面的说明，我们可以看到有两个共同点：</p>
+<p>都可以指定shell或exec函数调用的方式执行命令；<br>当存在多个CMD指令或ENTRYPOINT指令时，只有最后一个生效；<br>而它们有如下差异：</p>
+<ul>
+<li><p>差异1：CMD指令指定的容器启动时命令可以被docker run指定的命令覆盖，而ENTRYPOINT指令指定的命令不能被覆盖，而是将docker run指定的参数当做ENTRYPOINT指定命令的参数。</p>
+</li>
+<li><p>差异2：CMD指令可以为ENTRYPOINT指令设置默认参数，而且可以被docker run指定的参数覆盖；</p>
+</li>
+</ul>
+<p>下面分别对上面两个差异点进行详细说明，</p>
+<h2 id="4-1-差异1"><a href="#4-1-差异1" class="headerlink" title="4.1 差异1"></a>4.1 差异1</h2><p>CMD指令指定的容器启动时命令可以被docker run指定的命令覆盖；而ENTRYPOINT指令指定的命令不能被覆盖，而是将docker run指定的参数当做ENTRYPOINT指定命令的参数。</p>
+<p>下面有个命名为startup的可执行shell脚本，其功能就是输出命令行参数而已。内容如下所示，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"in startup, args: <span class="variable">$@</span>"</span></span><br></pre></td></tr></table></figure>
+<p>通过CMD指定容器启动时命令：<br>现在我们新建一个Dockerfile文件，其将startup脚本拷贝到容器的/opt目录下，并通过CMD指令指定容器启动时运行该startup脚本。其内容如下，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line">MAINTAINER lienhua34@xxx.com</span><br><span class="line"> </span><br><span class="line">ADD startup /opt</span><br><span class="line">RUN chmod a+x /opt/startup</span><br><span class="line"> </span><br><span class="line">CMD [<span class="string">"/opt/startup"</span>]</span><br></pre></td></tr></table></figure>
+<p>然后我们通过运行docker build命令生成test:latest镜像，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker build -t <span class="built_in">test</span> .</span><br><span class="line">Sending build context to Docker daemon 4.096 kB</span><br><span class="line">Step 1 : FROM ubuntu:14.04</span><br><span class="line"> ---&gt; a5a467fddcb8</span><br><span class="line">Step 2 : MAINTAINER lienhua34@163.com</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 332259a92e74</span><br><span class="line">Step 3 : ADD startup /opt</span><br><span class="line"> ---&gt; 3c26b6a8ef1b</span><br><span class="line">Removing intermediate container 87022b0f30c5</span><br><span class="line">Step 4 : RUN chmod a+x /opt/startup</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 4518ba223345</span><br><span class="line"> ---&gt; 04d9b53d6148</span><br><span class="line">Removing intermediate container 4518ba223345</span><br><span class="line">Step 5 : CMD /opt/startup</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 64a07c2f5e64</span><br><span class="line"> ---&gt; 18a2d5066346</span><br><span class="line">Removing intermediate container 64a07c2f5e64</span><br><span class="line">Successfully built 18a2d5066346</span><br></pre></td></tr></table></figure>
+
+<p>然后使用docker run启动两个test:latest镜像的容器，第一个docker run命令没有指定容器启动时命令，第二个docker run命令指定了容器启动时的命令为“/bin/bash -c ‘echo Hello’”，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span></span><br><span class="line"><span class="keyword">in</span> startup, args: </span><br><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span> /bin/bash -c <span class="string">'echo Hello'</span></span><br><span class="line">Hello</span><br></pre></td></tr></table></figure>
+<p>从上面运行结果可以看到，docker run命令启动容器时指定的运行命令覆盖了Dockerfile文件中CMD指令指定的命令。</p>
+<p>通过ENTRYPOINT指定容器启动时命令：<br>将上面的Dockerfile中的CMD替换成ENTRYPOINT，内容如下所示，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line">MAINTAINER lienhua34@xxx.com</span><br><span class="line"> </span><br><span class="line">ADD startup /opt</span><br><span class="line">RUN chmod a+x /opt/startup</span><br><span class="line"> </span><br><span class="line">ENTRYPOINT [“/opt/startup”]</span><br></pre></td></tr></table></figure>
+
+<p>同样，通过运行docker build生成test:latest镜像，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker build -t <span class="built_in">test</span> .</span><br><span class="line">Sending build context to Docker daemon 4.096 kB</span><br><span class="line">Step 1 : FROM ubuntu:14.04</span><br><span class="line"> ---&gt; a5a467fddcb8</span><br><span class="line">Step 2 : MAINTAINER lienhua34@163.com</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 332259a92e74</span><br><span class="line">Step 3 : ADD startup /opt</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 3c26b6a8ef1b</span><br><span class="line">Step 4 : RUN chmod a+x /opt/startup</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 04d9b53d6148</span><br><span class="line">Step 5 : ENTRYPOINT /opt/startup</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> cdec60940ad7</span><br><span class="line"> ---&gt; 78f8aca2edc2</span><br><span class="line">Removing intermediate container cdec60940ad7</span><br><span class="line">Successfully built 78f8aca2edc2</span><br></pre></td></tr></table></figure>
+<p>然后使用docker run启动两个test:latest镜像的容器，第一个docker run命令没有指定容器启动时命令，第二个docker run命令指定了容器启动时的命令为“/bin/bash -c ‘echo Hello’”，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span></span><br><span class="line"><span class="keyword">in</span> startup, args: </span><br><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span> /bin/bash -c <span class="string">'echo Hello'</span></span><br><span class="line"><span class="keyword">in</span> startup, args: /bin/bash -c <span class="built_in">echo</span> Hello</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的运行结果可以看出，docker run命令指定的容器运行命令不能覆盖Dockerfile文件中ENTRYPOINT指令指定的命令，反而被当做参数传递给ENTRYPOINT指令指定的命令。</p>
+<h2 id="4-2-差异2"><a href="#4-2-差异2" class="headerlink" title="4.2 差异2"></a>4.2 差异2</h2><p>CMD指令可以为ENTRYPOINT指令设置默认参数，而且可以被docker run指定的参数覆盖；</p>
+<p>同样使用上面的startup脚本。编写Dockerfile，内容如下所示，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line">MAINTAINER lienhua34@xxx.com</span><br><span class="line"> </span><br><span class="line">ADD startup /opt</span><br><span class="line">RUN chmod a+x /opt/startup</span><br><span class="line"> </span><br><span class="line">ENTRYPOINT [<span class="string">"/opt/startup"</span>, <span class="string">"arg1"</span>]</span><br><span class="line">CMD [<span class="string">"arg2"</span>]</span><br></pre></td></tr></table></figure>
+
+<p>运行docker build命令生成test:latest镜像，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker build -t <span class="built_in">test</span> .</span><br><span class="line">Sending build context to Docker daemon 4.096 kB</span><br><span class="line">Step 1 : FROM ubuntu:14.04</span><br><span class="line"> ---&gt; a5a467fddcb8</span><br><span class="line">Step 2 : MAINTAINER lienhua34@163.com</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 332259a92e74</span><br><span class="line">Step 3 : ADD startup /opt</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 3c26b6a8ef1b</span><br><span class="line">Step 4 : RUN chmod a+x /opt/startup</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 04d9b53d6148</span><br><span class="line">Step 5 : ENTRYPOINT /opt/startup arg1</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 54947233dc3d</span><br><span class="line"> ---&gt; 15a485253b4e</span><br><span class="line">Removing intermediate container 54947233dc3d</span><br><span class="line">Step 6 : CMD arg2</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 18c43d2d90fd</span><br><span class="line"> ---&gt; 4684ba457cc2</span><br><span class="line">Removing intermediate container 18c43d2d90fd</span><br><span class="line">Successfully built 4684ba457cc2</span><br></pre></td></tr></table></figure>
+
+<p>下面运行docker run启动两个test:latest镜像的容器，第一条docker run命令没有指定参数，第二条docker run命令指定了参数arg3，其运行结果如下，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span></span><br><span class="line"><span class="keyword">in</span> startup, args: arg1 arg2</span><br><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span> arg3</span><br><span class="line"><span class="keyword">in</span> startup, args: arg1 arg3</span><br></pre></td></tr></table></figure>
+<p>从上面第一个容器的运行结果可以看出CMD指令为ENTRYPOINT指令设置了默认参数；从第二个容器的运行结果看出，docker run命令指定的参数覆盖了CMD指令指定的参数。</p>
+<h2 id="4-3注意点"><a href="#4-3注意点" class="headerlink" title="4.3注意点"></a>4.3注意点</h2><p>CMD指令为ENTRYPOINT指令提供默认参数是基于镜像层次结构生效的，而不是基于是否在同个Dockerfile文件中。意思就是说，如果Dockerfile指定基础镜像中是ENTRYPOINT指定的启动命令，则该Dockerfile中的CMD依然是为基础镜像中的ENTRYPOINT设置默认参数。</p>
+<p>例如，我们有如下一个Dockerfile文件，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line">MAINTAINER lienhua34@xxx.com</span><br><span class="line"> </span><br><span class="line">ADD startup /opt</span><br><span class="line">RUN chmod a+x /opt/startup</span><br><span class="line"> </span><br><span class="line">ENTRYPOINT [<span class="string">"/opt/startup"</span>, <span class="string">"arg1"</span>]</span><br></pre></td></tr></table></figure>
+
+<p>通过运行docker build命令生成test:0.0.1镜像，然后创建该镜像的一个容器，查看运行结果，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker build -t <span class="built_in">test</span>:0.0.1 .</span><br><span class="line">Sending build context to Docker daemon 6.144 kB</span><br><span class="line">Step 1 : FROM ubuntu:14.04</span><br><span class="line"> ---&gt; a5a467fddcb8</span><br><span class="line">Step 2 : MAINTAINER lienhua34@163.com</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 57a96522061a</span><br><span class="line"> ---&gt; c3bbf1bd8068</span><br><span class="line">Removing intermediate container 57a96522061a</span><br><span class="line">Step 3 : ADD startup /opt</span><br><span class="line"> ---&gt; f9884fbc7607</span><br><span class="line">Removing intermediate container 591a82b2f382</span><br><span class="line">Step 4 : RUN chmod a+x /opt/startup</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 7a19f10b5513</span><br><span class="line"> ---&gt; 16c03869a764</span><br><span class="line">Removing intermediate container 7a19f10b5513</span><br><span class="line">Step 5 : ENTRYPOINT /opt/startup arg1</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> b581c32b25c3</span><br><span class="line"> ---&gt; c6b1365afe03</span><br><span class="line">Removing intermediate container b581c32b25c3</span><br><span class="line">Successfully built c6b1365afe03</span><br><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span>:0.0.1</span><br><span class="line"><span class="keyword">in</span> startup, args: arg1</span><br></pre></td></tr></table></figure>
+
+<p>下面新建一个Dockerfile文件，基础镜像是刚生成的test:0.0.1，通过CMD指定要通过echo打印字符串“in test:0.0.2”。文件内容如下所示，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM <span class="built_in">test</span>:0.0.1</span><br><span class="line">MAINTAINER lienhua34@xxx.com</span><br><span class="line"> </span><br><span class="line">CMD [<span class="string">"/bin/bash"</span>, <span class="string">"-c"</span>, <span class="string">"echo in test:0.0.2"</span>]</span><br></pre></td></tr></table></figure>
+
+<p>运行docker build命令生成test:0.0.2镜像，然后通过运行docker run启动一个test:0.0.2镜像的容器来查看结果，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker build -t <span class="built_in">test</span>:0.0.2 .</span><br><span class="line">Sending build context to Docker daemon 6.144 kB</span><br><span class="line">Step 1 : FROM <span class="built_in">test</span>:0.0.1</span><br><span class="line"> ---&gt; c6b1365afe03</span><br><span class="line">Step 2 : MAINTAINER lienhua34@163.com</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> deca95cf4c15</span><br><span class="line"> ---&gt; 971b5a819b48</span><br><span class="line">Removing intermediate container deca95cf4c15</span><br><span class="line">Step 3 : CMD /bin/bash -c <span class="built_in">echo</span> <span class="keyword">in</span> <span class="built_in">test</span>:0.0.2</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 4a31c4652e1e</span><br><span class="line"> ---&gt; 0ca06ba31405</span><br><span class="line">Removing intermediate container 4a31c4652e1e</span><br><span class="line">Successfully built 0ca06ba31405</span><br><span class="line">lienhua34@<span class="built_in">test</span>$ sudo docker run -ti --rm=<span class="literal">true</span> <span class="built_in">test</span>:0.0.2</span><br><span class="line"><span class="keyword">in</span> startup, args: arg1 /bin/bash -c <span class="built_in">echo</span> <span class="keyword">in</span> <span class="built_in">test</span>:0.0.2</span><br></pre></td></tr></table></figure>
+<p>从上面结果可以看到，镜像test:0.0.2启动的容器运行时并不是打印字符串”in test:0.0.2”，而是将CMD指令指定的命令当做基础镜像test:0.0.1中ENTRYPOINT指定的运行脚本startup的参数。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/docker/docker-maven-plugin%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/docker/docker-maven-plugin%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">docker-maven-plugin配置</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 15:15:01" itemprop="dateCreated datePublished" datetime="2017-05-08T15:15:01+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/docker/docker-maven-plugin%E9%85%8D%E7%BD%AE/" class="post-meta-item leancloud_visitors" data-flag-title="docker-maven-plugin配置" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/docker/docker-maven-plugin%E9%85%8D%E7%BD%AE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/docker/docker-maven-plugin%E9%85%8D%E7%BD%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="pom-xml-配置"><a href="#pom-xml-配置" class="headerlink" title="pom.xml 配置"></a>pom.xml 配置</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">docker.maven.plugin.version</span>&gt;</span>1.2.0<span class="tag">&lt;/<span class="name">docker.maven.plugin.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">docker.serverId</span>&gt;</span>nex-alan-release<span class="tag">&lt;/<span class="name">docker.serverId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">docker.baseImage</span>&gt;</span>openjdk:8-jre-alpine<span class="tag">&lt;/<span class="name">docker.baseImage</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">docker.volumes</span>&gt;</span>/tmp<span class="tag">&lt;/<span class="name">docker.volumes</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">docker.image.prefix</span>&gt;</span>dev.alan/kisee-clouds<span class="tag">&lt;/<span class="name">docker.image.prefix</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">docker.java.security.egd</span>&gt;</span>-Djava.security.egd=file:/dev/./urandom<span class="tag">&lt;/<span class="name">docker.java.security.egd</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">docker.java.opts</span>&gt;</span>-Xms256m -Xmx256m<span class="tag">&lt;/<span class="name">docker.java.opts</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;basedir&#125;/target<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">finalName</span>&gt;</span>$&#123;project.artifactId&#125;-$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">filtering</span>&gt;</span>true<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">excludes</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">exclude</span>&gt;</span>*.yml<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">excludes</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">filtering</span>&gt;</span>true<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">include</span>&gt;</span>bootstrap.yml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">include</span>&gt;</span>application-$&#123;profileActive&#125;.yml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pluginManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;maven.compiler.plugin.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">source</span>&gt;</span>$&#123;maven.compiler.source&#125;<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">target</span>&gt;</span>$&#123;maven.compiler.target&#125;<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">annotationProcessorPaths</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;<span class="name">path</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mapstruct<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapstruct-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;mapstruct.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;<span class="name">path</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lombok.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;/<span class="name">annotationProcessorPaths</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;maven-surefire-plugin.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">skipTests</span>&gt;</span>true<span class="tag">&lt;/<span class="name">skipTests</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">testFailureIgnore</span>&gt;</span>true<span class="tag">&lt;/<span class="name">testFailureIgnore</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;docker.maven.plugin.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">serverId</span>&gt;</span>$&#123;docker.serverId&#125;<span class="tag">&lt;/<span class="name">serverId</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">pushImage</span>&gt;</span>true<span class="tag">&lt;/<span class="name">pushImage</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">imageName</span>&gt;</span>$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;:$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">imageTags</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;<span class="name">imageTag</span>&gt;</span>$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">imageTag</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;<span class="name">imageTag</span>&gt;</span>latest<span class="tag">&lt;/<span class="name">imageTag</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;/<span class="name">imageTags</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">forceTags</span>&gt;</span>true<span class="tag">&lt;/<span class="name">forceTags</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">baseImage</span>&gt;</span>$&#123;docker.baseImage&#125;<span class="tag">&lt;/<span class="name">baseImage</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">volumes</span>&gt;</span>$&#123;docker.volumes&#125;<span class="tag">&lt;/<span class="name">volumes</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">env</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;<span class="name">JAVA_OPTS</span>&gt;</span>$&#123;docker.java.opts&#125;<span class="tag">&lt;/<span class="name">JAVA_OPTS</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;/<span class="name">env</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">entryPoint</span>&gt;</span>["sh","-c","java $JAVA_OPTS -XX:+UseG1GC $&#123;docker.java.security.egd&#125; -jar /$&#123;project.build.finalName&#125;.jar"]<span class="tag">&lt;/<span class="name">entryPoint</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">							<span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">						<span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">pluginManagement</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><div class="note primary">
+            <ul><li><p>serverId : nex-alan-release<br>在maven的配置文件settings.xml中配置用户名和密码：</p><server>  <!--这是server的id（注意不是用户登陆的id），该id与distributionManagement中repository元素的id相匹配。 -->  <id>nex-alan-release</id>  <username>admin</username>  <password>admin</password></server></li><li><p>imageName</p></li></ul><p><imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName><br>需要加 标签, 不然-DpushImage 会报错,找不到镜像</p>
+          </div>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/page/7/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

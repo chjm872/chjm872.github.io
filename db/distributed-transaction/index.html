@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="分布式事务场景如何设计系统架构及解决数据一致性问题，个人理解最终方案把握以下原则就可以了，那就是：大事务&#x3D;小事务（原子事务）+异步（消息通知），解决分布式事务的最好办法其实就是不考虑分布式事务，将一个大的业务进行拆分，整个大的业务流程，转化成若干个小的业务流程，然后通过设计补偿流程从而考虑最终一致性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务">
+<meta property="og:url" content="https://www.alan87.top/db/distributed-transaction/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="分布式事务场景如何设计系统架构及解决数据一致性问题，个人理解最终方案把握以下原则就可以了，那就是：大事务&#x3D;小事务（原子事务）+异步（消息通知），解决分布式事务的最好办法其实就是不考虑分布式事务，将一个大的业务进行拆分，整个大的业务流程，转化成若干个小的业务流程，然后通过设计补偿流程从而考虑最终一致性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-1.jpg/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-2.jpg/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-3.jpg/w600">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-4.jpg/w600">
+<meta property="article:published_time" content="2017-04-28T02:43:19.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.771Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="分布式事务">
+<meta property="article:tag" content="电商事务">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-1.jpg/w600">
+
+<link rel="canonical" href="https://www.alan87.top/db/distributed-transaction/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>分布式事务 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/distributed-transaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分布式事务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-04-28 10:43:19" itemprop="dateCreated datePublished" datetime="2017-04-28T10:43:19+08:00">2017-04-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/distributed-transaction/" class="post-meta-item leancloud_visitors" data-flag-title="分布式事务" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/distributed-transaction/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/distributed-transaction/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>分布式事务场景如何设计系统架构及解决数据一致性问题，个人理解最终方案把握以下原则就可以了，那就是：大事务=小事务（原子事务）+异步（消息通知），<strong>解决分布式事务的最好办法其实就是不考虑分布式事务，将一个大的业务进行拆分，整个大的业务流程，转化成若干个小的业务流程，然后通过设计补偿流程从而考虑最终一致性。</strong></p>
+<a id="more"></a>
+
+<h2 id="What’s-事务"><a href="#What’s-事务" class="headerlink" title="What’s 事务"></a>What’s 事务</h2><p>事务（Transaction）及其ACID属性</p>
+<p>事务是由一组SQL语句组成的逻辑处理单元，事务具有以下4个属性，通常简称为事务的ACID属性：</p>
+<ul>
+<li>原子性（Atomicity）：事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。</li>
+<li>一致性（Consistent）：在事务开始和完成时，数据都必须保持一致状态。这意味着所有相关的数据规则都必须应用于事务的修改，以保持数据的完整性；事务结束时，所有的内部数据结构（如B树索引或双向链表）也都必须是正确的。</li>
+<li>隔离性（Isoation）：数据库系统提供一定的隔离机制，保证事务在不受外部并发操作影响的“独立”环境执行。这意味着事务处理过程中的中间状态对外部是不可见的，反之亦然。</li>
+<li>持久性（Durabe）：事务完成之后，它对于数据的修改是永久性的，即使出现系统故障也能够保持。</li>
+</ul>
+<h2 id="典型场景：银行转账业务"><a href="#典型场景：银行转账业务" class="headerlink" title="典型场景：银行转账业务"></a>典型场景：银行转账业务</h2><p>例如：李雷账户中有500块钱，韩梅梅账户有200块钱，李雷要从自己的账户中转100块钱给韩梅梅，转账（事务）成功执行完成后应该是李雷账户减100变为400，韩梅梅账户加100变为300，不能出现其他情况，即在事务开始和结束时数据都必须保持一致状态（一致性），事务结束时所有的数据及结构都必须是正确的。并且同样的转账操作（同一流水，即一次转账操作）无论执行多少次结果都相同（幂等性）。</p>
+<h2 id="电商场景：流量充值业务"><a href="#电商场景：流量充值业务" class="headerlink" title="电商场景：流量充值业务"></a>电商场景：流量充值业务</h2><p>再说我们做的一个项目：中国移动-流量充值能力中心，核心业务流程为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 用户进入流量充值商品购买页面，选择流量商品；</span><br><span class="line">2. 购买流量充值商品，有库存限制则判断库存，生成流量购买订单；</span><br><span class="line">3. 选择对应的支付方式（和包、银联、支付宝、微信）进行支付操作；</span><br><span class="line">4. 支付成功后，近实时流量到账即可使用流量商品；</span><br></pre></td></tr></table></figure>
+<p>此业务流程看似不是很复杂对吧，不涉及到类似电商业务的实物购买，但是我认为其中的区别并不是很大，只是缺少电商中的物流发货流程，其他流程几乎是一样的，也有库存以及优惠折扣等业务存在。</p>
+<p>整个系统交互如下图：</p>
+<img title="分布式事务" alt="整个系统交互图" data-src="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-1.jpg/w600">
+
+
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2><p>上述两个场景的业务需求已经说完了，接着谈谈分布式事务，要说分布式事务那就先聊聊本地事务与分布式事务：</p>
+<p>Ps：相同点：首先都是要保证数据正确（即ACID），本地事务与分布式事务还可以对应为：刚性事务与柔性事务，在我个人理解刚性事务与柔性事务的最大区别就是：一个完整的事务操作是否可以在同一物理介质（例如：内存）上同时完成；柔性事务就是一个完整事务需要跨物理介质或跨物理节点（网络通讯），那么排它锁、共享锁等等就没有用武之地了（这里并不是指大事务拆小事务【本地事务】后），无法保证原子性（Atomicity）完成事务。个人理解分布式（柔性）事务本质意义上就是-伪事务，柔性事务其实就是根据不同的业务场景使用不同的方法实现最终一致性，因为可以根据业务的特性做部分取舍，在业务过程中可以容忍一定时间内的数据不一致。</p>
+<p>在知乎上面看过一篇文章，支付宝的柔性事务实现方式有四种分别针对不同的业务场景，如下图：</p>
+<img title="分布式事务" alt="柔性事务实现方式" data-src="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-2.jpg/w600">
+
+<ol>
+<li>两阶段型</li>
+<li>补偿型</li>
+<li>异步确保型</li>
+<li>最大努力通知型</li>
+</ol>
+<p>回到我们流量交易中心的业务场景：</p>
+<p>通过Dubbo实现了微服务化，大致拆分如下：</p>
+<ol>
+<li>商品服务</li>
+<li>订单服务</li>
+<li>库存服务</li>
+<li>支付服务</li>
+<li>直充服务</li>
+<li>消息服务</li>
+<li>等其他服务</li>
+</ol>
+<h2 id="场景一："><a href="#场景一：" class="headerlink" title="场景一："></a>场景一：</h2><p>库存数量与订单数量一致性，采用补偿型+最大努力通知型，采用原因为不涉及跨机房和长事务（正常情况下库存与订单服务处理很快）：</p>
+<ol>
+<li>用户下单先减库存，库存减成功后；</li>
+<li>调用下单服务：</li>
+<li>2-1. 下单成功，两事务均提交完成；</li>
+<li>2-2. 下单失败，库存回滚，两事务均失败，此处还有一个保障机制（最大努力通知型），就是如果调用库存服务异常，确定库存回滚失败了，则放入消息服务（延时消息队列）分阶段定时重试，努力重试保证库存服务正常后成功回滚。</li>
+</ol>
+<h2 id="场景二："><a href="#场景二：" class="headerlink" title="场景二："></a>场景二：</h2><p>订单信息、支付信息、充值信息三者之间的一致性，采用异步确保型的原因是，整个业务链路太长且跨不同的机房系统，网络延迟较高，业务方面恰好不需要非常高的实时性，所以采用小事务+异步通知，目前正常情况下用户从下单到完成支付到流量到账平均为1-5分钟左右：</p>
+<ol>
+<li>下单成功即订单服务创建订单成功并发送支付请求到支付网关系统（订单状态-待支付，超过1小时未支付则流转为超时未付撤销，此处用到了RocketMQ的延时消费恰好实现定时器业务场景）。</li>
+<li>返回支付页面，用户在支付交易系统完成支付业务流程，支付网关异步通知流量中心，流量中心接收到支付成功状态后修改订单状态-支付成功，并给支付网关返回成功结果（此处并发压力目前不大，暂时没有再进行异步解耦）。</li>
+<li>流量中心修改完订单状态后，调用消息服务将直充业务放入消息队列，对直充业务进行解耦（原因是直充需要调用31省移动CRM系统，此链路过长，且部分省CRM系统耗时非常大，每个省的处理能力不同，经常出现20秒以上的超时，因此要考虑部分超时较高的省份拖垮系统，进行业务的削峰填谷）；</li>
+<li>3-1. 当直充成功时，修改订单状态-已完成；</li>
+<li>3-2. 当直充失败时（移动特性，例如：直充时正好用户销户或者停机了），修改订单状态为待退款，并调用支付网关系统的退款接口，退款成功后支付网关异步通知流量中心，流量中心修改订单状态为-退款成功；</li>
+<li>3-3. 当直充超时时，调用定时任务服务进行超时重试机制（第一次重试在10分钟后执行、第二次在30分钟后、第三次…..），直到最大超时重试次数后还得不到直充结果，订单状态会卡在支付成功状态，依赖T+1对账稽核流程保证最终一致性，订单状态根据对账结果流转为：已完成或待退款–&gt;退款成功。</li>
+</ol>
+<h2 id="场景三："><a href="#场景三：" class="headerlink" title="场景三："></a>场景三：</h2><p>直充到账后的消息通知（APP消息推送或短信通知），采用最大努力通知型，这个业务场景比较简单，在直充成功后，订单状态流转为已完成，此时通过消息服务进行到账通知业务的解耦，调用消息服务失败的情况下，使用定时任务努力通知。</p>
+<h2 id="场景四："><a href="#场景四：" class="headerlink" title="场景四："></a>场景四：</h2><p><strong>对账稽核：</strong></p>
+<p>按照支付账期每日进行T+1对账，对账原则：以支付交易记录为准，对流量中心订单记录+支付网关交易记录+省CRM充值记录三方比对，将某些中间状态的订单（例如：支付成功、待退款）核对后将订单状态流转完结（已完成、退款成功）。</p>
+<p><strong>结算稽核：</strong></p>
+<p>对账成功后的数据定期进入结算流程，对支付网关周期内的支付金额与结算数据的金额进行核对，稽核成功后进行财务结算流程，将钱结算给省公司，并提供结算明细给省公司，供省公司与直充成本记录进行复核。<br>Ps：以下是流量中心的部分架构设计，总体原则方向：微服务化</p>
+<p><strong>流量中心-架构设计</strong></p>
+<img title="分布式事务" alt="流量中心架构设计" data-src="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-3.jpg/w600">
+
+
+<p>架构设计思想：在系统初期设计时以及部分硬性环境约束下，我们根据业务拆分为多个子系统（微服务）：商品服务、订单服务、库存服务、支付网关、统一接口平台、对账服务、结算服务、网关对接服务等，后续还会增加：账户服务、虚拟货币服务、卡券服务等等…。按照微服务的核心设计思想，所有服务完全独立、隔离，因此所有服务从上至下：请求接入（连接管理）、请求处理（计算服务）、数据存储（存储服务）进行拆分，接入与计算尽最大可能实现无状态，数据存储进行垂直+水平拆分，垂直拆分：商品库-mysql（读多写少，主从架构+读写分离）+redis（读多写少，集群方式）、订单库-mysql（读写均衡，多主多从+水平拆分）、库存专用库-redis（分布式+主备容灾）、外部交易系统-支付网关、外部办理系统-统一接口平台。</p>
+<p>Ps：此架构目前已支撑总交易额3.6亿，总订单4680万，日均交易额500万，日订单量50万，后续业务量持续增加的情况下按照微服务思想继续拆分，例如将订单服务再拆分为：下单服务、查单服务，直到根据业务需求与系统关系耦合性拆分到最细粒度为止。</p>
+<ol>
+<li>性能扩展：应用层计算服务（无状态应用）通过增加服务节点同比提升运算性能，配套质量（性能）监控服务dubbo monitor及整合Netflix的Hystrix熔断器对业务质量进行管理实现应用层的动态扩缩容。</li>
+<li>容量扩展：数据层存储服务（有状态应用）通过对数据水平拆分实现容量的无限扩容，Nosql类方案：Codis中间件；关系型数据库：Mycat数据库分库分表中间件。目前项目中采用twitter的snowflake唯一ID生成器（根据业务场景优化后）自己实现数据的水平拆分和路由规则。</li>
+<li>存储性能：Nosql：针对读多写少场景-使用淘宝的Tedis（多写随机读的特性提高性能），读写均衡使用-Codis；Mysql：读多写少场景使用一主多从架构（例如商品信息），读写均衡场景使用多主多从架构（例如订单信息）。</li>
+</ol>
+<p><strong>整体拆分原则如下图：</strong></p>
+<img title="分布式事务" alt="整理拆分原则图" data-src="http://f.ngall-in.com/alan87/static/images/db/distributed-transaction/distributed-transaction-4.jpg/w600">
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>复杂的业务交互过程中，不建议使用强一致性的分布式事务。</p>
+<p><strong>解决分布式事务的最好办法就是不考虑分布式事务</strong>。</p>
+<p>就像刚说的问题一样，把分布式的事务过程拆解成多个中间状态，中间状态的东西不允许用户直接操作，等状态都一致成功，或者检测到不一致的时候全部失败掉。就解耦了这个强一致性的过程。</p>
+<p>一般情况下准实时就成了。涉及到钱，有时候也可以这么搞。</p>
+<p>淘宝几s内完整一个订单处理，不是什么问题吧。</p>
+<p>银行也不是全部都强一致性。也会扎差，也会冲正。</p>
+<p>特别是涉及到多个系统的时候，我们比如买机票，支付完成以后，只支付完成状态，然后返回给用户了，我们过几分钟再刷新页面，才会看到变成已出票，订单完成状态。</p>
+<p>这个时候，如果我们要求所有处理，都是强一致性的，那么久完蛋了。页面要死在那儿几分钟，才把这个事务处理完成，返回给用户。</p>
+<div class="note primary">
+            <ol><li><p>解决分布式事务的最好办法就是不考虑分布式事务。</p></li><li><p>拆分 大的业务流程，转化成几个小的业务流程，然后考虑最终一致性。</p></li></ol>
+          </div>
+
+
+<h2 id="问题：分布式事务是你们自己开发的，还是数据库自带的？"><a href="#问题：分布式事务是你们自己开发的，还是数据库自带的？" class="headerlink" title="问题：分布式事务是你们自己开发的，还是数据库自带的？"></a>问题：分布式事务是你们自己开发的，还是数据库自带的？</h2><p>1、只要一个处理逻辑能保证要么成功，要么跟什么也没做一样，都算是事务。数据库事务，MQ也有事务。</p>
+<p>你自己甚至可以写个程序生成两个文件，要么都生成了，要么都删掉不留痕迹，这也算是事务。</p>
+<p>2、分布式事务这一块有个XA规范，实现XA接口的事务，都可以加入到一个分布式事务中，被XA容器管理起来。</p>
+<p>3、补偿的办法，需要具体情况具体分析，没有一个各种场合都适用的框架。</p>
+<h1 id="好用的开源产品"><a href="#好用的开源产品" class="headerlink" title="好用的开源产品"></a>好用的开源产品</h1><ol>
+<li>ShardingSphere的分布式事务 <a href="../最好用的开源分布式事务解决方案之一">Sharding-transaction</a></li>
+<li>Seata</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/db/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/db/mysql-nosql/" rel="prev" title="NoSQL 没毛病，为什么 MySQL 还是“王”？">
+      <i class="fa fa-chevron-left"></i> NoSQL 没毛病，为什么 MySQL 还是“王”？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/java/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3/" rel="next" title="Java内存模型详解">
+      Java内存模型详解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What’s-事务"><span class="nav-text">What’s 事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#典型场景：银行转账业务"><span class="nav-text">典型场景：银行转账业务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#电商场景：流量充值业务"><span class="nav-text">电商场景：流量充值业务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式事务"><span class="nav-text">分布式事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景一："><span class="nav-text">场景一：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景二："><span class="nav-text">场景二：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景三："><span class="nav-text">场景三：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景四："><span class="nav-text">场景四：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题：分布式事务是你们自己开发的，还是数据库自带的？"><span class="nav-text">问题：分布式事务是你们自己开发的，还是数据库自带的？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#好用的开源产品"><span class="nav-text">好用的开源产品</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/db/distributed-transaction/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

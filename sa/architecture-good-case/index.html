@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="电商">
+<meta property="og:type" content="article">
+<meta property="og:title" content="经典案例">
+<meta property="og:url" content="https://www.alan87.top/sa/architecture-good-case/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="电商">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-11-13T14:18:08.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.885Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="架构经验">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/sa/architecture-good-case/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>经典案例 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/sa/architecture-good-case/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          经典案例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-11-13 22:18:08" itemprop="dateCreated datePublished" datetime="2016-11-13T22:18:08+08:00">2016-11-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/system-architecture/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sa/architecture-good-case/" class="post-meta-item leancloud_visitors" data-flag-title="经典案例" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sa/architecture-good-case/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sa/architecture-good-case/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="电商"><a href="#电商" class="headerlink" title="电商"></a>电商</h1><a id="more"></a>
+<ul>
+<li><h3 id="淘宝"><a href="#淘宝" class="headerlink" title="淘宝"></a>淘宝</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/WkBavHJyfCQCo_P1Vmm03A" target="_blank" rel="noopener">淘宝网系统架构分享</a></li>
+<li><a href="http://mp.weixin.qq.com/s/kbAwChFavgfhyUZLEXea2w" target="_blank" rel="noopener">阿里巴巴系统架构</a></li>
+<li><a href="http://mp.weixin.qq.com/s/1BJ5SA0q4mkjxiLt0Sbq_w" target="_blank" rel="noopener">淘宝双11高可用架构演进之路</a></li>
+<li><a href="http://mp.weixin.qq.com/s/m6rlPeB46JbF3Dl49FE1xQ" target="_blank" rel="noopener">历经8年双11流量洗礼，淘宝开放平台如何攻克技术难关？</a></li>
+<li><a href="http://mp.weixin.qq.com/s/_n1zSJ0uv9gNctXD9tyGsg" target="_blank" rel="noopener">从淘宝到云端的高可用架构演进</a></li>
+<li><a href="http://mp.weixin.qq.com/s/WBdSWR9N6sp-UooewzVa3Q" target="_blank" rel="noopener">阿里研究员玄难：如何做电商业务中台</a></li>
+<li><a href="http://mp.weixin.qq.com/s/Osggn2PFSySsrqCyW2Dtmw" target="_blank" rel="noopener">解密阿里巴巴高可用架构技术——“异地多活”</a></li>
+<li><a href="https://mp.weixin.qq.com/s/BDLPoresSJJ_uv2PBvYsYA" target="_blank" rel="noopener">揭秘2017双11背后的网络－双11的网络产品和技术概览</a></li>
+</ul>
+</li>
+<li><h3 id="1号店"><a href="#1号店" class="headerlink" title="1号店"></a>1号店</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/_2Rw-4h4F4843c89tz-Z2Q" target="_blank" rel="noopener">1号店大型电商微服务实践</a></li>
+<li><a href="http://mp.weixin.qq.com/s/lzRZNWMx2KxeIyKXggl58w" target="_blank" rel="noopener">1号店交易系统架构如何向「高并发高可用」演进</a></li>
+</ul>
+</li>
+<li><h3 id="蘑菇街"><a href="#蘑菇街" class="headerlink" title="蘑菇街"></a>蘑菇街</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/wQH7Zz6o88pj-v1E2rGJEw" target="_blank" rel="noopener">蘑菇街电商交易平台服务架构及改造优化历程</a></li>
+</ul>
+</li>
+<li><h3 id="有赞"><a href="#有赞" class="headerlink" title="有赞"></a>有赞</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/XLWq01U0mOWpGEmXeri2TQ" target="_blank" rel="noopener">交易系统架构困局以及破局之道</a></li>
+<li><a href="https://mp.weixin.qq.com/s/4W3WVssWXu4ViXFhBPc_SQ" target="_blank" rel="noopener">团队和工程管理取舍的经验之谈</a></li>
+<li><a href="https://mp.weixin.qq.com/s/enawjPibzmwXJ9MTVLSPxQ" target="_blank" rel="noopener">订单导出的配置化实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/pkPVYmrUTywSiswZz_YqKw" target="_blank" rel="noopener">订单管理的三生三世与“十面埋伏”</a></li>
+</ul>
+</li>
+<li><h3 id="O2O外卖"><a href="#O2O外卖" class="headerlink" title="O2O外卖"></a>O2O外卖</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/nmRG5tyj28-pS_dho2NOqg" target="_blank" rel="noopener">美团外卖订单中心的演进</a></li>
+<li><a href="https://mp.weixin.qq.com/s/DvQszWAr89XjWodJUjVTjw" target="_blank" rel="noopener">饿了么：日订单量超900万的架构设计及演进之路</a></li>
+</ul>
+</li>
+<li><h3 id="苏宁"><a href="#苏宁" class="headerlink" title="苏宁"></a>苏宁</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/kBblUtVUvWDFDy9cqrUH5Q" target="_blank" rel="noopener">苏宁六年企业IT架构的演进之路</a></li>
+</ul>
+</li>
+<li><h3 id="京东到家"><a href="#京东到家" class="headerlink" title="京东到家"></a>京东到家</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/aIzdMG1y0a5cWOS4lx6IuQ" target="_blank" rel="noopener">库存系统难破题？京东到家来分享</a></li>
+<li><a href="https://mp.weixin.qq.com/s/-9fvfJ6KT3xSRQZnlTBBhA" target="_blank" rel="noopener">京东到家库存系统架构设计</a></li>
+<li><a href="https://mp.weixin.qq.com/s/TrCJJtvhjB2m29fOOa3Rzg" target="_blank" rel="noopener">京东到家订单中心 Elasticsearch 演进历程</a></li>
+</ul>
+</li>
+<li><h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/kauO45XNQaV40hxmSc3BpA" target="_blank" rel="noopener">订单系统分库分表实践</a></li>
+<li><a href="http://mp.weixin.qq.com/s/01rmXXkEz-cQaLBe7eGeQA" target="_blank" rel="noopener">盘点电商大战背后的技术力量支撑</a></li>
+<li><a href="http://mp.weixin.qq.com/s/gbVMGGneiSD7mhXtTH6QOg" target="_blank" rel="noopener">乐视电商云的整体架构与技术实现</a></li>
+<li><a href="http://mp.weixin.qq.com/s/DMee9gp70ReIR8jRRhLYCA" target="_blank" rel="noopener">海淘平台架构实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/cV-iDCkrTx86TKbHA3U2Sw" target="_blank" rel="noopener">电商系统之订单系统</a></li>
+<li><a href="https://mp.weixin.qq.com/s/CJmOaxTv0Ksll3CvCIXcnA" target="_blank" rel="noopener">交易系统 - 领域驱动设计浅析</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="支付"><a href="#支付" class="headerlink" title="支付"></a>支付</h1><ul>
+<li><h3 id="支付宝"><a href="#支付宝" class="headerlink" title="支付宝"></a>支付宝</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/wVjmK4Qh8LJIJ23toXdB6g" target="_blank" rel="noopener">支付宝钱包系统架构内部剖析</a></li>
+<li><a href="http://mp.weixin.qq.com/s/D3MAYfr4BpX8dONUfJ7LhQ" target="_blank" rel="noopener">余额宝技术架构及演进</a></li>
+<li><a href="http://mp.weixin.qq.com/s/RFkYydSU_IuAIbNqcMIoRw" target="_blank" rel="noopener">蚂蚁金服CTO程立：金融级分布式交易的技术路径</a></li>
+<li><a href="http://mp.weixin.qq.com/s/UgOmJ2R82D9xTcISAFbxtg" target="_blank" rel="noopener">蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/O1akcIZ9ZMngQr-UzJ22Fg" target="_blank" rel="noopener">完整的支付系统整体架构！</a></li>
+</ul>
+</li>
+<li><h3 id="去哪"><a href="#去哪" class="headerlink" title="去哪"></a>去哪</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/9V1VC2Fe9HdGzdvQ2A7wiA" target="_blank" rel="noopener">去哪儿网支付系统架构演进全历程</a></li>
+<li><a href="https://mp.weixin.qq.com/s/JT_hkmY8HcIF8UUvPa228A" target="_blank" rel="noopener">基于文档模型的交易系统</a></li>
+</ul>
+</li>
+<li><h3 id="微博"><a href="#微博" class="headerlink" title="微博"></a>微博</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/a1iM8m0smLF9mqK4jqRf2Q" target="_blank" rel="noopener">微博付费打赏架构：一个社交场景下准金融项目开发和实践</a></li>
+</ul>
+</li>
+<li><h3 id="其它-1"><a href="#其它-1" class="headerlink" title="其它"></a>其它</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/LjxMFyG4K4301bNoH74ZWA" target="_blank" rel="noopener">支付系统整体架构</a></li>
+<li><a href="http://mp.weixin.qq.com/s/jDC__stAnICyPTgezfj8Og" target="_blank" rel="noopener">可用性高达五个9！支付系统高可用架构设计实战</a></li>
+<li><a href="https://mp.weixin.qq.com/s/823bGuLkU0uX-vHUYkr5jg" target="_blank" rel="noopener">点融支付系统架构的演进</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Lsw_Ygyp50IJnqjzHxpGWg" target="_blank" rel="noopener">易宝支付日志中心平台建设</a></li>
+<li><a href="https://mp.weixin.qq.com/s/syKnlmu_noyp0C4LeGp9Tw" target="_blank" rel="noopener">高并发支付场景分析及设计</a></li>
+<li><a href="https://mp.weixin.qq.com/s/rfeFWOq--0FXRa6r1eritQ" target="_blank" rel="noopener">中小型研发团队架构实践之企业支付网关</a></li>
+<li><a href="https://mp.weixin.qq.com/s/c-jlnScSTLSGNFLlNBWeow" target="_blank" rel="noopener">支付平台架构设计评审核心要点与最佳实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/G_unHPP6P3q0guZR8x0UMg" target="_blank" rel="noopener">解密支付平台建设资金底线防火墙的杀手级设计方案</a></li>
+</ul>
+</li>
+<li><h3 id="结算"><a href="#结算" class="headerlink" title="结算"></a>结算</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/FHTB8eKwIWnMxNraXghqvA" target="_blank" rel="noopener">联营结算平台建设之路</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="物流、外卖"><a href="#物流、外卖" class="headerlink" title="物流、外卖"></a>物流、外卖</h1><ul>
+<li><h3 id="菜鸟"><a href="#菜鸟" class="headerlink" title="菜鸟"></a>菜鸟</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/igH0UwkvP9WiVTkFX-IrLA" target="_blank" rel="noopener">谈笔1000亿的生意：揭秘菜鸟全球智能仓配技术实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/1NhflDbO6CKYNSQcdM9ekg" target="_blank" rel="noopener">菜鸟下一代分布式体系架构的设计理念</a></li>
+</ul>
+</li>
+<li><h3 id="京东"><a href="#京东" class="headerlink" title="京东"></a>京东</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/2HVkQCaXQQEQIqTrJZ01wA" target="_blank" rel="noopener">京东物流系统架构演进中的最佳实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/G1l3lRZezV6_h-4CpdofvA" target="_blank" rel="noopener">大数据构建京东智慧物流</a></li>
+</ul>
+</li>
+<li><h3 id="顺丰"><a href="#顺丰" class="headerlink" title="顺丰"></a>顺丰</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/vK2VRyLtcH1qYtO1VbllOw" target="_blank" rel="noopener">顺丰IT基础架构运维的焦虑与进化</a></li>
+</ul>
+</li>
+<li><h3 id="达达配送"><a href="#达达配送" class="headerlink" title="达达配送"></a>达达配送</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/0lMiU_rZpoT3wqwVHyCpDw" target="_blank" rel="noopener">高性能服务端优化之路</a></li>
+</ul>
+</li>
+<li><h3 id="外卖"><a href="#外卖" class="headerlink" title="外卖"></a>外卖</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/vdxhbPTlYFftAQkNhfFufA" target="_blank" rel="noopener">从下单到享用，外卖背后的分布式架构设计</a></li>
+</ul>
+</li>
+<li><h3 id="其它-2"><a href="#其它-2" class="headerlink" title="其它"></a>其它</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/X-0qIcxnGhV_PTnXTR1IuA" target="_blank" rel="noopener">大数据在物流企业中的应用</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="秒杀、抽奖"><a href="#秒杀、抽奖" class="headerlink" title="秒杀、抽奖"></a>秒杀、抽奖</h1><ul>
+<li><h3 id="微信"><a href="#微信" class="headerlink" title="微信"></a>微信</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/oQN31DA6VZiurNOX2yxI-w" target="_blank" rel="noopener">微信红包系统架构的设计和优化分享</a></li>
+<li><a href="https://mp.weixin.qq.com/s/l9Gqlj_QjoPQJ2Z_yqsbcQ" target="_blank" rel="noopener">从技术角度谈一谈，我参与设计开发的手Q春节红包项目</a></li>
+</ul>
+</li>
+<li><h3 id="一号店"><a href="#一号店" class="headerlink" title="一号店"></a>一号店</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/0vkLqt-zwXLAJTe6GBPlaw" target="_blank" rel="noopener">1号店的抽奖系统架构实践</a></li>
+</ul>
+</li>
+<li><h3 id="京东-1"><a href="#京东-1" class="headerlink" title="京东"></a>京东</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/40GHwueY8T3ji3DZ8yoxhQ" target="_blank" rel="noopener">京东抢购服务高并发实践</a></li>
+</ul>
+</li>
+<li><h3 id="其它-3"><a href="#其它-3" class="headerlink" title="其它"></a>其它</h3><ul>
+<li><a href="案例-秒杀小结.md">秒杀小结</a></li>
+<li><a href="http://mp.weixin.qq.com/s/1BnygFm6ukEZcpakyEi9-Q" target="_blank" rel="noopener">秒杀系统架构分析与实战</a></li>
+<li><a href="http://mp.weixin.qq.com/s/58y6YE2tQnQCugNJu9xOGA" target="_blank" rel="noopener">秒杀系统的架构解决之道</a></li>
+<li><a href="http://mp.weixin.qq.com/s/N9Eha8lsy0N7PeXQxOgqAA" target="_blank" rel="noopener">揭秘红包场景下的高性能本地存储架构设计</a></li>
+<li><a href="https://mp.weixin.qq.com/s/OAN9DXmdYaxCUbt6cOn9cw" target="_blank" rel="noopener">秒杀架构实践</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h1><ul>
+<li><h3 id="阿里"><a href="#阿里" class="headerlink" title="阿里"></a>阿里</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/S3FfkHYTr3kICFngA_Htpg" target="_blank" rel="noopener">阿里新一代实时计算引擎 Blink，每秒支持数十亿次计算</a></li>
+</ul>
+</li>
+<li><h3 id="腾讯"><a href="#腾讯" class="headerlink" title="腾讯"></a>腾讯</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/avPzDxtSIsqUqzOKurZBQw" target="_blank" rel="noopener">华为狼VS腾讯企鹅，解读两大巨头的大数据体系</a></li>
+</ul>
+</li>
+<li><h3 id="微博-1"><a href="#微博-1" class="headerlink" title="微博"></a>微博</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/sNHi05PTh4goOUMh68wr6g" target="_blank" rel="noopener">微博广告架构解密</a></li>
+<li><a href="http://mp.weixin.qq.com/s/UrrVxnK4UicXcCs1FPsr1A" target="_blank" rel="noopener">微博广告分层实验平台(Faraday)架构实践</a></li>
+</ul>
+</li>
+<li><h3 id="京东-2"><a href="#京东-2" class="headerlink" title="京东"></a>京东</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/35c06LQHVsyG-dy4FgJZnA" target="_blank" rel="noopener">Spark技术在京东智能供应链预测的应用</a></li>
+<li><a href="https://mp.weixin.qq.com/s/ygo7ErbFd12yn-wR8-6Yjw" target="_blank" rel="noopener">京东基于Spark的风控系统架构实践和技术细节</a></li>
+</ul>
+</li>
+<li><h3 id="携程"><a href="#携程" class="headerlink" title="携程"></a>携程</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/eNOAU8DxvsnV-OdFns23mw" target="_blank" rel="noopener">携程大数据实时计算平台建设实践</a></li>
+<li><a href="http://mp.weixin.qq.com/s/OJdlpP62YWGmVnBWsfpVZw" target="_blank" rel="noopener">携程实时用户行为系统实践</a></li>
+</ul>
+</li>
+<li><h3 id="网易"><a href="#网易" class="headerlink" title="网易"></a>网易</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/swIuD0N9_stqi2EWKKXzDQ" target="_blank" rel="noopener">奇硕基于网易云的微服务与大数据实战</a></li>
+</ul>
+</li>
+<li><h3 id="小米"><a href="#小米" class="headerlink" title="小米"></a>小米</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/VjRWHEKqursOg6ekzBMsBw" target="_blank" rel="noopener">小米品牌广告引擎与算法实践</a></li>
+</ul>
+</li>
+<li><h3 id="有赞-1"><a href="#有赞-1" class="headerlink" title="有赞"></a>有赞</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/M9yxvoDAbzCzjRMritB1Sw" target="_blank" rel="noopener">有赞大数据实践: 敏捷型数据仓库的构建及其应用</a></li>
+</ul>
+</li>
+<li><h3 id="蘑菇街-1"><a href="#蘑菇街-1" class="headerlink" title="蘑菇街"></a>蘑菇街</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/O-pWwLJGMyYK1IN-yd7Kuw" target="_blank" rel="noopener">蘑菇街搜索与推荐架构，从 0 到 1 再到 100</a></li>
+</ul>
+</li>
+<li><h3 id="唯品会"><a href="#唯品会" class="headerlink" title="唯品会"></a>唯品会</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/efFi45ng7_CPRSmDrAx7Ww" target="_blank" rel="noopener">实时离线融合在唯品会的进展：在实时技术、数据、业务中寻找平衡</a></li>
+<li><a href="https://mp.weixin.qq.com/s/BFMTvQXXFjwgDKjeu7CUtw" target="_blank" rel="noopener">Spark在唯品会财务系统重构中的实践总结</a></li>
+</ul>
+</li>
+<li><h3 id="58同城"><a href="#58同城" class="headerlink" title="58同城"></a>58同城</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/BWDbcNUaFf6LpGwQdK4emQ" target="_blank" rel="noopener">58大数据平台的技术演进与实践</a></li>
+</ul>
+</li>
+<li><h3 id="其它-4"><a href="#其它-4" class="headerlink" title="其它"></a>其它</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/Tmi13LzpkIYNoek1iFDyew" target="_blank" rel="noopener">挖财基于大数据的信贷审批系统实践</a></li>
+<li><a href="http://mp.weixin.qq.com/s/F84Q25OgJ2qv-N7u9zfxvw" target="_blank" rel="noopener">数据开发常用的几种数据预处理和数据整理方法</a></li>
+<li><a href="http://mp.weixin.qq.com/s/F7Srnf0aEIW-OetVNh_q9A" target="_blank" rel="noopener">以客户流失预测为例，谈谈机器学习在市场营销中的应用</a></li>
+<li><a href="https://mp.weixin.qq.com/s/A_eyUjm4fbr2kMEym6bJbw" target="_blank" rel="noopener">日处理20亿数据，实时用户行为服务系统架构实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/9-NUxtVsQeIeJwaR8Oh3kg" target="_blank" rel="noopener">漫谈千亿级数据优化实践：一次数据优化实录</a></li>
+<li><a href="https://mp.weixin.qq.com/s/yrbVO1nrHfSv8xtLjlyjSw" target="_blank" rel="noopener">时序数据库如何支持秒级上亿数据的查询分组和聚合运算</a></li>
+<li><a href="https://mp.weixin.qq.com/s/LF8kem9bTVlMpGbpmhWtUA" target="_blank" rel="noopener">从分布式管理到多租户实现，企业级大数据系统如何利用开源生态构建？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/UiOIP7eOEQ-o9F8ej3Lb9g" target="_blank" rel="noopener">spark sql 在饿了么的应用实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/mZkivs8_BHEbHny3SG0vFA" target="_blank" rel="noopener">蚂蜂窝大数据多维分析 DRUID 引擎实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/unbRSelVZBBAoz2d8SdZYQ" target="_blank" rel="noopener">Flume+Kafka+Storm+Redis构建大数据实时处理系统</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="社区、社交互动"><a href="#社区、社交互动" class="headerlink" title="社区、社交互动"></a>社区、社交互动</h1><ul>
+<li><h3 id="微博-2"><a href="#微博-2" class="headerlink" title="微博"></a>微博</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/wi3XqgEn7iCKhVhXAwlyJg" target="_blank" rel="noopener">微博推荐架构的演进</a></li>
+<li><a href="http://mp.weixin.qq.com/s/JI3xmM0eYjfJpObOcUSnPA" target="_blank" rel="noopener">新浪微博技术架构分析</a></li>
+<li><a href="案例-微博与理财社区cache分析.md">新浪微博与理财社区cache对比分析</a></li>
+</ul>
+</li>
+<li><h3 id="QQ"><a href="#QQ" class="headerlink" title="QQ"></a>QQ</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/4tStRbQalbCPUwkrUxkG3A" target="_blank" rel="noopener">QQ空间平台百亿级流量的社交广告系统实践</a></li>
+</ul>
+</li>
+<li><h3 id="今日头条"><a href="#今日头条" class="headerlink" title="今日头条"></a>今日头条</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/_dfVM8Ix0sqHeyn1xnqjfw" target="_blank" rel="noopener">今日头条的核心架构解析</a></li>
+<li><a href="https://mp.weixin.qq.com/s/t_uRBG53o3ve8tFZNGz0NA" target="_blank" rel="noopener">今日头条推荐系统架构演进之路</a></li>
+</ul>
+</li>
+<li><h3 id="淘宝-1"><a href="#淘宝-1" class="headerlink" title="淘宝"></a>淘宝</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/r_4SahpX9nAKf9OsPFQMQg" target="_blank" rel="noopener">闲鱼社区技术架构演进</a></li>
+</ul>
+</li>
+<li><h3 id="BBS社区"><a href="#BBS社区" class="headerlink" title="BBS社区"></a>BBS社区</h3><ul>
+<li><a href="案例-公众号增量消息同步改造.md">公众号增量消息同步改造</a></li>
+<li><a href="社区稳定性之降级.md">社区稳定性之降级</a></li>
+<li><a href="案例-计数器.md">社区计数器</a></li>
+<li><a href="案例-贴子楼层号.md">回复的楼层号如何控制并发？</a></li>
+</ul>
+</li>
+<li><h3 id="timeline"><a href="#timeline" class="headerlink" title="timeline"></a>timeline</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/MFFJtRixz9Cr3WFh33h__Q" target="_blank" rel="noopener">几个大型网站的Feeds(Timeline)设计简单对比</a></li>
+<li><a href="">《深入分布式缓存—第12章，社交场景架构进化：从数据库到缓存》</a></li>
+<li><a href="">《深入分布式缓存—第13章，缓存在社交网络Feed系统中的架构实践》</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="互联网金融"><a href="#互联网金融" class="headerlink" title="互联网金融"></a>互联网金融</h1><ul>
+<li><h3 id="区块链"><a href="#区块链" class="headerlink" title="区块链"></a>区块链</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/9aFoptoI88n7hgZtxOe4Aw" target="_blank" rel="noopener">区块链技术与微服务架构之间有什么关系</a></li>
+<li><a href="https://mp.weixin.qq.com/s/BRrrhe1xFpDTp2DG6Khpkg" target="_blank" rel="noopener">《区块链》都火了两年多了，你还不知道它是什么？</a></li>
+<li><a href="http://mp.weixin.qq.com/s/cqi6mNVh2ZFZdNFIAQynjw" target="_blank" rel="noopener">200 行代码实现一个简单的区块链</a></li>
+<li><a href="https://mp.weixin.qq.com/s/-2jXpGcZEF37ex0jiIe3DA" target="_blank" rel="noopener">通俗讲解比特币的原理及运作机制</a></li>
+<li><a href="https://mp.weixin.qq.com/s/9kgxbjntTJiWDsmc856V-A" target="_blank" rel="noopener">什么是区块链？</a></li>
+</ul>
+</li>
+<li><h3 id="宜人贷"><a href="#宜人贷" class="headerlink" title="宜人贷"></a>宜人贷</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/GZsFhq7-3ZhRiyNodbv0lg" target="_blank" rel="noopener">从宜人贷系统架构看互联网高并发对金融系统架构的挑战</a></li>
+</ul>
+</li>
+<li><a href="http://mp.weixin.qq.com/s/aMQ6gpbkMn57WNKDL0OlOQ" target="_blank" rel="noopener">如何构建用于检测信用卡诈骗的机器学习模型？</a></li>
+<li><a href="http://mp.weixin.qq.com/s/4a8hGw-E73FVoGsAW0UWHQ" target="_blank" rel="noopener">智能问答在金融领域中的实践与应用</a></li>
+<li><a href="http://mp.weixin.qq.com/s/3GZaaLHsMSDFTJ0n7hzw1A" target="_blank" rel="noopener">微博众筹的架构设计</a></li>
+<li><a href="http://mp.weixin.qq.com/s/Qir5SwHoLNdILruYdFmEsw" target="_blank" rel="noopener">互联网金融系统技术沙龙:小米风控实践</a></li>
+<li><a href="http://mp.weixin.qq.com/s/ZX2lbry5fTq65LEo17YdBg" target="_blank" rel="noopener">雪球在股市风暴下的高可用架构改造分享</a></li>
+</ul>
+<hr>
+<h1 id="开放平台-网关"><a href="#开放平台-网关" class="headerlink" title="开放平台/网关"></a>开放平台/网关</h1><ul>
+<li><h3 id="淘宝-2"><a href="#淘宝-2" class="headerlink" title="淘宝"></a>淘宝</h3><ul>
+<li><a href="http://www.infoq.com/cn/articles/taobao-open-platform-overcome-technical-difficulties" target="_blank" rel="noopener">历经8年双11流量洗礼，淘宝开放平台如何攻克技术难关？</a></li>
+<li><a href="http://www.infoq.com/cn/articles/open-api-practice" target="_blank" rel="noopener">Open API分析、实践和思索</a></li>
+<li><a href="http://www.infoq.com/cn/articles/open-platform-review-prospect" target="_blank" rel="noopener">开放平台回顾与前景展望</a></li>
+</ul>
+</li>
+<li><h3 id="京东-3"><a href="#京东-3" class="headerlink" title="京东"></a>京东</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/vZqzVfWq4zX_bWrZZJdlLw" target="_blank" rel="noopener">京东京麦开放平台的高可用架构之路</a></li>
+<li><a href="https://mp.weixin.qq.com/s/jX1Xr9GlqOm2uaGmyJX2RQ" target="_blank" rel="noopener">京东双十一大促网关承载十亿调用量背后的架构实践</a></li>
+</ul>
+</li>
+<li><h3 id="其它-5"><a href="#其它-5" class="headerlink" title="其它"></a>其它</h3><ul>
+<li><a href="http://www.infoq.com/cn/news/2011/11/znx-tencent-open-platform" target="_blank" rel="noopener">专家观点：QCon专访朱念洋，谈腾讯开放平台关键技术</a></li>
+<li><a href="http://www.infoq.com/cn/news/2017/03/Startups-API-practice" target="_blank" rel="noopener">一个创业公司的API网关落地实践</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="直播-Live、客服"><a href="#直播-Live、客服" class="headerlink" title="直播 Live、客服"></a>直播 Live、客服</h1><ul>
+<li><h3 id="IM"><a href="#IM" class="headerlink" title="IM"></a>IM</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/sYRchf1-8ZpD7Q3UYx_KLQ" target="_blank" rel="noopener">现代IM系统中消息推送和存储架构的实现（Timeline）</a></li>
+</ul>
+</li>
+<li><h3 id="答题"><a href="#答题" class="headerlink" title="答题"></a>答题</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/Tp7K4g3DxmEiU0iYrmR8Mw" target="_blank" rel="noopener">直播答题系统在技术上难实现吗？挑战有多大？</a></li>
+</ul>
+</li>
+<li><h3 id="智能客服"><a href="#智能客服" class="headerlink" title="智能客服"></a>智能客服</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/tiGxIeY9sDRdbMvKxcOS7w" target="_blank" rel="noopener">阿里千亿级购物节背后，淘宝智能客服架构演进之路</a></li>
+</ul>
+</li>
+<li><h3 id="其它-6"><a href="#其它-6" class="headerlink" title="其它"></a>其它</h3><ul>
+<li><a href="http://mp.weixin.qq.com/s/WcHvukClRSLA4KczRjDVaw" target="_blank" rel="noopener">淘宝直播在双11的互动实践</a></li>
+<li><a href="http://mp.weixin.qq.com/s/Ej4QHRvF7e0i5d78hETrwg" target="_blank" rel="noopener">常见的几种直播连麦方案</a></li>
+<li><a href="http://mp.weixin.qq.com/s/U4SKJbXSkd6JOx0R7yK-5g" target="_blank" rel="noopener">如何开发10万在线级别的直播弹幕技术？</a></li>
+<li><a href="http://mp.weixin.qq.com/s/OXzYMM14ag2k9sh9WidV2w" target="_blank" rel="noopener">视频私有云实战：基于 Docker 构建点播私有云平台</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="共享单车"><a href="#共享单车" class="headerlink" title="共享单车"></a>共享单车</h1><ul>
+<li><a href="https://mp.weixin.qq.com/s/IIJcFdku41Z6NYQSV-dk5A" target="_blank" rel="noopener">摩拜单车类的共享行业应如何在不可靠远程网络下进行分布式MQTT设计</a></li>
+</ul>
+<hr>
+<h1 id="移动端相关"><a href="#移动端相关" class="headerlink" title="移动端相关"></a>移动端相关</h1><ul>
+<li><a href="http://mp.weixin.qq.com/s/mMMsuCMX27T1-ynVeJntUw" target="_blank" rel="noopener">蘑菇街移动端混合开发体系的研发与实践</a></li>
+<li><a href="http://mp.weixin.qq.com/s/h9UNSqnKjzFnXY2gMNAQ-g" target="_blank" rel="noopener">人人车Android客户端架构演进实录</a></li>
+</ul>
+<hr>
+<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><ul>
+<li><a href="http://mp.weixin.qq.com/s/HErVN8x-s6MzgW-3XMvvAA" target="_blank" rel="noopener">去哪儿网机票搜索系统的高并发架构设计</a></li>
+<li><a href="https://mp.weixin.qq.com/s/uIlNuutCRVPrZeJ_u1AtnA" target="_blank" rel="noopener">聊聊基于Lucene的搜索引擎核心技术实践</a></li>
+</ul>
+<hr>
+<h1 id="系统稳定性"><a href="#系统稳定性" class="headerlink" title="系统稳定性"></a>系统稳定性</h1><ul>
+<li><h3 id="阿里-1"><a href="#阿里-1" class="headerlink" title="阿里"></a>阿里</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/9qaxFINcTsmy01OP1D3UOQ" target="_blank" rel="noopener">史上最复杂业务场景，逼出阿里高可用三大法宝</a></li>
+<li><a href="https://mp.weixin.qq.com/s/xyJ4GB955PoOXk7UOMqGBw" target="_blank" rel="noopener">鹰眼技术解密</a></li>
+<li><a href="http://mp.weixin.qq.com/s/tP9it4Cbv_SUr-qFHkzHPw" target="_blank" rel="noopener">阿里如何应对电商故障？神秘演练细节曝光</a></li>
+<li><a href="https://mp.weixin.qq.com/s/q5qiYGhCGUxKJYjm1kXuTA" target="_blank" rel="noopener">阿里SRE体系如何支撑24小时峰值压力、220+个国家“剁手党”？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/GVrmSsEa1VogcPOzbXF_QA" target="_blank" rel="noopener">阿里巴巴AliExpress数百微服务的治理之策</a></li>
+</ul>
+</li>
+<li><h3 id="滴滴"><a href="#滴滴" class="headerlink" title="滴滴"></a>滴滴</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/wy-BC_RShqO5KbarHDzCQQ" target="_blank" rel="noopener">滴滴业务实时监控系统架构及实践</a></li>
+</ul>
+</li>
+<li><h3 id="微博-3"><a href="#微博-3" class="headerlink" title="微博"></a>微博</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/6tSbQFgSff07VIZRHpfTQg" target="_blank" rel="noopener">新浪微博混合云架构如何轻松应对热点事件的高峰值流量</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="风控"><a href="#风控" class="headerlink" title="风控"></a>风控</h1><ul>
+<li><h3 id="金融"><a href="#金融" class="headerlink" title="金融"></a>金融</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/X634-KXzwBLkrmrT_OTxbQ" target="_blank" rel="noopener">互联网小贷：一个从繁盛到衰退，又在管制中蜕变成长的类金融机构</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="日志系统"><a href="#日志系统" class="headerlink" title="日志系统"></a>日志系统</h1><ul>
+<li><a href="https://mp.weixin.qq.com/s/AZ_ucwyF1v7KelhfxQRLkQ" target="_blank" rel="noopener">百亿级日志系统架构设计及优化</a></li>
+</ul>
+<hr>
+<h1 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h1><ul>
+<li><a href="https://mp.weixin.qq.com/s/E0xEqPSbi5IEYV-IFfn5vw" target="_blank" rel="noopener">搭建一个基于Java的分布式爬虫系统</a></li>
+<li><a href="https://mp.weixin.qq.com/s/-3AmP_yMFY75Bdnke4Vmzw" target="_blank" rel="noopener">一次架构设计心得体会</a></li>
+<li>github<ul>
+<li><a href="https://github.com/java-webbee/web-bee" target="_blank" rel="noopener">web垂直爬虫框架</a></li>
+<li><a href="https://github.com/pkwenda/blog/issues/8" target="_blank" rel="noopener">如何写一个垂直爬虫并抓取知乎用户20万数据</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h1><ul>
+<li><h3 id="会员、注册、登录"><a href="#会员、注册、登录" class="headerlink" title="会员、注册、登录"></a>会员、注册、登录</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/ZT1B6ziSSRW41FN33xA3ZA" target="_blank" rel="noopener">单点登录怎么实现？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/DkwfpZibKdllfm0lpxukWg" target="_blank" rel="noopener">深入了解Token认证的来龙去脉</a></li>
+<li><a href="https://mp.weixin.qq.com/s/89YtsPX4cPLluWbM8JSNXQ" target="_blank" rel="noopener">单点登录原理与简单实现</a></li>
+</ul>
+</li>
+<li><h3 id="短信"><a href="#短信" class="headerlink" title="短信"></a>短信</h3><ul>
+<li><a href="https://blog.csdn.net/u011277123/article/details/77519910" target="_blank" rel="noopener">如何设计短信验证码防刷机制</a></li>
+<li><a href="http://www.woshipm.com/pd/580976.html" target="_blank" rel="noopener">5种常见的短信验证码防刷策略</a></li>
+</ul>
+</li>
+<li><h3 id="消息推送、push"><a href="#消息推送、push" class="headerlink" title="消息推送、push"></a>消息推送、push</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/tLFOFEWBUfjjO_YInDxpJw" target="_blank" rel="noopener">如何用Redis平衡海量信息推送的实效与体量</a></li>
+</ul>
+</li>
+<li><h3 id="智能流量调度"><a href="#智能流量调度" class="headerlink" title="智能流量调度"></a>智能流量调度</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/tNMDImzKPJmkMBrssSl5yw" target="_blank" rel="noopener">京东到家订单派发的技术实战</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h1><ul>
+<li><h3 id="异步非阻塞"><a href="#异步非阻塞" class="headerlink" title="异步非阻塞"></a>异步非阻塞</h3><ul>
+<li><a href="https://www.jdon.com/idea/javaee7/servlet21.html" target="_blank" rel="noopener">Servlet的异步和非堵塞</a></li>
+</ul>
+</li>
+<li><h3 id="分布式任务"><a href="#分布式任务" class="headerlink" title="分布式任务"></a>分布式任务</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/DfGligz50B_x6Y_S-DyU9w?from=groupmessage&isappinstalled=0" target="_blank" rel="noopener">点我达分布式任务调度系统-DaJob</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="其它-7"><a href="#其它-7" class="headerlink" title="其它"></a>其它</h1><ul>
+<li><a href="http://mp.weixin.qq.com/s/4TmpzJEdiSzi5fLTLXAq2w" target="_blank" rel="noopener">网易美学平滑微服务化</a></li>
+<li><a href="http://mp.weixin.qq.com/s/muoJas1nayP6gY8KBwVLSw" target="_blank" rel="noopener">微服务架构如何实现网站服务垂直化拆分</a></li>
+<li><a href="http://mp.weixin.qq.com/s/_3BAn1-paC74qho3gFgnhw" target="_blank" rel="noopener">如何用消息系统避免分布式事务？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/5KQMrsK3hORFG4aHupdR1g" target="_blank" rel="noopener">Linux 主流架构运维工作简单剖析</a></li>
+<li><a href="https://mp.weixin.qq.com/s/EYA65HML_QgsXnU-EYE6tQ" target="_blank" rel="noopener">Python 爬取百度网盘所有热门分享文件</a></li>
+<li><a href="https://mp.weixin.qq.com/s/UPSIOaZAQmq0PDrJj-0t1A" target="_blank" rel="noopener">28款GitHub最流行的开源机器学习项目</a></li>
+<li><a href="https://mp.weixin.qq.com/s/RAR1Gs0bf78vfaSau-8kLw" target="_blank" rel="noopener">58同城实施微服务架构的关键技术</a></li>
+<li><a href="https://mp.weixin.qq.com/s/jy-tpDbbhC9EuUGN3mzWqg" target="_blank" rel="noopener">Java高效开发12个精品库</a></li>
+<li><a href="https://mp.weixin.qq.com/s/1jvK89iRtX_aofCww34G1w" target="_blank" rel="noopener">Google最热门60款开源项目</a></li>
+<li><a href="https://mp.weixin.qq.com/s/iEULJ6aGXezPjZTAq1-qCg" target="_blank" rel="noopener">今日头条Go语言构建日请求千亿级微服务的最佳实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/FuIlEl4VIsMfLvDGhgMDVQ" target="_blank" rel="noopener">亿级流量系统架构之如何设计承载百亿流量的高性能架构</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/system-architecture/" rel="tag"><i class="fa fa-tag"></i> 系统架构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sa/%E7%BC%93%E5%AD%98%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%98%B2%E9%9B%AA%E5%B4%A9%E8%AE%BE%E8%AE%A1/" rel="prev" title="缓存架构之防雪崩设计">
+      <i class="fa fa-chevron-left"></i> 缓存架构之防雪崩设计
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sa/cache-summary/" rel="next" title="Cache经验总结">
+      Cache经验总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#电商"><span class="nav-text">电商</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#淘宝"><span class="nav-text">淘宝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1号店"><span class="nav-text">1号店</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#蘑菇街"><span class="nav-text">蘑菇街</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有赞"><span class="nav-text">有赞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#O2O外卖"><span class="nav-text">O2O外卖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#苏宁"><span class="nav-text">苏宁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#京东到家"><span class="nav-text">京东到家</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它"><span class="nav-text">其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支付"><span class="nav-text">支付</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#支付宝"><span class="nav-text">支付宝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#去哪"><span class="nav-text">去哪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微博"><span class="nav-text">微博</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它-1"><span class="nav-text">其它</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结算"><span class="nav-text">结算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#物流、外卖"><span class="nav-text">物流、外卖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#菜鸟"><span class="nav-text">菜鸟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#京东"><span class="nav-text">京东</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#顺丰"><span class="nav-text">顺丰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#达达配送"><span class="nav-text">达达配送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外卖"><span class="nav-text">外卖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它-2"><span class="nav-text">其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#秒杀、抽奖"><span class="nav-text">秒杀、抽奖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#微信"><span class="nav-text">微信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一号店"><span class="nav-text">一号店</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#京东-1"><span class="nav-text">京东</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它-3"><span class="nav-text">其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大数据"><span class="nav-text">大数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阿里"><span class="nav-text">阿里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#腾讯"><span class="nav-text">腾讯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微博-1"><span class="nav-text">微博</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#京东-2"><span class="nav-text">京东</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#携程"><span class="nav-text">携程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网易"><span class="nav-text">网易</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小米"><span class="nav-text">小米</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有赞-1"><span class="nav-text">有赞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#蘑菇街-1"><span class="nav-text">蘑菇街</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#唯品会"><span class="nav-text">唯品会</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#58同城"><span class="nav-text">58同城</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它-4"><span class="nav-text">其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#社区、社交互动"><span class="nav-text">社区、社交互动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#微博-2"><span class="nav-text">微博</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QQ"><span class="nav-text">QQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#今日头条"><span class="nav-text">今日头条</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#淘宝-1"><span class="nav-text">淘宝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BBS社区"><span class="nav-text">BBS社区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#timeline"><span class="nav-text">timeline</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网金融"><span class="nav-text">互联网金融</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区块链"><span class="nav-text">区块链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宜人贷"><span class="nav-text">宜人贷</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开放平台-网关"><span class="nav-text">开放平台&#x2F;网关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#淘宝-2"><span class="nav-text">淘宝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#京东-3"><span class="nav-text">京东</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它-5"><span class="nav-text">其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#直播-Live、客服"><span class="nav-text">直播 Live、客服</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IM"><span class="nav-text">IM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#答题"><span class="nav-text">答题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#智能客服"><span class="nav-text">智能客服</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它-6"><span class="nav-text">其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#共享单车"><span class="nav-text">共享单车</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#移动端相关"><span class="nav-text">移动端相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搜索"><span class="nav-text">搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统稳定性"><span class="nav-text">系统稳定性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阿里-1"><span class="nav-text">阿里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滴滴"><span class="nav-text">滴滴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微博-3"><span class="nav-text">微博</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#风控"><span class="nav-text">风控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#金融"><span class="nav-text">金融</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志系统"><span class="nav-text">日志系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#爬虫"><span class="nav-text">爬虫</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#杂项"><span class="nav-text">杂项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#会员、注册、登录"><span class="nav-text">会员、注册、登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#短信"><span class="nav-text">短信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息推送、push"><span class="nav-text">消息推送、push</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#智能流量调度"><span class="nav-text">智能流量调度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技术点"><span class="nav-text">技术点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异步非阻塞"><span class="nav-text">异步非阻塞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式任务"><span class="nav-text">分布式任务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其它-7"><span class="nav-text">其它</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/sa/architecture-good-case/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

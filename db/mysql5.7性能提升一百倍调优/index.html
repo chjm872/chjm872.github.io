@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="前言：全文中一共有常用的（事实上你如果花1-2周阅读、理解、自己动手设一下后是需要这么多参数的）76个参数，笔者把近10年里3个亿万级项目的数据库调优用此篇浓缩到了可能读者只需要2周时间就可以掌握，同时我是按照：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql5.7性能提升一百倍调优">
+<meta property="og:url" content="https://www.alan87.top/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="前言：全文中一共有常用的（事实上你如果花1-2周阅读、理解、自己动手设一下后是需要这么多参数的）76个参数，笔者把近10年里3个亿万级项目的数据库调优用此篇浓缩到了可能读者只需要2周时间就可以掌握，同时我是按照：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdn.net/20170525170219701?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc21vb3RoMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="article:published_time" content="2020-05-09T05:09:30.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.775Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="mysql5.7性能提升一百倍调优">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20170525170219701?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc21vb3RoMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+
+<link rel="canonical" href="https://www.alan87.top/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>mysql5.7性能提升一百倍调优 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mysql5.7性能提升一百倍调优
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-09 13:09:30" itemprop="dateCreated datePublished" datetime="2020-05-09T13:09:30+08:00">2020-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/system-architecture/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/" class="post-meta-item leancloud_visitors" data-flag-title="mysql5.7性能提升一百倍调优" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>全文中一共有常用的（事实上你如果花1-2周阅读、理解、自己动手设一下后是需要这么多参数的）76个参数，笔者把近10年里3个亿万级项目的数据库调优用此篇浓缩到了可能读者只需要2周时间就可以掌握，同时我是按照：</p>
+<a id="more"></a>
+
+<p>每一个参数干吗？<br>在某些典型硬件配置下的db上参数该设多少？<br>设会怎么样？<br>不设会怎么样？<br>有什么坑如何填坑？<br>有些参数怎么算、算法又如何<br>mysql5.7性能提升一百倍调优宝典（赠给有缘人）<br>这种style来写的，相信此篇会对一些使用mysql的尤其是正在或者将要面临万级并发的项目、网站有所帮助。具体请看文档！</p>
+<p>一千个DBA就有一千种配置方式!</p>
+<p>大家一定记得不要轻易去看网上，要看只看官网！网上很多博客都是错的，连参数都列错了，5.7很多参数和5.6是完全不一样的。</p>
+<p>可能你从未看到过这样的一篇集中火力式的把mysql参数列了这么全的文章，很有兴曾参与过超3万并发的18～19年的数轮520、618、双11、双12保卫战。因此这一篇是汇集了最精华和实战的内容把mysql所有的参数列在这边供大家参考。并且以（64c cpu，128gb内存）的mysql cpu和内存来进行了一轮配置。而此文的内存相关参数部分可以延展至256gb～512gb。</p>
+<p>另外有一点，建议在mysql的服务器上使用ssd。除非并发数永远控制在500-1000内那就没必要使用ssd，普通高速磁盘就可以了。</p>
+<p>你会发觉这篇文章是一篇宝藏，这些参数都能够自己动手试验一篇基本在外面是可以吊打mysql面试官了。</p>
+<h1 id="client域："><a href="#client域：" class="headerlink" title="client域："></a>client域：</h1><h2 id="character-set-client"><a href="#character-set-client" class="headerlink" title="character_set_client"></a>character_set_client</h2><ul>
+<li><p>推荐设置：utf8mb4</p>
+</li>
+<li><p>作用：字符集设定，如果前台有连social mobile application一类包括wechat，并且允许有使用emoji表情的，请开启成utf8mb4</p>
+</li>
+<li><p>如果不配的后果：mysql不支持前端app存表情等字符</p>
+</li>
+<li><p>配置实例：character_set_client=utf8mb4</p>
+</li>
+</ul>
+<h1 id="mysqld域："><a href="#mysqld域：" class="headerlink" title="mysqld域："></a>mysqld域：</h1><h2 id="1-server-id"><a href="#1-server-id" class="headerlink" title="1)server-id"></a>1)server-id</h2><ul>
+<li><p>推荐设置：如果没有做任何主从复制，此值可以不设。</p>
+</li>
+<li><p>作用：遇有主从复制，必设该值，每个参与主从复制的mysql实例的server-id不能重复，必须为阿拉伯数字。</p>
+</li>
+<li><p>如果不配的后果：如果你用的是主从复制，这个id不设那么整个mysql的主从复制会失几。</p>
+</li>
+<li><p>配置实例：server-id=1</p>
+</li>
+</ul>
+<h2 id="2-port"><a href="#2-port" class="headerlink" title="2)port"></a>2)port</h2><ul>
+<li><p>推荐设置：3306</p>
+</li>
+<li><p>作用：mysql实例端口</p>
+</li>
+<li><p>如果不配的后果：默认为3306</p>
+</li>
+<li><p>配置实例：port=3306</p>
+</li>
+</ul>
+<h2 id="3-bind-address"><a href="#3-bind-address" class="headerlink" title="3)bind_address"></a>3)bind_address</h2><ul>
+<li><p>推荐设置：0.0.0.0</p>
+</li>
+<li><p>作用：除非有特殊需要，我们会限制只允许mysql实例被某一个ip方问，不支持多个，生产上都为：0.0.0.0然后使用防火墙策略来控制。</p>
+</li>
+<li><p>如果不配的后果：默认不允许远程登录</p>
+</li>
+<li><p>配置实例：bind_address=0.0.0.0</p>
+</li>
+</ul>
+<h2 id="4-autocommit"><a href="#4-autocommit" class="headerlink" title="4)autocommit"></a>4)autocommit</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：生产上开启成1，如果你开启的是0会有一个这样的情况：</p>
+</li>
+</ul>
+<p>a运行一条insert语句，并未作commit;b去做查询此时b是查询不到的。这种操作一般用于在写store procedure时用到。</p>
+<ul>
+<li><p>如果不配的后果：如果在系统的my.cnf层面把它设成了0，如果在使用时（99%情况是用的1）时，你想要用root在生产运行时把它设成set autocommit = 1都开启不了。而如果你在一开始就没它设置成1，那么当碰到某些特殊场景特别是写store procedure时需要把它设成0时，你是可以手动临时把某一个session给开在0的。</p>
+</li>
+<li><p>配置实例：autocommit = 1</p>
+</li>
+</ul>
+<h2 id="5-character-set-server"><a href="#5-character-set-server" class="headerlink" title="5)character_set_server"></a>5)character_set_server</h2><ul>
+<li><p>推荐设置：utf8mb4</p>
+</li>
+<li><p>作用：字符集设定，如果前台有连social mobile application一类包括wechat，并且允许有使用emoji表情的，请开启成utf8mb4</p>
+</li>
+<li><p>如果不配的后果：mysql不支持前端app存表情等字符</p>
+</li>
+</ul>
+<p>配置实例：character_set_server=utf8mb4</p>
+<h2 id="6-skip-name-resolve"><a href="#6-skip-name-resolve" class="headerlink" title="6)skip_name_resolve"></a>6)skip_name_resolve</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：生产上建议开启成1，这样mysql server不会对客户端连接使用反向dns解析，否则客户端连上后有时在遇有生产高速运行时直接timeout，如果设成了1带来的问题就是你不能在mysql中使用主机名来对客户端权限进行划分，而是需要使用ip。</p>
+</li>
+</ul>
+<p>如果要做成即允许mysql里允许使用主机名来分配客户端连接权限，又要做到不要让mysql去做dns解析，可以在mysql所在主机端的/etc/hosts文件中写上客户端的主机名，因为当客户端连接连上来时，mysql反向查找客户端连接时的域名解析的步骤是：首先查找 /etc/hosts 文件，搜索域名和IP的对应关系。但是这样做也有一个问题，那就是如果你有多个客户端多个mysql主从关系，哪到你要把mysql做成一个dns解析器吗？因此推荐设成1</p>
+<ul>
+<li><p>如果不配的后果：mysql server每一次会对客户端连接使用反向dns解析，经常会出现客户端连上后有timeout现象。</p>
+</li>
+<li><p>配置实例：skip_name_resolve=1</p>
+</li>
+</ul>
+<h2 id="7-max-connections"><a href="#7-max-connections" class="headerlink" title="7)max_connections"></a>7)max_connections</h2><ul>
+<li><p>推荐设置：20,000</p>
+</li>
+<li><p>作用：最大连接数，以前端3万的tps并发，假设redis命中失效50%（这是灾难），那么后端mysql单个主或从开启连接数为：20,000，我们公司在前端并发曾达到过6万，80%被waf、vanish、缓存挡掉，落在db上的qps最高一次为20,000连接，再按照mysql官方，max_connections值受系统os最大打开连接数限制，因此我们需要做以下2步操作：</p>
+<ul>
+<li>1）在 /etc/security/limits.conf 底部增加2行<br>mysql hard nofile 65535<br>mysql soft nofile 65535</li>
+<li>2）在/usr/lib/systemd/system/mysqld.service（视如何安装mysql所决定，用编译安装和yum安装会产生path路径不同。）文件最后添加：<br>LimitNOFILE=65535<br>LimitNPROC=65535<br>$ systemctl daemon-reload<br>$ systemctl restart mysqld.service<br>如不生效重启服务器。</li>
+</ul>
+</li>
+<li><p>如果不配的后果：默认只有150</p>
+</li>
+<li><p>配置实例：max_connections = 20,000</p>
+</li>
+</ul>
+<h2 id="8-max-connect-errors"><a href="#8-max-connect-errors" class="headerlink" title="8)max_connect_errors"></a>8)max_connect_errors</h2><ul>
+<li><p>推荐设置：生产上设10, 开发测试上使用默认100</p>
+</li>
+<li><p>作用：生产上开启成10次，开发测试上使用默认即不设。</p>
+<p>max_connect_errors是一个MySQL中与安全有关的计数器值，它负责阻止过多尝试失败的客户端以防止暴力破解密码的情况。如果需要设置此数值，手动添加。当此值设置为10时，意味着如果某一客户端尝试连接此MySQL服务器，但是失败（如密码错误等等）10次，则MySQL会无条件强制阻止此客户端连接。相关的登录错误信息会记录到performance_schema.host_cache表中。如果希望重置此计数器的值，则必须重启MySQL服务器或者执行</p>
+<p>Mysql&gt; FLUSH HOSTS;</p>
+<p>当这一客户端成功连接一次MySQL服务器后，针对此客户端的max_connect_errors会清零。可以在防火墙上做策略限制某些ip的远程连接。</p>
+</li>
+<li><p>如果不配的后果：默认为100</p>
+</li>
+<li><p>配置实例：max_connect_errors =10</p>
+</li>
+</ul>
+<h2 id="9-innodb-flush-log-at-trx-commit"><a href="#9-innodb-flush-log-at-trx-commit" class="headerlink" title="9)innodb_flush_log_at_trx_commit"></a>9)innodb_flush_log_at_trx_commit</h2><ul>
+<li><p>推荐设置：2</p>
+</li>
+<li><p>作用：(核心交易系统设置为1，默认为1，其他2或者0)，</p>
+<ul>
+<li><p>0代表：log buffer将每秒一次地写入log file中，并且log file的flush(刷到磁盘)操作同时进行。该模式下在事务提交的时候，不会主动触发写入磁盘的操作。</p>
+</li>
+<li><p>1代表：每次事务提交时MySQL都会把log buffer的数据写入log file，并且flush(刷到磁盘)中去，该模式为系统默认（因此会保留每一份redo日志）</p>
+</li>
+<li><p>2代表：每次事务提交时MySQL都会把log buffer的数据写入log file，但是flush(刷到磁盘)操作并不会同时进行。该模式下，MySQL会每秒执行一次 flush(刷到磁盘)操作。该模式速度较快，也比0安全，只有在操作系统崩溃或者系统断电的情况下，上一秒钟所有事务数据才可能丢失。</p>
+</li>
+</ul>
+<p>除非你用的是小型机或者是超大规模mysql集群一类如：游戏行业，那么需要保留每一秒的事务，否则请设成2，要不然会严重影响系统性能。这个参数是5.6所没有的。</p>
+</li>
+<li><p>如果不配的后果：默认为1，影响系统写性能。</p>
+</li>
+<li><p>配置实例：innodb_flush_log_at_trx_commit=2</p>
+</li>
+</ul>
+<h2 id="10-transaction-isolation"><a href="#10-transaction-isolation" class="headerlink" title="10)transaction_isolation"></a>10)transaction_isolation</h2><ul>
+<li><p>推荐设置：READ-COMMITTED</p>
+</li>
+<li><p>作用：此参数直接决定了mysql的性能，oracle中的事务默认级别就是read-commited，而mysql的默认级别是:repeatable-read，它利用自身独有的Gap Lock解决了”幻读”。但也因为Gap Lock的缘故，相比于READ-COMMITTED级别的Record Lock，REPEATABLE-READ的事务并发插入性能受到很大的限制。离级别的选择取决于实际的业务需求（安全与性能的权衡），如果不是金融、电信等事务级别要求很高的业务，完全可以设置成transaction_isolation=READ-COMMITTED。</p>
+<ul>
+<li><p>读未提交（READ-UNCOMMITTED）-它是最低的隔离级别，虽然性能最高，但也不推荐<br>它会读取到其他事务修改尚未提交的数据，使用此隔离级别就需要非常小心，认识到这种级别下的查询结果可能不一致或不可复制，这取决于其他事务同时在做什么。通常，具有此隔离级别的事务只执行查询，而不执行插入、更新或删除操作。<br>在实际环境中，应当根据是否允许出现脏读（dirty reads），不可重复读（non-repeatable reads）和幻读（phantom reads ）现象而选择相应的隔离级别。例如在大数据中，少量的数据不一致不会影响到最后的决策，这种情况下可以使用较低的隔离级别以提交性能和并发性。</p>
+</li>
+<li><p>Read-Committed-推荐: 事务无法看到来自其他事务的未提交数据，但可以看到当前事务启动后另一个事务提交的数据。当拥有这种级别的事务执行 UPDATE … WHERE or DELETE … WHERE操作时，其他事务可能需要等待。但是该事务可以执行 SELECT … FOR UPDATE, and LOCK IN SHARE MODE操作，其他事务不需要等待。</p>
+</li>
+<li><p>Repeatable-read: 这是MySQL的InnoDB引擎默认的隔离级别，它阻止查询的任何行被其他事务更改。因此，阻塞不可重复读，而不是幻读。也就是说在可重复读中，可能会出现幻读。重复读使用一种中等严格的锁定策略，以便事务中的所有查询都能看到来自相同快照(即事务启动时的数据)的数据。当拥有该级别的事务执行 UPDATE … WHERE, DELETE … WHERE, SELECT … FOR UPDATE和LOCK IN SHARE MODE操作时，其他事务可能需要等待。</p>
+</li>
+<li><p>串行化（SERIALIZABLE）-极力不推荐，串行化隔离级别是最高的隔离级别，它使用了最保守的锁策略。它阻止任何其他事务插入或更改此事务读取的数据，直到该事务完成。简单的来说，就是一个事务一个事务的来执行，显然性能会很低。在这种隔离级别下，一个事务中的相同查询可以反复执行，每次查询结果是一样的。从当前事务开始执行，任何更改另一个事务提交的数据的尝试都会导致当前事务等待（阻塞）。这是SQL标准指定的默认隔离级别（注意不是MySQL）。在实践中，这种严格程度是很少需要的。</p>
+</li>
+</ul>
+</li>
+<li><p>如果不配的后果：默认就是repeatable-read</p>
+</li>
+<li><p>配置实例：transaction_isolation = READ-COMMITTED</p>
+</li>
+</ul>
+<h2 id="11-explicit-defaults-for-timestamp"><a href="#11-explicit-defaults-for-timestamp" class="headerlink" title="11)explicit_defaults_for_timestamp"></a>11)explicit_defaults_for_timestamp</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：mysql5.7默认对于timestamp字段会显示“系统当前日期”，就算你在插表时这个timestamp字段留空，它在select出来时也会显示系统日期。因此，这个值的影响范围是你在建表时导致的。</p>
+<p>系统默认这个值是0，在0的情况下，你要让该表的timestamp字段在为null时不显示系统默认时间，你的建表必须为：create table order(o_id int ,updateed_time timestamp null default null) ;</p>
+<p>explicit_defaults_for_timestamp 变量会直接影响表结构，也就是说explicit_defaults_for_timestamp的作用时间是在表定义的时候；你的update | insert 想通过它去改变行为已经太晚了！</p>
+<p>因此，我推荐把这个值设为1.</p>
+</li>
+<li><p>如果不配的后果：默认为0</p>
+</li>
+<li><p>配置实例：explicit_defaults_for_timestamp = 1</p>
+</li>
+</ul>
+<h2 id="12-join-buffer-size"><a href="#12-join-buffer-size" class="headerlink" title="12)join_buffer_size"></a>12)join_buffer_size</h2><ul>
+<li><p>推荐设置：16M</p>
+</li>
+<li><p>作用：系统默认大小为：512k，mac下默认大小为：256k，针对128GB，1万并发的mysql我推荐给到的值为：8~16M<br>对于JOIN KEY 有索引和二级索引，JOIN KEY 无索引mysql会使用到join_buffer_size，一般建议设置一个很小的 GLOBAL 值，完了在 SESSION 或者 QUERY 的基础上来做一个合适的调整。</p>
+<p>如果你拍脑袋给也个4g，我们有1000个并发，就是用掉了4T的内存。。。4T啊。。。你以为你是小型机。适当的去改变它确实可以带来一定的提速，但并不是说很多值越大越好.</p>
+<p>为什么我们设置成4m呢？我们假设我们的mysql所在的vm是128gb，一根这样的join（如果被用到）是4M，1万个也不过用掉40G,而根据官方说法，total加在一起产生的join_buffer_size不要超过你所在系统的50%.默认512k肯定是小了点，我们可以适当放宽，比如说：2M.</p>
+<p>在实际使用场景时我们发觉有这样的高频操作（要看高频出现的有意义的sql的执行计划，并确认该计划的：执行cost如： “<strong>query_cost</strong>“: “1003179606.87”，它产生的cost为：0.93个G,如果它真的很高频出现在调优sql到无法调优的程度，我们会去做set session join_buffer_size = 1024 * 1024 * 1024;这样的操作。</p>
+<p>而不是在一开始的my.cnf中去分配一个暴大的值，我们这边基于128gb，1万connection的并发来说，你给个16M不算小也不算多，我推荐给到8~16M间（这是指在一开始）。</p>
+</li>
+<li><p>如果不配的后果：默认的为256k</p>
+</li>
+<li><p>配置实例：join_buffer_size = 16M</p>
+</li>
+</ul>
+<h2 id="13-tmp-table-size"><a href="#13-tmp-table-size" class="headerlink" title="13)tmp_table_size"></a>13)tmp_table_size</h2><ul>
+<li><p>推荐设置：67108864</p>
+</li>
+<li><p>作用：如果是128gb内存的服务器，我建议是在my.cnf中设成64M<br>通过设置tmp_table_size选项来增加一张临时表的大小，例如做高级GROUP BY操作生成的临时表。默认系统为32M，如果当你的临时表越来越多加在一起超过了这个值，那么mysql会在系统磁盘上创建，这个值不是越多越好，也没有一个合适的值。一开始的建议为&gt;64M，然后在运行时我们通过以下公式来做临时调优</p>
+<p><code>show global status like &#39;created_tmp%&#39;;</code></p>
+<p>把得到的结果中的：(Created_tmp_disk_tables / Created_tmp_tables) * 100% 如果&lt;=25%为最佳值。注意了，在生产时热设定时一定要用类似以下语法：<br><code>set global tmp_table_size=64*1024*1024</code>而不是<code>set global tmp_table_size=64M</code>。</p>
+</li>
+<li><p>如果不配的后果：默认为32M</p>
+</li>
+<li><p>配置实例：tmp_table_size = 67108864</p>
+</li>
+</ul>
+<h2 id="14-tmpdir"><a href="#14-tmpdir" class="headerlink" title="14)tmpdir"></a>14)tmpdir</h2><p>这块参数可以让运维给到，放到大空间里就行了，没什么太敏感的。</p>
+<h2 id="15-max-allowed-packet"><a href="#15-max-allowed-packet" class="headerlink" title="15)max_allowed_packet"></a>15)max_allowed_packet</h2><ul>
+<li><p>推荐设置：134217728</p>
+</li>
+<li><p>作用：如果你经常在应用层碰到了：Got a packet bigger than’max_allowed_packet’ bytes，这时你可以使用<br>show variables like ‘%max_allowed_packet%’;来查看这个值，这个值没有合适，一般如：用客户端导入数据的时候，遇到 错误代码: 1153 - Got a packet bigger than ‘max_allowed_packet’ bytes 终止了数据导入。这样的场景下，当MySQL客户端或mysqld服务器收到大于max_allowed_packet字节的信息包时，将发出“信息包过大”错误，并关闭连接。对于某些客户端，如果通信信息包过大，在执行查询期间，可能会遇到“丢失与MySQL服务器的连接”错误。</p>
+<p>客户端和服务器均有自己的max_allowed_packet变量，因此，如你打算处理大的信息包，必须增加客户端和服务器上的该变量。一般情况下，服务器默认max-allowed-packet为1MB,可以通过在交换机上抓包或者是图形化分析来抓返回结果判断。<br>一般推荐在128gb内存下设置的置为128M.也可以在运行时动态调整：set global max_allowed_packet = 128<em>1024</em>1024</p>
+</li>
+<li><p>如果不配的后果：1M</p>
+</li>
+<li><p>配置实例：max_allowed_packet = 134217728</p>
+</li>
+</ul>
+<h2 id="16-sql-mode"><a href="#16-sql-mode" class="headerlink" title="16)sql_mode"></a>16)sql_mode</h2><p>不需要去设置，使用默认的，这块和性能无关。我们的中台中的sql如果碰到有sql报错，因该是在测试环境上就已经报了，它的作用是用来约束你sql的写法的，如果是一个从头开始开发的应用，我们比如说约束好都是ansi sql写法，对于一个产品，不要去做这种画蛇添足的做法。</p>
+<h2 id="17-interactive-timeout"><a href="#17-interactive-timeout" class="headerlink" title="17)interactive_timeout"></a>17)interactive_timeout</h2><ul>
+<li><p>推荐设置：600</p>
+</li>
+<li><p>作用：单位为s，系统默认为：28800s即8小时。如果这个值太大，你会发觉在mysql中有大量sleep的连接，这些连接又被称为：僵尸连接，僵尸连接一多你真正要用的时候就会抛：too many connection这样的错，因此对于长久不用的连接，我们一般要使用“踢出机制”，多久对于一个活动累的sql进行踢呢？</p>
+<p>我们说如果有一个长事务，它要执行1小时，我不知道这是不是属于正常？当然如果你设了太短，说1分钟就把它踢了，还真不一定踢的对，按照我们在oracle中设置的best practice我们都会把它放到10分钟。你有一条sql连着，10分钟不用，我就把它踢了，这也算正常。</p>
+<p>但是在高并发的场景下这个timeout会缩短至3-5分钟，这就是为什么我提倡我们的非报表即时类查询需要优化到sql的运行时间不超过300ms的原因，因为在高并发场景下，超过500ms的sql都已经很夸张了。保守点我觉得可以设成10分钏，在应用端由其通过jdbc连接数据库的，做的好的应用都会在jdbc里有一个autoconnect参数，这个autoconnect参数就要和mysql中的wait_timeout来做匹配了。</p>
+<p>同时在应用端要有相应的validate sql一类的操作来keep alived。不过我更推荐使用”连接池内连接的生存周期（idleConnectionTestPeriod）”来做设置，把这个值设成 &lt; mysql内的这两个值将会是最好，同时，idleConnectionTestPeriod会使用到异步的方式去做超时check。<br>如c3p0中的：idleConnectionTestPeriod和testConnectionOnCheckin相当可靠</p>
+<ul>
+<li>interactive_timeout：交互式连接超时时间(mysql工具、mysqldump等)</li>
+<li>wait_timeout：非交互式连接超时时间，默认的连接mysql api程序,jdbc连接数据库等<br>interactive_timeout针对交互式连接，wait_timeout针对非交互式连接。所谓的交互式连接，即在mysql_real_connect()函数中使用了CLIENT_INTERACTIVE选项。</li>
+</ul>
+<p><code>show global variables like &#39;wait_timeout&#39;;</code></p>
+<ol>
+<li><p>wait_timeout 只是针对空闲会话有影响。</p>
+</li>
+<li><p>session级别的wait_timeout继承global级别的interactive_timeout的值。而global级别的session则不受interactive_timeout的影响。</p>
+</li>
+<li><p>交互式会话的timeout时间受global级别的interactive_timeout影响。因此要修改非交互模式下的timeout，必须同时修改interactive_timeout的值。</p>
+</li>
+<li><p>非交互模式下，wait_timeout参数继承global级别的wait_timeout。</p>
+</li>
+</ol>
+</li>
+<li><p>如果不配的后果：系统默认为28800</p>
+</li>
+<li><p>配置实例：interactive_timeout = 600</p>
+</li>
+</ul>
+<h2 id="18-wait-timeout"><a href="#18-wait-timeout" class="headerlink" title="18)wait_timeout"></a>18)wait_timeout</h2><p>同interactive_timeout，两个值都设成一样。</p>
+<h2 id="19-read-buffer-size"><a href="#19-read-buffer-size" class="headerlink" title="19)read_buffer_size"></a>19)read_buffer_size</h2><ul>
+<li><p>推荐设置：4194304</p>
+</li>
+<li><p>作用：这个值其实轻易是用不到的，因为，它只对2种场景的full table scan产生影响而不是所有的full table scan，同时从mysql5.6以后开始没有数据块多块读的功能,与是否设置 read_buffer_size参数无关。应用场景：</p>
+<ul>
+<li><p>1）SELECT INTO … OUTFILE ‘fileName‘</p>
+</li>
+<li><p>2）When filesort is used, during merge buffers and when merged results are written to a temporary file, then writes are buffered</p>
+</li>
+</ul>
+<p>一般保留默认:64k，保守作法是设置在1～4M，不过它的应用场景很有限，对于互联网场景真的不太用，我推荐设成4M</p>
+</li>
+<li><p>如果不配的后果：默认为64k</p>
+</li>
+<li><p>配置实例：read_buffer_size = 4194304</p>
+</li>
+</ul>
+<h2 id="20-read-rnd-buffer-size"><a href="#20-read-rnd-buffer-size" class="headerlink" title="20)read_rnd_buffer_size"></a>20)read_rnd_buffer_size</h2><ul>
+<li><p>推荐设置：8388608</p>
+</li>
+<li><p>作用：就是当数据块的读取需要满足一定的顺序的情况下，MySQL 就需要产生随机读取，进而使用到 read_rnd_buffer_size 参数所设置的内存缓冲区。</p>
+<p>它的默认为256k，最大可以设到2G，它会对order by关键字起作用，当order by的计划成本超出了sort_buffer_size后，mysql会产用随机读取并消耗额外的内容，很多外面的博客说它是只对myisam引擎起作用，</p>
+<p>但其实不是，该参数还真的覆盖到所有引擎，一般它的推荐设置在8-16M，我推荐8M，根据sql分析计划如果碰到高频的查询且order by的返回包体都很大，那么再在session级别去放。</p>
+</li>
+<li><p>如果不配的后果：默认为256k</p>
+</li>
+<li><p>配置实例：read_rnd_buffer_size = 8388608</p>
+</li>
+</ul>
+<h2 id="21-sort-buffer-size"><a href="#21-sort-buffer-size" class="headerlink" title="21)sort_buffer_size"></a>21)sort_buffer_size</h2><ul>
+<li><p>推荐设置：4194304</p>
+</li>
+<li><p>作用：每个会话执行排序操作所分配的内存大小。想要增大max_sort_length参数，需要增大sort_buffer_size参数。</p>
+<p>如果在SHOW GLOBAL STATUS输出结果中看到每秒输出的Sort_merge_passes状态参数很大，可以考虑增大sort_buffer_size这个值来提高ORDER BY 和 GROUP BY的处理速度。建议设置为1~4MB。</p>
+<p>当个别会话需要执行大的排序操作时，在会话级别增大这个参数。所谓会话级别，我举个例子，你拍脑袋一下，说我设个32M,你所它乘10,000请求，这得多大内存。</p>
+<p>另外，千万要注意，在mysql内存，当你的sort_buffer_size在超过2K时在底层使用的是mmap()的c函数去做内存分配的，而不是malloc()，做过c的都知道mmap()是一个矢量单位，因此它会付出性能的影响，能影响多少呢？单条sql影响值在30%。</p>
+</li>
+<li><p>如果不配的后果：默认值为1M</p>
+</li>
+<li><p>配置实例：sort_buffer_size =4194304</p>
+</li>
+</ul>
+<h2 id="22-innodb-page-size"><a href="#22-innodb-page-size" class="headerlink" title="22)innodb_page_size"></a>22)innodb_page_size</h2><ul>
+<li><p>推荐设置：8192</p>
+</li>
+<li><p>作用：这个值可要小心，一般它在设置后就不能轻易改了，一般来说我们都认为，值越大越好，不是的， 这个值它的原理是这样的：size越小，内存划分粒度越大，使用率越高，但是会有其他问题，就是限制了索引字段还有整行的大小。</p>
+<p>innodb引擎读取内存还有更新都是一页一页更新的，这个innodb_page_size决定了，一个基本页的大小。常用B+Tree索引，B+树是为磁盘及其他存储辅助设备而设计一种平衡查找树（不是二叉树）。</p>
+<p>B+树中，所有记录的节点按大小顺序存放在同一层的叶子节点中，各叶子节点用指针进行连接。MySQL将每个叶子节点的大小设置为一个页的整数倍，利用磁盘的预读机制，能有效减少磁盘I/O次数，提高查询效率。 </p>
+<p>如果一个行数据，超过了一页的一半，那么一个页只能容纳一条记录，这样B+Tree在不理想的情况下就变成了双向链表。我们拿白话来说就是：你越大，空间利用率更高，但是越小呢越有助于性能但是这边一定一定有一个“但是”，但是小到一定的量反而性能不好，为什么呢？太大上面我已经举例了，太小。。。mysql的页间的check point太频繁。怎么样做才能达到一个合理值呢？</p>
+<p>这个我们是在全真生产环境、全数据量下用测试工具去对4k,8k,16k三种场景压测得到的吞吐量即tps来做观察的，我这边可以给出一个推荐值，以单表超1000w条数据基于中台1.1的数据库结果（每个表都超1000w），我们在设置该值为：8K时，它的吞吐达到最优。</p>
+</li>
+<li><p>如果不配的后果：32位下默认为8192 , 64位下默认为16384</p>
+</li>
+<li><p>配置实例：innodb_page_size = 8192</p>
+</li>
+</ul>
+<h2 id="23-innodb-buffer-pool-size"><a href="#23-innodb-buffer-pool-size" class="headerlink" title="23)innodb_buffer_pool_size"></a>23)innodb_buffer_pool_size</h2><ul>
+<li><p>推荐设置：72G</p>
+</li>
+<li><p>作用：这个值和innodb_buffer_pool_instances相辅相成。在32位机器下，innodb_buffer_pool_instances一般为1，在64位机器上，这个值为8-64.</p>
+<p>pool_instances其实为cpu核数，它的作用是：</p>
+<ul>
+<li><p>1）对于缓冲池在数千兆字节范围内的系统，通过减少争用不同线程对缓存页面进行读写的争用，将缓冲池划分为多个单独的实例可以提高并发性。</p>
+</li>
+<li><p>2）使用散列函数将存储在缓冲池中或从缓冲池读取的每个页面随机分配给其中一个缓冲池实例。每个缓冲池管理自己的空闲列表， 刷新列表， LRU和连接到缓冲池的所有其他数据结构，并受其自己的缓冲池互斥量保护。</p>
+</li>
+</ul>
+<p>innodb_buffer_pool_size的设置需要为pool_instance的整数倍。</p>
+<p>网上很多说innodb_buffer_pool_size为系统的70%，这是错的！因为你真的设了70%你的swap空间会被挤压，你不要忘了你还有os，上面还可能有监控agent端。一旦swap空间被挤压后你的mysql反面严重拖慢读写。</p>
+<p>此处强烈建议设成内存的20%-65%间（独立的mysql服务器），为什么有一个20%呢？对于&lt;4gb的mysql用服务器来说按照20%系统内存来设置。由于我们是128gb的内存，此处我建议使用72G,如果内存超过128gb，一般我们会把pool instance设成16个，每个开启10g左右的buffer_pool_size，对于256gb内存的服务器来说我们可以这样设。</p>
+</li>
+<li><p>如果不配的后果：默认为64</p>
+</li>
+<li><p>配置实例：innodb_buffer_pool_size = 72G</p>
+</li>
+</ul>
+<h2 id="24-innodb-buffer-pool-instances-8"><a href="#24-innodb-buffer-pool-instances-8" class="headerlink" title="24)innodb_buffer_pool_instances = 8"></a>24)innodb_buffer_pool_instances = 8</h2><p>这个参数同innodb_buffer_pool_size一起讲解了。</p>
+<h2 id="25-innodb-buffer-pool-load-at-startup"><a href="#25-innodb-buffer-pool-load-at-startup" class="headerlink" title="25)innodb_buffer_pool_load_at_startup"></a>25)innodb_buffer_pool_load_at_startup</h2><ul>
+<li><p>推荐设置：0</p>
+</li>
+<li><p>作用：这两个参数几乎没人用一般dba也不曾听说过，它是什么意思呢？<br>Mysql在第一次（重启）时，它的buffer_pool_size中是空的，随着mysql运行时间1-2小时后，它的buffer_pool_size里开始被塞入东西，它分为old block与new block，而此时mysql性能开始一点点读写效率上去了，那是因为在buffer_pool_size没有放入东西时，mysql很多读写发生在硬盘上，从硬盘到内存的加载过程是一个比较漫长和耗时的过程，因此我们往往会设一个startup=1以加快这个“预热”过程。</p>
+<p>它与参数shutdown配合使用，即相当于把上次使用的innot_db_buffer_pool里的东西在启动时先做一次加载，以加快mysql的性能。它会在innodb的数据目录中生成一个文件：ib_buffer_pool。</p>
+<p>高度注意：加入了startup和shutdown=1时，mysql的启动过程会比较慢，如果你上次的dump出的buffer_pool里的东西有50多g那么mysql启动时的加载过程会变得比较慢。这个值很多人使用默认的0（不开启），它的影响就是你在mysql重启后，一开始你的系统读写性能不如在你系统运行了2-4小时（视db读写而定）反而它的读写性能变好了。不设使用默认值0。</p>
+</li>
+<li><p>如果不配的后果：不配的话系统默认为0</p>
+</li>
+<li><p>配置实例：innodb_buffer_pool_load_at_startup = 0</p>
+</li>
+</ul>
+<h2 id="26-innodb-buffer-pool-dump-at-shutdown"><a href="#26-innodb-buffer-pool-dump-at-shutdown" class="headerlink" title="26)innodb_buffer_pool_dump_at_shutdown"></a>26)innodb_buffer_pool_dump_at_shutdown</h2><p>同上面的startup参数以及解说</p>
+<h2 id="27-innodb-lru-scan-depth"><a href="#27-innodb-lru-scan-depth" class="headerlink" title="27)innodb_lru_scan_depth"></a>27)innodb_lru_scan_depth</h2><ul>
+<li><p>推荐设置：2000</p>
+</li>
+<li><p>作用：innodb_io_capactiy 在sas 15000转的下配置800就可以了，在ssd下面配置2000以上。<br>可使用默认配置。即不设。</p>
+</li>
+<li><p>如果不配的后果：默认为200，db吞吐量上不去。</p>
+</li>
+<li><p>配置实例：innodb_lru_scan_depth = 2000</p>
+</li>
+</ul>
+<p>28)innodb_lock_wait_timeout</p>
+<ul>
+<li><p>推荐设置：60</p>
+</li>
+<li><p>作用：我们一般会碰到，mysql innodb_lock_wait_timeout这个错，这个错是慢sql导致，<br>它代表的是慢sql的事务锁超过了mysql锁超时的设置了。默认这个值为：50s，这个值是可以动态改变的，我不建议去改这个值，因为一个sql能达50s这得多夸张？</p>
+<p>动态改变命令如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">GLOBAL</span> <span class="keyword">VARIABLES</span> <span class="keyword">LIKE</span> <span class="string">'innodb_lock_wait_timeout'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> innodb_lock_wait_timeout=<span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+<p>把它设成60s足够了。</p>
+</li>
+<li><p>如果不配的后果：默认为50s</p>
+</li>
+<li><p>配置实例：innodb_lock_wait_timeout = 60</p>
+</li>
+</ul>
+<h2 id="29-innodb-io-capacity-max"><a href="#29-innodb-io-capacity-max" class="headerlink" title="29)innodb_io_capacity_max"></a>29)innodb_io_capacity_max</h2><ul>
+<li><p>推荐设置：8000</p>
+</li>
+<li><p>作用：这个值很重要，它对读无效，对写很有决定意义。</p>
+<p>它会直接决定mysql的tps（吞吐性能），这边给出参考：sata/sas硬盘这个值在200. sas raid10: 2000，ssd硬盘：8000， fusion-io（闪存卡）：25,000-50,000</p>
+<p>本调优基于的是ssd，此值设置为8000，笔者上一家公司互联网金融是把一整个mysql扔到了闪存卡里的，因此设置的值为：50,000. 需要根据paas或者是ias的vm的硬盘性号来定</p>
+</li>
+<li><p>如果不配的后果：默认为200，系统吞吐上不去。</p>
+</li>
+<li><p>配置实例：innodb_io_capacity_max = 8000</p>
+</li>
+</ul>
+<h2 id="30-innodb-io-capacity"><a href="#30-innodb-io-capacity" class="headerlink" title="30)innodb_io_capacity"></a>30)innodb_io_capacity</h2><p>它是io_capacity_max的一半，同样，它对读无效对写有决定意义。</p>
+<ul>
+<li>配置实例：innodb_io_capacity_max = 4000</li>
+</ul>
+<h2 id="31-innodb-flush-method"><a href="#31-innodb-flush-method" class="headerlink" title="31)innodb_flush_method"></a>31)innodb_flush_method</h2><ul>
+<li><p>推荐设置：O_DIRECT</p>
+</li>
+<li><p>作用：推荐使用O_DIRECT。让我们一起来理解一下，它有3种模式去刷数据文件与redo log的buffer：</p>
+<ul>
+<li><p>1）fdatasync 写数据时，write这一步并不需要真正写到磁盘才算完成（可能写入到操作系统buffer中就会返回完成），真正完成是flush操作，buffer交给操作系统去flush,并且文件的元数据信息也都需要更新到磁盘。</p>
+<p>fsync(int fd)函数，该函数作用是flush时将与fd文件描述符所指文件有关的buffer刷写到磁盘，并且flush完元数据信息(比如修改日期、创建日期等)才算flush成功。它对磁盘的io读写会很频繁.</p>
+</li>
+<li><p>2) O_DSYNC 写日志操作是在write这步完成，而数据文件的写入是在flush这步通过fsync完成</p>
+</li>
+<li><p>3）O_DIRECT则表示我们的write操作是从mysql innodb buffer里直接向磁盘上写，它会充分利用缓存<br>O_DIRECT模式的free内存下降比较慢，因为它是据文件的写入操作是直接从mysql innodb buffer到磁盘的，并不用通过操作系统的缓冲，而真正的完成也是在flush这步,日志还是要经过OS缓冲，O_DIRECT在SQL吞吐能力上较好。<br><img data-src="https://img-blog.csdn.net/20170525170219701?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc21vb3RoMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p>如果不配的后果：它的默认值为fdatasync。</p>
+</li>
+<li><p>配置实例：innodb_flush_method = O_DIRECT</p>
+</li>
+</ul>
+<h2 id="32-innodb-file-format"><a href="#32-innodb-file-format" class="headerlink" title="32)innodb_file_format"></a>32)innodb_file_format</h2><ul>
+<li><p>推荐设置：Barracuda</p>
+</li>
+<li><p>作用：推荐使用Barracuda模式,它是启用表压缩用的，如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`test_1`</span> (</span><br><span class="line"></span><br><span class="line"><span class="string">`x`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span></span><br><span class="line"></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=<span class="number">8</span>;</span><br></pre></td></tr></table></figure>
+
+<p>建完后可以通过：<code>show table status like &#39;test_1&#39;;</code>来查看是否已经启用了表压缩了。</p>
+<p>innodb_file_format有这么几种模式：</p>
+<p>Antelope-羚羊模式，支持Redundant（冗余）、Compact（紧凑）模式</p>
+<p>Barracuda-梭子鱼,是InnoDB Plugin支持的文件格式，在原来的基础上新增了两种数据表格式的支持：Dynamic 和 Compressed</p>
+<p>因此我推荐使用：Barracude模式，因为它可以兼容其它数据模式。</p>
+<p>它也可以在运行时动态改变：<code>SET GLOBAL innodb_file_format_max = barracuda;</code></p>
+</li>
+<li><p>如果不配的后果：它默认使用的是叫“联合模式”，即不是棱子鱼也不是羚羊。</p>
+</li>
+<li><p>配置实例：innodb_file_format = Barracuda</p>
+</li>
+</ul>
+<h2 id="33-innodb-file-format-max"><a href="#33-innodb-file-format-max" class="headerlink" title="33)innodb_file_format_max"></a>33)innodb_file_format_max</h2><p>这个参数必须和innodb_file_format参数一致，一定记住，要不然不生效。</p>
+<h2 id="34-innodb-log-group-home-dir-redolog"><a href="#34-innodb-log-group-home-dir-redolog" class="headerlink" title="34)innodb_log_group_home_dir = /redolog/"></a>34)innodb_log_group_home_dir = /redolog/</h2><p>这个就不用解释了，太傻瓜了。这种路径的都可由运维决定，记得挂在大磁盘下。</p>
+<h2 id="35-innodb-undo-directory-undolog"><a href="#35-innodb-undo-directory-undolog" class="headerlink" title="35)innodb_undo_directory = /undolog/"></a>35)innodb_undo_directory = /undolog/</h2><p>这个就不用解释了，太傻瓜了。这种路径的都可由运维决定，记得挂在大磁盘下。</p>
+<h2 id="36-innodb-undo-logs-128"><a href="#36-innodb-undo-logs-128" class="headerlink" title="36)innodb_undo_logs = 128"></a>36)innodb_undo_logs = 128</h2><ul>
+<li><p>推荐设置：128</p>
+</li>
+<li><p>作用：指定回滚段的个数（早期版本该参数名字是innodb_rollback_segments），默认128个。每个回滚段可同时支持1024个在线事务。这些回滚段会平均分布到各个undo表空间中。该变量可以动态调整，但是物理上的回滚段不会减少，只是会控制用到的回滚段的个数。现在SSD非常普及。innodb_undo_logs可以默认为128不变。</p>
+</li>
+<li><p>如果不配的后果：默认就是128</p>
+</li>
+<li><p>配置实例：innodb_undo_logs = 128</p>
+</li>
+</ul>
+<h2 id="37-innodb-undo-tablespaces"><a href="#37-innodb-undo-tablespaces" class="headerlink" title="37)innodb_undo_tablespaces"></a>37)innodb_undo_tablespaces</h2><ul>
+<li><p>推荐设置：3</p>
+</li>
+<li><p>作用：推荐：3，默认为3<br>定单独存放的undo表空间个数，例如如果设置为3，则undo表空间为undo001、undo002、undo003，每个文件初始大小默认为10M。该参数我们推荐设置为大于等于3，更多的碎片文件会影响磁盘的io性能，而不够碎片同样影响mysql的吞吐率，在ssd上一般最佳的配置在3.</p>
+<p>如果只有1个undo表空间，那么整个系统在此过程中将处于不可用状态。为了尽可能降低truncate对系统的影响，建议将该参数最少设置为3；</p>
+</li>
+<li><p>如果不配的后果：默认为：3</p>
+</li>
+<li><p>配置实例：innodb_undo_tablespaces = 3</p>
+</li>
+</ul>
+<h2 id="38-innodb-flush-neighbors"><a href="#38-innodb-flush-neighbors" class="headerlink" title="38)innodb_flush_neighbors"></a>38)innodb_flush_neighbors</h2><ul>
+<li><p>推荐设置：推荐为：0</p>
+</li>
+<li><p>作用：这个参数很要紧，目前在ssd盛行的情况下我们都把它设为0（不开启），如果你设置成了1即开启（默认状态）InnoDB就会刷新一个extent中的所有页面，因为SSD在随机IO上没有额外负载，所以不需要启用该特性，开启了反而多此一句。下面给出一段mysql5.7源码编译前程序员看的readme里的一句话：</p>
+<p>This new default changes MySQL to cater for SSDs and fast storage devices by default. We expect that for the majority of users, this will result in a small performance gain. Users who are using slower hard drives may see a performance loss, and are encouraged to revert to the previous defaults by setting innodb_flush_neighbors=1.</p>
+</li>
+<li><p>如果不配的后果：它的默认是1，不是0.这个参数对机械硬盘来说很有效，可以减少随机io，增加性能。如果是ssd类磁盘，建议设置为0，可以更快的刷新脏页。如果你把它设为1同时又是ssd那就显得没必要了。这边普及一下小知识，如果你装过8.0，你可以去看一下，8.0已经把这个默认值设为0了。</p>
+</li>
+<li><p>配置实例：innodb_flush_neighbors = 0</p>
+</li>
+</ul>
+<h2 id="39-innodb-log-file-size"><a href="#39-innodb-log-file-size" class="headerlink" title="39)innodb_log_file_size"></a>39)innodb_log_file_size</h2><ul>
+<li><p>推荐设置：</p>
+<ul>
+<li><p>第1步：<code>show engine innodb status;</code></p>
+<p>得到：</p>
+<p>Log sequence number 2944118284</p>
+<p>Log flushed up to 2944118283</p>
+<p>Last checkpoint at 2724318261</p>
+</li>
+<li><p>第2步：设innodb_log_file_size=Log sequence number-last checkpoint at=select (2944118284-2724318261)/1024/1024; =209M</p>
+</li>
+<li><p>第3步：设真正的innodb_log_file_size&lt;=(innodb_log_files_in_group<em>innodb_log_file_size)</em>0.75,innodb_log_files_in_group为2（默认），得：</p>
+</li>
+<li><p>第4步：select 209/(2*0.75); =139.33即：139m，此时可把这个值设为140M</p>
+</li>
+</ul>
+</li>
+<li><p>作用：这个值的默认为5M，是远远不够的，在安装完mysql时需要尽快的修改这个值。</p>
+<p>如果对 Innodb 数据表有大量的写入操作，那么选择合适的 innodb_log_file_size 值对提升MySQL性能很重要。然而设置太大了，就会增加恢复的时间，因此在MySQL崩溃或者突然断电等情况会令MySQL服务器花很长时间来恢复。</p>
+<p>而这个值是没有一个绝对的概念的，MySQL的InnoDB 存储引擎使用一个指定大小的Redo log空间（一个环形的数据结构）。Redo log的空间通过innodb_log_file_size和innodb_log_files_in_group（默认2）参数来调节。</p>
+<p>将这俩参数相乘即可得到总的可用Redo log 空间。尽管技术上并不关心你是通过innodb_log_file_size还是innodb_log_files_in_group来调整Redo log空间，不过多数情况下还是通过innodb_log_file_size 来调节。</p>
+<p>为InnoDB引擎设置合适的Redo log空间对于写敏感的工作负载来说是非常重要的。然而，这项工作是要做出权衡的。你配置的Redo空间越大，InnoDB就能更好的优化写操作；然而，增大Redo空间也意味着更长的恢复时间当出现崩溃或掉电等意外时。</p>
+<p>我们是通过“测试”得到，怎么测试下面给出方法论：一般情况下我们可以按照每1GB的Redo log的恢复时间大约在5分钟左右来估算。如果恢复时间对于你的使用环境来说很重要，我建议你做一些模拟测试，在正常工作负载下（预热完毕后）模拟系统崩溃，来评估更准确的恢复时间。你可以安装 Percona Monitoring and Management，在该pmm的percona monitoring and management图表中，主要看：</p>
+<ul>
+<li><p>1）Uncheckpointed Bytes ，如果它已经非常接近 Max Checkpoint Age，那么你几乎可以确定当前的 innodb_log_file_size 值因为太小已经某种程度上限制了系统性能。增加该值可以较为显著的提升系统性能。</p>
+</li>
+<li><p>2）Uncheckpointed Bytes 远小于 Max Checkpoint Age，这种情况下再增加 innodb_log_file_size 就不会有明显性能提升。</p>
+</li>
+</ul>
+<p>在调整完log_file_size后我们再到pmm中去看：Redo Log空间指标，比如说我们看到了1小时内有60g数据被写入日志文件，差不多就是每10分钟会有10g数据在进行“写日志“，我们需要牢牢记得，这个”写日日土已“的时间拖得越久、出现的频次越少就越有助于mysql的innodb的性能。因此这个值没有绝对推荐。如果你没有pmm，那么我们来人肉算，在上面我已经给出了人肉算的详细例子！</p>
+</li>
+<li><p>如果不配的后果：默认是5M，这是肯定不够的。</p>
+</li>
+<li><p>配置实例：innodb_log_file_size = 140M</p>
+</li>
+</ul>
+<h2 id="40-innodb-log-buffer-size"><a href="#40-innodb-log-buffer-size" class="headerlink" title="40)innodb_log_buffer_size"></a>40)innodb_log_buffer_size</h2><ul>
+<li><p>推荐设置：16777216</p>
+</li>
+<li><p>作用：对于较小的innodb_buffer_pool_size，我们会把它设成和innodb_buffer_pool_size一样。<br>而当超过4gb的innodb_buffer_pool_size时，我们的建议是把它切的够碎，这是mysql5.7里新带的特性，它的默认在8m，但是对于大量有事务操作的mysql我们推荐在写操作库上设置：16m</p>
+<p>此参数确定写日志文件所用的内存大小，以M为单位。缓冲区更大能提高性能，但意外的故障将会丢失数据.官方的方档建议设置为1－8M之间！</p>
+</li>
+<li><p>如果不配的后果：默认是8M</p>
+</li>
+<li><p>配置实例：innodb_log_buffer_size = 16777216</p>
+</li>
+</ul>
+<h2 id="41-innodb-purge-threads"><a href="#41-innodb-purge-threads" class="headerlink" title="41)innodb_purge_threads"></a>41)innodb_purge_threads</h2><ul>
+<li><p>推荐设置：0</p>
+</li>
+<li><p>作用：这个参数轻易不用的，我推荐它设为：0，为什么呢？这个参数是和innodb_force_recovery关联起来的，只有当数据库崩溃后重启时才会临时去设的。它的使用场景如下：</p>
+<p>mysql断电，重启后无效，起不来。所以我们根据innodb_force_recovery的参数：</p>
+<ol>
+<li><p>(SRV_FORCE_IGNORE_CORRUPT):忽略检查到的corrupt页。</p>
+</li>
+<li><p>(SRV_FORCE_NO_BACKGROUND):阻止主线程的运行，如主线程需要执行full purge操作，会导致crash。</p>
+</li>
+<li><p>(SRV_FORCE_NO_TRX_UNDO):不执行事务回滚操作。</p>
+</li>
+<li><p>(SRV_FORCE_NO_IBUF_MERGE):不执行插入缓冲的合并操作。</p>
+</li>
+<li><p>(SRV_FORCE_NO_UNDO_LOG_SCAN):不查看重做日志，InnoDB存储引擎会将未提交的事务视为已提交。</p>
+</li>
+<li><p>(SRV_FORCE_NO_LOG_REDO):不执行前滚的操作。</p>
+</li>
+</ol>
+<p>我们在my.cnf中如下设置：</p>
+<p>innodb_force_recovery = 6</p>
+<p>innodb_purge_threads = 0</p>
+<p>记住，一旦当innodb_force_recovery&gt;2时，要把innodb_purge_threads设成0.</p>
+</li>
+<li><p>如果不配的后果：默认不要去设，可以不配，出现了问题在recover需要时再去改。</p>
+</li>
+<li><p>配置实例：innodb_purge_threads = 0</p>
+</li>
+</ul>
+<h2 id="42-innodb-large-prefix"><a href="#42-innodb-large-prefix" class="headerlink" title="42)innodb_large_prefix"></a>42)innodb_large_prefix</h2><p>推荐设置：1</p>
+<p>作用：如果你的客户端和服务端的字符集设成了utf8mb4，那么我们需要把这个开关开启，为什么呢？mysql在5.6之前一直都是单列索引限制767，起因是256×3-1。这个3是字符最大占用空间（utf8）。但是在5.6以后，开始支持4个字节的uutf8。255×4&gt;767, 于是增加了这个参数。这个参数默认值是OFF。当改为ON时，允许列索引最大达到3072.<br>  在mysql5.6中这个开关叫on, off。而在5.7中叫0和1，由于我们前面设置了utf8mb4，因此这边我们必须把这个参数开启。</p>
+<ul>
+<li><p>如果不配的后果：不配会有问题，特别是索引会无效、或者不是走最优计划，如果你的字符集是utf8mb4，那么这个值必开启。</p>
+</li>
+<li><p>配置实例：innodb_large_prefix = 1</p>
+</li>
+</ul>
+<h2 id="43-innodb-thread-concurrency"><a href="#43-innodb-thread-concurrency" class="headerlink" title="43)innodb_thread_concurrency"></a>43)innodb_thread_concurrency</h2><ul>
+<li><p>推荐设置：装mysql的服务器的cpu的核数</p>
+</li>
+<li><p>作用：如：64核cpu，那么推荐：64（&lt;=cpu核数）<br>如果一个工作负载中，并发用户线程的数量小于等于64，建议设置innodb_thread_concurrency=0;而事实上我们的系统是处于大并发大事务的情况下的，怎么来算这个值？建议是先设置为128，然后我们不断的降这个值，直到发现能够提供最佳性能的线程数。为了安全起间我们会把它设成和cpu一样大小。</p>
+</li>
+<li><p>如果不配的后果：默认在64位下会是8</p>
+</li>
+<li><p>配置实例：innodb_thread_concurrency = 64</p>
+</li>
+</ul>
+<h2 id="44-innodb-print-all-deadlocks"><a href="#44-innodb-print-all-deadlocks" class="headerlink" title="44)innodb_print_all_deadlocks"></a>44)innodb_print_all_deadlocks</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：推荐：1 ，当mysql 数据库发生死锁时， innodb status 里面会记录最后一次死锁的相关信息，但mysql 错误日志里面不会记录死锁相关信息，要想记录，启动 innodb_print_all_deadlocks 参数 。</p>
+</li>
+<li><p>如果不配的后果：不会记录该信息。</p>
+</li>
+<li><p>配置实例：innodb_print_all_deadlocks = 1</p>
+</li>
+</ul>
+<h2 id="45-innodb-strict-mode"><a href="#45-innodb-strict-mode" class="headerlink" title="45)innodb_strict_mode"></a>45)innodb_strict_mode</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：必须开启，没得选择，1，为什么？<br>从MySQL5.5.X版本开始，你可以开启InnoDB严格检查模式，尤其采用了页数据压缩功能后，最好是开启该功能。开启此功能后，当创建表（CREATE TABLE）、更改表（ALTER TABLE）和创建索引（CREATE INDEX）语句时，如果写法有错误，不会有警告信息，而是直接抛出错误，这样就可直接将问题扼杀在摇篮里。</p>
+</li>
+<li><p>如果不配的后果：如果不配碰到开发或者非专业的dba会把旧ddl语句生效在5.7内，另外一个问题就是ddl语句出错时报错不明显，这会影响到“主从复制”，至于dll为什么会影响到主从复制，我们后面会在“slave_skip_errors = ddl_exist_errors”中详细解说。</p>
+</li>
+<li><p>配置实例：innodb_strict_mode = 1</p>
+</li>
+</ul>
+<h2 id="46-log-error"><a href="#46-log-error" class="headerlink" title="46)log_error"></a>46)log_error</h2><p>error log所在位置，这个不用多讲，可以和mysql log放在同一路径下，文件名能够和其它log区分开来。</p>
+<h2 id="47-slow-query-log"><a href="#47-slow-query-log" class="headerlink" title="47)slow_query_log"></a>47)slow_query_log</h2><p>建议开启</p>
+<h2 id="48-slow-query-log-file"><a href="#48-slow-query-log-file" class="headerlink" title="48)slow_query_log_file"></a>48)slow_query_log_file</h2><p>慢sql所在位置，这个不用多讲，可以和mysql log放在同一路径下，文件名能够和其它log区分开来。</p>
+<h2 id="49-log-queries-not-using-indexes-1"><a href="#49-log-queries-not-using-indexes-1" class="headerlink" title="49)log_queries_not_using_indexes=1"></a>49)log_queries_not_using_indexes=1</h2><p>强烈建议开启成1.</p>
+<h2 id="50-log-slow-admin-statements-1"><a href="#50-log-slow-admin-statements-1" class="headerlink" title="50)log_slow_admin_statements = 1"></a>50)log_slow_admin_statements = 1</h2><p>强烈建议开启成1.</p>
+<h2 id="51-log-slow-slave-statements-1"><a href="#51-log-slow-slave-statements-1" class="headerlink" title="51)log_slow_slave_statements = 1"></a>51)log_slow_slave_statements = 1</h2><p>强烈建议开启成1.</p>
+<h2 id="52-log-throttle-queries-not-using-indexes"><a href="#52-log-throttle-queries-not-using-indexes" class="headerlink" title="52)log_throttle_queries_not_using_indexes"></a>52)log_throttle_queries_not_using_indexes</h2><ul>
+<li><p>推荐设置：在一开始上线后的初期我们会开成30～50条。随着性能逐渐优化我们会把这个数量开成10.</p>
+</li>
+<li><p>作用：上线前一段时间会不太稳定，我们发生过近几十条sql没有走index</p>
+</li>
+<li><p>如果不配的后果：不配不开启，建议开启。</p>
+</li>
+<li><p>配置实例：log_throttle_queries_not_using_indexes = 50</p>
+</li>
+</ul>
+<h2 id="53-expire-logs-days"><a href="#53-expire-logs-days" class="headerlink" title="53)expire_logs_days"></a>53)expire_logs_days</h2><ul>
+<li><p>推荐设置：30</p>
+</li>
+<li><p>作用：这个值不能太大，因为你不是土豪，不能让binlog无限占用你的磁盘空间，记得这个值一旦设小，你需要做好binlog备份策略，30这个值就是30天，前提是你的binlog的备份做的有效且不占用mysql的磁盘空间。</p>
+</li>
+<li><p>如果不配的后果：默认是0，即永不过期。</p>
+</li>
+<li><p>配置实例：expire_logs_days = 30</p>
+</li>
+</ul>
+<h2 id="54-long-query-time"><a href="#54-long-query-time" class="headerlink" title="54)long_query_time"></a>54)long_query_time</h2><ul>
+<li><p>推荐设置：10</p>
+</li>
+<li><p>作用：默认为10秒种，即一切&gt;=10s的sql都会被记录。我建议在开始刚上线期设成10（用默认值），越着慢sql调优越来越好，可以把这个值设成1.因为秒数越低，记录的sql越多，记录越多，也会造成mysql过慢。<br>另外不能完全依赖于mysql的慢sql log，而是应该布署druid sql实时查看器或者是apm或者是专业的慢sql实时查询器。</p>
+</li>
+<li><p>如果不配的后果：默认为10</p>
+</li>
+<li><p>配置实例：long_query_time = 10</p>
+</li>
+</ul>
+<h2 id="55-min-examined-row-limit"><a href="#55-min-examined-row-limit" class="headerlink" title="55)min_examined_row_limit"></a>55)min_examined_row_limit</h2><ul>
+<li><p>推荐设置：100</p>
+</li>
+<li><p>作用：这个值配合着慢查询sql记录用，指定为少于该值的行的查询就算慢sql不被记录成”慢sql日志“。</p>
+</li>
+<li><p>如果不配的后果：不开启的话以慢sql的long_query_time为优先规则。</p>
+</li>
+<li><p>配置实例：min_examined_row_limit = 100</p>
+</li>
+</ul>
+<h2 id="56-master-info-repository"><a href="#56-master-info-repository" class="headerlink" title="56)master_info_repository"></a>56)master_info_repository</h2><ul>
+<li><p>推荐设置：TABLE</p>
+</li>
+<li><p>作用：主从复制时用，推荐TABLE.<br>从机保存主节点信息方式，设成file时 会生成master.info 和 relay-log.info 2个文件，设成table，信息就会存在mysql.master_slave_info表中。不管是设置的哪种值，都不要移动或者编辑相关的文件和表。</p>
+</li>
+<li><p>如果不配的后果：不配的话默认存成file格式。</p>
+</li>
+<li><p>配置实例：master_info_repository = TABLE</p>
+</li>
+</ul>
+<h2 id="57-relay-log-info-repository"><a href="#57-relay-log-info-repository" class="headerlink" title="57)relay_log_info_repository"></a>57)relay_log_info_repository</h2><ul>
+<li><p>推荐设置：TABLE</p>
+</li>
+<li><p>作用：主从复制时用，推荐TABLE.</p>
+<p>这个参数和上面的master_info_repository必须保持一致，要不然mysql实例启不起来。</p>
+<p>不过需要注意的是，这几个table默认用的是myIsAM引擎，要开启成TABLE模式的话一定记得把这两个表的引擎改成innodb</p>
+<p>alter table slave_master_info engine=innodb;<br>alter table slave_relay_log_info engine=innodb;<br>alter table slave_worker_info engine=innodb;</p>
+</li>
+<li><p>如果不配的后果：</p>
+<p>这个参数和上面的master_info_repository必须保持一致，要不然mysql实例启不起来</p>
+</li>
+<li><p>配置实例：relay_log_info_repository = TABLE</p>
+</li>
+</ul>
+<h2 id="58-log-bin-bin-log"><a href="#58-log-bin-bin-log" class="headerlink" title="58)log_bin = bin.log"></a>58)log_bin = bin.log</h2><p>主从复制时用，主从复制下的bin.log日志所在文件夹。</p>
+<h2 id="59-sync-binlog"><a href="#59-sync-binlog" class="headerlink" title="59)sync_binlog"></a>59)sync_binlog</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：主从复制时用，这个值是要看业务的，它可以有0，1，非零共3种设置方式。</p>
+<ul>
+<li><p>1）0-代表mysql不控制写binlog的时间，由file system自由去控制，此时的mysql的并发性达到最好，但是一旦系统崩溃你会丢失很多还会写入binlog的数据（比如说你正在删数据和更新数据）</p>
+</li>
+<li><p>2）1-最安全，你最多丢掉一个事务或者是一条语句，但是此时它的性能很差，此参数设为0或者是1之间的性能能差4～5倍。</p>
+</li>
+<li><p>3）如果你用的是万兆光纤高速磁盘像或者是ssd同时data和binlog都放在一个目录下的同时你要为了安全可以开启成1.</p>
+</li>
+</ul>
+</li>
+<li><p>如果不配的后果：默认为0</p>
+</li>
+<li><p>配置实例：sync_binlog = 1</p>
+</li>
+</ul>
+<h2 id="60-gtid-mode"><a href="#60-gtid-mode" class="headerlink" title="60)gtid_mode"></a>60)gtid_mode</h2><ul>
+<li><p>推荐设置：on</p>
+</li>
+<li><p>作用：主从复制时用，推荐开启成on，它的用处就是允许你在从库上进行”备份“，从库上在进行备份时它能够获取主库的binlog位点。<br>该参数也可以动态在线设定。如果你要在线运行时设定，在my.cnf文件中必须把它设成on。在开启该参数时，log-bin和log-slave-updates也必须开启，否则MySQL Server拒绝启动，当开启GTID模式时，集群中的全部MySQL Server必须同时配置gtid_mod = ON，否则无法同步。</p>
+</li>
+<li><p>如果不配的后果：默认为off</p>
+</li>
+<li><p>配置实例：gtid_mode = on</p>
+</li>
+</ul>
+<h2 id="61-enforce-gtid-consistency"><a href="#61-enforce-gtid-consistency" class="headerlink" title="61)enforce_gtid_consistency"></a>61)enforce_gtid_consistency</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：主从复制时用，见gtid_mode，这是牵连参数，随着gtid_mode的开启一起开启。</p>
+</li>
+<li><p>如果不配的后果：必须跟着gtid_mode一起开启，要不然mysql实例起不来。</p>
+</li>
+<li><p>配置实例：enforce_gtid_consistency = 1</p>
+</li>
+</ul>
+<h2 id="62-log-slave-updates"><a href="#62-log-slave-updates" class="headerlink" title="62)log_slave_updates"></a>62)log_slave_updates</h2><ul>
+<li><p>推荐设置：它只要标注在my.cnf里就代表起作用了。</p>
+</li>
+<li><p>作用：主从复制时用，见gtid_mode，这是牵连参数，随着gtid_mode的开启一起开启。它只要标注在这就可以了，代表开启，否则也就不要有这一行了。</p>
+</li>
+<li><p>如果不配的后果：它是牵连参数，随着gtid_mode的开启一起开启。</p>
+</li>
+<li><p>配置实例：log_slave_updates</p>
+</li>
+</ul>
+<h2 id="63-binlog-format"><a href="#63-binlog-format" class="headerlink" title="63)binlog_format"></a>63)binlog_format</h2><ul>
+<li><p>推荐设置：row</p>
+</li>
+<li><p>作用：主从复制时用，mysql5.7有3种bin log模式：</p>
+<ol>
+<li><p>STATEMENT：历史悠久，技术成熟,binlog文件较小,binlog中包含了所有数据库更改信息，可以据此来审核数据库的安全等情况。binlog可以用于实时的还原，而不仅仅用于复制主从版本可以不一样，从服务器版本可以比主服务器版本高。缺点是：不是所有的UPDATE语句都能被复制，尤其是包含不确定操作的时候。调用具有不确定因素的 UDF 时复制也可能出问题，使用以下函数的语句也无法被复制：</p>
+<ul>
+<li><p>LOAD_FILE()</p>
+</li>
+<li><p>UUID()</p>
+</li>
+<li><p>USER()</p>
+</li>
+<li><p>FOUND_ROWS()</p>
+</li>
+<li><p>SYSDATE() (除非启动时启用了 –sysdate-is-now 选项)</p>
+</li>
+</ul>
+<p>同时，INSERT … SELECT 会产生比 ROW 更多的行级锁，复制需要进行全表扫描(WHERE 语句中没有使用到索引)的 UPDATE 时，需要比 RBR 请求更多的行级锁</p>
+<p>对于有 AUTO_INCREMENT 字段的 InnoDB表而言，INSERT 语句会阻塞其他 INSERT 语句，对于一些复杂的语句，在从服务器上的耗资源情况会更严重，而 RBR 模式下，只会对那个发生变化的记录产生影响，存储函数(不是存储过程)在被调用的同时也会执行一次 NOW() 函数，这个可以说是坏事也可能是好事，确定了的 UDF 也需要在从服务器上执行，数据表必须几乎和主服务器保持一致才行，否则可能会导致复制出错，执行复杂语句如果出错的话，会消耗更多资源。</p>
+</li>
+<li><p>ROW：任何情况都可以被复制，这对复制来说是最安全可靠的，和其他大多数数据库系统的复制技术一样。多数情况下，从服务器上的表如果有主键的话，复制就会快了很多。复制以下几种语句时的行锁更少：</p>
+<ul>
+<li><p>INSERT … SELECT</p>
+</li>
+<li><p>包含 AUTO_INCREMENT 字段的 INSERT</p>
+</li>
+<li><p>没有附带条件或者并没有修改很多记录的 UPDATE 或 DELETE 语句</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>执行 INSERT，UPDATE，DELETE 语句时锁更少，从服务器上采用多线程来执行复制成为可能，它的缺点是：inlog 大了很多，复杂的回滚时 binlog 中会包含大量的数据，主服务器上执行 UPDATE 语句时，所有发生变化的记录都会写到 binlog 中，而 SBR 只会写一次，这会导致频繁发生 binlog 的并发写问题，UDF 产生的大 BLOB 值会导致复制变慢，无法从 binlog 中看到都复制了写什么语句。</p>
+<p>从安全和稳定性的缩合考虑上来说我们选择ROW模式。</p>
+<ol start="3">
+<li>混合式-不推荐</li>
+</ol>
+</li>
+<li><p>如果不配的后果：5.7.6之前默认为STATEMENT模式。MySQL 5.7.7之后默认为ROW模式</p>
+</li>
+<li><p>配置实例：binlog_format = row</p>
+</li>
+</ul>
+<h2 id="64-relay-log"><a href="#64-relay-log" class="headerlink" title="64)relay_log"></a>64)relay_log</h2><p>主从复制用，定义relay_log的位置和名称，如果值为空，则默认位置在数据文件的目录（datadir），文件名为host_name-relay-bin.nnnnnn（By default, relay log file names have the form host_name-relay-bin.nnnnnn in the data directory）</p>
+<h2 id="65-relay-log-recovery"><a href="#65-relay-log-recovery" class="headerlink" title="65)relay_log_recovery"></a>65)relay_log_recovery</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：主从复制用，推荐值为1，建议打开。<br>当slave从库宕机后，假如relay-log损坏了，导致一部分中继日志没有处理，则自动放弃所有未执行的relay-log，并且重新从master上获取日志，这样就保证了relay-log的完整性。默认情况下该功能是关闭的，将relay_log_recovery的值设置为 1时，可在slave从库上开启该功能，建议开启。</p>
+</li>
+<li><p>如果不配的后果：默认情况下是关闭的。</p>
+</li>
+<li><p>配置实例：relay_log_recovery = 1</p>
+</li>
+</ul>
+<h2 id="66-slave-skip-errors"><a href="#66-slave-skip-errors" class="headerlink" title="66)slave_skip_errors"></a>66)slave_skip_errors</h2><ul>
+<li><p>推荐设置：ddl_exist_errors</p>
+</li>
+<li><p>作用：主从复制用，推荐值：ddl_exist_errors。理论上我们不应该设置这个值的。即它在my.cnf文件中应该是消失的或者是这样的表示的：</p>
+<p>#slave_skip_errors = ddl_exist_errors</p>
+<p>但是有时我们的一些表（特别是不熟悉mysql的一些开发）真的是用的是mysql5.6旧版的建表语句，这个问题在平时单机模式下很难发现，一旦主从结构一上后，在5.7上真的是有一定机率（有10%-20%的机率）碰到ddl语句是旧版mysql而运行在mysql5.7上，这时在主从复制时会抛一个无法主从复制的错，那么这时我们需要抓数据，表已经建好了，这个影响不大、微乎其微，因此我们可以把它设成”忽略“。这个是本人的吐血经验，为什么要提这个梗。。。你们懂的。</p>
+</li>
+<li><p>如果不配的后果：如果因为建表语句和mysql5.7有冲突时在单实例模式下mysql运行时不会发现，在主从复制时如果没有设跳过值，一旦发生，会影响主从复制，表现就是：主从复制失败。</p>
+</li>
+<li><p>配置实例：slave_skip_errors = ddl_exist_errors</p>
+</li>
+</ul>
+<h2 id="67-innodb-buffer-pool-dump-pct"><a href="#67-innodb-buffer-pool-dump-pct" class="headerlink" title="67)innodb_buffer_pool_dump_pct"></a>67)innodb_buffer_pool_dump_pct</h2><ul>
+<li><p>推荐设置：25~40</p>
+</li>
+<li><p>作用：锦上添花的值，非必要，这边给出一些best practice:<br>通常来说我们会设成25%。对于大并发前提下我们会使用40这个值，这个值越大，mysql启动时间越长。它是你的innodb_buffer_pool_size的百分比！</p>
+<p>MySQL默认在InnoDB缓冲池（而不是整个缓冲池）中仅保留最频繁访问页的25%。请注意，这个变量是基于内存中的实际数据量，而不是缓冲池的大小。例如，如果有100GB的缓冲池，但只有10GB的数据，默认只有10GB的25%（即2.5GB）数据保存在内存中。</p>
+<p>在多数使用场景下，合理的选择是：保留最有用的数据页，比加载所有的页(很多页可能在后续的工作中并没有访问到)在缓冲池中要更快。你可以更改innodb_buffer_pool_dump_pct变量的值。</p>
+</li>
+<li><p>如果不配的后果：不配的话不生效。</p>
+</li>
+<li><p>配置实例：innodb_buffer_pool_dump_pct=25</p>
+</li>
+</ul>
+<h2 id="68-innodb-page-cleaners-8"><a href="#68-innodb-page-cleaners-8" class="headerlink" title="68)innodb_page_cleaners=8"></a>68)innodb_page_cleaners=8</h2><p>这值一般会在主从延迟的情况下会去设，它的值最好是=innodb_buffer_pool_instance的值，它就是cpu的核数。</p>
+<h2 id="69-innodb-undo-log-truncate"><a href="#69-innodb-undo-log-truncate" class="headerlink" title="69)innodb_undo_log_truncate"></a>69)innodb_undo_log_truncate</h2><ul>
+<li><p>推荐设置：1</p>
+</li>
+<li><p>作用：建议开启，设为1<br>innodb_undo_log_truncate参数设置为1，即开启在线回收（收缩）undo log日志文件，支持动态设置。</p>
+</li>
+<li><p>如果不配的后果：不配的话是不生效的。</p>
+</li>
+<li><p>配置实例：innodb_undo_log_truncate=1</p>
+</li>
+</ul>
+<h2 id="70-innodb-max-undo-log-size"><a href="#70-innodb-max-undo-log-size" class="headerlink" title="70)innodb_max_undo_log_size"></a>70)innodb_max_undo_log_size</h2><ul>
+<li><p>推荐设置：推荐在默认值的2倍（默认为1GB）</p>
+</li>
+<li><p>作用：推荐在默认值的2倍（默认为1GB），一般我们不会轻易去设它。</p>
+<p>这个值和innodb_undo_tablespaces、innodb_undo_logs以及innodb_purge_rseg_truncate_frequency有关，这4个值是互相有牵连的。</p>
+<ul>
+<li><p>1）innodb_undo_tablespaces必须为&gt;=3</p>
+</li>
+<li><p>2）innodb_undo_logs必须开启</p>
+</li>
+<li><p>3）innodb_purge_rseg_truncate_frequence必须开启</p>
+</li>
+</ul>
+</li>
+<li><p>如果不配的后果：系统按照1GB来计算。</p>
+</li>
+<li><p>配置实例：innodb_max_undo_log_size=2G</p>
+</li>
+</ul>
+<h2 id="71-innodb-purge-rseg-truncate-frequency"><a href="#71-innodb-purge-rseg-truncate-frequency" class="headerlink" title="71)innodb_purge_rseg_truncate_frequency"></a>71)innodb_purge_rseg_truncate_frequency</h2><ul>
+<li><p>推荐设置：128</p>
+</li>
+<li><p>作用：默认值在128，这个值不太会去碰。控制回收undo log的频率。 指定purge操作被唤起多少次之后才释放rollback segments。当undo表空间里面的rollback segments被释放时，undo表空间才会被truncate。由此可见，该参数越小，undo表空间被尝试truncate的频率越高。</p>
+</li>
+<li><p>如果不配的后果：系统默认按照：128去设定。</p>
+</li>
+<li><p>配置实例：innodb_purge_rseg_truncate_frequency=128</p>
+</li>
+</ul>
+<h2 id="72-binlog-gtid-simple-recovery"><a href="#72-binlog-gtid-simple-recovery" class="headerlink" title="72)binlog_gtid_simple_recovery"></a>72)binlog_gtid_simple_recovery</h2><ul>
+<li><p>推荐设置：建议开启</p>
+</li>
+<li><p>作用：前提是你的mysql必须&gt;5.7.6，否则要设为关闭。<br>这个参数控制了当mysql启动或重启时，mysql在搜寻GTIDs时是如何迭代使用binlog文件的。</p>
+<p>这个选项设置为真，会提升mysql执行恢复的性能。因为这样mysql-server启动和binlog日志清理更快。该参数为真时，mysql-server只需打开最老的和最新的这2个binlog文件。</p>
+</li>
+<li><p>如果不配的后果：默认为0</p>
+</li>
+<li><p>配置实例：binlog_gtid_simple_recovery=1</p>
+</li>
+</ul>
+<h2 id="73-log-timestamps"><a href="#73-log-timestamps" class="headerlink" title="73)log_timestamps"></a>73)log_timestamps</h2><ul>
+<li><p>推荐设置：system</p>
+</li>
+<li><p>作用：推荐使用:system<br>这个参数主要是控制错误日志、慢查询日志等日志中的显示时间。但它不会影响查询日志和慢日志写到表 (mysql.general_log, mysql.slow_log) 中的显示时间，此参数是全局的，可以动态修改。</p>
+</li>
+<li><p>如果不配的后果：默认值为:UTC</p>
+</li>
+<li><p>配置实例：log_timestamps=system</p>
+</li>
+</ul>
+<h2 id="74-transaction-write-set-extraction"><a href="#74-transaction-write-set-extraction" class="headerlink" title="74)transaction_write_set_extraction"></a>74)transaction_write_set_extraction</h2><ul>
+<li><p>推荐设置：这个值不需要去设，因为你用的不是mysql8.0，在5.7.6版以后这个制不是很成熟，如果要开启一般会使用：XXHASH64.</p>
+</li>
+<li><p>作用：这个值是基于group(并行）复制用的，推荐值为：XXHASH64，如果没有开启基于group（并行）的复制千万不要去设这个参数，设都不用去设，保持默认就可以了。</p>
+</li>
+<li><p>如果不配的后果：默认为off状态，即不生效。</p>
+</li>
+<li><p>配置实例：<br>transaction_write_set_extraction = OFF<br>transaction_write_set_extraction = XXHASH64<br>transaction_write_set_extraction = MURMUR32</p>
+</li>
+</ul>
+<h2 id="75-show-compatibility-56"><a href="#75-show-compatibility-56" class="headerlink" title="75)show_compatibility_56"></a>75)show_compatibility_56</h2><ul>
+<li><p>推荐设置：on</p>
+</li>
+<li><p>作用：推荐打开。这个参数是兼容mysql5.6版的INFORMATION_SCHEMA.GLOBAL_STATUS相关功能的，它有利于从5.6到5.7的过渡时非mysql专职dba但是懂mysql的运维用的。</p>
+</li>
+<li><p>如果不配的后果：默认是off。相当于严格模式。</p>
+</li>
+<li><p>配置实例：show_compatibility_56=on</p>
+</li>
+</ul>
+<h1 id="查看数据库-运维SQL"><a href="#查看数据库-运维SQL" class="headerlink" title="查看数据库 运维SQL"></a>查看数据库 运维SQL</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">PROCESSLIST</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">global</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'created_tmp%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%max_allowed_packet%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">GLOBAL</span> <span class="keyword">VARIABLES</span> <span class="keyword">LIKE</span> <span class="string">'innodb_lock_wait_timeout'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> innodb_lock_wait_timeout=<span class="number">500</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">engine</span> <span class="keyword">innodb</span> <span class="keyword">status</span>;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/system-architecture/" rel="tag"><i class="fa fa-tag"></i> 系统架构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/readme/" rel="prev" title="技术心得">
+      <i class="fa fa-chevron-left"></i> 技术心得
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sa/gateway/" rel="next" title="Gateway详解">
+      Gateway详解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#client域："><span class="nav-text">client域：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#character-set-client"><span class="nav-text">character_set_client</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mysqld域："><span class="nav-text">mysqld域：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-server-id"><span class="nav-text">1)server-id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-port"><span class="nav-text">2)port</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-bind-address"><span class="nav-text">3)bind_address</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-autocommit"><span class="nav-text">4)autocommit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-character-set-server"><span class="nav-text">5)character_set_server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-skip-name-resolve"><span class="nav-text">6)skip_name_resolve</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-max-connections"><span class="nav-text">7)max_connections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-max-connect-errors"><span class="nav-text">8)max_connect_errors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-innodb-flush-log-at-trx-commit"><span class="nav-text">9)innodb_flush_log_at_trx_commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-transaction-isolation"><span class="nav-text">10)transaction_isolation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-explicit-defaults-for-timestamp"><span class="nav-text">11)explicit_defaults_for_timestamp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-join-buffer-size"><span class="nav-text">12)join_buffer_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-tmp-table-size"><span class="nav-text">13)tmp_table_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-tmpdir"><span class="nav-text">14)tmpdir</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-max-allowed-packet"><span class="nav-text">15)max_allowed_packet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-sql-mode"><span class="nav-text">16)sql_mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-interactive-timeout"><span class="nav-text">17)interactive_timeout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-wait-timeout"><span class="nav-text">18)wait_timeout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-read-buffer-size"><span class="nav-text">19)read_buffer_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20-read-rnd-buffer-size"><span class="nav-text">20)read_rnd_buffer_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#21-sort-buffer-size"><span class="nav-text">21)sort_buffer_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#22-innodb-page-size"><span class="nav-text">22)innodb_page_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23-innodb-buffer-pool-size"><span class="nav-text">23)innodb_buffer_pool_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-innodb-buffer-pool-instances-8"><span class="nav-text">24)innodb_buffer_pool_instances &#x3D; 8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#25-innodb-buffer-pool-load-at-startup"><span class="nav-text">25)innodb_buffer_pool_load_at_startup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-innodb-buffer-pool-dump-at-shutdown"><span class="nav-text">26)innodb_buffer_pool_dump_at_shutdown</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#27-innodb-lru-scan-depth"><span class="nav-text">27)innodb_lru_scan_depth</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#29-innodb-io-capacity-max"><span class="nav-text">29)innodb_io_capacity_max</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#30-innodb-io-capacity"><span class="nav-text">30)innodb_io_capacity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#31-innodb-flush-method"><span class="nav-text">31)innodb_flush_method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32-innodb-file-format"><span class="nav-text">32)innodb_file_format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#33-innodb-file-format-max"><span class="nav-text">33)innodb_file_format_max</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#34-innodb-log-group-home-dir-redolog"><span class="nav-text">34)innodb_log_group_home_dir &#x3D; &#x2F;redolog&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#35-innodb-undo-directory-undolog"><span class="nav-text">35)innodb_undo_directory &#x3D; &#x2F;undolog&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#36-innodb-undo-logs-128"><span class="nav-text">36)innodb_undo_logs &#x3D; 128</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#37-innodb-undo-tablespaces"><span class="nav-text">37)innodb_undo_tablespaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#38-innodb-flush-neighbors"><span class="nav-text">38)innodb_flush_neighbors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#39-innodb-log-file-size"><span class="nav-text">39)innodb_log_file_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#40-innodb-log-buffer-size"><span class="nav-text">40)innodb_log_buffer_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#41-innodb-purge-threads"><span class="nav-text">41)innodb_purge_threads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#42-innodb-large-prefix"><span class="nav-text">42)innodb_large_prefix</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#43-innodb-thread-concurrency"><span class="nav-text">43)innodb_thread_concurrency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#44-innodb-print-all-deadlocks"><span class="nav-text">44)innodb_print_all_deadlocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#45-innodb-strict-mode"><span class="nav-text">45)innodb_strict_mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#46-log-error"><span class="nav-text">46)log_error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#47-slow-query-log"><span class="nav-text">47)slow_query_log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#48-slow-query-log-file"><span class="nav-text">48)slow_query_log_file</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#49-log-queries-not-using-indexes-1"><span class="nav-text">49)log_queries_not_using_indexes&#x3D;1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#50-log-slow-admin-statements-1"><span class="nav-text">50)log_slow_admin_statements &#x3D; 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#51-log-slow-slave-statements-1"><span class="nav-text">51)log_slow_slave_statements &#x3D; 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#52-log-throttle-queries-not-using-indexes"><span class="nav-text">52)log_throttle_queries_not_using_indexes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#53-expire-logs-days"><span class="nav-text">53)expire_logs_days</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#54-long-query-time"><span class="nav-text">54)long_query_time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#55-min-examined-row-limit"><span class="nav-text">55)min_examined_row_limit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#56-master-info-repository"><span class="nav-text">56)master_info_repository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#57-relay-log-info-repository"><span class="nav-text">57)relay_log_info_repository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#58-log-bin-bin-log"><span class="nav-text">58)log_bin &#x3D; bin.log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#59-sync-binlog"><span class="nav-text">59)sync_binlog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#60-gtid-mode"><span class="nav-text">60)gtid_mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#61-enforce-gtid-consistency"><span class="nav-text">61)enforce_gtid_consistency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#62-log-slave-updates"><span class="nav-text">62)log_slave_updates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#63-binlog-format"><span class="nav-text">63)binlog_format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#64-relay-log"><span class="nav-text">64)relay_log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#65-relay-log-recovery"><span class="nav-text">65)relay_log_recovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#66-slave-skip-errors"><span class="nav-text">66)slave_skip_errors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#67-innodb-buffer-pool-dump-pct"><span class="nav-text">67)innodb_buffer_pool_dump_pct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#68-innodb-page-cleaners-8"><span class="nav-text">68)innodb_page_cleaners&#x3D;8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#69-innodb-undo-log-truncate"><span class="nav-text">69)innodb_undo_log_truncate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#70-innodb-max-undo-log-size"><span class="nav-text">70)innodb_max_undo_log_size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#71-innodb-purge-rseg-truncate-frequency"><span class="nav-text">71)innodb_purge_rseg_truncate_frequency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#72-binlog-gtid-simple-recovery"><span class="nav-text">72)binlog_gtid_simple_recovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#73-log-timestamps"><span class="nav-text">73)log_timestamps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#74-transaction-write-set-extraction"><span class="nav-text">74)transaction_write_set_extraction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#75-show-compatibility-56"><span class="nav-text">75)show_compatibility_56</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看数据库-运维SQL"><span class="nav-text">查看数据库 运维SQL</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/db/mysql5.7%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E4%B8%80%E7%99%BE%E5%80%8D%E8%B0%83%E4%BC%98/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

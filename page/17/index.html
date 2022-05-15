@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="道路很长, 开始了就别停下!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="千寻">
+<meta property="og:url" content="https://www.alan87.top/page/17/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="道路很长, 开始了就别停下!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="Alan">
+<meta property="article:tag" content="千寻">
+<meta property="article:tag" content="科技领域知识">
+<meta property="article:tag" content="5G">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="物联网">
+<meta property="article:tag" content="工业互联网">
+<meta property="article:tag" content="IT">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="flink">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="hadoop">
+<meta property="article:tag" content="clickhouse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/page/17/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/third-tools/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/third-tools/redis/" class="post-title-link" itemprop="url">redis汇总</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:18:08" itemprop="dateCreated datePublished" datetime="2017-05-08T13:18:08+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/third-tools/redis/" class="post-meta-item leancloud_visitors" data-flag-title="redis汇总" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/third-tools/redis/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/third-tools/redis/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><ul>
+<li><a href="../redis-master-slave">安装、主从复制</a></li>
+<li><a href="../redis缓存与memcache的区别">redis缓存与memcache的区别</a></li>
+<li><a href="http://www.runoob.com/redis/redis-sorted-sets.html" target="_blank" rel="noopener">redis原生命令api</a></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/third-tools/redis/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/third-tools/redis%E7%BC%93%E5%AD%98%E4%B8%8Ememcache%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/third-tools/redis%E7%BC%93%E5%AD%98%E4%B8%8Ememcache%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">redis缓存与memcache的区别</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-08 13:18:08" itemprop="dateCreated datePublished" datetime="2017-05-08T13:18:08+08:00">2017-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/third-tools/redis%E7%BC%93%E5%AD%98%E4%B8%8Ememcache%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-meta-item leancloud_visitors" data-flag-title="redis缓存与memcache的区别" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/third-tools/redis%E7%BC%93%E5%AD%98%E4%B8%8Ememcache%E7%9A%84%E5%8C%BA%E5%88%AB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/third-tools/redis%E7%BC%93%E5%AD%98%E4%B8%8Ememcache%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p>数据结构方面</p>
+<p>  redis有更丰富的数据结构，可以满足不同的业务需求。而memcache需要客户端将数据获取再修改再set回去，增加网络io和系统开销。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/third-tools/redis%E7%BC%93%E5%AD%98%E4%B8%8Ememcache%E7%9A%84%E5%8C%BA%E5%88%AB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/summary/" class="post-title-link" itemprop="url">Java知识汇总</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-05 20:29:16" itemprop="dateCreated datePublished" datetime="2017-05-05T20:29:16+08:00">2017-05-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/summary/" class="post-meta-item leancloud_visitors" data-flag-title="Java知识汇总" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/summary/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/summary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一、基础"><a href="#一、基础" class="headerlink" title="一、基础"></a>一、基础</h1><ul>
+<li>基本语法<ul>
+<li>基本数据类型；运算符；表达式；选择与循环语句；</li>
+<li>类与对象（普通类、抽象类、接口、枚举、Annotation、内部类）；</li>
+<li>继承与实现；重载与覆盖；异常；package与jar包；</li>
+<li>序列化与反序列化；正则表达式；</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/summary/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/mysql-nosql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/db/mysql-nosql/" class="post-title-link" itemprop="url">NoSQL 没毛病，为什么 MySQL 还是“王”？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-03 20:54:34" itemprop="dateCreated datePublished" datetime="2017-05-03T20:54:34+08:00">2017-05-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/mysql-nosql/" class="post-meta-item leancloud_visitors" data-flag-title="NoSQL 没毛病，为什么 MySQL 还是“王”？" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/mysql-nosql/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/mysql-nosql/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>NoSQL 出现时，许多人认为关系型数据库已进入死亡倒计时，MySQL 将退出舞台。</p>
+<p>然而，在目前的各种数据库榜单中，MySQL 依然保持着领先地位。更令人惊讶的是，虽然甲骨文的受欢迎程度在不断下降，但 MySQL 保持着稳定。 为什么？</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/db/mysql-nosql/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/distributed-transaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/db/distributed-transaction/" class="post-title-link" itemprop="url">分布式事务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-04-28 10:43:19" itemprop="dateCreated datePublished" datetime="2017-04-28T10:43:19+08:00">2017-04-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/distributed-transaction/" class="post-meta-item leancloud_visitors" data-flag-title="分布式事务" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/distributed-transaction/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/distributed-transaction/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>分布式事务场景如何设计系统架构及解决数据一致性问题，个人理解最终方案把握以下原则就可以了，那就是：大事务=小事务（原子事务）+异步（消息通知），<strong>解决分布式事务的最好办法其实就是不考虑分布式事务，将一个大的业务进行拆分，整个大的业务流程，转化成若干个小的业务流程，然后通过设计补偿流程从而考虑最终一致性。</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/db/distributed-transaction/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">Java内存模型详解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-02-06 04:23:12" itemprop="dateCreated datePublished" datetime="2017-02-06T04:23:12+08:00">2017-02-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3/" class="post-meta-item leancloud_visitors" data-flag-title="Java内存模型详解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>网上有很多关于Java内存模型的文章，在《深入理解Java虚拟机》和《Java并发编程的艺术》等书中也都有关于这个知识点的介绍。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/springcloud/springcloud-netflix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/springcloud/springcloud-netflix/" class="post-title-link" itemprop="url">Springcloud Netflix</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-12-07 10:38:37" itemprop="dateCreated datePublished" datetime="2016-12-07T10:38:37+08:00">2016-12-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/springboot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/springcloud/springcloud-netflix/" class="post-meta-item leancloud_visitors" data-flag-title="Springcloud Netflix" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/springcloud/springcloud-netflix/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/springcloud/springcloud-netflix/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>几大模块：服务发现（Eureka），断路器（Hystrix），智能路由（Zuul），客户端负载均衡（Ribbon）</p>
+<p>spring –&gt; spring boot –&gt; spring cloud</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/springcloud/springcloud-netflix/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/sa/knowledge-outline/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/sa/knowledge-outline/" class="post-title-link" itemprop="url">技术大纲</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-11-22 22:18:08" itemprop="dateCreated datePublished" datetime="2016-11-22T22:18:08+08:00">2016-11-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/system-architecture/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sa/knowledge-outline/" class="post-meta-item leancloud_visitors" data-flag-title="技术大纲" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sa/knowledge-outline/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sa/knowledge-outline/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h1><ul>
+<li>前端浏览器地址的一个 http 请求到后端整个流程 <a href="outline/1.md">link</a></li>
+<li>哪些设计模式可以增加系统的可扩展性</li>
+<li>如果AB两个系统互相依赖，如何解除依赖？</li>
+<li>什么场景应该拆分系统，什么场景应该合并系统？</li>
+<li>常用的设计模式，23种  <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/basic-knowledge/%E5%B8%B8%E7%94%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.md" target="_blank" rel="noopener">link</a></li>
+<li>如何构建高可用系统？ <a href="https://mp.weixin.qq.com/s/TuOMlzXRtDJSCgYGMPbpjw" target="_blank" rel="noopener">link</a></li>
+<li>性能优化：使用单例、使用Future模式、使用线程池、选择就绪、减少上下文切换、减少锁粒度、数据压缩、结果缓存</li>
+<li>Nginx负载均衡 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/web/load-balance.md" target="_blank" rel="noopener">link</a></li>
+<li>一个系统如何优雅关闭。signal信号捕捉 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/basic-knowledge/java.md" target="_blank" rel="noopener">link</a></li>
+</ul>
+<h1 id="分布式系列"><a href="#分布式系列" class="headerlink" title="分布式系列"></a>分布式系列</h1><ul>
+<li>如何设计一个高并发的分布式系统？你会引入哪些开源框架？</li>
+<li>缓存<ul>
+<li>搭建Redis缓存高可用集群</li>
+<li>高并发下如何正确优雅的使用缓存</li>
+<li>设计缓存要注意什么</li>
+<li>本地缓存用过哪些框架？Guava</li>
+<li>分布式缓存：缓存一致性、缓存命中率、缓存冗余</li>
+<li>缓存和数据库，如何实现一致性？<a href="https://mp.weixin.qq.com/s/-Kvj8TPVvZE-rbtult_ozA?from=groupmessage&isappinstalled=0" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+<li>分布式数据库<ul>
+<li>怎样打造一个分布式数据库？什么时候需要分布式数据库、mycat、otter、HBase</li>
+</ul>
+</li>
+<li>网关框架了解过哪些？能为后端服务带来哪些好处？</li>
+<li>如何保证消息幂等  <a href="https://www.jianshu.com/p/8b77d4583bab?utm_campaign" target="_blank" rel="noopener">link</a></li>
+<li>如何实现分布式Session</li>
+<li>如何保证消息的一致性</li>
+<li>CDN实现原理 </li>
+</ul>
+<h1 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h1><ul>
+<li>zookeeper之服务注册与订阅</li>
+<li>使用Docker部署微服务</li>
+<li>微服务架构–分布式事务解决方案</li>
+<li>微服务划分的粒度</li>
+<li>微服务的高可用怎么保证的？</li>
+<li>什么场景应该拆分系统，什么场景应该合并系统</li>
+</ul>
+<h1 id="锁相关"><a href="#锁相关" class="headerlink" title="锁相关"></a>锁相关</h1><ul>
+<li>死锁定义；如何避免死锁 <a href="https://blog.csdn.net/ls5718/article/details/51896159" target="_blank" rel="noopener">link</a></li>
+<li>乐观锁，悲观锁，使用场景？ <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/system-architecture/%E9%94%81%E6%9C%BA%E5%88%B6.md" target="_blank" rel="noopener">link</a></li>
+<li>设计一个分布式锁 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/system-architecture/architecture-experience.md" target="_blank" rel="noopener">link</a></li>
+<li>常见的锁有哪些？ <a href="https://github.com/aalansehaiyang/Lock-Learning" target="_blank" rel="noopener">link</a></li>
+<li>java读写锁，读写锁设计主要解决什么问题？ <a href="http://ifeve.com/read-write-locks/" target="_blank" rel="noopener">link</a></li>
+<li>synchronized和 ReentrantLock 的区别？ <a href="https://www.cnblogs.com/fanguangdexiaoyuer/p/5313653.html" target="_blank" rel="noopener">link</a> <a href="outline/2.md">link</a></li>
+<li>不用synchronized和lock，实现线程安全的单例模式？<a href="https://blog.csdn.net/w372426096/article/details/80938895" target="_blank" rel="noopener">link</a> </li>
+</ul>
+<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><ul>
+<li>java<ul>
+<li>基础<ul>
+<li>String、StringBuffer与StringBuilder的区别</li>
+<li>try catch finally，try里面有return，finally还执行吗？</li>
+<li>泛型中K T V E   <a href="http://nannan408.iteye.com/blog/1825182" target="_blank" rel="noopener">link</a></li>
+<li>Thread 和 Runnable区别？</li>
+<li>关键字 volatile、transient、final <a href="https://www.cnblogs.com/ccfdod/p/6392343.html" target="_blank" rel="noopener">link</a></li>
+<li>Object 的 equals方法重写了，hashCode 方法必须重写 <a href="https://blog.csdn.net/u013679744/article/details/57074669/" target="_blank" rel="noopener">link</a> <a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E9%9D%A2%E8%AF%95%E5%BF%85%E5%A4%87/%E6%9C%80%E6%9C%80%E6%9C%80%E5%B8%B8%E8%A7%81%E7%9A%84Java%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93/%E7%AC%AC%E4%B8%80%E5%91%A8%EF%BC%882018-8-7%EF%BC%89.md" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+<li>集合<ul>
+<li>ThreadLocal 内部原理？</li>
+<li>HashMap，为什么线程不安全 <a href="https://mp.weixin.qq.com/s/RtfEPR2oclUAu0tXnYAn4Q" target="_blank" rel="noopener">link</a>    </li>
+<li>HashMap 怎么解决碰撞问题？</li>
+<li>Concurrenthashmap 是怎么做到线程安全的？</li>
+</ul>
+</li>
+<li>线程<ul>
+<li>线程有哪些状态？ blocked 和 wait 有什么区别? <a href="https://blog.csdn.net/longly_me/article/details/61414268" target="_blank" rel="noopener">link</a> <a href="https://www.cnblogs.com/lcplcpjava/p/6896904.html" target="_blank" rel="noopener">link</a></li>
+<li>sleep() 和 wait() 的区别 <a href="https://blog.csdn.net/xyh269/article/details/52613507" target="_blank" rel="noopener">link</a></li>
+<li>JDK 中有哪几个线程池？拒绝策略？ <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/basic-knowledge/concurrent-class.md" target="_blank" rel="noopener">link</a> <a href="https://mp.weixin.qq.com/s/5dexEENTqJWXN_17c6Lz6A" target="_blank" rel="noopener">link</a></li>
+<li>如何保证线程安全问题？</li>
+<li>JUC 常用的类 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/basic-knowledge/concurrent-class.md" target="_blank" rel="noopener">link</a> <a href="https://mp.weixin.qq.com/s/K8y6wMNDLwsmU7EFRx7Dsw" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+<li>IO<ul>
+<li>BIO、NIO和AIO的区别，三种IO的用法与原理</li>
+</ul>
+</li>
+<li>JVM<ul>
+<li>JVM 内存结构 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/basic-knowledge/java.md" target="_blank" rel="noopener">link</a></li>
+<li>JVM如何加载字节码文件 </li>
+<li>双亲委派，Bootstrap ClassLoader、Extension ClassLoader、ApplicationClassLoader</li>
+<li>内存分配策略、垃圾收集器（G1）、GC算法、GC参数、对象存活的判定 </li>
+<li>什么情况会出现young GC，什么情况会出现Full GC</li>
+<li>怎样判断Full GC是否正常？ <a href="https://mp.weixin.qq.com/s/TuOMlzXRtDJSCgYGMPbpjw" target="_blank" rel="noopener">link</a></li>
+<li>内存泄露原因？如何排查？ <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/ops/online-question.md" target="_blank" rel="noopener">link</a></li>
+<li>OOM 出现的有哪些场景？ <a href="https://mp.weixin.qq.com/s/34GVlaYDOdY1OQ9eZs-iXg" target="_blank" rel="noopener">link</a> <a href="outline/3.md">link</a></li>
+<li>熟悉哪些jvm 命令，jstack、jmap、jstat? <a href="https://blog.csdn.net/itomge/article/details/9904555" target="_blank" rel="noopener">link</a></li>
+<li>jvm调优经验</li>
+</ul>
+</li>
+<li>其它<ul>
+<li>动态代理与Cglib实现的区别 <a href="https://www.cnblogs.com/leifei/p/8263448.html" target="_blank" rel="noopener">link</a></li>
+<li>看过哪些JDK源码</li>
+<li>JAVA并发编程艺术</li>
+<li>java8的新特性 <a href="https://github.com/biezhi/30-seconds-of-java8" target="_blank" rel="noopener">link</a></li>
+<li>lambda表达式、Stream API</li>
+<li>HotSpot 即时编译器、编译优化 <a href="http://www.sohu.com/a/169704040_464084" target="_blank" rel="noopener">link</a></li>
+<li>CPU缓存，L1，L2，L3和伪共享 <a href="https://blog.csdn.net/zero__007/article/details/54089730" target="_blank" rel="noopener">link</a></li>
+<li>Java 9，Reactive Streams <a href="https://www.cnblogs.com/IcanFixIt/p/7245377.html" target="_blank" rel="noopener">link</a>        </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>spring<ul>
+<li>为什么要使用Spring，Spring的优缺点有哪些</li>
+<li>Spring的IOC容器初始化流程</li>
+<li>Spring Bean 的生命周期 <a href="https://blog.csdn.net/itomge/article/details/8656942" target="_blank" rel="noopener">link</a></li>
+<li>Spring AOP实现原理</li>
+<li>SpringMVC模式</li>
+<li>Spring Boot 与 Spring 的区别 <a href="https://mp.weixin.qq.com/s/lsJU_XFmI3dPpkWndrsAuw" target="_blank" rel="noopener">link</a></li>
+<li>Spring cloud了解过哪些</li>
+<li>Spring 5 响应式编程 <a href="https://www.oschina.net/translate/reactive-programming-with-spring-5" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>mysql<ul>
+<li>数据库主备搭建 <a href="https://www.cnblogs.com/fan-yuan/p/7249249.html" target="_blank" rel="noopener">link</a> <a href="https://blog.csdn.net/zimu002/article/details/72843260" target="_blank" rel="noopener">link</a></li>
+<li>表级锁和行级锁对比 <a href="https://mp.weixin.qq.com/s/ENQZii1xgxlsIbR-oMseKw" target="_blank" rel="noopener">link</a></li>
+<li>事务特性，有哪几种事务隔离级别 <a href="https://mp.weixin.qq.com/s/ENQZii1xgxlsIbR-oMseKw" target="_blank" rel="noopener">link</a></li>
+<li>分布式事务，两阶段提交</li>
+<li>当MySQL单表记录数过大时，数据库的CRUD性能会明显下降，一些常见的优化措施 <a href="https://mp.weixin.qq.com/s/ENQZii1xgxlsIbR-oMseKw" target="_blank" rel="noopener">link</a></li>
+<li>SQL 优化的常见方法有哪些 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/data-base/sql-optimize.md" target="_blank" rel="noopener">link</a></li>
+<li>如何查看执行计划，如何根据执行计划进行SQL优化 <a href="https://blog.csdn.net/taojin12/article/details/81489234" target="_blank" rel="noopener">link</a></li>
+<li>MyISAM与InnoDB区别 <a href="https://www.cnblogs.com/lyl2016/p/5797519.html" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>redis</p>
+<ul>
+<li>为什么要用Redis，Redis有哪些优缺点？Redis如何实现扩容？ <a href="https://mp.weixin.qq.com/s/FqMScRBFwdwF2n3QJkNLRA" target="_blank" rel="noopener">link</a></li>
+<li>10个redis常见问题 <a href="https://mp.weixin.qq.com/s/Z4a8wbWvPDGFTkKJH0X9VQ" target="_blank" rel="noopener">link</a><ul>
+<li>Redis有哪些数据结构？</li>
+<li>使用过Redis分布式锁么，代码怎么写？</li>
+<li>假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？    </li>
+<li>Redis如何做持久化的？</li>
+<li>Pipeline有什么好处，为什么要用pipeline？</li>
+<li>Redis的同步机制了解么？    </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>kafka</p>
+<ul>
+<li>Kafka的整体架构</li>
+</ul>
+</li>
+<li><p>netty</p>
+<ul>
+<li>Netty的一次请求过程</li>
+<li>Netty核心精讲之Reactor线程模型</li>
+</ul>
+</li>
+<li><p>dubbo</p>
+<ul>
+<li>底层原理</li>
+<li>支持哪些负载算法？默认哪种？</li>
+<li>怎么设置超时时间？</li>
+</ul>
+</li>
+<li><p>tomcat</p>
+<ul>
+<li>Tomcat 调优</li>
+<li>Servlet线程安全问题 <a href="https://blog.csdn.net/i_will_try/article/details/62215633" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+<li><p>其它</p>
+<ul>
+<li>HttpClient 内部实现？ <a href="https://www.jianshu.com/p/14c005e9287c" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h1><ul>
+<li>OSI模型分为哪几层？</li>
+<li>TCP<ul>
+<li>TCP 和 UDP 的区别？TCP 数据传输过程中怎么做到可靠的？</li>
+<li>TCP 三次握手、四次挥手过程 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/web/tcp.md" target="_blank" rel="noopener">link</a></li>
+<li>TCP拥塞控制 <a href="https://www.cnblogs.com/hupp/p/4856134.html" target="_blank" rel="noopener">link</a></li>
+</ul>
+</li>
+<li>http<ul>
+<li>Cookie和Session的区别</li>
+<li>Http的状态码</li>
+<li>HTTP 301 、302有啥区别</li>
+<li>HTTP连接池实现原理</li>
+<li>Http怎么处理长连接</li>
+</ul>
+</li>
+<li>谈谈对 Http 和 RPC 的理解？ <a href="outline/4.md">link</a></li>
+</ul>
+<h1 id="OS系统"><a href="#OS系统" class="headerlink" title="OS系统"></a>OS系统</h1><ul>
+<li>centos7 的内存分配方式和6有啥不同 <a href="https://www.cnblogs.com/Csir/p/6746667.html" target="_blank" rel="noopener">link</a></li>
+<li>linux<ul>
+<li>常用的linux命令 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/ops/linux-commands.md" target="_blank" rel="noopener">link</a></li>
+<li>缓冲区溢出</li>
+<li>分段和分页</li>
+<li>虚拟内存与主存</li>
+<li>Linux 库函数与系统调用的关系与区别 <a href="https://www.cnblogs.com/liwei0526vip/p/8998751.html" target="_blank" rel="noopener">link</a></li>
+<li>调度算法</li>
+<li>select 、poll和epoll</li>
+</ul>
+</li>
+<li>进程和线程的区别 <a href="https://mp.weixin.qq.com/s/xHOSVG5tGzj1RzpEutH_wg" target="_blank" rel="noopener">link</a></li>
+</ul>
+<h1 id="实战能力"><a href="#实战能力" class="headerlink" title="实战能力"></a>实战能力</h1><ul>
+<li>有没有处理过线上问题？出现内存泄露，CPU利用率飙高，应用无响应时如何处理？</li>
+<li>如果有几十亿的白名单，每天白天需要高并发查询，晚上需要更新一次，如何设计这个功能</li>
+<li>双十一电商秒杀系统性能优化实战</li>
+<li>电商网站，如何保证一件商品不被超卖</li>
+<li>让您做一个电商平台，您如何设置一个在买家下订单后的”第60秒“发短信通知卖家发货，您需要考虑的是 像淘宝一样的大并发量的订单 <a href="https://mp.weixin.qq.com/s/u4Azg27wPtdbVtoi38EAiA" target="_blank" rel="noopener">link</a></li>
+</ul>
+<h1 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h1><ul>
+<li>一致性Hash算法 <a href="https://github.com/aalansehaiyang/technology-talk/blob/master/other/%E4%B8%80%E8%87%B4%E6%80%A7hash.md" target="_blank" rel="noopener">link</a></li>
+<li>看过哪些开源框架的源码</li>
+<li>消息中间件是如何实现的，技术难点有哪些</li>
+<li>工作案例。怎么提高研发效率。</li>
+<li>HttpClient 讲下里面的具体实现，（涉及了哪些东西）</li>
+<li>那要你设计一个高性能的 Http ，你会怎么设计？</li>
+<li>说出一个空间换时间的场景</li>
+<li>怎么防止订单重复提交?</li>
+<li>ORM框架用过哪些？</li>
+<li>hibernate 和 IBatis 的区别？</li>
+<li>抽象能力，乐高模式，怎么提高研发效率</li>
+<li>什么情况用接口，什么情况用消息</li>
+<li>加密与解密：MD5，SHA1、DES、AES、RSA、DSA <a href="https://github.com/aalansehaiyang/sort-algorithm/blob/master/doc/encry.md" target="_blank" rel="noopener">link</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/sa/software-performance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/sa/software-performance/" class="post-title-link" itemprop="url">软硬件性能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-11-21 22:18:08" itemprop="dateCreated datePublished" datetime="2016-11-21T22:18:08+08:00">2016-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/system-architecture/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sa/software-performance/" class="post-meta-item leancloud_visitors" data-flag-title="软硬件性能" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sa/software-performance/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sa/software-performance/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="内存相关"><a href="#内存相关" class="headerlink" title="内存相关"></a>内存相关</h2><ul>
+<li><a href="https://www.cnblogs.com/lyhero11/p/5120847.html" target="_blank" rel="noopener">cpu缓存java性能问题初探</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/sa/SOA%E4%B8%8E%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/sa/SOA%E4%B8%8E%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">SOA与微服务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-11-20 22:18:08" itemprop="dateCreated datePublished" datetime="2016-11-20T22:18:08+08:00">2016-11-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/system-architecture/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sa/SOA%E4%B8%8E%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-meta-item leancloud_visitors" data-flag-title="SOA与微服务" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sa/SOA%E4%B8%8E%E5%BE%AE%E6%9C%8D%E5%8A%A1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sa/SOA%E4%B8%8E%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SOA与微服务"><a href="#SOA与微服务" class="headerlink" title="SOA与微服务"></a>SOA与微服务</h2><ul>
+<li>微服务并非它的体积足够小，而是它的责任足够单一，很多人误解了「微」的真实含义，认为服务拆分得足够小就是微服务了，其实并非这样。此外，「微」还有“微不足道”的意思，也就是说，某个服务出现故障，它不会影响整个系统。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/sa/SOA%E4%B8%8E%E5%BE%AE%E6%9C%8D%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/page/17/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

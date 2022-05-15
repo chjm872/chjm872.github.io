@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="JAVAJava常用的数据结构有哪些?哪些是线程安全的?是怎么保证线程安全的？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大厂面试题">
+<meta property="og:url" content="https://www.alan87.top/java/%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="JAVAJava常用的数据结构有哪些?哪些是线程安全的?是怎么保证线程安全的？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-25T07:36:20.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.835Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="大厂面试题">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/java/%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>大厂面试题 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大厂面试题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-25 15:36:20" itemprop="dateCreated datePublished" datetime="2020-05-25T15:36:20+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-meta-item leancloud_visitors" data-flag-title="大厂面试题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h1><h2 id="Java常用的数据结构有哪些-哪些是线程安全的-是怎么保证线程安全的？"><a href="#Java常用的数据结构有哪些-哪些是线程安全的-是怎么保证线程安全的？" class="headerlink" title="Java常用的数据结构有哪些?哪些是线程安全的?是怎么保证线程安全的？"></a>Java常用的数据结构有哪些?哪些是线程安全的?是怎么保证线程安全的？</h2><a id="more"></a>
+<p><a href="../Java开发中常用的数据结构">Java开发中常用的数据结构</a><br><a href="../Java中满足线程安全的数据结构">简述Java中满足线程安全的数据结构</a></p>
+<h2 id="多个线程同时读写，读线程的数量远远大于写线程，你认为应该如何解决并发的问题？你会选择加什么样的锁？"><a href="#多个线程同时读写，读线程的数量远远大于写线程，你认为应该如何解决并发的问题？你会选择加什么样的锁？" class="headerlink" title="多个线程同时读写，读线程的数量远远大于写线程，你认为应该如何解决并发的问题？你会选择加什么样的锁？"></a>多个线程同时读写，读线程的数量远远大于写线程，你认为应该如何解决并发的问题？你会选择加什么样的锁？</h2><p>ReadWriteLock读写锁</p>
+<h2 id="JAVA的AQS是否了解，它是干嘛的？"><a href="#JAVA的AQS是否了解，它是干嘛的？" class="headerlink" title="JAVA的AQS是否了解，它是干嘛的？"></a>JAVA的AQS是否了解，它是干嘛的？</h2><p>AbstractQueuedSynchronizer（AQS）为实现依赖于先进先出 (FIFO) 等待队列的阻塞锁定和相关同步器（信号量、事件，等等）提供一个框架。<br>要明白AQS在功能上有独占锁和共享锁两种功能。</p>
+<h2 id="除了synchronized关键字之外，你是怎么来保障线程安全的？"><a href="#除了synchronized关键字之外，你是怎么来保障线程安全的？" class="headerlink" title="除了synchronized关键字之外，你是怎么来保障线程安全的？"></a>除了synchronized关键字之外，你是怎么来保障线程安全的？</h2><pre><code>- 1、互斥同步(阻塞同步)，悲观并发策略
+  synchronized关键字 、ReentrantLock
+- 2、非阻塞同步，基于冲突检测的乐观并发策略
+    非阻塞的实现CAS（compareandswap）：CAS指令需要有3个操作数，分别是内存地址（在java中理解为变量的内存地址，用V表示）、旧的预期值（用A表示）和新值（用B表示）。CAS指令执行时，CAS指令指令时，当且仅当V处的值符合旧预期值A时，处理器用B更新V处的值，否则它就不执行更新，但是无论是否更新了V处的值，都会返回V的旧值，上述的处理过程是一个原子操作。
+    CAS缺点：
+        - ABA问题：因为CAS需要在操作值的时候检查下值有没有发生变化，如果没有发生变化则更新，但是一个值原来是A，变成了B，又变成了A，那么使用CAS进行检查时会发现它的值没有发生变化，但是实际上却变化了。
+
+        - ABA问题的解决思路就是使用版本号。在变量前面追加版本号，每次变量更新的时候把版本号加一，那么A-B-A就变成了1A-2B-3C。JDK的atomic包里提供了一个类AtomicStampedReference来解决ABA问题。这个类的compareAndSet方法作用是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志，如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值。
+
+- 3、无需同步方案
+    要保证线程安全，并不是一定就要进行同步，两者没有因果关系。同步只是保证共享数据争用时的正确性的手段，如果一个方法本来就不涉及共享数据，那它自然就无需任何同步操作去保证正确性，因此会有一些代码天生就是线程安全的。
+
+    - 1）可重入代码
+       可重入代码（ReentrantCode）也称为纯代码（Pure Code），可以在代码执行的任何时刻中断它，转而去执行另外一段代码，而在控制权返回后，原来的程序不会出现任何错误。所有的可重入代码都是线程安全的，但是并非所有的线程安全的代码都是可重入的。
+
+       可重入代码的特点是不依赖存储在堆上的数据和公用的系统资源、用到的状态量都是由参数中传入、不调用 非可重入的方法等。
+
+       （类比：synchronized拥有锁重入的功能，也就是在使用synchronized时，当一个线程得到一个对象锁后，再次请求此对象锁时时可以再次得到该对象的锁）
+
+    - 2）线程本地存储
+
+       如果一段代码中所需的数据必须与其他代码共享，那就看看这些共享数据的代码是否能保证在同一个线程中执行？如果能保证，我们就可以把共享数据的可见范围限制在同一个线程之内。这样无需同步也能保证线程之间不出现数据的争用问题。
+
+       符合这种特点的应用并不少见，大部分使用消费队列的架构模式（如“生产者-消费者”模式）都会将产品的消费过程尽量在一个线程中消费完。其中最重要的一个应用实例就是经典的Web交互模型中的“一个请求对应一个服务器线程（Thread-per-Request）”的处理方式，这种处理方式的广泛应用使得很多Web服务器应用都可以使用线程本地存储来解决线程安全问题。</code></pre><h2 id="Tomcat本身的参数你一般会怎么调整？"><a href="#Tomcat本身的参数你一般会怎么调整？" class="headerlink" title="Tomcat本身的参数你一般会怎么调整？"></a>Tomcat本身的参数你一般会怎么调整？</h2><h2 id="HashMap和Hashtable的区别。"><a href="#HashMap和Hashtable的区别。" class="headerlink" title="HashMap和Hashtable的区别。"></a>HashMap和Hashtable的区别。</h2><h2 id="实现一个保证迭代顺序的HashMap。"><a href="#实现一个保证迭代顺序的HashMap。" class="headerlink" title="实现一个保证迭代顺序的HashMap。"></a>实现一个保证迭代顺序的HashMap。</h2><h2 id="说说HashMap的原理-以及HashMap如何扩充bucket的大小。"><a href="#说说HashMap的原理-以及HashMap如何扩充bucket的大小。" class="headerlink" title="说说HashMap的原理, 以及HashMap如何扩充bucket的大小。"></a>说说HashMap的原理, 以及HashMap如何扩充bucket的大小。</h2><h2 id="说一说排序算法，稳定性，复杂度。"><a href="#说一说排序算法，稳定性，复杂度。" class="headerlink" title="说一说排序算法，稳定性，复杂度。"></a>说一说排序算法，稳定性，复杂度。</h2><h2 id="TCP如何保证可靠传输？三次握手过程？"><a href="#TCP如何保证可靠传输？三次握手过程？" class="headerlink" title="TCP如何保证可靠传输？三次握手过程？"></a>TCP如何保证可靠传输？三次握手过程？</h2><h2 id="如何控制某个方法允许并发访问线程的个数"><a href="#如何控制某个方法允许并发访问线程的个数" class="headerlink" title="如何控制某个方法允许并发访问线程的个数"></a>如何控制某个方法允许并发访问线程的个数</h2><p>Semaphore（信号量）</p>
+<h2 id="死锁是什么意思，形成条件是什么？出现死锁是可以通过什么方式去排查。"><a href="#死锁是什么意思，形成条件是什么？出现死锁是可以通过什么方式去排查。" class="headerlink" title="死锁是什么意思，形成条件是什么？出现死锁是可以通过什么方式去排查。"></a>死锁是什么意思，形成条件是什么？出现死锁是可以通过什么方式去排查。</h2><p>监测死锁可以使用jdk自带的工具。<br>执行jps命令，得到运行的线程的id，<br><code>jps -l</code><br>再执行jstack命令，查看结果。<br><code>jstack -l pid</code></p>
+<p>jvisualVM, jconsole</p>
+<h2 id="Java中活锁和死锁有什么区别？"><a href="#Java中活锁和死锁有什么区别？" class="headerlink" title="Java中活锁和死锁有什么区别？"></a>Java中活锁和死锁有什么区别？</h2><p>活锁：互相释放资源给对方，结果谁都没有用到这资源。<br>死锁：互相抢着资源，谁都没有抢到。</p>
+<h2 id="产生死锁的四个必要条件："><a href="#产生死锁的四个必要条件：" class="headerlink" title="产生死锁的四个必要条件："></a>产生死锁的四个必要条件：</h2><ul>
+<li>（1）互斥条件：一个资源每次只能被一个进程使用。</li>
+<li>（2）占有且等待：一个进程因请求资源而阻塞时，对已获得的资源保持不放。</li>
+<li>（3）不可强行占有:进程已获得的资源，在末使用完之前，不能强行剥夺。</li>
+<li>（4）循环等待条件:若干进程之间形成一种头尾相接的循环等待资源关系。</li>
+</ul>
+<h2 id="如何避免死锁？"><a href="#如何避免死锁？" class="headerlink" title="如何避免死锁？"></a>如何避免死锁？</h2><p>　　加锁顺序（线程按照一定的顺序加锁）；<br>　　加锁时限（线程尝试获取锁的时候加上一定的时限，超过时限则放弃对该锁的请求，并释放自己占有的锁）；<br>　　死锁检测。</p>
+<h2 id="对于volatile关键字，当且仅当满足以下所有条件时可使用："><a href="#对于volatile关键字，当且仅当满足以下所有条件时可使用：" class="headerlink" title="对于volatile关键字，当且仅当满足以下所有条件时可使用："></a>对于volatile关键字，当且仅当满足以下所有条件时可使用：</h2><ol>
+<li>对变量的写入操作不依赖变量的当前值，或者你能确保只有单个线程更新变量的值。</li>
+<li>该变量没有包含在具有其他变量的不变式中。</li>
+<li>static是类的属性，存储在类的那块内存，每个线程操作的时候会读取这个内存块，甚至会加载到寄存器或高速缓存中，这样自然不会保证其他线程对该值的可见性；而volatile表示每次读操作直接到内存，如果多个线程都遵循这样的约定，就会读取到最新的状态.<br> PS：synchronized代码块会对变量进行写入操作</li>
+</ol>
+<h2 id="什么时候需要加volatile关键字？它能保证线程安全吗？"><a href="#什么时候需要加volatile关键字？它能保证线程安全吗？" class="headerlink" title="什么时候需要加volatile关键字？它能保证线程安全吗？"></a>什么时候需要加volatile关键字？它能保证线程安全吗？</h2><p>volatile是不能保证线程安全的，它只是保证了数据的可见性，不会再缓存，</p>
+<p>每个线程都是从主存中读到的数据，而不是从缓存中读取的数据，</p>
+<p>当synchronized去掉的时候，每个线程的结果是乱的，加上的时候结果才是正确的。</p>
+<p>并发编程的3个概念：原子性、可见性、有序性</p>
+<ul>
+<li>原子性：一个操作或多个操作要么全部执行完成且执行过程不被中断，要么就不执行。</li>
+<li>可见性：当多个线程同时访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。</li>
+<li>有序性：程序执行的顺序按照代码的先后顺序执行。</li>
+</ul>
+<h2 id="线程池内的线程如果全部忙，提交一个新的任务，会发生什么？队列全部塞满了之后，还是忙，再提交会发生什么？"><a href="#线程池内的线程如果全部忙，提交一个新的任务，会发生什么？队列全部塞满了之后，还是忙，再提交会发生什么？" class="headerlink" title="线程池内的线程如果全部忙，提交一个新的任务，会发生什么？队列全部塞满了之后，还是忙，再提交会发生什么？"></a>线程池内的线程如果全部忙，提交一个新的任务，会发生什么？队列全部塞满了之后，还是忙，再提交会发生什么？</h2><p>一个任务通过execute(Runnable)方法被添加到线程池，任务就是一个Runnable类型的对象，任务的执行方法就是Runnable类型对象的run()方法。当一个任务通过execute(Runnable)方法想添加到线程池时：</p>
+<ul>
+<li>如果此时线程池中数量小于corePoolSize,即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。</li>
+<li>如果此时线程池中的数量等于corePoolSize,但是缓冲队列workQueue未满，那么任务放入缓冲队列</li>
+<li>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。</li>
+<li>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue 满，并且线程池中的数量等于maximumPoolSize，那么通过handler所指定的策略来处理此任务。也就是：处理任务的优先级为：核心线程 corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务</li>
+<li>当线程池中的线程数量大于corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<ul>
+<li>corePoolSize： 线程池维护线程的最少数量</li>
+<li>maxnumPoolSize： 线程池维护线程的最大数量</li>
+<li>keepAliveTime： 线程池维护线程所允许的空闲时间</li>
+<li>unit： 线程池维护线程所允许的空闲时间的单位</li>
+<li>workQueue： 线程池所使用的缓冲队列</li>
+<li>handler： 线程池对拒绝任务的处理策略</li>
+</ul>
+</li>
+</ul>
+<h2 id="synchronized关键字锁住的是什么东西？在字节码中是怎么表示的？在内存中的对象上表现为什么？"><a href="#synchronized关键字锁住的是什么东西？在字节码中是怎么表示的？在内存中的对象上表现为什么？" class="headerlink" title="synchronized关键字锁住的是什么东西？在字节码中是怎么表示的？在内存中的对象上表现为什么？"></a>synchronized关键字锁住的是什么东西？在字节码中是怎么表示的？在内存中的对象上表现为什么？</h2><ol>
+<li>synchronized锁住的是括号里的对象，不是代码。对于非static的synchronized方法，锁的就是对象本身也就是this。</li>
+<li>在java语言中存在两种内建的synchronized语法：<ul>
+<li>1、synchronized语句；对于synchronized语句当Java源代码被javac编译成bytecode的时候，会在同步块的入口位置和退出位置分别插入monitorenter和monitorexit字节码指令。</li>
+<li>2、synchronized方法。synchronized方法则会被翻译成普通的方法调用和返回指令如:invokevirtual、areturn指令，在VM字节码层面并没有任何特别的指令来实现被synchronized修饰的方法，而是在Class文件的方法表中将该方法的access_flags字段中的synchronized标志位置1，表示该方法是同步方法并使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象</li>
+</ul>
+</li>
+</ol>
+<h2 id="synchronized-的原理是什么？synchronized-和-ReentrantLock-有什么不同？"><a href="#synchronized-的原理是什么？synchronized-和-ReentrantLock-有什么不同？" class="headerlink" title="synchronized 的原理是什么？synchronized 和 ReentrantLock 有什么不同？"></a>synchronized 的原理是什么？synchronized 和 ReentrantLock 有什么不同？</h2><p>这两种方式最大区别就是对于Synchronized来说，它是java语言的关键字，是原生语法层面的互斥，需要jvm实现。而ReentrantLock它是JDK 1.5之后提供的API层面的互斥锁，需要lock()和unlock()方法配合try/finally语句块来完成。</p>
+<p>Synchronized进过编译，会在同步块的前后分别形成monitorenter和monitorexit这个两个字节码指令。在执行monitorenter指令时，首先要尝试获取对象锁。如果这个对象没被锁定，或者当前线程已经拥有了那个对象锁，把锁的计算器加1，相应的，在执行monitorexit指令时会将锁计算器就减1，当计算器为0时，锁就被释放了。如果获取对象锁失败，那当前线程就要阻塞，直到对象锁被另一个线程释放为止。 </p>
+<h2 id="wait-notify-notifyAll方法需不需要被包含在synchronized块中？这是为什么？"><a href="#wait-notify-notifyAll方法需不需要被包含在synchronized块中？这是为什么？" class="headerlink" title="wait/notify/notifyAll方法需不需要被包含在synchronized块中？这是为什么？"></a>wait/notify/notifyAll方法需不需要被包含在synchronized块中？这是为什么？</h2><pre><code>Obj.wait()，与Obj.notify()必须要与synchronized(Obj)一起使用，也就是wait,与notify是针对已经获取了Obj锁进行操作。</code></pre><p>　　从语法角度来说就是Obj.wait(),Obj.notify必须synchronized(Obj){…}语句块内。<br>　　从功能上来说wait就是说线程在获取对象锁后，主动释放对象锁，同时本线程休眠。直到有其它线程调用对象的notify()唤醒该线程，才能继续获取对象锁，并继续执行<br>　　如果实例方法含有如下的语句时：wait();则其意义同：this.wait();</p>
+<h2 id="Executors类是什么？-Executor和Executors的区别？"><a href="#Executors类是什么？-Executor和Executors的区别？" class="headerlink" title="Executors类是什么？ Executor和Executors的区别？"></a>Executors类是什么？ Executor和Executors的区别？</h2><ol>
+<li><p>Executor<br>它是”执行者来”接口，它是来执行任务的。准确的说，Executor提供了execute()接口来执行已提交的 Runnable 任务的对象。Executor存在的目的是提供一源种将”任务提交”与”任务如何运行”分离开来的知机制。它只包含一个函数接口。</p>
+</li>
+<li><p>Executors<br>Executors是个静态工厂类。它通过静态工厂方法返回到ExecutorService、ScheduledExecutorService、ThreadFactory 和 Callable 等类的对象。</p>
+</li>
+</ol>
+<h2 id="ExecutorService你一般是怎么用的？是每个service放一个还是一个项目里面放一个？有什么好处？"><a href="#ExecutorService你一般是怎么用的？是每个service放一个还是一个项目里面放一个？有什么好处？" class="headerlink" title="ExecutorService你一般是怎么用的？是每个service放一个还是一个项目里面放一个？有什么好处？"></a>ExecutorService你一般是怎么用的？是每个service放一个还是一个项目里面放一个？有什么好处？</h2><p>Java线程池ExecutorService<br>如果有一套相同逻辑的多个任务的情况下,应用一个线程池是个好选择。<br>如果项目中有多套不同的这种任务,那每套任务应该一个线程池。</p>
+<h2 id="线程池是什么？为什么要使用它？如何创建一个Java线程池？"><a href="#线程池是什么？为什么要使用它？如何创建一个Java线程池？" class="headerlink" title="线程池是什么？为什么要使用它？如何创建一个Java线程池？"></a>线程池是什么？为什么要使用它？如何创建一个Java线程池？</h2><p>线程池是一种多线程处理形式，处理过程中将任务添加到队列，然后在创建线程后自动启动这些任务。<br>线程池线程都是后台线程。每个线程都使用默认的堆栈大小，以默认的优先级运行，并处于多线程单元中。<br>如果某个线程在托管代码中空闲（如正在等待某个事件），则线程池将插入另一个辅助线程来使所有处理器保持繁忙。<br>如果所有线程池线程都始终保持繁忙，但队列中包含挂起的工作，则线程池将在一段时间后创建另一个辅助线程但线程的数目永远不会超过最大值。<br>超过最大值的线程可以排队，但他们要等到其他线程完成后才启动。</p>
+<p>使用线程池的好处:</p>
+<ol>
+<li>重用存在的线程，减少对象创建、消亡的开销，性能佳。</li>
+<li>可有效控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。</li>
+<li>提供定时执行、定期执行、单线程、并发数控制等功能。</li>
+</ol>
+<h2 id="线程池内部工作原理可以说一下么？"><a href="#线程池内部工作原理可以说一下么？" class="headerlink" title="线程池内部工作原理可以说一下么？"></a>线程池内部工作原理可以说一下么？</h2><p>其实java线程池的实现原理很简单，说白了就是一个线程集合workerSet和一个阻塞队列workQueue。当用户向线程池提交一个任务(也就是线程)时，线程池会先将任务放入workQueue中。workerSet中的线程会不断的从workQueue中获取线程然后执行。当workQueue中没有任务的时候，worker就会阻塞，直到队列中有任务了就取出来继续执行。</p>
+<h2 id="线程池创建有几种，为什么创建定长的线程池个数最好是5，10，15这样的数字。"><a href="#线程池创建有几种，为什么创建定长的线程池个数最好是5，10，15这样的数字。" class="headerlink" title="线程池创建有几种，为什么创建定长的线程池个数最好是5，10，15这样的数字。"></a>线程池创建有几种，为什么创建定长的线程池个数最好是5，10，15这样的数字。</h2><ol>
+<li><p>newCachedThreadPool<br> 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。这种类型的线程池特点是：<br> 工作线程的创建数量几乎没有限制(其实也有限制的,数目为Interger. MAX_VALUE), 这样可灵活的往线程池中添加线程。<br> 如果长时间没有往线程池中提交任务，即如果工作线程空闲了指定的时间(默认为1分钟)，则该工作线程将自动终止。终止后，如果你又提交了新的任务，则线程池重新创建一个工作线程。<br> 在使用CachedThreadPool时，一定要注意控制任务的数量，否则，由于大量线程同时运行，很有会造成系统瘫痪。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService cachedThreadPool = Executors.newCachedThreadPool();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> index = i;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Thread.sleep(index * <span class="number">1000</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cachedThreadPool.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(index);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>newFixedThreadPool<br> 创建一个指定工作线程数量的线程池。每当提交一个任务就创建一个工作线程，如果工作线程数量达到线程池初始的最大数，则将提交的任务存入到池队列中。</p>
+<p> FixedThreadPool是一个典型且优秀的线程池，它具有线程池提高程序效率和节省创建线程时所耗的开销的优点。但是，在线程池空闲时，即线程池中没有可运行任务时，它不会释放工作线程，还会占用一定的系统资源。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService fixedThreadPool = Executors.newFixedThreadPool(<span class="number">3</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> index = i;</span><br><span class="line">    fixedThreadPool.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                System.out.println(index);</span><br><span class="line">                Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>newSingleThreadExecutor<br>创建一个单线程化的Executor，即只创建唯一的工作者线程来执行任务，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。如果这个线程异常结束，会有另一个取代它，保证顺序执行。单工作线程最大的特点是可保证顺序地执行各个任务，并且在任意给定的时间不会有多个线程是活动的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> index = i;</span><br><span class="line">    singleThreadExecutor.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                System.out.println(index);</span><br><span class="line">                Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>newScheduleThreadPool<br>创建一个定长的线程池，而且支持定时的以及周期性的任务执行，支持定时及周期性任务执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(<span class="number">5</span>);</span><br><span class="line">scheduledThreadPool.schedule(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"delay 3 seconds"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">3</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure></li>
+<li><p>newWorkStealingPool：<strong>jdk1.8新增</strong>,创建持有足够线程的线程池来支持给定的并行级别，并通过使用多个队列，减少竞争，它需要穿一个并行级别的参数，如果不传，则被设定为默认的CPU数量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newWorkStealingPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ForkJoinPool (Runtime.getRuntime().availableProcessors(),</span><br><span class="line">            ForkJoinPool.defaultForkJoinWorkerThreadFactory,</span><br><span class="line">            <span class="keyword">null</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ForkJoinPool</span><span class="params">(<span class="keyword">int</span> parallelism,</span></span></span><br><span class="line"><span class="function"><span class="params">                    ForkJoinWorkerThreadFactory factory,</span></span></span><br><span class="line"><span class="function"><span class="params">                    UncaughtExceptionHandler handler,</span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">boolean</span> asyncMode)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(checkParallelism(parallelism),</span><br><span class="line">            checkFactory(factory),</span><br><span class="line">            handler,</span><br><span class="line">            asyncMode ? FIFO_QUEUE : LIFO_QUEUE,</span><br><span class="line">            <span class="string">"ForkJoinPool-"</span> + nextPoolId() + <span class="string">"-worker-"</span>);</span><br><span class="line">    checkPermission();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>可以看出前四种线程池最终都是返回了ThreadPoolExecutor对象，最后一个返回的ForkJoinPool是jdk1.7才新增的。</p>
+<p><strong>线程池个数:</strong></p>
+<ol>
+<li>先看下机器的CPU核数，然后在设定具体参数：</li>
+</ol>
+<p>即CPU核数 = Runtime.getRuntime().availableProcessors()</p>
+<ol start="2">
+<li>分析下线程池处理的程序是CPU密集型，还是IO密集型</li>
+</ol>
+<ul>
+<li><p>CPU密集型：核心线程数 = CPU核数 + 1</p>
+</li>
+<li><p>IO密集型：核心线程数 = CPU核数 * 2</p>
+</li>
+</ul>
+<p>注：IO密集型（某大厂实践经验）</p>
+<ul>
+<li>核心线程数 = CPU核数 / （1-阻塞系数）<br>例如阻塞系数 0.8，CPU核数为4,则核心线程数为20</li>
+</ul>
+<h2 id="在交易过程中如何放在用户在支付时的重复支付（交叉支付），请写出你了解的方案或使用的过的方案。"><a href="#在交易过程中如何放在用户在支付时的重复支付（交叉支付），请写出你了解的方案或使用的过的方案。" class="headerlink" title="在交易过程中如何放在用户在支付时的重复支付（交叉支付），请写出你了解的方案或使用的过的方案。"></a>在交易过程中如何放在用户在支付时的重复支付（交叉支付），请写出你了解的方案或使用的过的方案。</h2><h2 id="程序开发时通过开发工具DeBug调试时，控制台显示的内容都包含什么？哪些内容可以帮助你发现问题和解决问题。"><a href="#程序开发时通过开发工具DeBug调试时，控制台显示的内容都包含什么？哪些内容可以帮助你发现问题和解决问题。" class="headerlink" title="程序开发时通过开发工具DeBug调试时，控制台显示的内容都包含什么？哪些内容可以帮助你发现问题和解决问题。"></a>程序开发时通过开发工具DeBug调试时，控制台显示的内容都包含什么？哪些内容可以帮助你发现问题和解决问题。</h2><h2 id="RPC通信过程中，假设A系统提供了一个方法入参是一个JavaBean，出参也是一个JavaBean。另外两个系统B系统、C系统调用接口，调用方B想让提供方A增加一个返回参数，假设服务提供方A增加了返回参数，请问C系统调用方需要做什么处理？"><a href="#RPC通信过程中，假设A系统提供了一个方法入参是一个JavaBean，出参也是一个JavaBean。另外两个系统B系统、C系统调用接口，调用方B想让提供方A增加一个返回参数，假设服务提供方A增加了返回参数，请问C系统调用方需要做什么处理？" class="headerlink" title="RPC通信过程中，假设A系统提供了一个方法入参是一个JavaBean，出参也是一个JavaBean。另外两个系统B系统、C系统调用接口，调用方B想让提供方A增加一个返回参数，假设服务提供方A增加了返回参数，请问C系统调用方需要做什么处理？"></a>RPC通信过程中，假设A系统提供了一个方法入参是一个JavaBean，出参也是一个JavaBean。另外两个系统B系统、C系统调用接口，调用方B想让提供方A增加一个返回参数，假设服务提供方A增加了返回参数，请问C系统调用方需要做什么处理？</h2><h2 id="了解哪些设计模式，用伪代码实现一个你熟悉的设计模式。"><a href="#了解哪些设计模式，用伪代码实现一个你熟悉的设计模式。" class="headerlink" title="了解哪些设计模式，用伪代码实现一个你熟悉的设计模式。"></a>了解哪些设计模式，用伪代码实现一个你熟悉的设计模式。</h2><h2 id="知道哪些负载均衡算法。"><a href="#知道哪些负载均衡算法。" class="headerlink" title="知道哪些负载均衡算法。"></a>知道哪些负载均衡算法。</h2><h2 id="说一下Btree的查找原理。"><a href="#说一下Btree的查找原理。" class="headerlink" title="说一下Btree的查找原理。"></a>说一下Btree的查找原理。</h2><h2 id="简述三次握手，如果c端发起握手请求，s端无法立刻建立连接应该回应什么？"><a href="#简述三次握手，如果c端发起握手请求，s端无法立刻建立连接应该回应什么？" class="headerlink" title="简述三次握手，如果c端发起握手请求，s端无法立刻建立连接应该回应什么？"></a>简述三次握手，如果c端发起握手请求，s端无法立刻建立连接应该回应什么？</h2><h2 id="Java对象四种引用。"><a href="#Java对象四种引用。" class="headerlink" title="Java对象四种引用。"></a>Java对象四种引用。</h2><h2 id="Java字节流、字符流使用场景、为什么有了字符流还要字节流？"><a href="#Java字节流、字符流使用场景、为什么有了字符流还要字节流？" class="headerlink" title="Java字节流、字符流使用场景、为什么有了字符流还要字节流？"></a>Java字节流、字符流使用场景、为什么有了字符流还要字节流？</h2><h2 id="Java序列化Id的作用"><a href="#Java序列化Id的作用" class="headerlink" title="Java序列化Id的作用"></a>Java序列化Id的作用</h2><ul>
+<li><p>序列化ID的作用：<br>其实，这个序列化ID起着关键的作用，它决定着是否能够成功反序列化！简单来说，java的序列化机制是通过在运行时判断类的serialVersionUID来验证版本一致性的。在进行反序列化时，JVM会把传来的字节流中的serialVersionUID与本地实体类中的serialVersionUID进行比较，如果相同则认为是一致的，便可以进行反序列化，否则就会报序列化版本不一致的异常。</p>
+</li>
+<li><p>序列化ID如何产生：<br>当我们一个实体类中没有显示的定义一个名为“serialVersionUID”、类型为long的变量时，Java序列化机制会根据编译时的class自动生成一个serialVersionUID作为序列化版本比较，这种情况下，只有同一次编译生成的class才会生成相同的serialVersionUID。譬如，当我们编写一个类时，随着时间的推移，我们因为需求改动，需要在本地类中添加其他的字段，这个时候再反序列化时便会出现serialVersionUID不一致，导致反序列化失败。那么如何解决呢？便是在本地类中添加一个“serialVersionUID”变量，值保持不变，便可以进行序列化和反序列化。</p>
+</li>
+</ul>
+<h2 id="Java为什么要有基本类型的包装类-为什么要有基本类型。"><a href="#Java为什么要有基本类型的包装类-为什么要有基本类型。" class="headerlink" title="Java为什么要有基本类型的包装类,为什么要有基本类型。"></a>Java为什么要有基本类型的包装类,为什么要有基本类型。</h2><h2 id="什么是泛型-参数化类型"><a href="#什么是泛型-参数化类型" class="headerlink" title="什么是泛型? 参数化类型"></a>什么是泛型? 参数化类型</h2><h2 id="什么是反射"><a href="#什么是反射" class="headerlink" title="什么是反射"></a>什么是反射</h2><h2 id="Java类型擦除（泛型擦除）"><a href="#Java类型擦除（泛型擦除）" class="headerlink" title="Java类型擦除（泛型擦除）"></a>Java类型擦除（泛型擦除）</h2><h2 id="Java有哪几种IO模型"><a href="#Java有哪几种IO模型" class="headerlink" title="Java有哪几种IO模型"></a>Java有哪几种IO模型</h2><h2 id="Jdk代理、cglib代理的区别"><a href="#Jdk代理、cglib代理的区别" class="headerlink" title="Jdk代理、cglib代理的区别"></a>Jdk代理、cglib代理的区别</h2><h2 id="讲一下怎么使用分布式锁"><a href="#讲一下怎么使用分布式锁" class="headerlink" title="讲一下怎么使用分布式锁"></a>讲一下怎么使用分布式锁</h2><h2 id="java-util-concurrent包下CountDownLatch、CyclicBarrier和-Semaphore使用场景"><a href="#java-util-concurrent包下CountDownLatch、CyclicBarrier和-Semaphore使用场景" class="headerlink" title="java.util.concurrent包下CountDownLatch、CyclicBarrier和 Semaphore使用场景"></a>java.util.concurrent包下CountDownLatch、CyclicBarrier和 Semaphore使用场景</h2><ol>
+<li><p>CountDownLatch<br> CountDownLatch类利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，此时就可以利用CountDownLatch来实现这种功能了。</p>
+</li>
+<li><p>CyclicBarrier<br> 字面意思回环栅栏，通过它可以实现让一组线程等待至某个状态之后再全部同时执行。叫做回环是因为当所有等待线程都被释放以后，CyclicBarrier可以被重用。</p>
+</li>
+<li><p>Semaphore<br> Semaphore翻译成字面意思为 信号量，Semaphore可以控同时访问的线程个数，通过 acquire() 获取一个许可，如果没有就等待，而 release() 释放一个许可。</p>
+</li>
+</ol>
+<p>区别:<br>CountDownLatch和CyclicBarrier都能够实现线程之间的等待，只不过它们侧重点不同：</p>
+<ul>
+<li>1、CountDownLatch一般用于某个线程A等待若干个其他线程执行完任务之后，它才执行；</li>
+<li>2、CyclicBarrier一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行；</li>
+<li>3、另外，CountDownLatch是不能够重用的，而CyclicBarrier是可以重用的。<br>Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限。</li>
+</ul>
+<h2 id="什么是线程局部变量ThreadLocal"><a href="#什么是线程局部变量ThreadLocal" class="headerlink" title="什么是线程局部变量ThreadLocal"></a>什么是线程局部变量ThreadLocal</h2><p>线程局部变量是局限于线程内部的变量，属于线程自身所有，不在多个线程间共享。Java提供ThreadLocal类来支持线程局部变量，是一种实现线程安全的方式。但是在管理环境下（如 web 服务器）使用线程局部变量的时候要特别小心，在这种情况下，工作线程的生命周期比任何应用变量的生命周期都要长。任何线程局部变量一旦在工作完成后没有释放，Java 应用就存在内存泄露的风险。</p>
+<h2 id="ThreadLoal的作用是什么"><a href="#ThreadLoal的作用是什么" class="headerlink" title="ThreadLoal的作用是什么?"></a>ThreadLoal的作用是什么?</h2><p>简单说ThreadLocal就是一种以空间换时间的做法在每个Thread里面维护了一个ThreadLocal.ThreadLocalMap把数据进行隔离，数据不共享，自然就没有线程安全方面的问题了。</p>
+<h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="你知道哪些或者你们线上使用什么GC策略-它有什么优势，适用于什么场景？"><a href="#你知道哪些或者你们线上使用什么GC策略-它有什么优势，适用于什么场景？" class="headerlink" title="你知道哪些或者你们线上使用什么GC策略? 它有什么优势，适用于什么场景？"></a>你知道哪些或者你们线上使用什么GC策略? 它有什么优势，适用于什么场景？</h2><h2 id="JAVA类加载器包括几种？它们之间的父子关系是怎么样的？双亲委派机制是什么意思？有什么好处？"><a href="#JAVA类加载器包括几种？它们之间的父子关系是怎么样的？双亲委派机制是什么意思？有什么好处？" class="headerlink" title="JAVA类加载器包括几种？它们之间的父子关系是怎么样的？双亲委派机制是什么意思？有什么好处？"></a>JAVA类加载器包括几种？它们之间的父子关系是怎么样的？双亲委派机制是什么意思？有什么好处？</h2><h2 id="JVM如何加载一个类的过程，双亲委派模型中有哪些方法？"><a href="#JVM如何加载一个类的过程，双亲委派模型中有哪些方法？" class="headerlink" title="JVM如何加载一个类的过程，双亲委派模型中有哪些方法？"></a>JVM如何加载一个类的过程，双亲委派模型中有哪些方法？</h2><h2 id="如何自定义一个类加载器？你使用过哪些或者你在什么场景下需要一个自定义的类加载器吗？"><a href="#如何自定义一个类加载器？你使用过哪些或者你在什么场景下需要一个自定义的类加载器吗？" class="headerlink" title="如何自定义一个类加载器？你使用过哪些或者你在什么场景下需要一个自定义的类加载器吗？"></a>如何自定义一个类加载器？你使用过哪些或者你在什么场景下需要一个自定义的类加载器吗？</h2><h2 id="堆内存设置的参数是什么？"><a href="#堆内存设置的参数是什么？" class="headerlink" title="堆内存设置的参数是什么？"></a>堆内存设置的参数是什么？</h2><h2 id="Perm-Space中保存什么数据-会引起OutOfMemory吗？"><a href="#Perm-Space中保存什么数据-会引起OutOfMemory吗？" class="headerlink" title="Perm Space中保存什么数据? 会引起OutOfMemory吗？"></a>Perm Space中保存什么数据? 会引起OutOfMemory吗？</h2><h2 id="做gc时，一个对象在内存各个Space中被移动的顺序是什么？"><a href="#做gc时，一个对象在内存各个Space中被移动的顺序是什么？" class="headerlink" title="做gc时，一个对象在内存各个Space中被移动的顺序是什么？"></a>做gc时，一个对象在内存各个Space中被移动的顺序是什么？</h2><h2 id="你有没有遇到过OutOfMemory问题？你是怎么来处理这个问题的？处理过程中有哪些收获？"><a href="#你有没有遇到过OutOfMemory问题？你是怎么来处理这个问题的？处理过程中有哪些收获？" class="headerlink" title="你有没有遇到过OutOfMemory问题？你是怎么来处理这个问题的？处理过程中有哪些收获？"></a>你有没有遇到过OutOfMemory问题？你是怎么来处理这个问题的？处理过程中有哪些收获？</h2><h2 id="1-8之后Perm-Space有哪些变动-MetaSpace大小默认是无限的么-还是你们会通过什么方式来指定大小"><a href="#1-8之后Perm-Space有哪些变动-MetaSpace大小默认是无限的么-还是你们会通过什么方式来指定大小" class="headerlink" title="1.8之后Perm Space有哪些变动? MetaSpace大小默认是无限的么? 还是你们会通过什么方式来指定大小?"></a>1.8之后Perm Space有哪些变动? MetaSpace大小默认是无限的么? 还是你们会通过什么方式来指定大小?</h2><h2 id="Jstack是干什么的-Jstat呢-如果线上程序周期性地出现卡顿，你怀疑可能是gc导致的，你会怎么来排查这个问题？线程日志一般你会看其中的什么部分？"><a href="#Jstack是干什么的-Jstat呢-如果线上程序周期性地出现卡顿，你怀疑可能是gc导致的，你会怎么来排查这个问题？线程日志一般你会看其中的什么部分？" class="headerlink" title="Jstack是干什么的? Jstat呢? 如果线上程序周期性地出现卡顿，你怀疑可能是gc导致的，你会怎么来排查这个问题？线程日志一般你会看其中的什么部分？"></a>Jstack是干什么的? Jstat呢? 如果线上程序周期性地出现卡顿，你怀疑可能是gc导致的，你会怎么来排查这个问题？线程日志一般你会看其中的什么部分？</h2><h2 id="StackOverFlow异常有没有遇到过？一般你猜测会在什么情况下被触发？如何指定一个线程的堆栈大小？一般你们写多少？"><a href="#StackOverFlow异常有没有遇到过？一般你猜测会在什么情况下被触发？如何指定一个线程的堆栈大小？一般你们写多少？" class="headerlink" title="StackOverFlow异常有没有遇到过？一般你猜测会在什么情况下被触发？如何指定一个线程的堆栈大小？一般你们写多少？"></a>StackOverFlow异常有没有遇到过？一般你猜测会在什么情况下被触发？如何指定一个线程的堆栈大小？一般你们写多少？</h2><h2 id="Jvm的内存屏障"><a href="#Jvm的内存屏障" class="headerlink" title="Jvm的内存屏障"></a>Jvm的内存屏障</h2><h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><h2 id="你有没有用过Spring的AOP-是用来干嘛的-大概会怎么使用？"><a href="#你有没有用过Spring的AOP-是用来干嘛的-大概会怎么使用？" class="headerlink" title="你有没有用过Spring的AOP? 是用来干嘛的? 大概会怎么使用？"></a>你有没有用过Spring的AOP? 是用来干嘛的? 大概会怎么使用？</h2><h2 id="如果一个接口有2个不同的实现-那么怎么来Autowire一个指定的实现？"><a href="#如果一个接口有2个不同的实现-那么怎么来Autowire一个指定的实现？" class="headerlink" title="如果一个接口有2个不同的实现, 那么怎么来Autowire一个指定的实现？"></a>如果一个接口有2个不同的实现, 那么怎么来Autowire一个指定的实现？</h2><h2 id="Spring的声明式事务-Transaction注解一般写在什么位置-抛出了异常会⾃动回滚吗？有没有办法控制不触发回滚"><a href="#Spring的声明式事务-Transaction注解一般写在什么位置-抛出了异常会⾃动回滚吗？有没有办法控制不触发回滚" class="headerlink" title="Spring的声明式事务 @Transaction注解一般写在什么位置? 抛出了异常会⾃动回滚吗？有没有办法控制不触发回滚?"></a>Spring的声明式事务 @Transaction注解一般写在什么位置? 抛出了异常会⾃动回滚吗？有没有办法控制不触发回滚?</h2><h2 id="如果想在某个Bean生成并装配完毕后执行自己的逻辑，可以什么方式实现？"><a href="#如果想在某个Bean生成并装配完毕后执行自己的逻辑，可以什么方式实现？" class="headerlink" title="如果想在某个Bean生成并装配完毕后执行自己的逻辑，可以什么方式实现？"></a>如果想在某个Bean生成并装配完毕后执行自己的逻辑，可以什么方式实现？</h2><h2 id="SpringBoot没有放到web容器里为什么能跑HTTP服务？"><a href="#SpringBoot没有放到web容器里为什么能跑HTTP服务？" class="headerlink" title="SpringBoot没有放到web容器里为什么能跑HTTP服务？"></a>SpringBoot没有放到web容器里为什么能跑HTTP服务？</h2><h2 id="SpringBoot中如果你想使用自定义的配置文件而不仅仅是application-properties，应该怎么弄？"><a href="#SpringBoot中如果你想使用自定义的配置文件而不仅仅是application-properties，应该怎么弄？" class="headerlink" title="SpringBoot中如果你想使用自定义的配置文件而不仅仅是application.properties，应该怎么弄？"></a>SpringBoot中如果你想使用自定义的配置文件而不仅仅是application.properties，应该怎么弄？</h2><h2 id="SpringMVC中RequestMapping可以指定GET-POST方法么？怎么指定？"><a href="#SpringMVC中RequestMapping可以指定GET-POST方法么？怎么指定？" class="headerlink" title="SpringMVC中RequestMapping可以指定GET, POST方法么？怎么指定？"></a>SpringMVC中RequestMapping可以指定GET, POST方法么？怎么指定？</h2><h2 id="SpringMVC如果希望把输出的Object-例如XXResult或者XXResponse-这种包装为JSON输出-应该怎么处理"><a href="#SpringMVC如果希望把输出的Object-例如XXResult或者XXResponse-这种包装为JSON输出-应该怎么处理" class="headerlink" title="SpringMVC如果希望把输出的Object(例如XXResult或者XXResponse)这种包装为JSON输出, 应该怎么处理?"></a>SpringMVC如果希望把输出的Object(例如XXResult或者XXResponse)这种包装为JSON输出, 应该怎么处理?</h2><h2 id="怎样拦截SpringMVC的异常，然后做自定义的处理，比如打日志或者包装成JSON"><a href="#怎样拦截SpringMVC的异常，然后做自定义的处理，比如打日志或者包装成JSON" class="headerlink" title="怎样拦截SpringMVC的异常，然后做自定义的处理，比如打日志或者包装成JSON"></a>怎样拦截SpringMVC的异常，然后做自定义的处理，比如打日志或者包装成JSON</h2><h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="如果有很多数据插入MYSQL-你会选择什么方式"><a href="#如果有很多数据插入MYSQL-你会选择什么方式" class="headerlink" title="如果有很多数据插入MYSQL 你会选择什么方式?"></a>如果有很多数据插入MYSQL 你会选择什么方式?</h2><h2 id="如果查询很慢，你会想到的第一个方式是什么？索引是干嘛的"><a href="#如果查询很慢，你会想到的第一个方式是什么？索引是干嘛的" class="headerlink" title="如果查询很慢，你会想到的第一个方式是什么？索引是干嘛的?"></a>如果查询很慢，你会想到的第一个方式是什么？索引是干嘛的?</h2><h2 id="如果建了一个单列索引，查询的时候查出2列，会用到这个单列索引吗？"><a href="#如果建了一个单列索引，查询的时候查出2列，会用到这个单列索引吗？" class="headerlink" title="如果建了一个单列索引，查询的时候查出2列，会用到这个单列索引吗？"></a>如果建了一个单列索引，查询的时候查出2列，会用到这个单列索引吗？</h2><h2 id="如果建了一个包含多个列的索引，查询的时候只用了第一列，能不能用上这个索引？查三列呢？"><a href="#如果建了一个包含多个列的索引，查询的时候只用了第一列，能不能用上这个索引？查三列呢？" class="headerlink" title="如果建了一个包含多个列的索引，查询的时候只用了第一列，能不能用上这个索引？查三列呢？"></a>如果建了一个包含多个列的索引，查询的时候只用了第一列，能不能用上这个索引？查三列呢？</h2><h2 id="接上题，如果where条件后面带有一个-i-5-lt-100-会使用到这个索引吗？"><a href="#接上题，如果where条件后面带有一个-i-5-lt-100-会使用到这个索引吗？" class="headerlink" title="接上题，如果where条件后面带有一个 i + 5 &lt; 100 会使用到这个索引吗？"></a>接上题，如果where条件后面带有一个 i + 5 &lt; 100 会使用到这个索引吗？</h2><h2 id="怎么看是否用到了某个索引？"><a href="#怎么看是否用到了某个索引？" class="headerlink" title="怎么看是否用到了某个索引？"></a>怎么看是否用到了某个索引？</h2><h2 id="数据库索引有哪几种，他们之间的区别。"><a href="#数据库索引有哪几种，他们之间的区别。" class="headerlink" title="数据库索引有哪几种，他们之间的区别。"></a>数据库索引有哪几种，他们之间的区别。</h2><h2 id="like-aaa-会使用索引吗-like-aaa-呢"><a href="#like-aaa-会使用索引吗-like-aaa-呢" class="headerlink" title="like %aaa%会使用索引吗? like aaa%呢?"></a>like %aaa%会使用索引吗? like aaa%呢?</h2><h2 id="drop、truncate、delete的区别？"><a href="#drop、truncate、delete的区别？" class="headerlink" title="drop、truncate、delete的区别？"></a>drop、truncate、delete的区别？</h2><h2 id="平时你们是怎么监控数据库的-慢SQL是怎么排查的？"><a href="#平时你们是怎么监控数据库的-慢SQL是怎么排查的？" class="headerlink" title="平时你们是怎么监控数据库的? 慢SQL是怎么排查的？"></a>平时你们是怎么监控数据库的? 慢SQL是怎么排查的？</h2><h2 id="你们数据库是否支持emoji表情，如果不支持，如何操作"><a href="#你们数据库是否支持emoji表情，如果不支持，如何操作" class="headerlink" title="你们数据库是否支持emoji表情，如果不支持，如何操作?"></a>你们数据库是否支持emoji表情，如果不支持，如何操作?</h2><h2 id="你们的数据库单表数据量是多少？一般多大的时候开始出现查询性能急剧下降？"><a href="#你们的数据库单表数据量是多少？一般多大的时候开始出现查询性能急剧下降？" class="headerlink" title="你们的数据库单表数据量是多少？一般多大的时候开始出现查询性能急剧下降？"></a>你们的数据库单表数据量是多少？一般多大的时候开始出现查询性能急剧下降？</h2><h2 id="查询死掉了，想要找出执行的查询进程用什么命令？找出来之后一般你会干嘛？"><a href="#查询死掉了，想要找出执行的查询进程用什么命令？找出来之后一般你会干嘛？" class="headerlink" title="查询死掉了，想要找出执行的查询进程用什么命令？找出来之后一般你会干嘛？"></a>查询死掉了，想要找出执行的查询进程用什么命令？找出来之后一般你会干嘛？</h2><h2 id="读写分离是怎么做的？你认为中间件会怎么来操作？这样操作跟事务有什么关系？"><a href="#读写分离是怎么做的？你认为中间件会怎么来操作？这样操作跟事务有什么关系？" class="headerlink" title="读写分离是怎么做的？你认为中间件会怎么来操作？这样操作跟事务有什么关系？"></a>读写分离是怎么做的？你认为中间件会怎么来操作？这样操作跟事务有什么关系？</h2><h2 id="分库分表有没有做过？线上的迁移过程是怎么样的？如何确定数据是正确的？"><a href="#分库分表有没有做过？线上的迁移过程是怎么样的？如何确定数据是正确的？" class="headerlink" title="分库分表有没有做过？线上的迁移过程是怎么样的？如何确定数据是正确的？"></a>分库分表有没有做过？线上的迁移过程是怎么样的？如何确定数据是正确的？</h2><h2 id="Mysql索引的分类-Btree-hash-，各自使用什么情况-。"><a href="#Mysql索引的分类-Btree-hash-，各自使用什么情况-。" class="headerlink" title="Mysql索引的分类(Btree, hash)，各自使用什么情况 。"></a>Mysql索引的分类(Btree, hash)，各自使用什么情况 。</h2><h2 id="说说Myisam-Innodb区别。"><a href="#说说Myisam-Innodb区别。" class="headerlink" title="说说Myisam, Innodb区别。"></a>说说Myisam, Innodb区别。</h2><h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="日志特别大只想看最后100行怎么弄-如果想一直看日志的持续输出，用什么命令"><a href="#日志特别大只想看最后100行怎么弄-如果想一直看日志的持续输出，用什么命令" class="headerlink" title="日志特别大只想看最后100行怎么弄? 如果想一直看日志的持续输出，用什么命令?"></a>日志特别大只想看最后100行怎么弄? 如果想一直看日志的持续输出，用什么命令?</h2><h2 id="如果日志一边输出，一边想实时看到有没有某个关键字应该怎么弄？"><a href="#如果日志一边输出，一边想实时看到有没有某个关键字应该怎么弄？" class="headerlink" title="如果日志一边输出，一边想实时看到有没有某个关键字应该怎么弄？"></a>如果日志一边输出，一边想实时看到有没有某个关键字应该怎么弄？</h2><h2 id="grep如果忽略大小写应该怎么弄-正则表达式呢？"><a href="#grep如果忽略大小写应该怎么弄-正则表达式呢？" class="headerlink" title="grep如果忽略大小写应该怎么弄? 正则表达式呢？"></a>grep如果忽略大小写应该怎么弄? 正则表达式呢？</h2><h2 id="vim往下一行是什么键？往下30行呢-跳到文件末尾一行是什么-跳回来是什么-向后搜索是什么"><a href="#vim往下一行是什么键？往下30行呢-跳到文件末尾一行是什么-跳回来是什么-向后搜索是什么" class="headerlink" title="vim往下一行是什么键？往下30行呢? 跳到文件末尾一行是什么? 跳回来是什么? 向后搜索是什么?"></a>vim往下一行是什么键？往下30行呢? 跳到文件末尾一行是什么? 跳回来是什么? 向后搜索是什么?</h2><h2 id="如果有个文本文件，按空格作为列的分隔符，如果想统计第三列里面的每个单词的出现次数应该怎么弄？"><a href="#如果有个文本文件，按空格作为列的分隔符，如果想统计第三列里面的每个单词的出现次数应该怎么弄？" class="headerlink" title="如果有个文本文件，按空格作为列的分隔符，如果想统计第三列里面的每个单词的出现次数应该怎么弄？"></a>如果有个文本文件，按空格作为列的分隔符，如果想统计第三列里面的每个单词的出现次数应该怎么弄？</h2><h2 id="如果把上面的出现次数排个序应该怎么弄-想按照数字本身的顺序而不是字符串的顺序排列怎么弄？"><a href="#如果把上面的出现次数排个序应该怎么弄-想按照数字本身的顺序而不是字符串的顺序排列怎么弄？" class="headerlink" title="如果把上面的出现次数排个序应该怎么弄? 想按照数字本身的顺序而不是字符串的顺序排列怎么弄？"></a>如果把上面的出现次数排个序应该怎么弄? 想按照数字本身的顺序而不是字符串的顺序排列怎么弄？</h2><h2 id="Linux环境变量是以什么作为分隔符的？环境变量通过什么命令设置？"><a href="#Linux环境变量是以什么作为分隔符的？环境变量通过什么命令设置？" class="headerlink" title="Linux环境变量是以什么作为分隔符的？环境变量通过什么命令设置？"></a>Linux环境变量是以什么作为分隔符的？环境变量通过什么命令设置？</h2><h2 id="给某个文件权设置限比如设置为644-是用什么命令？这个6是什么意思？"><a href="#给某个文件权设置限比如设置为644-是用什么命令？这个6是什么意思？" class="headerlink" title="给某个文件权设置限比如设置为644 是用什么命令？这个6是什么意思？"></a>给某个文件权设置限比如设置为644 是用什么命令？这个6是什么意思？</h2><h2 id="Linux下面如果想看某个进程的资源占用情况是怎么看的？系统load大概指的什么意思？你们线上系统load一般多少？如果一个4核机器，你认为多少load是比较正常的？top命令里面按一下1会发生什么"><a href="#Linux下面如果想看某个进程的资源占用情况是怎么看的？系统load大概指的什么意思？你们线上系统load一般多少？如果一个4核机器，你认为多少load是比较正常的？top命令里面按一下1会发生什么" class="headerlink" title="Linux下面如果想看某个进程的资源占用情况是怎么看的？系统load大概指的什么意思？你们线上系统load一般多少？如果一个4核机器，你认为多少load是比较正常的？top命令里面按一下1会发生什么?"></a>Linux下面如果想看某个进程的资源占用情况是怎么看的？系统load大概指的什么意思？你们线上系统load一般多少？如果一个4核机器，你认为多少load是比较正常的？top命令里面按一下1会发生什么?</h2><h2 id="top命令里面，有时候所有进程的CPU使用率加起来超过100-是怎么回事？"><a href="#top命令里面，有时候所有进程的CPU使用率加起来超过100-是怎么回事？" class="headerlink" title="top命令里面，有时候所有进程的CPU使用率加起来超过100%是怎么回事？"></a>top命令里面，有时候所有进程的CPU使用率加起来超过100%是怎么回事？</h2><h2 id="还有哪些查看系统性能或者供你发现问题的命令？你一般是看哪个参数？"><a href="#还有哪些查看系统性能或者供你发现问题的命令？你一般是看哪个参数？" class="headerlink" title="还有哪些查看系统性能或者供你发现问题的命令？你一般是看哪个参数？"></a>还有哪些查看系统性能或者供你发现问题的命令？你一般是看哪个参数？</h2><h2 id="想看某个进程打开了哪些网络连接是什么命令？里面连接的状态你比较关心哪几种？"><a href="#想看某个进程打开了哪些网络连接是什么命令？里面连接的状态你比较关心哪几种？" class="headerlink" title="想看某个进程打开了哪些网络连接是什么命令？里面连接的状态你比较关心哪几种？"></a>想看某个进程打开了哪些网络连接是什么命令？里面连接的状态你比较关心哪几种？</h2><p>Linux常问题</p>
+<h2 id="有没有做过Linux系统参数方面的优化，大概优化过什么？"><a href="#有没有做过Linux系统参数方面的优化，大概优化过什么？" class="headerlink" title="有没有做过Linux系统参数方面的优化，大概优化过什么？"></a>有没有做过Linux系统参数方面的优化，大概优化过什么？</h2><h2 id="系统参数里面有个叫做backlog的可以用来干什么？"><a href="#系统参数里面有个叫做backlog的可以用来干什么？" class="headerlink" title="系统参数里面有个叫做backlog的可以用来干什么？"></a>系统参数里面有个叫做backlog的可以用来干什么？</h2><h2 id="查看网络连接发现好多TIME-WAIT-可能是什么原因？对你的应用会有什么影响？你会选择什么样的方式来减少这些TIME-WAIT"><a href="#查看网络连接发现好多TIME-WAIT-可能是什么原因？对你的应用会有什么影响？你会选择什么样的方式来减少这些TIME-WAIT" class="headerlink" title="查看网络连接发现好多TIME_WAIT 可能是什么原因？对你的应用会有什么影响？你会选择什么样的方式来减少这些TIME_WAIT"></a>查看网络连接发现好多TIME_WAIT 可能是什么原因？对你的应用会有什么影响？你会选择什么样的方式来减少这些TIME_WAIT</h2><h2 id="可否介绍一下TCP三次握手的过程，如果现在有个网络程序，你用第三方的library来发送数据，你怀疑这个library发送的数据有问题，那么怎么来验证？tcpdump导出的文件你一般是怎么分析的？"><a href="#可否介绍一下TCP三次握手的过程，如果现在有个网络程序，你用第三方的library来发送数据，你怀疑这个library发送的数据有问题，那么怎么来验证？tcpdump导出的文件你一般是怎么分析的？" class="headerlink" title="可否介绍一下TCP三次握手的过程，如果现在有个网络程序，你用第三方的library来发送数据，你怀疑这个library发送的数据有问题，那么怎么来验证？tcpdump导出的文件你一般是怎么分析的？"></a>可否介绍一下TCP三次握手的过程，如果现在有个网络程序，你用第三方的library来发送数据，你怀疑这个library发送的数据有问题，那么怎么来验证？tcpdump导出的文件你一般是怎么分析的？</h2><h2 id="KeepAlive是用来干什么的？这样的好处是什么？"><a href="#KeepAlive是用来干什么的？这样的好处是什么？" class="headerlink" title="KeepAlive是用来干什么的？这样的好处是什么？"></a>KeepAlive是用来干什么的？这样的好处是什么？</h2><h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><ol>
+<li>缓存穿透可以介绍一下么？你认为应该如何解决这个问题</li>
+<li>你是怎么触发缓存更新的？(比如设置超时时间(被动方式), 比如更新的时候主动update)？如果是被动的方式如何控制多个入口同时触发某个缓存更新？</li>
+<li>你们用Redis来做什么？为什么不用其他的KV存储例如Memcached,Cassandra等?</li>
+<li>你们用什么Redis客户端? Redis高性能的原因大概可以讲一些?</li>
+<li>你熟悉哪些Redis的数据结构? zset是干什么的? 和set有什么区别?</li>
+<li>Redis的hash, 存储和获取的具体命令叫什么名字?</li>
+<li>LPOP和BLPOP的区别?</li>
+<li>Redis的有一些包含SCAN关键字的命令是干嘛的? SCAN返回的数据量是固定的吗?</li>
+<li>Redis中的Lua有没有使用过? 可以用来做什么? 为什么可以这么用?</li>
+<li>Redis的Pipeline是用来干什么的?</li>
+</ol>
+<h1 id="去哪儿网面试题"><a href="#去哪儿网面试题" class="headerlink" title="去哪儿网面试题"></a>去哪儿网面试题</h1><ol>
+<li>mysql数据库调优。</li>
+<li>sql优化。</li>
+<li>like能用索引吗？</li>
+<li></li>
+<li>GC原理。</li>
+<li>jvm内存结构。</li>
+<li>说一下你学过jvm 在书写代码上对你有什么帮助和提高。</li>
+<li>千万数据量的查询你会怎么做？</li>
+<li>HashMap在jdk1.7和1.8的区别，为什么引入这个概念？hash碰撞怎么解决，为什么1.8要比1.7更好，好在哪？</li>
+<li>关于你的项目，如果并发很大，你会怎么改造。</li>
+<li>方法区里什么样的对象有可能被回收。</li>
+<li>线上cpu飙升100%你怎么处理。</li>
+<li>频繁FullGC怎么处理。</li>
+<li>linux命令。(快速文件处理命令)</li>
+<li>伊甸区和幸存区可动态变化吗？</li>
+<li>redis和memcached区别。</li>
+<li>说几个jdk命令，jmap是什么意思。</li>
+<li>如果并发很大，你对数据的正确性怎么保证。</li>
+</ol>
+<h1 id="饿了么面试题"><a href="#饿了么面试题" class="headerlink" title="饿了么面试题"></a>饿了么面试题</h1><ol>
+<li>http和https的区别，https原理，http2.0与1.0的区别。</li>
+<li>Java的垃圾回收机制，Java文件加载机制，tomcat类加载机制，锁机制，jvm原理及线上调优，jvm内存模型。</li>
+<li>多线程，有哪些可以保持进程同步的方法，创建线程的几种方法，对i++多线程访问你会怎么做。</li>
+<li>Java的设计模式，单例有什么模式，懒汉为什么加volotile，volotile的内存屏障，如何避免死锁。</li>
+<li>考虑单例模式的编写，要线程安全且内存消耗小（剑指offer原题）。</li>
+<li>String、StringBuilder、StringBuffer区别；String类能被继承吗？为什么？</li>
+<li>在白纸上手写二分法排序算法（lintcode上原题）；二分查找的思想。</li>
+<li>查找单链表中倒数第k个节点的算法，手写（lintcode上原题）；最常见的排序算法你见过哪些，快排的基本思想及时间复杂度。</li>
+<li>常见的数据结构有哪些。</li>
+<li>hashmap、hashcode一样，不equals怎么处理 ；hashcode实现原理，currentHashMap原理，实现细节，怎么实现同步的；类为什么要有hascode方法，是不是主要在集合类中都要实现hashcode方法；equals方法怎么实现；两个不同的对象可能有相同的hashcode值吗；常用集合有哪些。</li>
+<li>tcp三次握手，四次挥手协议。</li>
+<li>架构设计一个开发性问题，设计一个Nginx管理的中间件，怎么设计。</li>
+<li>所有的类都继承与object，你用过object类的直接子类有哪些，object类常用的方法有哪些。</li>
+<li>Java会出现内存泄漏吗，如果回，在哪种情况下？</li>
+<li>抽象类和接口的区别。</li>
+<li>平时怎么扩展自己的专业知识水平。</li>
+</ol>
+<h1 id="百度面试题"><a href="#百度面试题" class="headerlink" title="百度面试题"></a>百度面试题</h1><ol>
+<li><p>什么是 Java 的反射机制。</p>
+</li>
+<li><p>Cookie 和 Session的区别。</p>
+</li>
+<li><p>get 和 post请求的区别。</p>
+</li>
+<li><p>IOC的优点是什么。</p>
+</li>
+<li><p>IO 和 NIO的区别，NIO优点。</p>
+</li>
+<li><p>JRE、JDK、JVM 及 JIT 之间有什么不同。</p>
+</li>
+<li><p>Hashcode 的作用。</p>
+</li>
+<li><p>简述一致性 Hash 算法。</p>
+</li>
+<li><p>为什么在重写 equals 方法的时候需要重写 hashCode 方法？equals与 hashCode 的异同点在哪里。</p>
+</li>
+<li><p>为什么 Map 接口不继承 Collection 接口。</p>
+</li>
+<li><p>说出几点 Java 中使用 Collections 的最佳实践？</p>
+</li>
+<li><p>GC是什么？为什么要有GC。</p>
+</li>
+<li><p>什么时候会导致垃圾回收。</p>
+</li>
+<li><p>GC 有几种方式？怎么配置。</p>
+</li>
+<li><p>什么时候一个对象会被GC？ 如何判断一个对象是否存活。</p>
+</li>
+<li><p>垃圾回收器的基本原理是什么？</p>
+</li>
+<li><p>Serial 与 Parallel GC之间的不同之处。</p>
+</li>
+<li><p>JVM 中一次完整的 GC 流程是怎样的？ 对象如何晋升到老年代。</p>
+</li>
+<li><p>吞吐量优先和响应优先的垃圾收集器选择。</p>
+</li>
+<li><p>说说你知道的几种主要的jvm 参数。</p>
+</li>
+<li><p>Java中存在内存泄漏问题吗？请举例说明。</p>
+</li>
+<li><p>什么是线程，多线程的优点是什么？以及简单说一下多线程的几种实现方式。</p>
+</li>
+<li><p>ThreadLocal 用途是什么，原理是什么，用的时候要注意什么?</p>
+</li>
+<li><p>有T1，T2，T3三个线程，怎么确保它们按顺序执行？怎样保证T2在T1执行完后执行，T3在T2执行完后执行同步块内的线程抛出异常会发生什么？</p>
+</li>
+<li><p>什么是乐观锁（Optimistic Locking）？如何实现乐观锁？如何避免ABA问题。</p>
+</li>
+<li><p>什么是设计模式（Design Patterns）？你用过哪种设计模式？用在什么场合？</p>
+</li>
+<li><p>你能写出三种单例模式实现么？</p>
+</li>
+<li><p>你知道Google是如何在一秒内把搜索结果返回给用户？</p>
+</li>
+<li><p>高并发下，如何做到安全的修改同一行数据？</p>
+</li>
+<li><p>如何避免浏览器缓存。</p>
+</li>
+<li><p>大型网站在架构上应当考虑哪些问题？</p>
+</li>
+<li><p>最近有在看什么书么，印象最深刻的是什么？</p>
+</li>
+<li><p>你们线上应用的 JVM 参数有哪些？</p>
+</li>
+<li><p>能简单说下你对算法的理解么？</p>
+</li>
+</ol>
+<h1 id="经验分享"><a href="#经验分享" class="headerlink" title="经验分享"></a>经验分享</h1><p>如果你的技术扎实没问题，接下来的面试也决定你是否能得到认可拿到offer，列出以下几点经验，面试前提前准备好答案。</p>
+<ul>
+<li>最好准备好1-2两个问题来应对“你有什么想问的吗？”之类的问题。</li>
+<li>离职原因，不要抱怨现在和以前的雇主。</li>
+<li>保持谈话的时间安排节奏顺利进行, 但不要就某个问题说过多，通过一个问题引入到下一个问题。</li>
+<li>面谈的过程中面试官的问题可能会比较细，比较犀利，那是正常环节，不必紧张。</li>
+<li>如果遇到不太了解问题，最好不要说模棱两可的答案。</li>
+<li>沟通过程中最好保持高度的愿意性。</li>
+<li>准备要充分，知识面要尽量的广，同时深度也要够。</li>
+<li>面试安排上，如果不着急，尽量给自己留多时间，两天一家，及时做总结和补充。</li>
+<li>简历投递方面，拉勾上投了很多经常不匹配，有一些打击自信心，如果有同样感受的，不妨换BOSS或者其他平台。避免打击自信心。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%94%BB%E5%87%BB%E6%89%8B%E6%AE%B5%E2%80%94%E2%80%94DDOS-CC%E6%94%BB%E5%87%BB/" rel="prev" title="常见的攻击手段——DDOS，CC攻击">
+      <i class="fa fa-chevron-left"></i> 常见的攻击手段——DDOS，CC攻击
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/k8s/K8S%E6%9C%89%E7%8A%B6%E6%80%81%E6%9C%8D%E5%8A%A1-StatefulSet%E4%BD%BF%E7%94%A8%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" rel="next" title="K8S有状态服务-StatefulSet使用">
+      K8S有状态服务-StatefulSet使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JAVA"><span class="nav-text">JAVA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java常用的数据结构有哪些-哪些是线程安全的-是怎么保证线程安全的？"><span class="nav-text">Java常用的数据结构有哪些?哪些是线程安全的?是怎么保证线程安全的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个线程同时读写，读线程的数量远远大于写线程，你认为应该如何解决并发的问题？你会选择加什么样的锁？"><span class="nav-text">多个线程同时读写，读线程的数量远远大于写线程，你认为应该如何解决并发的问题？你会选择加什么样的锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA的AQS是否了解，它是干嘛的？"><span class="nav-text">JAVA的AQS是否了解，它是干嘛的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#除了synchronized关键字之外，你是怎么来保障线程安全的？"><span class="nav-text">除了synchronized关键字之外，你是怎么来保障线程安全的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat本身的参数你一般会怎么调整？"><span class="nav-text">Tomcat本身的参数你一般会怎么调整？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap和Hashtable的区别。"><span class="nav-text">HashMap和Hashtable的区别。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现一个保证迭代顺序的HashMap。"><span class="nav-text">实现一个保证迭代顺序的HashMap。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说说HashMap的原理-以及HashMap如何扩充bucket的大小。"><span class="nav-text">说说HashMap的原理, 以及HashMap如何扩充bucket的大小。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说一说排序算法，稳定性，复杂度。"><span class="nav-text">说一说排序算法，稳定性，复杂度。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP如何保证可靠传输？三次握手过程？"><span class="nav-text">TCP如何保证可靠传输？三次握手过程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何控制某个方法允许并发访问线程的个数"><span class="nav-text">如何控制某个方法允许并发访问线程的个数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁是什么意思，形成条件是什么？出现死锁是可以通过什么方式去排查。"><span class="nav-text">死锁是什么意思，形成条件是什么？出现死锁是可以通过什么方式去排查。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中活锁和死锁有什么区别？"><span class="nav-text">Java中活锁和死锁有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生死锁的四个必要条件："><span class="nav-text">产生死锁的四个必要条件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何避免死锁？"><span class="nav-text">如何避免死锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于volatile关键字，当且仅当满足以下所有条件时可使用："><span class="nav-text">对于volatile关键字，当且仅当满足以下所有条件时可使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么时候需要加volatile关键字？它能保证线程安全吗？"><span class="nav-text">什么时候需要加volatile关键字？它能保证线程安全吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池内的线程如果全部忙，提交一个新的任务，会发生什么？队列全部塞满了之后，还是忙，再提交会发生什么？"><span class="nav-text">线程池内的线程如果全部忙，提交一个新的任务，会发生什么？队列全部塞满了之后，还是忙，再提交会发生什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized关键字锁住的是什么东西？在字节码中是怎么表示的？在内存中的对象上表现为什么？"><span class="nav-text">synchronized关键字锁住的是什么东西？在字节码中是怎么表示的？在内存中的对象上表现为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized-的原理是什么？synchronized-和-ReentrantLock-有什么不同？"><span class="nav-text">synchronized 的原理是什么？synchronized 和 ReentrantLock 有什么不同？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait-notify-notifyAll方法需不需要被包含在synchronized块中？这是为什么？"><span class="nav-text">wait&#x2F;notify&#x2F;notifyAll方法需不需要被包含在synchronized块中？这是为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Executors类是什么？-Executor和Executors的区别？"><span class="nav-text">Executors类是什么？ Executor和Executors的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ExecutorService你一般是怎么用的？是每个service放一个还是一个项目里面放一个？有什么好处？"><span class="nav-text">ExecutorService你一般是怎么用的？是每个service放一个还是一个项目里面放一个？有什么好处？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池是什么？为什么要使用它？如何创建一个Java线程池？"><span class="nav-text">线程池是什么？为什么要使用它？如何创建一个Java线程池？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池内部工作原理可以说一下么？"><span class="nav-text">线程池内部工作原理可以说一下么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池创建有几种，为什么创建定长的线程池个数最好是5，10，15这样的数字。"><span class="nav-text">线程池创建有几种，为什么创建定长的线程池个数最好是5，10，15这样的数字。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在交易过程中如何放在用户在支付时的重复支付（交叉支付），请写出你了解的方案或使用的过的方案。"><span class="nav-text">在交易过程中如何放在用户在支付时的重复支付（交叉支付），请写出你了解的方案或使用的过的方案。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序开发时通过开发工具DeBug调试时，控制台显示的内容都包含什么？哪些内容可以帮助你发现问题和解决问题。"><span class="nav-text">程序开发时通过开发工具DeBug调试时，控制台显示的内容都包含什么？哪些内容可以帮助你发现问题和解决问题。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC通信过程中，假设A系统提供了一个方法入参是一个JavaBean，出参也是一个JavaBean。另外两个系统B系统、C系统调用接口，调用方B想让提供方A增加一个返回参数，假设服务提供方A增加了返回参数，请问C系统调用方需要做什么处理？"><span class="nav-text">RPC通信过程中，假设A系统提供了一个方法入参是一个JavaBean，出参也是一个JavaBean。另外两个系统B系统、C系统调用接口，调用方B想让提供方A增加一个返回参数，假设服务提供方A增加了返回参数，请问C系统调用方需要做什么处理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#了解哪些设计模式，用伪代码实现一个你熟悉的设计模式。"><span class="nav-text">了解哪些设计模式，用伪代码实现一个你熟悉的设计模式。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知道哪些负载均衡算法。"><span class="nav-text">知道哪些负载均衡算法。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说一下Btree的查找原理。"><span class="nav-text">说一下Btree的查找原理。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简述三次握手，如果c端发起握手请求，s端无法立刻建立连接应该回应什么？"><span class="nav-text">简述三次握手，如果c端发起握手请求，s端无法立刻建立连接应该回应什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java对象四种引用。"><span class="nav-text">Java对象四种引用。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java字节流、字符流使用场景、为什么有了字符流还要字节流？"><span class="nav-text">Java字节流、字符流使用场景、为什么有了字符流还要字节流？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java序列化Id的作用"><span class="nav-text">Java序列化Id的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java为什么要有基本类型的包装类-为什么要有基本类型。"><span class="nav-text">Java为什么要有基本类型的包装类,为什么要有基本类型。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是泛型-参数化类型"><span class="nav-text">什么是泛型? 参数化类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是反射"><span class="nav-text">什么是反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java类型擦除（泛型擦除）"><span class="nav-text">Java类型擦除（泛型擦除）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java有哪几种IO模型"><span class="nav-text">Java有哪几种IO模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jdk代理、cglib代理的区别"><span class="nav-text">Jdk代理、cglib代理的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讲一下怎么使用分布式锁"><span class="nav-text">讲一下怎么使用分布式锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-util-concurrent包下CountDownLatch、CyclicBarrier和-Semaphore使用场景"><span class="nav-text">java.util.concurrent包下CountDownLatch、CyclicBarrier和 Semaphore使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是线程局部变量ThreadLocal"><span class="nav-text">什么是线程局部变量ThreadLocal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLoal的作用是什么"><span class="nav-text">ThreadLoal的作用是什么?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM"><span class="nav-text">JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#你知道哪些或者你们线上使用什么GC策略-它有什么优势，适用于什么场景？"><span class="nav-text">你知道哪些或者你们线上使用什么GC策略? 它有什么优势，适用于什么场景？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA类加载器包括几种？它们之间的父子关系是怎么样的？双亲委派机制是什么意思？有什么好处？"><span class="nav-text">JAVA类加载器包括几种？它们之间的父子关系是怎么样的？双亲委派机制是什么意思？有什么好处？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM如何加载一个类的过程，双亲委派模型中有哪些方法？"><span class="nav-text">JVM如何加载一个类的过程，双亲委派模型中有哪些方法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何自定义一个类加载器？你使用过哪些或者你在什么场景下需要一个自定义的类加载器吗？"><span class="nav-text">如何自定义一个类加载器？你使用过哪些或者你在什么场景下需要一个自定义的类加载器吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆内存设置的参数是什么？"><span class="nav-text">堆内存设置的参数是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Perm-Space中保存什么数据-会引起OutOfMemory吗？"><span class="nav-text">Perm Space中保存什么数据? 会引起OutOfMemory吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#做gc时，一个对象在内存各个Space中被移动的顺序是什么？"><span class="nav-text">做gc时，一个对象在内存各个Space中被移动的顺序是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你有没有遇到过OutOfMemory问题？你是怎么来处理这个问题的？处理过程中有哪些收获？"><span class="nav-text">你有没有遇到过OutOfMemory问题？你是怎么来处理这个问题的？处理过程中有哪些收获？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8之后Perm-Space有哪些变动-MetaSpace大小默认是无限的么-还是你们会通过什么方式来指定大小"><span class="nav-text">1.8之后Perm Space有哪些变动? MetaSpace大小默认是无限的么? 还是你们会通过什么方式来指定大小?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jstack是干什么的-Jstat呢-如果线上程序周期性地出现卡顿，你怀疑可能是gc导致的，你会怎么来排查这个问题？线程日志一般你会看其中的什么部分？"><span class="nav-text">Jstack是干什么的? Jstat呢? 如果线上程序周期性地出现卡顿，你怀疑可能是gc导致的，你会怎么来排查这个问题？线程日志一般你会看其中的什么部分？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StackOverFlow异常有没有遇到过？一般你猜测会在什么情况下被触发？如何指定一个线程的堆栈大小？一般你们写多少？"><span class="nav-text">StackOverFlow异常有没有遇到过？一般你猜测会在什么情况下被触发？如何指定一个线程的堆栈大小？一般你们写多少？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jvm的内存屏障"><span class="nav-text">Jvm的内存屏障</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring"><span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#你有没有用过Spring的AOP-是用来干嘛的-大概会怎么使用？"><span class="nav-text">你有没有用过Spring的AOP? 是用来干嘛的? 大概会怎么使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果一个接口有2个不同的实现-那么怎么来Autowire一个指定的实现？"><span class="nav-text">如果一个接口有2个不同的实现, 那么怎么来Autowire一个指定的实现？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring的声明式事务-Transaction注解一般写在什么位置-抛出了异常会⾃动回滚吗？有没有办法控制不触发回滚"><span class="nav-text">Spring的声明式事务 @Transaction注解一般写在什么位置? 抛出了异常会⾃动回滚吗？有没有办法控制不触发回滚?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果想在某个Bean生成并装配完毕后执行自己的逻辑，可以什么方式实现？"><span class="nav-text">如果想在某个Bean生成并装配完毕后执行自己的逻辑，可以什么方式实现？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot没有放到web容器里为什么能跑HTTP服务？"><span class="nav-text">SpringBoot没有放到web容器里为什么能跑HTTP服务？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot中如果你想使用自定义的配置文件而不仅仅是application-properties，应该怎么弄？"><span class="nav-text">SpringBoot中如果你想使用自定义的配置文件而不仅仅是application.properties，应该怎么弄？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC中RequestMapping可以指定GET-POST方法么？怎么指定？"><span class="nav-text">SpringMVC中RequestMapping可以指定GET, POST方法么？怎么指定？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC如果希望把输出的Object-例如XXResult或者XXResponse-这种包装为JSON输出-应该怎么处理"><span class="nav-text">SpringMVC如果希望把输出的Object(例如XXResult或者XXResponse)这种包装为JSON输出, 应该怎么处理?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎样拦截SpringMVC的异常，然后做自定义的处理，比如打日志或者包装成JSON"><span class="nav-text">怎样拦截SpringMVC的异常，然后做自定义的处理，比如打日志或者包装成JSON</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL"><span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如果有很多数据插入MYSQL-你会选择什么方式"><span class="nav-text">如果有很多数据插入MYSQL 你会选择什么方式?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果查询很慢，你会想到的第一个方式是什么？索引是干嘛的"><span class="nav-text">如果查询很慢，你会想到的第一个方式是什么？索引是干嘛的?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果建了一个单列索引，查询的时候查出2列，会用到这个单列索引吗？"><span class="nav-text">如果建了一个单列索引，查询的时候查出2列，会用到这个单列索引吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果建了一个包含多个列的索引，查询的时候只用了第一列，能不能用上这个索引？查三列呢？"><span class="nav-text">如果建了一个包含多个列的索引，查询的时候只用了第一列，能不能用上这个索引？查三列呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接上题，如果where条件后面带有一个-i-5-lt-100-会使用到这个索引吗？"><span class="nav-text">接上题，如果where条件后面带有一个 i + 5 &lt; 100 会使用到这个索引吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么看是否用到了某个索引？"><span class="nav-text">怎么看是否用到了某个索引？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库索引有哪几种，他们之间的区别。"><span class="nav-text">数据库索引有哪几种，他们之间的区别。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#like-aaa-会使用索引吗-like-aaa-呢"><span class="nav-text">like %aaa%会使用索引吗? like aaa%呢?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#drop、truncate、delete的区别？"><span class="nav-text">drop、truncate、delete的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平时你们是怎么监控数据库的-慢SQL是怎么排查的？"><span class="nav-text">平时你们是怎么监控数据库的? 慢SQL是怎么排查的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你们数据库是否支持emoji表情，如果不支持，如何操作"><span class="nav-text">你们数据库是否支持emoji表情，如果不支持，如何操作?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你们的数据库单表数据量是多少？一般多大的时候开始出现查询性能急剧下降？"><span class="nav-text">你们的数据库单表数据量是多少？一般多大的时候开始出现查询性能急剧下降？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询死掉了，想要找出执行的查询进程用什么命令？找出来之后一般你会干嘛？"><span class="nav-text">查询死掉了，想要找出执行的查询进程用什么命令？找出来之后一般你会干嘛？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离是怎么做的？你认为中间件会怎么来操作？这样操作跟事务有什么关系？"><span class="nav-text">读写分离是怎么做的？你认为中间件会怎么来操作？这样操作跟事务有什么关系？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分库分表有没有做过？线上的迁移过程是怎么样的？如何确定数据是正确的？"><span class="nav-text">分库分表有没有做过？线上的迁移过程是怎么样的？如何确定数据是正确的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql索引的分类-Btree-hash-，各自使用什么情况-。"><span class="nav-text">Mysql索引的分类(Btree, hash)，各自使用什么情况 。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说说Myisam-Innodb区别。"><span class="nav-text">说说Myisam, Innodb区别。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux命令"><span class="nav-text">Linux命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#日志特别大只想看最后100行怎么弄-如果想一直看日志的持续输出，用什么命令"><span class="nav-text">日志特别大只想看最后100行怎么弄? 如果想一直看日志的持续输出，用什么命令?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果日志一边输出，一边想实时看到有没有某个关键字应该怎么弄？"><span class="nav-text">如果日志一边输出，一边想实时看到有没有某个关键字应该怎么弄？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grep如果忽略大小写应该怎么弄-正则表达式呢？"><span class="nav-text">grep如果忽略大小写应该怎么弄? 正则表达式呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim往下一行是什么键？往下30行呢-跳到文件末尾一行是什么-跳回来是什么-向后搜索是什么"><span class="nav-text">vim往下一行是什么键？往下30行呢? 跳到文件末尾一行是什么? 跳回来是什么? 向后搜索是什么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果有个文本文件，按空格作为列的分隔符，如果想统计第三列里面的每个单词的出现次数应该怎么弄？"><span class="nav-text">如果有个文本文件，按空格作为列的分隔符，如果想统计第三列里面的每个单词的出现次数应该怎么弄？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果把上面的出现次数排个序应该怎么弄-想按照数字本身的顺序而不是字符串的顺序排列怎么弄？"><span class="nav-text">如果把上面的出现次数排个序应该怎么弄? 想按照数字本身的顺序而不是字符串的顺序排列怎么弄？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux环境变量是以什么作为分隔符的？环境变量通过什么命令设置？"><span class="nav-text">Linux环境变量是以什么作为分隔符的？环境变量通过什么命令设置？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给某个文件权设置限比如设置为644-是用什么命令？这个6是什么意思？"><span class="nav-text">给某个文件权设置限比如设置为644 是用什么命令？这个6是什么意思？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux下面如果想看某个进程的资源占用情况是怎么看的？系统load大概指的什么意思？你们线上系统load一般多少？如果一个4核机器，你认为多少load是比较正常的？top命令里面按一下1会发生什么"><span class="nav-text">Linux下面如果想看某个进程的资源占用情况是怎么看的？系统load大概指的什么意思？你们线上系统load一般多少？如果一个4核机器，你认为多少load是比较正常的？top命令里面按一下1会发生什么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#top命令里面，有时候所有进程的CPU使用率加起来超过100-是怎么回事？"><span class="nav-text">top命令里面，有时候所有进程的CPU使用率加起来超过100%是怎么回事？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#还有哪些查看系统性能或者供你发现问题的命令？你一般是看哪个参数？"><span class="nav-text">还有哪些查看系统性能或者供你发现问题的命令？你一般是看哪个参数？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#想看某个进程打开了哪些网络连接是什么命令？里面连接的状态你比较关心哪几种？"><span class="nav-text">想看某个进程打开了哪些网络连接是什么命令？里面连接的状态你比较关心哪几种？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有没有做过Linux系统参数方面的优化，大概优化过什么？"><span class="nav-text">有没有做过Linux系统参数方面的优化，大概优化过什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统参数里面有个叫做backlog的可以用来干什么？"><span class="nav-text">系统参数里面有个叫做backlog的可以用来干什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看网络连接发现好多TIME-WAIT-可能是什么原因？对你的应用会有什么影响？你会选择什么样的方式来减少这些TIME-WAIT"><span class="nav-text">查看网络连接发现好多TIME_WAIT 可能是什么原因？对你的应用会有什么影响？你会选择什么样的方式来减少这些TIME_WAIT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可否介绍一下TCP三次握手的过程，如果现在有个网络程序，你用第三方的library来发送数据，你怀疑这个library发送的数据有问题，那么怎么来验证？tcpdump导出的文件你一般是怎么分析的？"><span class="nav-text">可否介绍一下TCP三次握手的过程，如果现在有个网络程序，你用第三方的library来发送数据，你怀疑这个library发送的数据有问题，那么怎么来验证？tcpdump导出的文件你一般是怎么分析的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KeepAlive是用来干什么的？这样的好处是什么？"><span class="nav-text">KeepAlive是用来干什么的？这样的好处是什么？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#去哪儿网面试题"><span class="nav-text">去哪儿网面试题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#饿了么面试题"><span class="nav-text">饿了么面试题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#百度面试题"><span class="nav-text">百度面试题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#经验分享"><span class="nav-text">经验分享</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/java/%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

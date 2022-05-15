@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="本章要点              *云原生技术发展历程（为什么要学习）*云原生的定义与技术要点（本节正式内容）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云原生技术基础(一)——定义及技术要点">
+<meta property="og:url" content="https://www.alan87.top/cn/cn%E5%AE%9A%E4%B9%89%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="本章要点              *云原生技术发展历程（为什么要学习）*云原生的定义与技术要点（本节正式内容）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-1/cloud-native-1-1.png/w600">
+<meta property="article:published_time" content="2019-12-03T14:58:00.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.761Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="CNCF">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="cncf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-1/cloud-native-1-1.png/w600">
+
+<link rel="canonical" href="https://www.alan87.top/cn/cn%E5%AE%9A%E4%B9%89%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>云原生技术基础(一)——定义及技术要点 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/cn/cn%E5%AE%9A%E4%B9%89%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          云原生技术基础(一)——定义及技术要点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-03 22:58:00" itemprop="dateCreated datePublished" datetime="2019-12-03T22:58:00+08:00">2019-12-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cloud-native/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/cn/cn%E5%AE%9A%E4%B9%89%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9/" class="post-meta-item leancloud_visitors" data-flag-title="云原生技术基础(一)——定义及技术要点" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/cn/cn%E5%AE%9A%E4%B9%89%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/cn/cn%E5%AE%9A%E4%B9%89%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本章要点</p>
+<div class="note primary">
+            <p>*云原生技术发展历程（为什么要学习）<br>*云原生的定义与技术要点（本节正式内容）</p>
+          </div>
+
+
+<a id="more"></a>
+<h1 id="一、为什么要学习云原生技术？"><a href="#一、为什么要学习云原生技术？" class="headerlink" title="一、为什么要学习云原生技术？"></a>一、为什么要学习云原生技术？</h1><h2 id="云原生技术发展简史"><a href="#云原生技术发展简史" class="headerlink" title="云原生技术发展简史"></a>云原生技术发展简史</h2><p>首先从第一个问题进行分享，那就是“为什么要学习云原生技术？”云原生、CNCF 都是目前非常热门的关键词，但是这些技术并不是非常新鲜的内容。</p>
+<ul>
+<li>2004 年— 2007 年，Google 已在内部大规模地使用像 Cgroups 这样的容器技术；</li>
+<li>2008 年，Google 将 Cgroups 合并进入了 Linux 内核主干；</li>
+<li>2013 年，Docker 项目正式发布。</li>
+<li>2014 年，Kubernetes 项目也正式发布。这样的原因也非常容易理解，因为有了容器和 Docker 之后，就需要有一种方式去帮助大家方便、快速、优雅地管理这些容器，这就是 Kubernetes 项目的初衷。在 Google 和 Redhat 发布了 Kubernetes 之后，这个项目的发展速度非常之快。</li>
+<li>2015 年，由Google、Redhat 以及微软等大型云计算厂商以及一些开源公司共同牵头成立了 CNCF 云原生基金会。CNCF 成立之初，就有 22 个创始会员，而且 Kubernetes 也成为了 CNCF 托管的第一个开源项目。在这之后，CNCF 的发展速度非常迅猛；</li>
+<li>2017 年，CNCF 达到 170 个成员和 14 个基金项目；</li>
+<li>2018 年，CNCF 成立三周年有了 195 个成员，19 个基金会项目和 11 个孵化项目，如此之快的发展速度在整个云计算领域都是非常罕见的。</li>
+</ul>
+<h2 id="云原生技术生态现状"><a href="#云原生技术生态现状" class="headerlink" title="云原生技术生态现状"></a>云原生技术生态现状</h2><p>因此，如今我们所讨论的云原生技术生态是一个庞大的技术集合。CNCF 有一张<a href="https://github.com/cncf/landscape" target="_blank" rel="noopener">云原生全景图</a>，在这个全景图里已经有 200 多个项目和产品了，这些项目和产品也都是和 CNCF 的观点所契合的。所以如果以这张全景图作为背景，加以思考就会发现，我们今天所讨论的云原生其实主要谈论了以下几点：</p>
+<ol>
+<li>云原生基金会 —— CNCF；</li>
+<li>云原生技术社区，比如像 CNCF 目前正式托管的 20 多个项目共同构成了现代云计算生态的基石，其中像 Kubernetes 这样的项目已经成为了世界第四活跃的开源项目；</li>
+<li>除了前面两点之外，现在全球各大公有云厂商都已经支持了 Kubernetes。此外，还有 100 多家技术创业公司也在持续地进行投入。现在阿里巴巴也在谈全面上云，而且上云就要上云原生，这也是各大技术公司拥抱云原生的一个例子。</li>
+</ol>
+<h3 id="我们正处于时代的关键节点"><a href="#我们正处于时代的关键节点" class="headerlink" title="我们正处于时代的关键节点"></a>我们正处于时代的关键节点</h3><p>2019 年正是云原生时代的关键节点，为什么这么说？我们这里就为大家简单梳理一下。</p>
+<p>从 2013 年 Docker 项目发布开始说起，Docker 项目的发布使得全操作系统语义的沙盒技术唾手可得，使得用户能够更好地、更完整地打包自己的应用，使得开发者可以轻而易举的获得了一个应用的最小可运行单位，而不需要依赖任何 PaaS 能力。这对经典 PaaS 产业其实是一个“降维打击”。</p>
+<p>2014 年的时候，Kubernetes 项目发布，其意义在于 Google 将内部的 Borg/Omega 系统思想借助开源社区实现了“重生”，并且提出了“容器设计模式”的思想。而 Google 之所以选择间接开源 Kubernetes 而不是直接开源 Borg 项目，其实背后的原因也比较容易理解：Borg/Omega 这样的系统太复杂了，是没办法提供给 Google 之外的人使用，但是 Borg/Omega 这样的设计思想却可以借助 Kubernetes 让大家接触到，这也是开源 Kubernetes 的重要背景。</p>
+<p>这样到了 2015 年到 2016 年，就到了容器编排“三国争霸”的时代，当时 Docker、Swarm、Mesos、Kubernetes 都在容器编排领域展开角逐，他们竞争的原因其实也比较容易理解， 那就是 Docker 或者容器本身的价值虽然大，但是如果想要让其产生商业价值或者说对云的价值，那么就一定需要在编排上面占据一个有利的位置。</p>
+<p>Swarm 和 Mesos 的特点，那就是各自只在生态和技术方面比较强，其中，Swarm 更偏向于生态，而 Mesos 技术更强一些。相比之下， Kubernetes 则兼具了两者优势，最终在 2017 年“三国争霸”的局面中得以胜出，成为了当时直到现在的容器编排标准。这一过程的代表性事件就是 Docker 公司宣布在核心产品中内置了 Kubernetes 服务，并且 Swarm 项目逐渐停止维护。</p>
+<p>到了 2018 年的时候，云原生技术理念开始逐渐萌芽，这是因为此时 Kubernetes 以及容器都成为了云厂商的既定标准，以“云”为核心的软件研发思想逐步形成。</p>
+<p>而到了 2019 年，情况似乎又将发生一些变化。</p>
+<h3 id="2019年——云原生技术普及元年"><a href="#2019年——云原生技术普及元年" class="headerlink" title="2019年——云原生技术普及元年"></a>2019年——云原生技术普及元年</h3><p>为什么说 2019 年很可能是一个关键节点呢？我们认为 2019 年是云原生技术的普及元年。</p>
+<p>首先大家可以看到，在 2019 年，阿里巴巴宣布要全面上云，而且“上云就要上云原生”。我们还可以看到，以“云”为核心的软件研发思想，正逐步成为所有开发者的默认选项。像 Kubernetes 等云原生技术正在成为技术人员的必修课，大量的工作岗位正在涌现出来。</p>
+<p>这种背景下，“会 Kubernetes”已经远远不够了，“懂 Kubernetes”、“会云原生架构”的重要性正日益凸显出来。 从 2019 年开始，云原生技术将会大规模普及，这也是为什么大家都要在这个时间点上学习和投资云原生技术的重要原因。</p>
+<h1 id="二、什么是“云原生”？云原生该怎么落地？"><a href="#二、什么是“云原生”？云原生该怎么落地？" class="headerlink" title="二、什么是“云原生”？云原生该怎么落地？"></a>二、什么是“云原生”？云原生该怎么落地？</h1><p>我们再来详细的聊一聊“云原生”：什么是“云原生”？云原生该怎么落地？这两个问题也是整个课程的核心内容。</p>
+<h2 id="云原生的定义"><a href="#云原生的定义" class="headerlink" title="云原生的定义"></a>云原生的定义</h2><p>很多人都会问“到底什么是云原生？”</p>
+<p>实际上，云原生是一条最佳路径或者最佳实践。更详细的说，云原生为用户指定了一条低心智负担的、敏捷的、能够以可扩展、可复制的方式最大化地利用云的能力、发挥云的价值的最佳路径。</p>
+<p>因此，云原生其实是一套指导进行软件架构设计的思想。按照这样的思想而设计出来的软件：首先，天然就“生在云上，长在云上”；其次，能够最大化地发挥云的能力，使得我们开发的软件和“云”能够天然地集成在一起，发挥出“云”的最大价值。</p>
+<p>所以，云原生的最大价值和愿景，就是认为未来的软件，会从诞生起就生长在云上，并且遵循一种新的软件开发、发布和运维模式，从而使得软件能够最大化地发挥云的能力。说到了这里，大家可以思考一下为什么容器技术具有革命性？</p>
+<p>其实，容器技术和集装箱技术的革命性非常类似，即：容器技术使得应用具有了一种“自包含”的定义方式。所以，这样的应用才能以敏捷的、以可扩展可复制的方式发布在云上，发挥出云的能力。这也就是容器技术对云发挥出的革命性影响所在，所以说，容器技术正是云原生技术的核心底盘。</p>
+<div class="tabs" id="cloud_native_desc"><ul class="nav-tabs"><li class="tab active"><a href="#cloud_native_desc-1">技术范畴</a></li><li class="tab"><a href="#cloud_native_desc-2">两个理论</a></li><li class="tab"><a href="#cloud_native_desc-3">演进的过程</a></li><li class="tab"><a href="#cloud_native_desc-4">演进的意义</a></li></ul><div class="tab-content"><div class="tab-pane active" id="cloud_native_desc-1"><h2 id="云原生的技术范畴"><a href="#云原生的技术范畴" class="headerlink" title="云原生的技术范畴"></a>云原生的技术范畴</h2><p>云原生的技术范畴包括了以下几个方面：</p>
+<ul>
+<li>第一部分是云应用定义与开发流程。这包括应用定义与镜像制作、配置 CI/CD、消息和 Streaming 以及数据库等。</li>
+<li>第二部分是云应用的编排与管理流程。这也是 Kubernetes 比较关注的一部分，包括了应用编排与调度、服务发现治理、远程调用、API 网关以及 Service Mesh。</li>
+<li>第三部分是监控与可观测性。这部分所强调的是云上应用如何进行监控、日志收集、Tracing 以及在云上如何实现破坏性测试，也就是混沌工程的概念。</li>
+<li>第四部分就是云原生的底层技术，比如容器运行时、云原生存储技术、云原生网络技术等。</li>
+<li>第五部分是云原生工具集，在前面的这些核心技术点之上，还有很多配套的生态或者周边的工具需要使用，比如流程自动化与配置管理、容器镜像仓库、云原生安全技术以及云端密码管理等。</li>
+<li>最后则是 Serverless。Serverless 是一种 PaaS 的特殊形态，它定义了一种更为“极端抽象”的应用编写方式，包含了 FaaS 和 BaaS 这样的概念。而无论是 FaaS 还是 BaaS，其最为典型的特点就是按实际使用计费（Pay as you go），因此 Serverless 计费也是重要的知识和概念。</li>
+</ul>
+<img title="云原生的技术范畴" alt="云原生的技术范畴" data-src="http://f.ngall-in.com/alan87/static/images/cn/cloud-native-1/cloud-native-1-1.png/w600"></div><div class="tab-pane" id="cloud_native_desc-2"><h2 id="云原生思想的两个理论"><a href="#云原生思想的两个理论" class="headerlink" title="云原生思想的两个理论"></a>云原生思想的两个理论</h2><p>在了解完云原生的技术范畴之后你就会发现，其所包含的技术内容还是很多的，但是这些内容的技术本质却是类似的。云原生技术的本质是两个理论基础。</p>
+<ul>
+<li><strong>第一个理论基础是：不可变基础设施。</strong>这一点目前是通过容器镜像来实现的，其含义就是应用的基础设施应该是不可变的，是一个自包含、自描述可以完全在不同环境中迁移的东西；</li>
+<li><strong>第二个理论基础就是：云应用编排理论。</strong>当前的实现方式就是 Google 所提出来的“容器设计模式”，这也是本系列课程中的 Kubernetes 部分所需主要讲解的内容。</li>
+</ul></div><div class="tab-pane" id="cloud_native_desc-3"><h2 id="基础设施向云演进的过程"><a href="#基础设施向云演进的过程" class="headerlink" title="基础设施向云演进的过程"></a>基础设施向云演进的过程</h2><p>首先为大家介绍一下“不可变基础设施”的概念。其实，应用所依赖的基础设施也在经历一个向云演进的过程，举例而言，对于传统的应用基础设施而言，其实往往是可变的。</p>
+<p>大家可能经常会干这样一件事情，比如需要发布或者更新一个软件，那么流程大致是这样的，先通过 SSH 连到服务器，然后手动升级或者降级软件包，逐个调整服务器上的配置文件，并且将新代码直接都部署到现有服务器上。因此，这套基础设施会不断地被调整和修改。</p>
+<p>但是在云上，对“云”友好的应用基础设施是不可变的。</p>
+<p>这种场景下的上述更新过程会这么做：一旦应用部署完成之后，那么这套应用基础设施就不会再修改了。如果需要更新，那么需要现更改公共镜像来构建新服务直接替换旧服务。而我们之所以能够实现直接替换，就是因为容器提供了自包含的环境（包含应用运行所需的所有依赖）。所以对于应用而言，完全不需要关心容器发生了什么变化，只需要把容器镜像本身修改掉就可以了。因此，对于云友好的基础设施是随时可以替换和更换的，这就是因为容器具有敏捷和一致性的能力，也就是云时代的应用基础设施。</p>
+<p>所以，总结而言，云时代的基础设施就像是可以替代的“牲口”，可以随时替换；而传统的基础设施则是独一无二的“宠物”，需要细心呵护，这就体现出了云时代不可变基础设施的优点。</p></div><div class="tab-pane" id="cloud_native_desc-4"><h2 id="基础设施向云演进的意义"><a href="#基础设施向云演进的意义" class="headerlink" title="基础设施向云演进的意义"></a>基础设施向云演进的意义</h2><p>所以，像这样的基础设施向“不可变”演进的过程，为我们提供了两个非常重要的优点。</p>
+<ol>
+<li><p>基础设施的一致性和可靠性。同样一个镜像，无论是在美国打开，在中国打开，还是在印度打开都是一样的。并且其中的 OS 环境对于应用而言都是一致的。而对于应用而言，它就不需要关心容器跑在哪里，这就是基础设施一致性非常重要的一个特征。</p>
+</li>
+<li><p>这样的镜像本身就是自包含的，其包含了应用运行所需要的所有依赖，因此也可以漂移到云上的任何一个位置。</p>
+</li>
+</ol>
+<p>此外，云原生的基础设施还提供了简单、可预测的部署和运维能力。由于现在有了镜像，应用还是自描述的，通过镜像运行起来的整个容器其实可以像 Kubernetes 的 Operator 技术一样将其做成自运维的，所以整个应用本身都是自包含的行为，使得其能够迁移到云上任何一个位置。这也使得整个流程的自动化变得非常容易。</p>
+<p>应用本身也可以更好地扩容，从 1 个实例变成 100 个实例，进而变成 1 万个实例，这个过程对于容器化后的应用没有任何特殊的。最后，我们这时也能够通过不可变的基础设施来地快速周围的管控系统和支撑组件。因为，这些组件本身也是容器化的，是符合不可变基础设施这样一套理论的组件。</p>
+<p>以上就是不可变基础设施为用户带来的最大的优点。</p></div></div></div>
+
+<h2 id="云原生关键技术点"><a href="#云原生关键技术点" class="headerlink" title="云原生关键技术点"></a>云原生关键技术点</h2><p>当我们回过头来看云原生关键技术点或者说它所依赖的技术理论的时候，可以看到主要有这样的四个方向：</p>
+<ol>
+<li>如何构建自包含、可定制的应用镜像；</li>
+<li>能不能实现应用快速部署与隔离能力；</li>
+<li>应用基础设施创建和销毁的自动化管理；</li>
+<li>可复制的管控系统和支撑组件。</li>
+</ol>
+<p>这四个云原生关键技术点是落地实现云原生技术的四个主要途径，而这四个技术点也是本门课程的 17 个技术点所主要讲述的核心知识。</p>
+<div class="note danger">
+            <h1 id="本章总结"><a href="#本章总结" class="headerlink" title="本章总结"></a>本章总结</h1><ul><li>“云原生”具备着重要的意义，它是云时代技术人自我提升的必备路径；</li><li>“云原生”定义了一条云时代应用从开发到交付的最佳路径；</li><li>“云原生”应用生在云上，长在云上，希望能够将云的能力发挥到极致。</li></ul>
+          </div>
+
+<h1 id="点评："><a href="#点评：" class="headerlink" title="点评："></a>点评：</h1><p>“未来的软件一定是生长于云上的”这是云原生理念的最核心假设。而所谓“云原生”，实际上就是在定义一条能够让应用最大程度利用云的能力、发挥云的价值的最佳路径。在这条路径上，脱离了“应用”这个载体，“云原生”就无从谈起；容器技术，则是将这个理念落地、将软件交付的革命持续进行下去的重要手段之一。</p>
+<p>而云原生重点讲解的 Kubernetes 项目，则是整个“云原生”理念落地的核心与关键所在。它正在迅速成为连通“云”与“应用”的高速公路，以标准、高效的方式将“应用”快速交付到世界上任何一个位置。如今”云原生应用交付“，已经成为了 2019 年云计算市场上最热门的技术关键词之一。希望学习课程的同学们能够学以致用，持续关注以 K8s 为基础进行“云原生应用管理与交付”的技术趋势。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/cn/" rel="tag"><i class="fa fa-tag"></i> 云原生</a>
+              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+              <a href="/tags/kubernetes/" rel="tag"><i class="fa fa-tag"></i> Kubernetes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/cn/cn%E5%AE%B9%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="prev" title="云原生技术基础(二)——容器基本概念">
+      <i class="fa fa-chevron-left"></i> 云原生技术基础(二)——容器基本概念
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/db/%E6%9C%80%E5%A5%BD%E7%94%A8%E7%9A%84%E5%BC%80%E6%BA%90%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%B9%8B%E4%B8%80/" rel="next" title="最好用的开源分布式事务解决方案之一">
+      最好用的开源分布式事务解决方案之一 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、为什么要学习云原生技术？"><span class="nav-text">一、为什么要学习云原生技术？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#云原生技术发展简史"><span class="nav-text">云原生技术发展简史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#云原生技术生态现状"><span class="nav-text">云原生技术生态现状</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我们正处于时代的关键节点"><span class="nav-text">我们正处于时代的关键节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019年——云原生技术普及元年"><span class="nav-text">2019年——云原生技术普及元年</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、什么是“云原生”？云原生该怎么落地？"><span class="nav-text">二、什么是“云原生”？云原生该怎么落地？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#云原生的定义"><span class="nav-text">云原生的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#云原生的技术范畴"><span class="nav-text">云原生的技术范畴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#云原生思想的两个理论"><span class="nav-text">云原生思想的两个理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础设施向云演进的过程"><span class="nav-text">基础设施向云演进的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础设施向云演进的意义"><span class="nav-text">基础设施向云演进的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#云原生关键技术点"><span class="nav-text">云原生关键技术点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本章总结"><span class="nav-text">本章总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#点评："><span class="nav-text">点评：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/cn/cn%E5%AE%9A%E4%B9%89%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="一、基础 基本语法 基本数据类型；运算符；表达式；选择与循环语句； 类与对象（普通类、抽象类、接口、枚举、Annotation、内部类）； 继承与实现；重载与覆盖；异常；package与jar包； 序列化与反序列化；正则表达式；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java知识汇总">
+<meta property="og:url" content="https://www.alan87.top/java/summary/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="一、基础 基本语法 基本数据类型；运算符；表达式；选择与循环语句； 类与对象（普通类、抽象类、接口、枚举、Annotation、内部类）； 继承与实现；重载与覆盖；异常；package与jar包； 序列化与反序列化；正则表达式；">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-05-05T12:29:16.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.832Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="java知识汇总">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/java/summary/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java知识汇总 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java知识汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-05 20:29:16" itemprop="dateCreated datePublished" datetime="2017-05-05T20:29:16+08:00">2017-05-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/summary/" class="post-meta-item leancloud_visitors" data-flag-title="Java知识汇总" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/summary/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/summary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一、基础"><a href="#一、基础" class="headerlink" title="一、基础"></a>一、基础</h1><ul>
+<li>基本语法<ul>
+<li>基本数据类型；运算符；表达式；选择与循环语句；</li>
+<li>类与对象（普通类、抽象类、接口、枚举、Annotation、内部类）；</li>
+<li>继承与实现；重载与覆盖；异常；package与jar包；</li>
+<li>序列化与反序列化；正则表达式；</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>数组 —— 一维数组；二维数组。。。</li>
+<li>集合 —— Collection接口；Set相关；List相关；Map相关</li>
+<li>线程 —— Thread；Runnable；Callable；线程状态；优先级；</li>
+<li>IO<br>File类；字节流（InputStream、OutputStream）；字符流（Reader、Writer）；<br>转换流（OutputStreamWriter、InputStreamReader）；压缩流；</li>
+<li>网络 —— TCP编程；UDP编程</li>
+<li>泛型</li>
+<li>反射 —— 提供api方法取得类的结构；调用类的方法；动态代理</li>
+</ul>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><ul>
+<li>List<ul>
+<li><a href="../arraylist">ArrayList</a> </li>
+<li><a href="../linkedlist">LinkedList</a> </li>
+<li><a href="../CopyOnWriteArrayList">CopyOnWriteArrayList</a></li>
+</ul>
+</li>
+<li>Map<ul>
+<li><a href="../hashmap">HashMap</a></li>
+<li><a href="../LinkedHashMap">LinkedHashMap</a></li>
+<li><a href="../ConcurrentHashMap1">ConcurrentHashMap(上)</a></li>
+<li><a href="../ConcurrentHashMap2">ConcurrentHashMap(下)</a></li>
+<li>ConcurrentHashMap，Java 7为实现并行访问，引入了Segment这一结构，实现了分段锁，理论上最大并发度与Segment个数相等。Java 8为进一步提高并发性，摒弃了分段锁的方案，而是直接使用一个大的数组。同时为了提高哈希碰撞下的寻址性能，Java 8在链表长度超过一定阈值（8）时将链表（寻址时间复杂度为O(N)）转换为红黑树（寻址时间复杂度为O(long(N))），<a href="http://www.jasongj.com/java/concurrenthashmap/" target="_blank" rel="noopener">原文链接</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="二、进阶"><a href="#二、进阶" class="headerlink" title="二、进阶"></a>二、进阶</h1><ul>
+<li><a href="../modifier">Java关键字</a></li>
+<li><a href="../regex">正则表达式</a></li>
+<li><a href="../lock">常见锁</a></li>
+<li><a href="../common-class-lib">常用Java类库</a></li>
+<li><a href="http://blog.csdn.net/itomge/article/details/9098207" target="_blank" rel="noopener">java的System.getProperty()方法使用</a></li>
+<li><a href="../lambda">Java8函数编程（lambda表达式）</a></li>
+<li><a href="../thread-state">Java的线程状态</a></li>
+<li><a href="../threadlocal">ThreadLocal原理机制</a></li>
+<li><a href="../hashmap-expand">HashMap的扩容机制</a></li>
+<li><a href="../exception">Exception</a></li>
+<li><a href="../io">IO类型</a></li>
+<li><a href="../some-sink">各种坑</a></li>
+</ul>
+<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><ul>
+<li><a href="../nio">NIO</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Nk7gcwsgBhgMWTRkgAFpRA" target="_blank" rel="noopener">深度解读 Tomcat 中的 NIO 模型</a></li>
+<li><a href="https://mp.weixin.qq.com/s/RmONdyXuJZa8WyJCu2j7WA" target="_blank" rel="noopener">epoll 浅析以及 nio 中的 Selector</a></li>
+<li><a href="https://segmentfault.com/a/1190000003063859" target="_blank" rel="noopener">Linux IO模式及 select、poll、epoll详解</a></li>
+</ul>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s/D3TIYMaCSGtY5Dv38vMHpA" target="_blank" rel="noopener">Java 多线程知识汇总(1)</a></li>
+<li><a href="https://mp.weixin.qq.com/s/e9avHfZtfiQ4v3fhVHIcAA" target="_blank" rel="noopener">Java 多线程知识汇总(2)</a></li>
+<li><a href="https://mp.weixin.qq.com/s/s6UvYe1CP8zigR7E6mK9Og" target="_blank" rel="noopener">Java 多线程知识汇总(3)</a></li>
+</ul>
+<h2 id="java并发包"><a href="#java并发包" class="headerlink" title="java并发包"></a>java并发包</h2><ul>
+<li><a href="../concurrent-class">jdk并发包里常用的类</a></li>
+<li><a href="https://mp.weixin.qq.com/s/K8y6wMNDLwsmU7EFRx7Dsw" target="_blank" rel="noopener">Java 并发源码合集</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Y9IcHAwa4VkJN02_U1fDWg" target="_blank" rel="noopener">CyclicBarrier</a></li>
+<li><a href="https://mp.weixin.qq.com/s/UA8hoHiJj5vzb2-c08lpDA" target="_blank" rel="noopener">CountDownLatch</a></li>
+<li><a href="https://mp.weixin.qq.com/s/i_-seey2Du-99SyLSC9OiQ" target="_blank" rel="noopener">Semaphore</a></li>
+</ul>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s/FRF-c2t_Un1Krw29yuxyaw" target="_blank" rel="noopener">JAVA集合框架中的常用集合及其特点、适用场景、实现原理简介</a></li>
+</ul>
+<h2 id="netty"><a href="#netty" class="headerlink" title="netty"></a>netty</h2><ul>
+<li><a href="https://www.dozer.cc/2014/12/netty-long-connection.html" target="_blank" rel="noopener">Netty 长连接服务</a></li>
+</ul>
+<h1 id="三、JVM虚拟机"><a href="#三、JVM虚拟机" class="headerlink" title="三、JVM虚拟机"></a>三、JVM虚拟机</h1><ul>
+<li><a href="../jvm内存模型">内存模型</a></li>
+<li><a href="../class-loader">类加载</a></li>
+<li><a href="../gc">GC垃圾回收</a></li>
+<li><a href="../class-reference">强引用、软引用、弱引用、幻象引用</a><h2 id="JVM-调优"><a href="#JVM-调优" class="headerlink" title="JVM 调优"></a>JVM 调优</h2></li>
+<li><a href="../jvm-param">jvm参数</a></li>
+<li><a href="https://mp.weixin.qq.com/s/QNr8somjodyvU9dRAQG2oA" target="_blank" rel="noopener">jvm自带命令</a></li>
+<li><a href="https://mp.weixin.qq.com/s/ydkEkh_Uc1paftJLKIsm0w" target="_blank" rel="noopener">如何优化Java GC</a></li>
+<li><a href="https://mp.weixin.qq.com/s/bOarreWhQJmS6VTZfFcsZw" target="_blank" rel="noopener">大型跨境电商 JVM 调优经历</a></li>
+<li><a href="https://mp.weixin.qq.com/s/4c9K5eYMFGVV2WyKaYXVBA" target="_blank" rel="noopener">Jvm知识汇总</a></li>
+<li><a href="https://mp.weixin.qq.com/s/jt_BCAo8krxPAhLhhLdIrg" target="_blank" rel="noopener">海量连接服务端jvm参数调优杂记</a><h2 id="JVM-调优工具"><a href="#JVM-调优工具" class="headerlink" title="JVM 调优工具"></a>JVM 调优工具</h2></li>
+<li><a href="http://xxfox.perfma.com/" target="_blank" rel="noopener">XXFox</a></li>
+</ul>
+<h1 id="四、前沿"><a href="#四、前沿" class="headerlink" title="四、前沿"></a>四、前沿</h1><ul>
+<li><a href="https://mp.weixin.qq.com/s/wcF14v11QaS21UFczqGbVg" target="_blank" rel="noopener">Java 的版本历史与特性</a></li>
+<li><a href="http://www.iteye.com/news/27980" target="_blank" rel="noopener">JavaEE 7 正式发布</a></li>
+<li><a href="https://mp.weixin.qq.com/s/w_Uqi5PBkWCqh7qHq6XaKw" target="_blank" rel="noopener">Java 8-从持久代到metaspace</a></li>
+<li><a href="https://mp.weixin.qq.com/s/CWNIRk9xGu2XSbrWELTKNg" target="_blank" rel="noopener">Java 8的新特性—终极版</a></li>
+<li><a href="https://mp.weixin.qq.com/s/YalBtZ_dZayMec8aprk6Xw" target="_blank" rel="noopener">Java 9 中的新特性</a></li>
+<li><a href="https://mp.weixin.qq.com/s/UX_tP95fTR99B53DYgHNJQ" target="_blank" rel="noopener">Java 10正式发布，带来了这些新特性</a></li>
+</ul>
+<h1 id="五、其它"><a href="#五、其它" class="headerlink" title="五、其它"></a>五、其它</h1><ul>
+<li><a href="http://hongjiang.info/java8-nativeprng-blocking/" target="_blank" rel="noopener">随机数生成 — NativePRNGNonBlocking </a></li>
+<li><a href="../random">随机token 生成代码</a></li>
+<li><a href="https://yq.aliyun.com/articles/225660?spm=5176.100238.spm-cont-list.1.LYRwKV" target="_blank" rel="noopener">HashMap扩容、散列碰撞</a></li>
+<li><a href="https://mp.weixin.qq.com/s/lQkPltX3yS3bGb9EbxHGAg" target="_blank" rel="noopener">一台Java服务器跑多少个线程</a></li>
+<li><a href="https://mp.weixin.qq.com/s/--AMdl0GZQkY1MWIWQ-HHA" target="_blank" rel="noopener">【死磕Java并发】—- 深入分析CAS</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/java/j-lo-hotdeploy/index.html" target="_blank" rel="noopener">深入探索 Java 热部署</a></li>
+<li>signal 信号<ul>
+<li><a href="http://hongjiang.info/jvm-and-signals-2/" target="_blank" rel="noopener">jvm与系统信号(2)</a></li>
+<li><a href="https://www.cnblogs.com/MYSQLZOUQI/p/5258898.html" target="_blank" rel="noopener">kill 命令详解 系统信号</a></li>
+<li><a href="http://www.kgc.cn/bbs/post/90262.shtml" target="_blank" rel="noopener">Linux系统下如何优雅地关闭Java进程方法</a></li>
+<li><a href="https://blog.csdn.net/aa4790139/article/details/8584931" target="_blank" rel="noopener">signal信号捕捉</a></li>
+<li>drools-demo 代码示例，java工程优雅关闭（kill pid , 默认信号 15）</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/third-tools/redis%E7%BC%93%E5%AD%98%E4%B8%8Ememcache%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="prev" title="redis缓存与memcache的区别">
+      <i class="fa fa-chevron-left"></i> redis缓存与memcache的区别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/db/mysql-nosql/" rel="next" title="NoSQL 没毛病，为什么 MySQL 还是“王”？">
+      NoSQL 没毛病，为什么 MySQL 还是“王”？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、基础"><span class="nav-text">一、基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#源码分析"><span class="nav-text">源码分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、进阶"><span class="nav-text">二、进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO"><span class="nav-text">NIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程"><span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java并发包"><span class="nav-text">java并发包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#netty"><span class="nav-text">netty</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、JVM虚拟机"><span class="nav-text">三、JVM虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-调优"><span class="nav-text">JVM 调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-调优工具"><span class="nav-text">JVM 调优工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、前沿"><span class="nav-text">四、前沿</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、其它"><span class="nav-text">五、其它</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/java/summary/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="道路很长, 开始了就别停下!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="千寻">
+<meta property="og:url" content="https://www.alan87.top/page/27/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="道路很长, 开始了就别停下!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="Alan">
+<meta property="article:tag" content="千寻">
+<meta property="article:tag" content="科技领域知识">
+<meta property="article:tag" content="5G">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="物联网">
+<meta property="article:tag" content="工业互联网">
+<meta property="article:tag" content="IT">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="flink">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="hadoop">
+<meta property="article:tag" content="clickhouse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/page/27/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/arraylist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/arraylist/" class="post-title-link" itemprop="url">Java ArrayList图解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-01-12 19:57:19" itemprop="dateCreated datePublished" datetime="2013-01-12T19:57:19+08:00">2013-01-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/arraylist/" class="post-meta-item leancloud_visitors" data-flag-title="Java ArrayList图解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/arraylist/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/arraylist/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>集合是Java中非常重要而且基础的内容，因为任何数据必不可少的就是该数据是如何存储的，集合的作用就是以一定的方式组织、存储数据。这里写的集合，一部分是比较常见的、一部分是不常用但是我个人平时见到过的，一些比较相似的集合（比如HashMap和Hashtable）就只讲一个，突出它们之间的区别即可。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/arraylist/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/Java%E7%BA%BF%E7%A8%8B%E7%9A%846%E7%A7%8D%E7%8A%B6%E6%80%81%E5%8F%8A%E5%88%87%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/Java%E7%BA%BF%E7%A8%8B%E7%9A%846%E7%A7%8D%E7%8A%B6%E6%80%81%E5%8F%8A%E5%88%87%E6%8D%A2/" class="post-title-link" itemprop="url">Java线程的6种状态及切换(透彻讲解)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-01-02 05:55:40" itemprop="dateCreated datePublished" datetime="2013-01-02T05:55:40+08:00">2013-01-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/Java%E7%BA%BF%E7%A8%8B%E7%9A%846%E7%A7%8D%E7%8A%B6%E6%80%81%E5%8F%8A%E5%88%87%E6%8D%A2/" class="post-meta-item leancloud_visitors" data-flag-title="Java线程的6种状态及切换(透彻讲解)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/Java%E7%BA%BF%E7%A8%8B%E7%9A%846%E7%A7%8D%E7%8A%B6%E6%80%81%E5%8F%8A%E5%88%87%E6%8D%A2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/Java%E7%BA%BF%E7%A8%8B%E7%9A%846%E7%A7%8D%E7%8A%B6%E6%80%81%E5%8F%8A%E5%88%87%E6%8D%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Java中线程的状态分为6种。"><a href="#Java中线程的状态分为6种。" class="headerlink" title="Java中线程的状态分为6种。"></a>Java中线程的状态分为6种。</h2><ul>
+<li><ol>
+<li><strong>初始(NEW)</strong>：新创建了一个线程对象，但还没有调用start()方法。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><strong>运行(RUNNABLE)</strong>：Java线程中将就绪（ready）和运行中（running）两种状态笼统的称为“运行”。<br>线程对象创建后，其他线程(比如main线程）调用了该对象的start()方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获取CPU的使用权，此时处于就绪状态（ready）。就绪状态的线程在获得CPU时间片后变为运行中状态（running）。</li>
+</ol>
+</li>
+<li>3.<strong>阻塞(BLOCKED)</strong>：表示线程阻塞于锁。</li>
+<li>4.<strong>等待(WAITING)</strong>：进入该状态的线程需要等待其他线程做出一些特定动作（通知或中断）。</li>
+<li>5.<strong>超时等待(TIMED_WAITING)</strong>：该状态不同于WAITING，它可以在指定的时间后自行返回。</li>
+<li><ol start="6">
+<li><strong>终止(TERMINATED)</strong>：表示该线程已经执行完毕。</li>
+</ol>
+</li>
+</ul>
+<h2 id="线程的状态图"><a href="#线程的状态图" class="headerlink" title="线程的状态图"></a><strong>线程的状态图</strong></h2><img data-src="https://img-blog.csdn.net/2018070117435683?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3BhbmdlMTk5MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+
+<h2 id="1-初始状态"><a href="#1-初始状态" class="headerlink" title="1. 初始状态"></a><strong>1. 初始状态</strong></h2><p>实现Runnable接口和继承Thread可以得到一个线程类，new一个实例出来，线程就进入了初始状态。</p>
+<h2 id="2-1-就绪状态"><a href="#2-1-就绪状态" class="headerlink" title="2.1. 就绪状态"></a><strong>2.1. 就绪状态</strong></h2><ol>
+<li>就绪状态只是说你资格运行，调度程序没有挑选到你，你就永远是就绪状态。</li>
+<li>调用线程的start()方法，此线程进入就绪状态。</li>
+<li>当前线程sleep()方法结束，其他线程join()结束，等待用户输入完毕，某个线程拿到对象锁，这些线程也将进入就绪状态。</li>
+<li>当前线程时间片用完了，调用当前线程的yield()方法，当前线程进入就绪状态。</li>
+<li>锁池里的线程拿到对象锁后，进入就绪状态。</li>
+</ol>
+<h2 id="2-2-运行中状态"><a href="#2-2-运行中状态" class="headerlink" title="2.2. 运行中状态"></a><strong>2.2. 运行中状态</strong></h2><p>线程调度程序从可运行池中选择一个线程作为当前线程时线程所处的状态。这也是线程进入运行状态的唯一一种方式。</p>
+<h2 id="3-阻塞状态"><a href="#3-阻塞状态" class="headerlink" title="3. 阻塞状态"></a><strong>3. 阻塞状态</strong></h2><p>阻塞状态是线程阻塞在进入synchronized关键字修饰的方法或代码块(获取锁)时的状态。</p>
+<h2 id="4-等待"><a href="#4-等待" class="headerlink" title="4. 等待"></a>4. 等待</h2><p>处于这种状态的线程不会被分配CPU执行时间，它们要等待被显式地唤醒，否则会处于无限期等待的状态。</p>
+<h2 id="5-超时等待"><a href="#5-超时等待" class="headerlink" title="5. 超时等待"></a>5. 超时等待</h2><p>处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。</p>
+<h2 id="6-终止状态"><a href="#6-终止状态" class="headerlink" title="6. 终止状态"></a><strong>6. 终止状态</strong></h2><ol>
+<li>当线程的run()方法完成时，或者主线程的main()方法完成时，我们就认为它终止了。这个线程对象也许是活的，但是，它已经不是一个单独执行的线程。线程一旦终止了，就不能复生。</li>
+<li>在一个终止的线程上调用start()方法，会抛出java.lang.IllegalThreadStateException异常。</li>
+</ol>
+<h2 id="等待队列"><a href="#等待队列" class="headerlink" title="等待队列"></a><strong>等待队列</strong></h2><ul>
+<li>调用obj的wait(), notify()方法前，必须获得obj锁，也就是必须写在synchronized(obj) 代码段内。</li>
+<li>与等待队列相关的步骤和图</li>
+</ul>
+<img data-src="https://img-blog.csdn.net/20180701221233161?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3BhbmdlMTk5MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+
+<p>&nbsp;</p>
+<ul>
+<li>1.线程1获取对象A的锁，正在使用对象A。</li>
+<li>2.线程1调用对象A的wait()方法。</li>
+<li>3.线程1释放对象A的锁，并马上进入等待队列。</li>
+<li>4.锁池里面的对象争抢对象A的锁。</li>
+<li>5.线程5获得对象A的锁，进入synchronized块，使用对象A。</li>
+<li>6.线程5调用对象A的notifyAll()方法，唤醒所有线程，所有线程进入同步队列。若线程5调用对象A的notify()方法，则唤醒一个线程，不知道会唤醒谁，被唤醒的那个线程进入同步队列。</li>
+<li>7.notifyAll()方法所在synchronized结束，线程5释放对象A的锁。</li>
+<li>8.同步队列的线程争抢对象锁，但线程1什么时候能抢到就不知道了。</li>
+</ul>
+<h2 id="同步队列状态"><a href="#同步队列状态" class="headerlink" title="同步队列状态"></a><strong>同步队列状态</strong></h2><ul>
+<li>当前线程想调用对象A的同步方法时，发现对象A的锁被别的线程占有，此时当前线程进入同步队列。简言之，同步队列里面放的都是想争夺对象锁的线程。</li>
+<li>当一个线程1被另外一个线程2唤醒时，1线程进入同步队列，去争夺对象锁。</li>
+<li>同步队列是在同步的环境下才有的概念，一个对象对应一个同步队列。</li>
+</ul>
+<h2 id="几个方法的比较"><a href="#几个方法的比较" class="headerlink" title="几个方法的比较"></a><strong>几个方法的比较</strong></h2><ol>
+<li>Thread.sleep(long millis)，一定是当前线程调用此方法，当前线程进入TIMED_WAITING状态，但不释放对象锁，millis后线程自动苏醒进入就绪状态。作用：给其它线程执行机会的最佳方式。</li>
+<li>Thread.yield()，一定是当前线程调用此方法，当前线程放弃获取的CPU时间片，但不释放锁资源，由运行状态变为就绪状态，让OS再次选择线程。作用：让相同优先级的线程轮流执行，但并不保证一定会轮流执行。实际中无法保证yield()达到让步目的，因为让步的线程还有可能被线程调度程序再次选中。Thread.yield()不会导致阻塞。该方法与sleep()类似，只是不能由用户指定暂停多长时间。</li>
+<li>t.join()/t.join(long millis)，当前线程里调用其它线程t的join方法，当前线程进入WAITING/TIMED_WAITING状态，当前线程不会释放已经持有的对象锁。线程t执行完毕或者millis时间到，当前线程进入就绪状态。</li>
+<li>obj.wait()，当前线程调用对象的wait()方法，当前线程释放对象锁，进入等待队列。依靠notify()/notifyAll()唤醒或者wait(long timeout) timeout时间到自动唤醒。</li>
+<li>obj.notify()唤醒在此对象监视器上等待的单个线程，选择是任意性的。notifyAll()唤醒在此对象监视器上等待的所有线程。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/ConcurrentHashMap1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/ConcurrentHashMap1/" class="post-title-link" itemprop="url">Java 并发包ConcurrentHashMap图解上</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-12-05 10:27:28" itemprop="dateCreated datePublished" datetime="2012-12-05T10:27:28+08:00">2012-12-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/ConcurrentHashMap1/" class="post-meta-item leancloud_visitors" data-flag-title="Java 并发包ConcurrentHashMap图解上" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/ConcurrentHashMap1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/ConcurrentHashMap1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>以前写过介绍HashMap的文章，文中提到过HashMap在put的时候，插入的元素超过了容量（由负载因子决定）的范围就会触发扩容操作，就是rehash，这个会重新将原数组的内容重新hash到新的扩容数组中，在多线程的环境下，存在同时其他的元素也在进行put操作，如果hash值相同，可能出现同时在同一数组下用链表表示，造成闭环，导致在get时会出现死循环，所以HashMap是线程不安全的。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/ConcurrentHashMap1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/lock/" class="post-title-link" itemprop="url">Java锁</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-07-05 22:09:18" itemprop="dateCreated datePublished" datetime="2012-07-05T22:09:18+08:00">2012-07-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/lock/" class="post-meta-item leancloud_visitors" data-flag-title="Java锁" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/lock/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/lock/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>并发 (Concurrency)：一个处理器“同时”处理多个任务<br>并行 (Parallelism)：多个处理器 “同时”处理多个任务</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/lock/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/common-class-lib/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/common-class-lib/" class="post-title-link" itemprop="url">常用Java类库</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-06-05 22:18:33" itemprop="dateCreated datePublished" datetime="2012-06-05T22:18:33+08:00">2012-06-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/common-class-lib/" class="post-meta-item leancloud_visitors" data-flag-title="常用Java类库" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/common-class-lib/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/common-class-lib/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-Runtime类"><a href="#1-Runtime类" class="headerlink" title="1.Runtime类"></a>1.Runtime类</h1><ul>
+<li>jvm虚拟机注册一个勾子，当虚拟机要关闭时，会执行预先注册的线程任务。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/common-class-lib/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/mysql-int/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/db/mysql-int/" class="post-title-link" itemprop="url">Mysql int类型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-05-29 21:46:44" itemprop="dateCreated datePublished" datetime="2012-05-29T21:46:44+08:00">2012-05-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/mysql-int/" class="post-meta-item leancloud_visitors" data-flag-title="Mysql int类型" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/mysql-int/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/mysql-int/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <div class="note primary">
+            <p>Mysql中bigint、int、mediumint、smallint 和 tinyint的取值范围</p>
+          </div>
+<hr>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>社区这边的业务就遇到过这个坑，由于是用的开源框架，很多表id的字段用的mediumint类型，随着业务增长，数据量暴增，结果有一天超过id的上限，结果insert db就报错了，影响部分业务功能。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/db/mysql-int/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/mysql%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%8E%92%E5%BA%8F%E8%A7%84%E5%88%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/db/mysql%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%8E%92%E5%BA%8F%E8%A7%84%E5%88%99/" class="post-title-link" itemprop="url">mysql 批量修改 表字段/表/数据库 字符集和排序规则</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-05-29 21:46:44" itemprop="dateCreated datePublished" datetime="2012-05-29T21:46:44+08:00">2012-05-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/mysql%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%8E%92%E5%BA%8F%E8%A7%84%E5%88%99/" class="post-meta-item leancloud_visitors" data-flag-title="mysql 批量修改 表字段/表/数据库 字符集和排序规则" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/mysql%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%8E%92%E5%BA%8F%E8%A7%84%E5%88%99/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/mysql%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%8E%92%E5%BA%8F%E8%A7%84%E5%88%99/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="表字段修复"><a href="#表字段修复" class="headerlink" title="表字段修复"></a>表字段修复</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="keyword">SELECT</span> TABLE_SCHEMA <span class="string">'数据库'</span>,TABLE_NAME <span class="string">'表'</span>,COLUMN_NAME <span class="string">'字段'</span>,CHARACTER_SET_NAME <span class="string">'原字符集'</span>,COLLATION_NAME <span class="string">'原排序规则'</span>,<span class="keyword">CONCAT</span>(<span class="string">'ALTER TABLE '</span>, TABLE_SCHEMA,<span class="string">'.'</span>,TABLE_NAME, <span class="string">' MODIFY COLUMN '</span>,COLUMN_NAME,<span class="string">' '</span>,COLUMN_TYPE,<span class="string">' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'</span>) <span class="string">'修正SQL'</span></span><br><span class="line"><span class="keyword">FROM</span> information_schema.<span class="string">`COLUMNS`</span> </span><br><span class="line"><span class="keyword">WHERE</span> COLLATION_NAME <span class="keyword">RLIKE</span> <span class="string">'latin1'</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="表修复"><a href="#表修复" class="headerlink" title="表修复"></a>表修复</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="keyword">SELECT</span> TABLE_SCHEMA <span class="string">'数据库'</span>,TABLE_NAME <span class="string">'表'</span>,TABLE_COLLATION <span class="string">'原排序规则'</span>,<span class="keyword">CONCAT</span>(<span class="string">'ALTER TABLE '</span>,TABLE_SCHEMA,<span class="string">'.'</span>, TABLE_NAME, <span class="string">' COLLATE=utf8mb4_general_ci;'</span>) <span class="string">'修正SQL'</span></span><br><span class="line"><span class="keyword">FROM</span> information_schema.<span class="string">`TABLES`</span></span><br><span class="line"><span class="keyword">WHERE</span> TABLE_COLLATION <span class="keyword">RLIKE</span> <span class="string">'latin1'</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="表修复-1"><a href="#表修复-1" class="headerlink" title="表修复"></a>表修复</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> SCHEMA_NAME <span class="string">'数据库'</span>,DEFAULT_CHARACTER_SET_NAME <span class="string">'原字符集'</span>,DEFAULT_COLLATION_NAME <span class="string">'原排序规则'</span>,<span class="keyword">CONCAT</span>(<span class="string">'ALTER DATABASE '</span>,SCHEMA_NAME,<span class="string">' CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'</span>) <span class="string">'修正SQL'</span></span><br><span class="line"><span class="keyword">FROM</span> information_schema.<span class="string">`SCHEMATA`</span></span><br><span class="line"><span class="keyword">WHERE</span> DEFAULT_COLLATION_NAME <span class="keyword">RLIKE</span> <span class="string">'unicode_ci'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>ALTER TABLE attendance1.attendance_apply MODIFY COLUMN time_span varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_apply MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_approve MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_approve MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_copy_user MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_copy_user MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_file MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_file MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_working MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE attendance1.attendance_working MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.company_manage MODIFY COLUMN update_user varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.file_Info MODIFY COLUMN file_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.file_Info MODIFY COLUMN model_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.polling MODIFY COLUMN org_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.polling MODIFY COLUMN charge_phone varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.polling MODIFY COLUMN picture varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.polling MODIFY COLUMN abarbeitung varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.team MODIFY COLUMN adderss varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE emergency.team_type MODIFY COLUMN value varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE iot_device1.video_client MODIFY COLUMN username varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE iot_device1.video_client MODIFY COLUMN password varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE iot_device1.video_client MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE iot_device1.video_client MODIFY COLUMN creator varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE iot_device1.video_client MODIFY COLUMN update_user varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN apply_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN current_approve_node varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN reason varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN remark varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN time_span varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN departure varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN destination varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply_file MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply_file MODIFY COLUMN file_save_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply_file MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply_file MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_approve MODIFY COLUMN approve_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_approve MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_approve MODIFY COLUMN approve_full_opinion varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_approve MODIFY COLUMN approve_remark varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_approve MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_approve MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_copy_user MODIFY COLUMN copy_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_copy_user MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_copy_user MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_copy_user MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_settings MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_settings MODIFY COLUMN name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_settings MODIFY COLUMN address varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_settings MODIFY COLUMN longitude varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_settings MODIFY COLUMN latitude varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_user MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_user MODIFY COLUMN user_id varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_working MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.attendance_working MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dangerous MODIFY COLUMN company_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dangerous MODIFY COLUMN manage_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dictionary MODIFY COLUMN code varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dictionary MODIFY COLUMN field varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dictionary MODIFY COLUMN field_value varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dictionary MODIFY COLUMN type varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dictionary MODIFY COLUMN remark varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dictionary MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.dictionary MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.focus_user MODIFY COLUMN file_src varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.storage_tank MODIFY COLUMN creator varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.storage_tank MODIFY COLUMN update_user varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.storage_tank MODIFY COLUMN design_stock varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.template_attendance_record MODIFY COLUMN user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.template_attendance_record MODIFY COLUMN user_type varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.template_attendance_record MODIFY COLUMN clock_in_type varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.template_attendance_record MODIFY COLUMN created_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE share.template_attendance_record MODIFY COLUMN modified_user_id varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;</p>
+<p>ALTER TABLE emergency.company_category COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.company_label COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.company_manage COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.file_Info COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.garden COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.garden_company COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.label COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.polling COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.sys_dict COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.team COLLATE=utf8mb4_general_ci;<br>ALTER TABLE emergency.team_type COLLATE=utf8mb4_general_ci;<br>ALTER TABLE iot_device1.video_client COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.apply_user_company COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.attendance_apply_file COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.attendance_approve COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.attendance_copy_user COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.attendance_settings COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.attendance_user COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.attendance_working COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.company_expand COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.dangerous COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.dictionary COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.focus_user COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.notice_company COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.notice_user COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.storage_tank COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.sys_dict COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.template_attendance_record COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.user_issue COLLATE=utf8mb4_general_ci;<br>ALTER TABLE share.warehouse COLLATE=utf8mb4_general_ci;</p>
+<p>ALTER DATABASE attendance1 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance10 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance2 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance3 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance4 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance5 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance6 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance7 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance8 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER DATABASE attendance9 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/web/http/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/web/http/" class="post-title-link" itemprop="url">HTTP协议详解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-05-09 22:01:18" itemprop="dateCreated datePublished" datetime="2012-05-09T22:01:18+08:00">2012-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/web/http/" class="post-meta-item leancloud_visitors" data-flag-title="HTTP协议详解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/web/http/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/web/http/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><ul>
+<li><a href="https://mp.weixin.qq.com/s/MNbjdnSeoeSlTwuXokaXMQ" target="_blank" rel="noopener">HTTP/2到底是什么？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/qnBExJ0sjVmhk8UTxAPK1Q" target="_blank" rel="noopener">彻底弄懂 HTTP 缓存机制及原理</a>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/web/http/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/exception/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/exception/" class="post-title-link" itemprop="url">Java Exception</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-05-05 22:59:32" itemprop="dateCreated datePublished" datetime="2012-05-05T22:59:32+08:00">2012-05-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/exception/" class="post-meta-item leancloud_visitors" data-flag-title="Java Exception" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/exception/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/exception/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>图中红色部分为受检查异常。它们必须被捕获，或者在函数中声明为抛出该异常。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/exception/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/modifier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/modifier/" class="post-title-link" itemprop="url">Java关键字</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-05-05 20:46:24" itemprop="dateCreated datePublished" datetime="2012-05-05T20:46:24+08:00">2012-05-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/modifier/" class="post-meta-item leancloud_visitors" data-flag-title="Java关键字" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/modifier/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/modifier/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-volatile介绍"><a href="#1-volatile介绍" class="headerlink" title="1.volatile介绍"></a>1.volatile介绍</h1><p>volatile是java最轻量级的同步机制。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/modifier/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/page/27/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

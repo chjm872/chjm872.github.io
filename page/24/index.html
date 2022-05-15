@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="道路很长, 开始了就别停下!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="千寻">
+<meta property="og:url" content="https://www.alan87.top/page/24/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="道路很长, 开始了就别停下!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="Alan">
+<meta property="article:tag" content="千寻">
+<meta property="article:tag" content="科技领域知识">
+<meta property="article:tag" content="5G">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="物联网">
+<meta property="article:tag" content="工业互联网">
+<meta property="article:tag" content="IT">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="flink">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="hadoop">
+<meta property="article:tag" content="clickhouse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/page/24/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/db/sql-optimize1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/db/sql-optimize1/" class="post-title-link" itemprop="url">SQL技巧,SQL调优,存储引擎——终于全懂了(上)(收藏)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-05-01 19:29:54" itemprop="dateCreated datePublished" datetime="2015-05-01T19:29:54+08:00">2015-05-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/db/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/db/sql-optimize1/" class="post-meta-item leancloud_visitors" data-flag-title="SQL技巧,SQL调优,存储引擎——终于全懂了(上)(收藏)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/db/sql-optimize1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/db/sql-optimize1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SQL技巧"><a href="#SQL技巧" class="headerlink" title="SQL技巧"></a>SQL技巧</h1><ul>
+<li>insert ignore <div class="note primary">
+            <p>insert ignore 与insert into的区别就是insert ignore 会忽略数据库中已经存在的数据，如果数据库没有数据，就插入新的数据，如果有数据的话就跳过这条数据。这样就可以保留数据库中已经存在数据，达到在间隙中插入数据的目的。</p>
+          </div>
+
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/db/sql-optimize1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/spring/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/spring/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" class="post-title-link" itemprop="url">Spring事务传播机制与隔离级别</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-02-21 20:45:09" itemprop="dateCreated datePublished" datetime="2015-02-21T20:45:09+08:00">2015-02-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/spring/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" class="post-meta-item leancloud_visitors" data-flag-title="Spring事务传播机制与隔离级别" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/spring/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/spring/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Spring事务传播性机制"><a href="#Spring事务传播性机制" class="headerlink" title="Spring事务传播性机制"></a>Spring事务传播性机制</h1><h2 id="什么是事务的传播机制"><a href="#什么是事务的传播机制" class="headerlink" title="什么是事务的传播机制"></a>什么是事务的传播机制</h2><p>事务的传播性一般在事务嵌套时候使用，比如在事务A里面调用了另外一个使用事务的方法，那么这俩个事务是各自作为独立的事务执行提交，还是内层的事务合并到外层的事务一块提交那，这就是事务传播性要确定的问题。下面一一介绍比较常用的事务传播机制。</p>
+<p>首先奉上事务拦截器TransactionInterceptor事务处理流程图：</p>
+<img data-src="http://f.ngall-in.com/alan87/static/images/spring/SpringTransactionInterceptor/1.png/w600">
+
+<h1 id="Spring事务的7种传播机制"><a href="#Spring事务的7种传播机制" class="headerlink" title="Spring事务的7种传播机制"></a>Spring事务的7种传播机制</h1><h2 id="1-PROPAGATION-REQUIRED"><a href="#1-PROPAGATION-REQUIRED" class="headerlink" title="1. PROPAGATION_REQUIRED"></a>1. PROPAGATION_REQUIRED</h2><p>Spring默认的事务传播机制，如果外层有事务则当前事务<strong>加入</strong>到外层事务，一块提交一块回滚，如果外层没有事务则当前开启一个新事务。这个机制可以满足大多数业务场景。</p>
+<p>若当前存在事务，则加入该事务，若不存在事务，则新建一个事务。<br>试验：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C1</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.REQUIRED)</span><br><span class="line">    <span class="function">function <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">        C2.B();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C2</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.REQUIRED)</span><br><span class="line">    <span class="function">function <span class="title">B</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">do</span> something;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>若B方法抛出异常，A方法进行捕获，A会抛出异常，因为C2标志回滚，C1标志提交，产生冲突。</p>
+</li>
+<li><p>若B方法抛出异常，B方法内部捕获，A、B都不会回滚。</p>
+</li>
+<li><p>若A或B抛出异常，但没有捕获，则A、B都回滚。</p>
+</li>
+<li><p>A、B可操作同一条记录，因为处于同一个事务中。</p>
+</li>
+</ul>
+<p>平时我们都是在bo里面调用数据库操作，在rpc和screen调用bo,所以bo层不应该catch掉异常，而应该抛出来，在rpc和screen层catch异常。</p>
+<h2 id="2-PROPAGATION-REQUIRES-NEW"><a href="#2-PROPAGATION-REQUIRES-NEW" class="headerlink" title="2. PROPAGATION_REQUIRES_NEW"></a>2. PROPAGATION_REQUIRES_NEW</h2><p>每次都新开启一个事务，同时把外层的事务挂起，当前新事务执行完毕后在恢复上层事务的执行。</p>
+<p>新老事务相互独立。外部事务抛出异常回滚不会影响内部事务的正常提交。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C1</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.REQUIRED)</span><br><span class="line">    <span class="function">function <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">        C2.B();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C2</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.REQUIRE_NEW)</span><br><span class="line">    <span class="function">function <span class="title">B</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">do</span> something;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>若B方法抛出异常，A方法进行捕获，B方法回滚，A方法不受B异常影响。</p>
+</li>
+<li><p>若B方法抛出异常，B方法内部捕获，A、B都不会回滚。</p>
+</li>
+<li><p>若A方法抛出异常，不会影响B正常执行。</p>
+</li>
+<li><p>若B方法抛出异常，A、B方法都没有处理，则A、B都会回滚。</p>
+</li>
+<li><p>A、B不可操作同一条记录，因为处于不同事务中，会产生死锁。</p>
+</li>
+</ul>
+<h2 id="3-PROPAGATION-SUPPORTS"><a href="#3-PROPAGATION-SUPPORTS" class="headerlink" title="3. PROPAGATION_SUPPORTS"></a>3. PROPAGATION_SUPPORTS</h2><p>如果外层有事务则<strong>加入</strong>该事务，如果不存在也不会创建新事务，直接使用非事务方式执行。</p>
+<h2 id="4-PROPAGATION-NOT-SUPPORTED"><a href="#4-PROPAGATION-NOT-SUPPORTED" class="headerlink" title="4. PROPAGATION_NOT_SUPPORTED"></a>4. PROPAGATION_NOT_SUPPORTED</h2><p>不支持事务，如果外层存在事务则挂起外层事务 ，然后执行当前逻辑，执行完毕后，恢复外层事务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C1</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.REQUIRED)</span><br><span class="line">    <span class="function">function <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">        C2.B();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C2</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.NOT_SUPPORTED)</span><br><span class="line">    <span class="function">function <span class="title">B</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">do</span> something;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>A、B不可操作同一条记录，因为A是事务执行，B在A尚未提交前再操作同一条记录，会产生死锁。</li>
+</ul>
+<h2 id="5-PROPAGATION-NEVER"><a href="#5-PROPAGATION-NEVER" class="headerlink" title="5. PROPAGATION_NEVER"></a>5. PROPAGATION_NEVER</h2><p>不支持事务，以非事务的方式执行，如果外层存在事务，则直接抛出异常。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IllegalTransactionStateException( “Existing transaction found <span class="keyword">for</span> transaction marked with propagation ‘never<span class="string">'”)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-PROPAGATION-MANDATORY"><a href="#6-PROPAGATION-MANDATORY" class="headerlink" title="6. PROPAGATION_MANDATORY"></a>6. PROPAGATION_MANDATORY</h2><p>强制事务执行，只能在已经存在事务的方法中被调用，如果在不存在事务的方法中被调用，直接抛出异常。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IllegalTransactionStateException( “No existing transaction found <span class="keyword">for</span> transaction marked with propagation ‘mandatory<span class="string">'”);</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-PROPAGATION-NESTED"><a href="#7-PROPAGATION-NESTED" class="headerlink" title="7. PROPAGATION_NESTED"></a>7. PROPAGATION_NESTED</h2><p>如果外层存在事务，则<strong>嵌套</strong>在外层事务中执行。如果外层没有事务，则新建一个事务，类似于REQUIRED_NEW。<br>该传播机制特点是可以保存状态保存点，当事务回滚后会回滚到某一个保存点上，从而避免所有嵌套事务都回滚。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C1</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.REQUIRED)</span><br><span class="line">    <span class="function">function <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">        C2.B();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C2</span>()</span>&#123;</span><br><span class="line">    <span class="meta">@Transactional</span>(propagation = Propagation.NESTED)</span><br><span class="line">    <span class="function">function <span class="title">B</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">do</span> something;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>若B方法抛出异常，A方法进行捕获，B方法回滚，A方法正常执行。</p>
+</li>
+<li><p>若A或者B抛出异常，不做任何处理的话，A、B都要回滚。</p>
+</li>
+<li><p>A、B可操作同一条记录，因为处于同一个事务中。</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h2><p>只有为PROPAGATION_REQUIRED||PROPAGATION_REQUIRES_NEW||PROPAGATION_NESTED时候才可能开启一个新事务。</p>
+<div class="note primary">
+            <ul><li>PROPAGATION_REQUIRED – 支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。</li><li>PROPAGATION_SUPPORTS – 支持当前事务，如果当前没有事务，就以非事务方式执行。</li><li>PROPAGATION_MANDATORY – 支持当前事务，如果当前没有事务，就抛出异常。</li><li>PROPAGATION_REQUIRES_NEW – 新建事务，如果当前存在事务，把当前事务挂起。</li><li>PROPAGATION_NOT_SUPPORTED – 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</li><li>PROPAGATION_NEVER – 以非事务方式执行，如果当前存在事务，则抛出异常。</li><li>PROPAGATION_NESTED – 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。</li></ul>
+          </div>
+
+<h3 id="NESTED和REQUIRED-NEW的区别"><a href="#NESTED和REQUIRED-NEW的区别" class="headerlink" title="NESTED和REQUIRED_NEW的区别:"></a><strong>NESTED和REQUIRED_NEW的区别:</strong></h3><div class="note primary">
+            <ul><li><p>PROPAGATION_REQUIRES_NEW 启动一个新的, 不依赖于环境的 “内部” 事务. 这个事务将被完全 commited 或 rolled back 而不依赖于外部事务, 它拥有自己的隔离范围, 自己的锁, 等等. 当内部事务开始执行时, 外部事务将被挂起, 内务事务结束时, 外部事务将继续执行. </p></li><li><p>PROPAGATION_NESTED 开始一个 “嵌套的” 事务,  它是已经存在事务的一个真正的子事务. 潜套事务开始执行时, 它将取得一个 savepoint. 如果这个嵌套事务失败, 我们将回滚到此 savepoint. 潜套事务是外部事务的一部分, 只有外部事务结束后它才会被提交. </p></li></ul>
+          </div>
+
+<p>那么绘制一个表格来表现他们的差异</p>
+<ol>
+<li>定义serviceA.methodA()以PROPAGATION_REQUIRED修饰；</li>
+<li>定义serviceB.methodB()以表格中三种方式修饰；</li>
+<li>methodA中调用methodB</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">异常状态</th>
+<th align="center">PROPAGATION_REQUIRES_NEW（两个独立事务）</th>
+<th align="center">PROPAGATION_NESTED (B的事务嵌套在A的事务中)</th>
+<th align="center">PROPAGATION_REQUIRED(同一个事务)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">methodA抛异常 methodB正常</td>
+<td align="center">A回滚，B正常提交</td>
+<td align="center">A与B一起回滚</td>
+<td align="center">A与B一起回滚</td>
+</tr>
+<tr>
+<td align="center">methodA正常 methodB抛异常</td>
+<td align="center">1.如果A中捕获B的异常，并没有继续向上抛异常，则B先回滚，A再正常提交；2.如果A未捕获B的异常，默认则会将B的异常向上抛，则B先回滚，A再回滚</td>
+<td align="center">B先回滚，A再正常提交</td>
+<td align="center">A与B一起回滚</td>
+</tr>
+<tr>
+<td align="center">methodA抛异常 methodB抛异常</td>
+<td align="center">B先回滚，A再回滚</td>
+<td align="center">A与B一起回滚</td>
+<td align="center">A与B一起回滚</td>
+</tr>
+<tr>
+<td align="center">methodA正常 methodB正常</td>
+<td align="center">B先提交，A再提交</td>
+<td align="center">A与B一起提交</td>
+<td align="center">A与B一起提交</td>
+</tr>
+</tbody></table>
+<h1 id="二、事务隔离性"><a href="#二、事务隔离性" class="headerlink" title="二、事务隔离性"></a>二、事务隔离性</h1><h2 id="2-1-什么是事务的隔离性"><a href="#2-1-什么是事务的隔离性" class="headerlink" title="2.1 什么是事务的隔离性"></a>2.1 什么是事务的隔离性</h2><p>事务的隔离性是指多个事务并发执行的时候相互之间不受到彼此的干扰，是事务acid中i，根据隔离程度对隔离性有会分类。在具体介绍事务隔离性前有必要介绍几个名词说明数据库并发操作存在的问题。</p>
+<h3 id="2-1-1-脏读"><a href="#2-1-1-脏读" class="headerlink" title="2.1.1 脏读"></a>2.1.1 脏读</h3><p>所谓脏读是指一个事务中访问到了另外一个事务未提交的数据，具体来说假如有两个事务A和B同时更新一个数据d=1，事务B先执行了select获取到d=1,然后更新d=2但是没有提交，这时候事务A在B没有提交的情况下执行搜索结果d=2，这就是脏读。</p>
+<h3 id="2-1-2-不可重复读"><a href="#2-1-2-不可重复读" class="headerlink" title="2.1.2 不可重复读"></a>2.1.2 不可重复读</h3><p>所谓不可重复读是指一个事务内在未提交的前提下多次搜索一个数据，搜出来的结果不一致。发生不可重复读的原因是在多次搜索期间这个数据被其他事务更新了。</p>
+<h3 id="2-1-3-幻读"><a href="#2-1-3-幻读" class="headerlink" title="2.1.3 幻读"></a>2.1.3 幻读</h3><p>所谓幻读是指同一个事务内多次查询(注意查询的sql不一定一样)返回的结果集的不一样（比如新增或者少了一条数据），比如同一个事务A内第一次查询时候有n条记录，但是第二次同等条件下查询却又n+1条记录，这就好像产生了幻觉，为啥两次结果不一样那。其实和不可重复读一样，发生幻读的原因也是另外一个事务新增或者删除或者修改了第一个事务结果集里面的数据。不同在于不可重复读是数据内容被修改了，幻读是数据变多了或者少了。</p>
+<h2 id="2-2、事务隔离级别"><a href="#2-2、事务隔离级别" class="headerlink" title="2.2、事务隔离级别"></a>2.2、事务隔离级别</h2><p>为了解决事务并发带来的问题，才有了sql规范中的四个事务隔离级别，不同隔离级别对上面三个问题部分或者全部做了避免。注意：下面试验用的两个终端都是同时执行了begin为了模拟事务并发。</p>
+<h3 id="2-2-1-Read-Uncommitted"><a href="#2-2-1-Read-Uncommitted" class="headerlink" title="2.2.1 Read Uncommitted"></a>2.2.1 Read Uncommitted</h3><p>读未提交隔离级别，就是指一个事务中可以读取其他事务未提交的数据，这个级别会导致脏读。 本文都是以mysql为例引擎InnoDB，mysql默认事务隔离级别为Repeatable_Read：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global variables like '%isolation%';</span><br><span class="line">+<span class="comment">-----------------------+-----------------+</span></span><br><span class="line">| Variable_name         | Value           |</span><br><span class="line">+<span class="comment">-----------------------+-----------------+</span></span><br><span class="line">| transaction_isolation | REPEATABLE-READ |</span><br><span class="line">+<span class="comment">-----------------------+-----------------+</span></span><br></pre></td></tr></table></figure>
+<p>下面我们更改隔离级别为Read Uncommitted ：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global transaction_isolation='read-uncommitted';</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set session transaction_isolation='read-uncommitted';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select @@global.transaction_isolation,@@transaction_isolation;</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| @@global.transaction_isolation | @@transaction_isolation |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| READ-UNCOMMITTED               | READ-UNCOMMITTED        |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>试验： 下面我们打开两个mysql终端，并且关闭自动提交.<br>终端一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like '%autocommit%';</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line">| autocommit    | ON    |</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; set autocommit=0;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like '%autocommit%';</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line">| autocommit    | OFF   |</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test_user values(2,'2');</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>终端二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set autocommit = 0;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like 'autocommit';</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line">| autocommit    | OFF   |</span><br><span class="line">+<span class="comment">---------------+-------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+<p>终端一我们开启了一个事务，并且插入了一条数据但是没有提交事务，但是终端二却查询出来了。</p>
+<p>终端一执行rollback：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; rollback;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>终端二查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>在终端1回滚后，终端二有搜不到了，所以有可能在终端一没有回滚时候终端二已经获取并使用终端一的数据，而终端一回滚后，数据已经被使用过了，所以导致了脏读。</p>
+<p>总结：该隔离级别会导致 脏读，不可重复读，幻读，是最低级的隔离级别，一般不用的。</p>
+<h3 id="2-2-2-Read-Committed"><a href="#2-2-2-Read-Committed" class="headerlink" title="2.2.2 Read Committed"></a>2.2.2 Read Committed</h3><p>读已提交隔离级别，一个事务只能读取到其他事务已经提交的数据，可能导致同一个事务中多次搜查结果不一样。</p>
+<p>试验：修改事务隔离级别为Read Committed，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global transaction_isolation='read-committed';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set session transaction_isolation='read-committed';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select @@global.transaction_isolation,@@transaction_isolation;</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| @@global.transaction_isolation | @@transaction_isolation |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| READ-COMMITTED                 | READ-COMMITTED          |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br></pre></td></tr></table></figure>
+<p>终端一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test_user values(2,'2');</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br></pre></td></tr></table></figure>
+<p>终端二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br></pre></td></tr></table></figure>
+
+<p>由于终端一执行后没有commit,所以终端二查询不到。</p>
+<p>下面终端一执行commit:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; commit;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>终端二再次执行查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>终端一提交后，终端二就可以搜查出来了。</p>
+<p>总结：该隔离级别会导致不可重复读和幻读，避免了脏读，oracle默认是该隔离级别。实际项目使用mybaits时候虽然隔离级别是read committed,但是在一个事务中多次搜索还是会是同一个结果，这是因为mybatis一级缓存的原因</p>
+<h3 id="2-2-3-Repeatable-Read"><a href="#2-2-3-Repeatable-Read" class="headerlink" title="2.2.3 Repeatable Read"></a>2.2.3 Repeatable Read</h3><p>可重复读隔离级别，一个事务内多次查询数据时候查询的数据内容和第一次查询的一致也就是说第一次查询出来的数据没有被修改，而不管其他事务有没有对这些数据新修改。但是可能其他事务新增一条数据，导致一个事务内查询的结果集里面多了一条记录。mysql默认隔离级别就是这个。<br>试验： 首先修改事务隔离级别为可重复读：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global transaction_isolation='repeatable-read';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set session transaction_isolation='repeatable-read';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select @@global.transaction_isolation,@@transaction_isolation;</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| @@global.transaction_isolation | @@transaction_isolation |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| REPEATABLE-READ                | REPEATABLE-READ         |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br></pre></td></tr></table></figure>
+
+<p>模拟修改数据情况： 终端一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@global.transaction_isolation,@@transaction_isolation;</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| @@global.transaction_isolation | @@transaction_isolation |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| REPEATABLE-READ                | REPEATABLE-READ         |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">update</span> test_user <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'3'</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">2</span>;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; commit;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 3    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br></pre></td></tr></table></figure>
+
+<p>终端二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@global.transaction_isolation,@@transaction_isolation;;</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| @@global.transaction_isolation | @@transaction_isolation |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| REPEATABLE-READ                | REPEATABLE-READ         |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">begin</span>;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br></pre></td></tr></table></figure>
+<p>可以知道终端一已经提交的数据在终端二的事务中还是查不到（注意终端二执行begin要在终端一执行commit前，因为我们要模拟并发事务）。</p>
+<p>下面在模拟下新增数据情况 终端一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">insert</span> <span class="keyword">into</span> test_user <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">'3'</span>);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; commit;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">|    3 | 3    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br></pre></td></tr></table></figure>
+
+<p>终端二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br></pre></td></tr></table></figure>
+
+<p>终端一插入了一条记录并且提交，但是终端二还是查询不到新增的记录<br>总结：这里有点奇怪，按照其他资料显示该隔离级别应该是避免了 脏读，不可重复读，但是还存在幻读</p>
+<h3 id="2-2-4-Serializable"><a href="#2-2-4-Serializable" class="headerlink" title="2.2.4 Serializable"></a>2.2.4 Serializable</h3><p>串行化隔离级别，就是多个事务串行化一个个按照顺序执行，这种不存在并发情况，所以可以避免所有事务并发问题。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global transaction_isolation='serializable';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set session transaction_isolation='serializable';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select @@global.transaction_isolation,@@transaction_isolation;</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| @@global.transaction_isolation | @@transaction_isolation |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| SERIALIZABLE                   | SERIALIZABLE            |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br></pre></td></tr></table></figure>
+<p>终端一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@global.transaction_isolation,@@transaction_isolation;</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| @@global.transaction_isolation | @@transaction_isolation |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line">| SERIALIZABLE                   | SERIALIZABLE            |</span><br><span class="line">+<span class="comment">--------------------------------+-------------------------+</span></span><br><span class="line"></span><br><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_user;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| id   | name |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|    1 | 1    |</span><br><span class="line">|    2 | 2    |</span><br><span class="line">|    3 | 3    |</span><br><span class="line">|    4 | 4    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+<p>终端二：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test_user values(5,5);</span><br></pre></td></tr></table></figure>
+<p>可以看到终端一打开一个事务后，事务二的insert语句会等待直到事务一提交或者超时。<br>超时：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test_user values(5,5);</span><br><span class="line">ERROR 1205 (HY000): <span class="keyword">Lock</span> <span class="keyword">wait</span> <span class="keyword">timeout</span> exceeded; try restarting transaction</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">Jvm内存结构</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-01-06 14:54:56" itemprop="dateCreated datePublished" datetime="2015-01-06T14:54:56+08:00">2015-01-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" class="post-meta-item leancloud_visitors" data-flag-title="Jvm内存结构" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="虚拟机运行时的数据区"><a href="#虚拟机运行时的数据区" class="headerlink" title="虚拟机运行时的数据区"></a>虚拟机运行时的数据区</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/springboot/unit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/springboot/unit/" class="post-title-link" itemprop="url">Springboot单元测试</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-12-07 10:28:33" itemprop="dateCreated datePublished" datetime="2014-12-07T10:28:33+08:00">2014-12-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/springboot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/springboot/unit/" class="post-meta-item leancloud_visitors" data-flag-title="Springboot单元测试" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/springboot/unit/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/springboot/unit/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="eclipse中如何跑springboot的单元测试"><a href="#eclipse中如何跑springboot的单元测试" class="headerlink" title="eclipse中如何跑springboot的单元测试"></a>eclipse中如何跑springboot的单元测试</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/springboot/unit/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/CopyOnWriteArrayList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/CopyOnWriteArrayList/" class="post-title-link" itemprop="url">Java CopyOnWriteArrayList图解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-05-16 03:47:08" itemprop="dateCreated datePublished" datetime="2014-05-16T03:47:08+08:00">2014-05-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/CopyOnWriteArrayList/" class="post-meta-item leancloud_visitors" data-flag-title="Java CopyOnWriteArrayList图解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/CopyOnWriteArrayList/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/CopyOnWriteArrayList/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="初识CopyOnWriteArrayList"><a href="#初识CopyOnWriteArrayList" class="headerlink" title="初识CopyOnWriteArrayList"></a><strong>初识CopyOnWriteArrayList</strong></h1><p>第一次见到CopyOnWriteArrayList，是在研究JDBC的时候，每一个数据库的Driver都是维护在一个CopyOnWriteArrayList中的，为了证明这一点，贴两段代码，第一段在com.mysql.jdbc.Driver下，也就是我们写Class.forName(“…”)中的内容：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/CopyOnWriteArrayList/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/common-jdk-cmd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/common-jdk-cmd/" class="post-title-link" itemprop="url">常用jdk命令</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-05-07 10:49:14" itemprop="dateCreated datePublished" datetime="2014-05-07T10:49:14+08:00">2014-05-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/common-jdk-cmd/" class="post-meta-item leancloud_visitors" data-flag-title="常用jdk命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/common-jdk-cmd/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/common-jdk-cmd/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-查看正在运行的JVM的参数"><a href="#1-查看正在运行的JVM的参数" class="headerlink" title="1.查看正在运行的JVM的参数"></a>1.查看正在运行的JVM的参数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jcmd 24684 VM.flags</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/common-jdk-cmd/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/mybatis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/mybatis/" class="post-title-link" itemprop="url">Mybatis</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-05-07 10:46:46" itemprop="dateCreated datePublished" datetime="2014-05-07T10:46:46+08:00">2014-05-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/mybatis/" class="post-meta-item leancloud_visitors" data-flag-title="Mybatis" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/mybatis/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/mybatis/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><ul>
+<li><a href="http://mp.weixin.qq.com/s/BLY1HZUtmYA_w1_MZfcYRQ" target="_blank" rel="noopener">MyBatis 动态 SQL 底层原理分析</a></li>
+<li><a href="https://mp.weixin.qq.com/s/O8DfUjIw18WehILOWsR8ug" target="_blank" rel="noopener">基于mybatis读写分离插件</a></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/mybatis/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/springboot/note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/springboot/note/" class="post-title-link" itemprop="url">SpringBoot笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-05-07 00:12:26" itemprop="dateCreated datePublished" datetime="2014-05-07T00:12:26+08:00">2014-05-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/springboot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/springboot/note/" class="post-meta-item leancloud_visitors" data-flag-title="SpringBoot笔记" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/springboot/note/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/springboot/note/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="框架—模块—体系—生态"><a href="#框架—模块—体系—生态" class="headerlink" title="框架—模块—体系—生态"></a>框架—模块—体系—生态</h1><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>springboot是基于spring+java+web容器，微服务框架的杰出代表。微服务其实就是将服务粒度做小，使之可以独立承担对外服务的的职责。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/springboot/note/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/jvm-param/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/jvm-param/" class="post-title-link" itemprop="url">Jvm参数---性能调优</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-05-06 23:37:07" itemprop="dateCreated datePublished" datetime="2014-05-06T23:37:07+08:00">2014-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/jvm-param/" class="post-meta-item leancloud_visitors" data-flag-title="Jvm参数---性能调优" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/jvm-param/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/jvm-param/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一、jvm参数"><a href="#一、jvm参数" class="headerlink" title="一、jvm参数"></a>一、jvm参数</h1><ul>
+<li>-Xms </li>
+</ul>
+<p>堆最小值</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/jvm-param/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/java/class-reference/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java/class-reference/" class="post-title-link" itemprop="url">强引用、软引用、弱引用、幻象引用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-05-06 23:28:05" itemprop="dateCreated datePublished" datetime="2014-05-06T23:28:05+08:00">2014-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java/class-reference/" class="post-meta-item leancloud_visitors" data-flag-title="强引用、软引用、弱引用、幻象引用" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java/class-reference/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java/class-reference/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p>强引用<br>常见的普通对象引用，只要还有强引用指向一个对象，就表示这个对象还“活着”，垃圾回收不会回收这种对象。对于一个普通对象，如果没有其他引用关系，只要超过了引用的作用域或者显式地将相应（强）引用赋值为null，就可以被垃圾收集了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java/class-reference/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/page/24/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

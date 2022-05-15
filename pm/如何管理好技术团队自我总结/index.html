@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+  <meta name="theme-color" content="#222">
+  <meta name="generator" content="Alan Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.alan87.top","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#FFF0F5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":{"valine":{"text":"Load valine","order":1}},"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":true},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"expandIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+  <meta name="keywords" content="IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse,Alan,千寻,科技领域知识,5G,人工智能,云计算,物联网,工业互联网,IT,云原生,大数据,flink,k8s,kubernetes,docker,hadoop,clickhouse">
+
+  <meta name="description" content="带了一年15人的技术团队，以下是我对技术团队日常的管理、学习交流会、管理书籍学习，总结出的技术团队管理的建议和看法，希望对大家有所帮助。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何管理好技术团队自我总结">
+<meta property="og:url" content="https://www.alan87.top/pm/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%A5%BD%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="千寻">
+<meta property="og:description" content="带了一年15人的技术团队，以下是我对技术团队日常的管理、学习交流会、管理书籍学习，总结出的技术团队管理的建议和看法，希望对大家有所帮助。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-24T13:52:00.000Z">
+<meta property="article:modified_time" content="2020-10-10T07:03:43.880Z">
+<meta property="article:author" content="千寻">
+<meta property="article:tag" content="如何管理好技术团队自我总结">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.alan87.top/pm/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%A5%BD%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何管理好技术团队自我总结 | 千寻</title>
+  
+
+
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41849fc7b5615b6013c3d54767fc7212";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="千寻" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <h1 class="site-title">千寻</h1>
+    </a>
+      <p class="site-subtitle" itemprop="description">道路很长, 开始了就别停下!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">276</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/readme" rel="section"><i class="fa fa-fw fa-sitemap"></i>地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.alan87.top/pm/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%A5%BD%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+      <meta itemprop="name" content="千寻">
+      <meta itemprop="description" content="道路很长, 开始了就别停下!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千寻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何管理好技术团队自我总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-24 21:52:00" itemprop="dateCreated datePublished" datetime="2018-05-24T21:52:00+08:00">2018-05-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index"><span itemprop="name">项目管理</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/pm/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%A5%BD%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/" class="post-meta-item leancloud_visitors" data-flag-title="如何管理好技术团队自我总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/pm/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%A5%BD%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/pm/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%A5%BD%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>带了一年15人的技术团队，以下是我对技术团队日常的管理、学习交流会、管理书籍学习，总结出的技术团队管理的建议和看法，希望对大家有所帮助。</p>
+<a id="more"></a>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><ul>
+<li><p>1、尊重你的成员，不要觉得自己技术很牛逼，其他人都是傻子，尊重别人的同时，别人也尊重你</p>
+</li>
+<li><p>2、信任你的成员，给予他们鼓励，帮助他们成长</p>
+</li>
+<li><p>3、培养你的成员，了解他们的兴趣，帮助规划职业方向，为他们铺路</p>
+</li>
+<li><p>4、认同你的成员，赞扬他的工作，激励他们成长，指导他们把工作做的更好，给他提出更高的要求</p>
+</li>
+<li><p>5、技术团队管理不能太技术化，不能只有true or false，要学会变通和交流</p>
+</li>
+<li><p>6、合理分配团队成员工作，知人善任，人尽其用</p>
+</li>
+<li><p>7、提高团队执行力，团队驱动靠的是目标</p>
+</li>
+<li><p>8、工作安排，不能告诉他们怎么做，而是清楚表达自己的需求，要做的是什么，并委婉的进行确认，培养他们需求理解和动手能力</p>
+</li>
+<li><p>9、定期的和成员间进行沟通，了解他们的状态和内心对环境的看法</p>
+</li>
+<li><p>10、任何时候都不能替成员完成工作，要培养他们的责任心和执行力</p>
+</li>
+<li><p>11、项目进展缓慢，不是人的问题，而是项目管理工作分配的问题</p>
+</li>
+<li><p>12、对于团队中慢性子的人，不要去约束，而是要锻炼他们自我管理能力</p>
+</li>
+<li><p>13、不要觉得团队管理就要抛弃技术路线，重复工作可以指导队员去完成，自己多花时间加强平台的优化监控和研究新的一些技术</p>
+</li>
+<li><p>14、适当加班可以锻炼团队战斗力，抵制无意义的加班，营造高效、愉快的工作环境</p>
+</li>
+<li><p>15、团队的负责人起着带头作用，上行下效，要规范自己的言行，在约束管理团队成员不好言行时，自己也一定不要去做相同的事情</p>
+</li>
+<li><p>16、每天自省下自己团队管理中的不足，认可自己的成绩，承认自己的不足并相信自己下次能做好</p>
+</li>
+</ul>
+<h2 id="团队、团队建设"><a href="#团队、团队建设" class="headerlink" title="团队、团队建设"></a>团队、团队建设</h2><p>团队是由基层和管理层人员组成的一个共同体，它合理利用每一个成员的知识和技能协同工作，解决问题，达到共同的目标。</p>
+<p>团队的构成要素为目标、人、定位、权限、计划。</p>
+<p>团队建设就是通过各种活动，组织团队成员优质高效的完成目标。</p>
+<p>团队建设的特点是统一的目标、统一的思想、统一的规则、统一的行动、统一的声音。</p>
+<ul>
+<li><p>统一的目标：先有目标才会有团队。有了团队目标只是团队目标管理的第一步，更重要 的是第二步统一团队的目标，就是要让团队的每个人都认同团队的目标，并为达成目标而努力的工作。</p>
+</li>
+<li><p>统一的思想：如果团队的思想不统一，你说东他说西，就像人在做思想斗争时会降低行动效率一样，团队思想不统一也会降低效率。</p>
+</li>
+<li><p>统一的规则：一个团队必须有它的规则，规则是告诉团队成员该做什么，不该做什么。不能做什么是团队行事的底线，如果没有设定底线，大家就会不断的突破底线，一个不断突破行为底线的组织是不能称其为团队的。</p>
+</li>
+<li><p>统一的行动：一个团队在行动的时候要相互的沟通与协调，让行动统一有序，使整个流程合理的衔接，每个细节都能环环紧扣。</p>
+</li>
+<li><p>统一的声音：团队在做出决策后声音一定要相同，不能开会不说，会后乱说，当面一套，背后一套。</p>
+</li>
+</ul>
+<p>高效团队是团队建设的目的与努力方向。高效团队强调了协作、配合、有效的沟通及强有力的执行力。高效团队具有以下特性：</p>
+<ul>
+<li><p>有共同的目标，有约束团队成员朝着这个目标不断努力的机制或制度。</p>
+</li>
+<li><p>角色定位明晰。各角色职责明确，各岗位不可或缺。</p>
+</li>
+<li><p>互补的技能。全员参与，注重配合与协调。</p>
+</li>
+<li><p>共同的工作方法。强调服务，强调实效，强调沟通交流。</p>
+</li>
+<li><p>工作任务分解(WBS)，执行力度，工作检查。</p>
+</li>
+<li><p>相互依赖并共同承担责任。</p>
+</li>
+<li><p>领头的作用明显，指引方向，给成员信心，适当激励。</p>
+</li>
+</ul>
+<p>为做好工程项目，在组建团队时，需要作多方面的努力：</p>
+<ul>
+<li><p>首先，项目管理者应做到知人善用，各尽所长。尽可能安排合适的人在合适的岗位，充分发挥出他的优势与特长。</p>
+</li>
+<li><p>其次，在配合上给力。项目成员必须有团队协作精神，通过协同作战来发挥团队的整体战斗力，即形成合力。从而使整个团队达到最佳状态。古人云：“打虎亲兄弟，上阵父子兵”，强调的就是默契的配合，以及密切的协作。</p>
+</li>
+<li><p>第三，在工作计划与任务安排上考虑更加全面、到位;如有变动，要及时将变动信息传达到相应的人员，以免造成信息脱节。</p>
+</li>
+</ul>
+<h2 id="团队中存在的问题："><a href="#团队中存在的问题：" class="headerlink" title="团队中存在的问题："></a>团队中存在的问题：</h2><ul>
+<li><p>一是人员分工不明确，岗位职责不清晰。项目部成员没有相对明确的分工，岗位职责也不明确，几个人凑在一起，今天你干这个，明天我做那个，没有计划性和考核评价，办事效率低下。</p>
+</li>
+<li><p>二是执行力差，缺乏积极性和主动性。主要表现：没有养成加班做事的习惯。凡事等着上级安排，推一推，动一动，不推不动。</p>
+</li>
+</ul>
+<p>上级不安排工作就坐等，上级不指示就不执行，上级不询问就不汇报，上级不检查就拖着办。很多工作的完成，都是在多次检查、催办下完成的，执行力很差；</p>
+<p>再就是等待外单位的回复。抱着“我已与你联系过了，静待回音，什么时候回复不是我能决定的，延误工作的责任应该由对方负责，我只能等”这样的心态，不积极、不主动靠前。</p>
+<p>再就是等待其他部门或其他人的联系。你不找我协助，我就躲避，总有原因可以找，就说情况不清楚。对其他相关工作不关心，没兴趣，多一事不如少一事；等待下级的汇报。</p>
+<p>任务虽已布置，但是没有检查，没有监督。不主动去深入实际调查研究，掌握第一手资料，只是被动地听下级的汇报，没有核实，然后作决定或向上级汇报，贻误战机，影响效率。</p>
+<ul>
+<li><p>三是缺乏专业知识和工作经验，工作效率不高。比如说**库和尾矿库建设的问题，为如何立项获得批准经历了很多反复，耽误了很多时间，一直是在摸索；黄金文化产业园项目，因为坐标出现偏差，导致重新申报；涌积水与边坡综合治理及防沙绿化生态农业项目，开始是承办公司变更，再加上项目合并，耽误了时间，影响了工作效率；这些问题的出现，其实最根本的问题还是专业能力不足，缺少工作经验。</p>
+</li>
+<li><p>四是动力不足，工作进展缓慢。团队人员不多，但没有凝聚力，一盘散沙，你干你的，我干我的，缺乏协调和沟通，没有目标和使命感；缺少责任心和监督考评制度。上述现象的出现，主要原因是负责人缺乏<strong>责任心和使命感</strong>，懒惰，自私造成的，这样的后果就是出现了不学无术、沟通不畅、缺乏责任和担当，履行职责没有痕迹，作而无为等现象。造成的结果就是吃大锅饭，绩效考核指标，动力不足，积极性不高，办事效率低下。</p>
+</li>
+</ul>
+<h2 id="如何搞好团队建设"><a href="#如何搞好团队建设" class="headerlink" title="如何搞好团队建设"></a>如何搞好团队建设</h2><p>团队建设，简单讲就是：给你一拨人，你得能把他们拢在一起，朝着一个方向走。</p>
+<p>彼得.德鲁克说过：现代企业不仅是老板和下属的企业，而应该是一个团队。</p>
+<p>团队需要建设!</p>
+<h3 id="1、强化项目经理的领导力"><a href="#1、强化项目经理的领导力" class="headerlink" title="1、强化项目经理的领导力"></a>1、强化项目经理的领导力</h3><p>项目经理既是管理者，又是执行者;既是工作计划的制订者，又是实施计划的领头人，作为团队的”头”，其个人素质起着至关重要的作用。要做好这支团队的领头羊，不仅要用平和之心客观公正地对待营业处的每件事和每个人，更重要的是全面提高自身素质。</p>
+<p>项目经理在团队管理中相当于搅拌机，通过组织会议、讨论、学习、攻关等活动，与成员之间形成良好的沟通，最终形成明智的决策。项目经理不但要有计划、领导、沟通、交际、应变的能力，还必须具备较强的组织能力。如何将项目成员组织起来，如何发挥他们的工作效率，如何增强团队的凝聚力等，是项目经理必须考虑的问题。</p>
+<p>在团队建设中，项目经理要做到以下几点：</p>
+<ul>
+<li><p>一、是建立明确共同的目标，项目管理培训，打造团队精神，抓好目标管理，没有目标，团队就失去了方向。因此，建立一个明确的目标并对目标进行分解，同时通过组织讨论、学习，使每一个单位、每一个人都知道本单位或自己所应承担的责任、应该努力的方向，这是团队形成合力、劲往一处使的前提。</p>
+</li>
+<li><p>二、是抓规范，抓执行，营造积极进取团结向上的工作氛围。衡量一个公司管理是否走上正轨的一个重要标志就是制度、流程是否被公司员工了解、熟悉、掌握和执行，是否有监督和保障措施。让员工熟悉、掌握各类制度、流程，不但是保证工作质量的需要，也是满足公司长远发展和员工快速成长的需要。事实证明，没有一套科学完整、切合实际的制度体系，管理工作和员工的行为就不能做到制度化、规范化、程序化，就会出现无序和混乱，就不会产生井然有序、纪律严明的团队。所以，要从我们的小团队做起，要运用各种形式，加大学习力度，抓执行力，抓落实兑现。</p>
+</li>
+<li><p>三、是用有效的沟通激活团队建设，建立良好的工作氛围。把情况了解上来，把影响施加下去。</p>
+</li>
+</ul>
+<p>沟通的手段多种多样：</p>
+<p>比如：聊天就是很好的方式之一。聊天那不是乱聊的意思，尤其在时机和话题的选择上。目的只有一个：拉近距离，融洽气氛，了解情况，施加影响。再如：还有比较喜欢用的就是娱乐，尤其是下棋、打牌、喝酒，这三项活动最能体现人的性格，想藏都藏不住。</p>
+<p>性格无所谓优劣，最重要的是因人而异，善加利用。通过合理的组合，减少冲突，增强合力。</p>
+<p>沟通是维护团队建设整体性的一项十分重要的工作，也可以说是一门艺术。如果说纪律是维护团队完整的硬性手段的话，那么沟通则是维护团队完整的软性措施，它是团队的无形纽带和润滑剂。</p>
+<p>沟通可以使团队建设中上情下达、下情上达，促进彼此间的了解;可以消除员工内心的紧张和隔阂，使大家精神舒畅，从而形成良好的工作氛围。</p>
+<p>因此，作为各单位负责人必须要保持团队内部上下、左右各种沟通渠道的畅通，以利于提高团队内部的士气，为各项工作的开展创造”人和”的环境。</p>
+<ul>
+<li><p>四、是树立服务意识。服务，这是团队建设的核心内容。</p>
+<ul>
+<li><p>1.压制自己是头、有权发号施令的念头。</p>
+</li>
+<li><p>2.多地想的是对这个团体的责任，目的是要把工作做好。</p>
+</li>
+<li><p>3.要立足于服务，给团队成员创造出一个良好的工作环境。</p>
+</li>
+<li><p>4.要让团队成员放手工作，“错了，责任是我的，对了，功劳是你们的”</p>
+</li>
+</ul>
+<p>需要注意：</p>
+<ul>
+<li><p>1.服务不等于迁就，是有原则的，也是在自己能力范围内的。</p>
+</li>
+<li><p>2.过程中，难免会有不少误解、委屈，也会很“吃亏”。如果你想把工作做好，这些你都得认喽，吃这些小“亏”占“工作做好”这个大“便宜”。等成绩出来的时候，那些误解、委屈也就没了，你收获得将是一帮多少年后都还彼此眷顾、相互信任的朋友和一段美好的回忆。</p>
+</li>
+</ul>
+</li>
+<li><p>五、是用好考核激励机制，不断激发员工进步。绩效考核是一种激励和检验。它不仅检验每个团队成员的工作成果，也是向团队成员宣示公司的价值取向，倡导什么，反对什么，所以它同样关系到团队的生存和发展。PgMp.mypm.net激励。</p>
+</li>
+</ul>
+<p>物质奖励是必要的，但一定要慎用、少用。</p>
+<p>弊端：</p>
+<ul>
+<li><p>1.造成不必要的麻烦，增加攀比、猜忌等矛盾，破坏气氛。</p>
+</li>
+<li><p>2.说明组织、薪酬体系有问题。</p>
+</li>
+</ul>
+<p>多使用精神层面的激励;最有效的就是对人真诚的尊重和信任、对成绩及时有效的肯定。</p>
+<h3 id="2、实行多样性的管理方法。"><a href="#2、实行多样性的管理方法。" class="headerlink" title="2、实行多样性的管理方法。"></a>2、实行多样性的管理方法。</h3><p>推行制度化管理，建立相应的管理体系和支撑体系，从机构和制度上建立保障机制;项目管理者通过立规矩、建标准来实现制度管人。通过制度和规范来保障项目的稳定运作。结合通信工程的特点，工作中必须保证安全、质量，操作上必须严谨、规范。通过制度来保证行动的高效性和团队的执行力，实现项目的安全、进度、质量目标。</p>
+<p>将法、儒、道家的管理哲学应用到团队管理中。以孔子为代表的儒家主张礼治;以秦孝公的商鞅变法为代表的法家主张以法治国，通过建立法规法律去约束人的行为，从而达到管理的目的;道家的理论奠定于老子，提倡无为而治。</p>
+<p>结合团队发展阶段，在形成期和磨合期，采用法家的多一些，强调制度化管理方法，以规范为主。在表现期团队稳定有秩序的状况下，则采用儒家的多一些，或者阴法阳儒——红脸白脸的做法。当然，项目管理者的领导风格也应由影响型转变为授权型。</p>
+<h3 id="3、过程管控贯穿于整个项目实施周期。"><a href="#3、过程管控贯穿于整个项目实施周期。" class="headerlink" title="3、过程管控贯穿于整个项目实施周期。"></a>3、过程管控贯穿于整个项目实施周期。</h3><p>由于很多时候施工任务迭代进行，因此需要有人定期跟踪进度和现场情况，将问题或风险反馈汇报，对安全、工艺和质量把关，阶段性检查与纠偏等，做到全程监控，持续跟进。使得计划有落实、任务有执行、进度有跟踪、问题有反馈、问责可追溯，从而形成工作的PDCA闭环。</p>
+<p>在做好全过程细节的划分和量化的同时，重点强调“凡事”两个字，即必须要落实“凡事有人负责、凡事有章可循、凡事有人监督、凡事有据可查”的要求。</p>
+<ol>
+<li><p>凡事有人负责。即要求每一项工作、每一个环节和每一个细节都必须有人负责，这是实施精细化管理的第一要务。</p>
+</li>
+<li><p>凡事有章可循。即要求每一项工作、每一个环节和每一个细节都必须有制度可循、有标准可查，这是“细”的主要内容、“精”的本质要求。</p>
+</li>
+<li><p>凡事有人监督。即要求每一项工作、每一个环节和每一个细节都必须有人检查、有人监督，这是精细化目标得以实现的必要保证。</p>
+</li>
+<li><p>凡事有据可查。即要求每一项工作、每一个环节和每一个细节都必须有必要的过程记录和数据留存，这是“事故后”进行问题反查和闭环管理、持续改进的基本要求。如果达不到凡事有据可查，一旦出现工作质量问题，将无法进行原因分析和问题整改;同时，必要的过程记录和数据留存也是总结经验、持续改进的基础。</p>
+</li>
+</ol>
+<h3 id="4、加强沟通与配合。"><a href="#4、加强沟通与配合。" class="headerlink" title="4、加强沟通与配合。"></a>4、加强沟通与配合。</h3><p>沟通交流是做好团队管理的关键环节之一。由于工程项目涉及众多合作单位，需要与外单位协调、配合的事务很多，因此需要掌握沟通技巧，注意沟通的方式方法。同时，又要求团队成员间协同作战，高度配合。</p>
+<p>从龙舟比赛可以看出，一支参赛队伍想要拥有强劲的战斗力，既要项目经理掌握好队伍的整体节奏、比赛策略，又需要赛手密切配合，动作高度一致。只有合力发挥出所有人的能量，才能最终赢得比赛。</p>
+<h3 id="5、组织学习、培训与个人提升。"><a href="#5、组织学习、培训与个人提升。" class="headerlink" title="5、组织学习、培训与个人提升。"></a>5、组织学习、培训与个人提升。</h3><p>“火车跑得快，全凭车头带”。传统的团队管理方法，突显了项目经理的领头羊作用。但车头——项目管理者会很累。现今的动车跑得更快了，靠的是项目管理者正确的指挥与引导，激发所有成员的动力，加上所有成员目标一致性、工作方法相同、密切配合、协同作战，从而形成强大的合力。再加上外部环境的改进，激励机制的优化，这样团队才能真正高效。带队伍就应该像动车那样。</p>
+<p>要善于营造学习氛围，形成良好的学习环境。当今社会普遍存在一个误区，以为在员工学习上，发些资料、文档给员工看，或者把学习材料共享到指定网站，规定员工学习范围就行了。其实不然，作者认为这还不够，正确的指导是必须的，定期跟进其学习状态，了解成员近期在学习什么，周末时间如何安排的等。</p>
+<p>团队建设不能忽视工员的个人提升。通过培训学习，使员工工作技能到得提升，促进员工成长，形成“传—帮—带”的机制和团队互助作风。员工的成长离不开项目经理的培养，员工也希望能从他的上司或主管那里学到一些知识，或得到建议。正如卡拉·哈里斯在《我在摩根士丹利做高管》一书中提到，一些人希望与他的上司或领导建立起“导师关系”，从而能够从岁导师身上获得知识、建议或如何更好地处理事情的启示等等。换言之，帮助员工规划职业生涯，也是主管的一种担当。</p>
+<h3 id="6、认同公司的企业文化、核心价值观，通过企业文化的渗透，保证团队的稳定性。"><a href="#6、认同公司的企业文化、核心价值观，通过企业文化的渗透，保证团队的稳定性。" class="headerlink" title="6、认同公司的企业文化、核心价值观，通过企业文化的渗透，保证团队的稳定性。"></a>6、认同公司的企业文化、核心价值观，通过企业文化的渗透，保证团队的稳定性。</h3><p>在此基础上，建立起真诚友善，互助互惠的工作环境。史蒂芬·柯维在《高能效人士的七个习惯》中强调双赢思维。彼此相互信任，以双赢思维解决冲突，从而达到和谐、健康、平衡发展的良好局面。</p>
+<h3 id="7、团队建设活动必不可少。"><a href="#7、团队建设活动必不可少。" class="headerlink" title="7、团队建设活动必不可少。"></a>7、团队建设活动必不可少。</h3><p>团队活动是团队长期稳定必要的润滑剂。在日常生活中，项目经理应经常与项目成员进行面谈，听取他们在工作中存在的困难和困惑，帮助他们减轻思想压力;并且定期组织一些业余活动等。在关键里程碑项目管理者联完成的时候，进行总结和庆祝，对项目成员的士气起到很大的鼓舞作用，对下一阶段工作有序的开展也提供帮助。要将员工关怀体现在生活中，8小时之外的时间里，举行一些活动，如座谈聊天，喝茶等，关心员工的健康，关爱员工感受与内心诉求，让员工感受到公司是重视员工的，自身价值能够得到体现的，从而形成团队凝聚力。</p>
+<h3 id="8、发掘潜能，发挥到极致。"><a href="#8、发掘潜能，发挥到极致。" class="headerlink" title="8、发掘潜能，发挥到极致。"></a>8、发掘潜能，发挥到极致。</h3><p>例如，通过某个活动或任务的授权，委以重任，挖掘员工的优势与潜能，发现员工的特长技能。那么，项目管理者需要创造必要的条件，并营造一个平台，使得这些潜能能够充分发挥出来。当整个团队的能量都发挥出后，整体团队的能量才能彰显出来。也就是说，项目团队成长过程达到了“表现期”，那么，整个团队的工作绩效和团队士气将升级到很高的状态。</p>
+<p>当然，潜能发掘是一个循序渐进的过程，不能一蹴而就。而且有些人不善于表达，羞于主动表现，那么，项目经理在平时就要多留心观察，多些引导和沟通。项目经理最重要的不是自己如何能干，而是怎么样把你项目中的人员的能力发挥到极致。</p>
+<h2 id="团队"><a href="#团队" class="headerlink" title="团队"></a>团队</h2><p>团队建设、团队培养、领导力、沟通</p>
+<h2 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h2><p>目标计划、任务分解、过程管控（全程监控、持续跟进）</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/wechatpay.png/200" alt="千寻 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://f.ngall-in.com/alan87/static/images/alipay.png/200" alt="千寻 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>学习交流</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.toutiao.com/c/user/58262961725/" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rotate-right"></i>
+            </span>
+
+            <span class="label">今日头条</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.jianshu.com/u/61d965d5f9f5" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">简书</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="http://f.ngall-in.com/alan87/static/images/Wechat.jpeg/200" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">微信</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml" rel="external nofollow">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/pm/" rel="tag"><i class="fa fa-tag"></i> 项目管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/springcloud/Zuul%E7%BD%91%E5%85%B3%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="prev" title="Zuul网关过滤器">
+      <i class="fa fa-chevron-left"></i> Zuul网关过滤器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/web/nginx%E6%98%A0%E5%B0%84%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6/" rel="next" title="Nginx映射本地文件">
+      Nginx映射本地文件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建议"><span class="nav-text">建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#团队、团队建设"><span class="nav-text">团队、团队建设</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#团队中存在的问题："><span class="nav-text">团队中存在的问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何搞好团队建设"><span class="nav-text">如何搞好团队建设</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、强化项目经理的领导力"><span class="nav-text">1、强化项目经理的领导力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、实行多样性的管理方法。"><span class="nav-text">2、实行多样性的管理方法。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、过程管控贯穿于整个项目实施周期。"><span class="nav-text">3、过程管控贯穿于整个项目实施周期。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、加强沟通与配合。"><span class="nav-text">4、加强沟通与配合。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、组织学习、培训与个人提升。"><span class="nav-text">5、组织学习、培训与个人提升。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、认同公司的企业文化、核心价值观，通过企业文化的渗透，保证团队的稳定性。"><span class="nav-text">6、认同公司的企业文化、核心价值观，通过企业文化的渗透，保证团队的稳定性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、团队建设活动必不可少。"><span class="nav-text">7、团队建设活动必不可少。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、发掘潜能，发挥到极致。"><span class="nav-text">8、发掘潜能，发挥到极致。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#团队"><span class="nav-text">团队</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目管理"><span class="nav-text">项目管理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="千寻"
+      src="http://f.ngall-in.com/alan87/static/images/avata.jpg/120">
+  <p class="site-author-name" itemprop="name">千寻</p>
+  <div class="site-description" itemprop="description">道路很长, 开始了就别停下!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">276</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://www.alan87.top/" title="主页 → http:&#x2F;&#x2F;www.alan87.top"><i class="fa fa-fw fa-home"></i>主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/chjm872" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chjm872" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/61d965d5f9f5" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;61d965d5f9f5" rel="noopener" target="_blank"><i class="fa fa-fw fa-telegram"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.toutiao.com/c/user/58262961725/" title="头条 → https:&#x2F;&#x2F;www.toutiao.com&#x2F;c&#x2F;user&#x2F;58262961725&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-rotate-right"></i>头条</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">千寻</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="390" alpha="0.52" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.2.1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
+
+
+  
+  <script data-pjax>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script data-pjax>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+<script data-pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.8/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://www.alan87.top/pm/%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%A5%BD%E6%8A%80%E6%9C%AF%E5%9B%A2%E9%98%9F%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93/',]
+      });
+      });
+  </script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'KgsjYBdUonVSMVMkBDDyr0xM-gzGzoHsz',
+      appKey     : '0hgJ6arwe0A4N0IoGm38AiuP',
+      placeholder: "写评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>
